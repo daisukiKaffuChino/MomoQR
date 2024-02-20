@@ -1,0 +1,11 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.MaterialQR" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/primary_day</item>
+        <item name="colorPrimaryVariant">@color/primary_day_variant</item>
+        <item name="colorSecondary">@color/secondary_day</item>
+        <item name="colorSecondaryVariant">@color/secondary_day_variant</item>
+    </style>
+
+    <style name="Theme.MaterialQR" parent="Base.Theme.MaterialQR" />
+</resources>

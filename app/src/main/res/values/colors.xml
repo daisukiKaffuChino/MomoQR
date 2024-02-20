@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="mask">#1f000000</color>
+
+    <color name="primary_day">#EA6596</color>
+    <color name="primary_day_variant">#E64480</color>
+    <color name="primary_night">#D22464</color>
+    <color name="primary_night_variant">#B42E4F</color>
+
+    <color name="secondary_day">#F9A825</color>
+    <color name="secondary_day_variant">#F57F17</color>
+    <color name="secondary_night">#EF6C00</color>
+    <color name="secondary_night_variant">#E65100</color>
+</resources>

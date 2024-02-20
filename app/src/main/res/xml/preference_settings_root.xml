@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+    <PreferenceCategory app:title="@string/scan">
+        <ListPreference
+            app:defaultValue="0"
+            app:entries="@array/camera_entries"
+            app:entryValues="@array/camera_value"
+            app:icon="@drawable/outline_camera_24"
+            app:key="cameraId"
+            app:title="@string/camera_id"
+            app:useSimpleSummaryProvider="true" />
+        <ListPreference
+            app:defaultValue="0"
+            app:entries="@array/identify_entries"
+            app:entryValues="@array/identify_value"
+            app:icon="@drawable/outline_qr_code_scanner_24"
+            app:key="identifyType"
+            app:title="@string/identify_type"
+            app:useSimpleSummaryProvider="true" />
+        <SwitchPreferenceCompat
+            app:defaultValue="true"
+            app:icon="@drawable/bell_check_outline"
+            app:key="beepSound"
+            app:title="@string/beep" />
+        <SwitchPreferenceCompat
+            app:defaultValue="true"
+            app:icon="@drawable/baseline_screen_lock_rotation_24"
+            app:key="lockOrientation"
+            app:title="@string/orientation_locked" />
+    </PreferenceCategory>
+    <PreferenceCategory app:title="@string/display">
+        <SwitchPreferenceCompat
+            app:defaultValue="false"
+            app:icon="@drawable/ic_light_dark"
+            app:key="forceDark"
+            app:summary="@string/dark_mode_sum"
+            app:title="@string/dark_mode" />
+    </PreferenceCategory>
+    <PreferenceCategory app:title="@string/about_app">
+        <Preference
+            app:icon="@drawable/outline_info_24"
+            app:key="appInfo"
+            app:summary="@string/developer" />
+        <Preference
+            app:icon="@drawable/ic_github"
+            app:key="opensource"
+            app:summary="@string/licensed"
+            app:title="@string/open_source" />
+    </PreferenceCategory>
+</PreferenceScreen>
