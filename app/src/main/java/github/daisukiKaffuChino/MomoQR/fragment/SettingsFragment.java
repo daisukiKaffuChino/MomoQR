@@ -27,7 +27,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         setPreferencesFromResource(R.xml.preference_settings_root, rootKey);
 
         findPreference("opensource").setOnPreferenceClickListener(preference -> {
-            Uri uriSetting = Uri.parse("https://github.com/daisukiKaffuChino/MomoQR");
+            Uri uriSetting = Uri.parse("github.daisukiKaffuChino.MomoQR");
             Intent settingsIntent = new Intent(Intent.ACTION_VIEW, uriSetting);
             startActivity(settingsIntent);
             return true;
@@ -72,6 +72,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     }
 
     private final SharedPreferences.OnSharedPreferenceChangeListener mListener = (sharedPreferences, key) -> {
+        assert key != null;
         if (key.equals("forceDark")) {
             if (sharedPreferences.getBoolean(key, false)) {
                 ((AppCompatActivity) requireActivity()).getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);

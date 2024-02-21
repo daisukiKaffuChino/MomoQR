@@ -48,4 +48,5 @@
     <string name="delete_fail">删除失败</string>
     <string name="delete_all">清空</string>
     <string name="no_match_intent">找不到可以打开的App</string>
+    <string name="input_content">输入内容</string>
 </resources>
