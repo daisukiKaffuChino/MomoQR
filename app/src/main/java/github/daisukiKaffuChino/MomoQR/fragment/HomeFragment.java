@@ -41,6 +41,8 @@ public class HomeFragment extends BaseBindingFragment<FragmentHomeBinding> {
     private FragmentHomeBinding binding;
     private HomeViewModel viewModel;
     FavSqliteHelper helper;
+    private static final int EDITTEXT_DIALOG_FAV_TITLE = 0;
+    private static final int EDITTEXT_DIALOG_QRCODE_CONTENT = 1;
 
     @Override
     protected FragmentHomeBinding onCreateViewBinding(@NonNull LayoutInflater inflater, @Nullable ViewGroup parent) {
@@ -66,13 +68,15 @@ public class HomeFragment extends BaseBindingFragment<FragmentHomeBinding> {
                 openGalleryRequest.launch(Intent.createChooser(intent, getString(R.string.select_gallery_pic)));
             }
         });
+        binding.makeQRCodeBtn.setOnClickListener(v ->
+                showEditTextDialog(EDITTEXT_DIALOG_QRCODE_CONTENT));
         binding.retryBtn.setOnClickListener(v -> {
             viewModel.isScanned = false;
             btnRootVisible(true);
         });
         binding.copyBtn.setOnClickListener(v ->
                 MyUtil.copyContent(Objects.requireNonNull(binding.resultText.getText()).toString()));
-        binding.addFavBtn.setOnClickListener(v -> showFavDialog());
+        binding.addFavBtn.setOnClickListener(v -> showEditTextDialog(EDITTEXT_DIALOG_FAV_TITLE));
         binding.openLinkBtn.setOnClickListener(v ->
                 MyUtil.detectIntentAndStart(viewModel.contentLiveData.getValue()));
 
@@ -149,21 +153,28 @@ public class HomeFragment extends BaseBindingFragment<FragmentHomeBinding> {
         }
     }
 
-    private void showFavDialog() {
-        new MaterialAlertDialogBuilder(requireActivity())
-                .setTitle(R.string.add_fav)
-                .setView(R.layout.dialog_edittext)
-                .setPositiveButton(R.string.ok, (dialogInterface, i) -> {
-                    EditText edt = ((AlertDialog) dialogInterface).findViewById(R.id.dialog_edt);
-                    if (edt != null) {
-                        String inputText = edt.getText().toString();
-                        addFav(inputText, viewModel.contentLiveData.getValue());
-                    }
-                })
-                .setNeutralButton(R.string.use_current_date, (dialogInterface, i) ->
-                        addFav(MyUtil.currentTime(), viewModel.contentLiveData.getValue()))
-                .setNegativeButton(R.string.cancel, null)
-                .show();
+    private void showEditTextDialog(int mode) {
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(requireActivity());
+        builder.setView(R.layout.dialog_edittext);
+        builder.setNegativeButton(R.string.cancel, null);
+        if (mode == EDITTEXT_DIALOG_FAV_TITLE) {
+            builder.setTitle(R.string.add_fav);
+            builder.setPositiveButton(R.string.ok, (dialogInterface, i) -> {
+                EditText edt = ((AlertDialog) dialogInterface).findViewById(R.id.dialog_edt);
+                if (edt != null)
+                    addFav(edt.getText().toString(), viewModel.contentLiveData.getValue());
+            });
+            builder.setNeutralButton(R.string.use_current_date, (dialogInterface, i) ->
+                    addFav(MyUtil.currentTime(), viewModel.contentLiveData.getValue()));
+        } else if (mode == EDITTEXT_DIALOG_QRCODE_CONTENT) {
+            builder.setTitle(R.string.content_to_generate);
+            builder.setPositiveButton(R.string.ok, (dialogInterface, i) -> {
+                EditText edt = ((AlertDialog) dialogInterface).findViewById(R.id.dialog_edt);
+                if (edt != null)
+                    showScanResults(edt.getText().toString(), true);
+            });
+        }
+        builder.show();
     }
 
     private void addFav(String title, String content) {
