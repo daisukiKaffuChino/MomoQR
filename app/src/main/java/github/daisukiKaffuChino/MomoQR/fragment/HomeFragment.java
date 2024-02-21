@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,10 +55,16 @@ public class HomeFragment extends BaseBindingFragment<FragmentHomeBinding> {
         binding = getBinding();
         binding.scanBtn.setOnClickListener(v -> startScannerIntent());
         binding.selectImageBtn.setOnClickListener(v -> {
-            Intent intent = new Intent();
-            intent.setType("image/*");
-            intent.setAction(Intent.ACTION_GET_CONTENT);
-            openGalleryRequest.launch(Intent.createChooser(intent, getString(R.string.select_gallery_pic)));
+            if (Build.VERSION.SDK_INT >= 33) {
+                Intent intent = new Intent(MediaStore.ACTION_PICK_IMAGES);
+                intent.setType("image/*");
+                openGalleryRequest.launch(intent);
+            } else {
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                openGalleryRequest.launch(Intent.createChooser(intent, getString(R.string.select_gallery_pic)));
+            }
         });
         binding.retryBtn.setOnClickListener(v -> {
             viewModel.isScanned = false;
@@ -64,11 +72,10 @@ public class HomeFragment extends BaseBindingFragment<FragmentHomeBinding> {
         });
         binding.copyBtn.setOnClickListener(v ->
                 MyUtil.copyContent(Objects.requireNonNull(binding.resultText.getText()).toString()));
-        binding.addFavBtn.setOnClickListener(v -> {
-            showFavDialog();
-        });
+        binding.addFavBtn.setOnClickListener(v -> showFavDialog());
         binding.openLinkBtn.setOnClickListener(v ->
                 MyUtil.detectIntentAndStart(viewModel.contentLiveData.getValue()));
+
         viewModel.contentLiveData.observe(getViewLifecycleOwner(), result -> {
             if (result != null & viewModel.isScanned) {
                 showScanResults(result, false);
@@ -118,7 +125,8 @@ public class HomeFragment extends BaseBindingFragment<FragmentHomeBinding> {
                 if (result.getResultCode() == Activity.RESULT_OK) {
                     Intent intent = result.getData();
                     assert intent != null;
-                    Result mResult = QRCodeUtil.INSTANCE.scanningImage(requireContext(), intent.getData());
+                    Result mResult = QRCodeUtil.INSTANCE.scanningImage(requireContext(),
+                            Objects.requireNonNull(intent.getData()));
                     if (mResult != null) {
                         showScanResults(mResult.getText(), true);
                     } else {
