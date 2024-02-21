@@ -1,4 +1,4 @@
-package github.daisukiKaffuChino.qrCodeScanner.fragment;
+package github.daisukiKaffuChino.MomoQR.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

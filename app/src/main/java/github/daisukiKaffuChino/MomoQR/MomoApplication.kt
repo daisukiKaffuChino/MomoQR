@@ -1,4 +1,4 @@
-package github.daisukiKaffuChino.qrCodeScanner
+package github.daisukiKaffuChino.MomoQR
 
 import android.annotation.SuppressLint
 import android.app.Application
@@ -13,6 +13,6 @@ class MomoApplication : Application(){
 
     override fun onCreate() {
         super.onCreate()
-        context=applicationContext
+        context =applicationContext
     }
 }

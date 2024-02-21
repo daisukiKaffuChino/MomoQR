@@ -1,4 +1,4 @@
-package github.daisukiKaffuChino.qrCodeScanner.util;
+package github.daisukiKaffuChino.MomoQR.util;
 
 import android.app.Activity;
 import android.graphics.Color;

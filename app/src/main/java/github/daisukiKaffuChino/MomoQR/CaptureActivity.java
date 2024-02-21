@@ -1,24 +1,20 @@
-package github.daisukiKaffuChino.qrCodeScanner;
+package github.daisukiKaffuChino.MomoQR;
+
+import android.os.Bundle;
+import android.view.KeyEvent;
+import android.view.Window;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.WindowCompat;
-
-import android.graphics.Color;
-import android.os.Build;
-import android.os.Bundle;
-import android.view.KeyEvent;
-import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 
 import com.journeyapps.barcodescanner.CaptureManager;
 import com.journeyapps.barcodescanner.DecoratedBarcodeView;
 
 import java.util.Objects;
 
-import github.daisukiKaffuChino.qrCodeScanner.databinding.ActivityCaptureBinding;
-import github.daisukiKaffuChino.qrCodeScanner.util.WindowUtil;
+import github.daisukiKaffuChino.MomoQR.databinding.ActivityCaptureBinding;
+import github.daisukiKaffuChino.MomoQR.util.WindowUtil;
 
 public class CaptureActivity extends AppCompatActivity {
 
@@ -30,14 +26,14 @@ public class CaptureActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding=ActivityCaptureBinding.inflate(getLayoutInflater());
+        binding = ActivityCaptureBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        barcodeScannerView=binding.captureBarcodeView;
+        barcodeScannerView = binding.captureBarcodeView;
 
         initToolbar();
 
         WindowUtil.initWindow(this);
-        Window window=getWindow();
+        Window window = getWindow();
         Objects.requireNonNull(WindowCompat.getInsetsController(window, window.getDecorView())).setAppearanceLightNavigationBars(false);
 
         capture = new CaptureManager(this, barcodeScannerView);

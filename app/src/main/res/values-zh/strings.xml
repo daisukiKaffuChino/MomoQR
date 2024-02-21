@@ -47,4 +47,5 @@
     <string name="sure_to_delete">确认要删除吗？此操作不可撤销。</string>
     <string name="delete_fail">删除失败</string>
     <string name="delete_all">清空</string>
+    <string name="no_match_intent">找不到可以打开的App</string>
 </resources>

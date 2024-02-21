@@ -1,4 +1,4 @@
-package github.daisukiKaffuChino.qrCodeScanner.adapter;
+package github.daisukiKaffuChino.MomoQR.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -15,8 +15,8 @@ import com.bumptech.glide.Glide;
 
 import java.util.List;
 
-import github.daisukiKaffuChino.qrCodeScanner.R;
-import github.daisukiKaffuChino.qrCodeScanner.bean.FavBean;
+import github.daisukiKaffuChino.MomoQR.R;
+import github.daisukiKaffuChino.MomoQR.bean.FavBean;
 
 
 public class FavAdapter extends RecyclerView.Adapter<FavAdapter.FavViewHolder> {
@@ -26,10 +26,10 @@ public class FavAdapter extends RecyclerView.Adapter<FavAdapter.FavViewHolder> {
     private final OnItemLongClickListener longClickListener;
     private final OnItemClickListener clickListener;
 
-    public FavAdapter(Context context, List<FavBean> list,OnItemClickListener clickListener,OnItemLongClickListener longClickListener) {
+    public FavAdapter(Context context, List<FavBean> list, OnItemClickListener clickListener, OnItemLongClickListener longClickListener) {
         this.context = context;
         this.listData = list;
-        this.clickListener=clickListener;
+        this.clickListener = clickListener;
         this.longClickListener = longClickListener;
     }
 
@@ -43,7 +43,7 @@ public class FavAdapter extends RecyclerView.Adapter<FavAdapter.FavViewHolder> {
             image = itemView.findViewById(R.id.fav_item_imageView);
             title = itemView.findViewById(R.id.fav_item_title_textView);
             content = itemView.findViewById(R.id.fav_item_content_textView);
-            root=itemView.findViewById(R.id.fav_item_root);
+            root = itemView.findViewById(R.id.fav_item_root);
         }
     }
 
@@ -61,7 +61,7 @@ public class FavAdapter extends RecyclerView.Adapter<FavAdapter.FavViewHolder> {
         holder.content.setText(s.getContent());
         Glide.with(context).load(s.getImg()).into(holder.image);
 
-        int bindingPosition=holder.getBindingAdapterPosition();
+        int bindingPosition = holder.getBindingAdapterPosition();
         holder.root.setOnClickListener(view -> clickListener.onClick(bindingPosition));
         holder.root.setOnLongClickListener(view -> {
             longClickListener.onLongClick(bindingPosition);
@@ -78,7 +78,7 @@ public class FavAdapter extends RecyclerView.Adapter<FavAdapter.FavViewHolder> {
         void onLongClick(int pos);
     }
 
-    public interface OnItemClickListener{
+    public interface OnItemClickListener {
         void onClick(int pos);
     }
 

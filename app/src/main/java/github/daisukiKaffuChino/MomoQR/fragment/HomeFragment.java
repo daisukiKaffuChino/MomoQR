@@ -1,4 +1,4 @@
-package github.daisukiKaffuChino.qrCodeScanner.fragment;
+package github.daisukiKaffuChino.MomoQR.fragment;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -27,13 +27,13 @@ import com.journeyapps.barcodescanner.ScanOptions;
 
 import java.util.Objects;
 
-import github.daisukiKaffuChino.qrCodeScanner.CaptureActivity;
-import github.daisukiKaffuChino.qrCodeScanner.R;
-import github.daisukiKaffuChino.qrCodeScanner.databinding.FragmentHomeBinding;
-import github.daisukiKaffuChino.qrCodeScanner.model.HomeViewModel;
-import github.daisukiKaffuChino.qrCodeScanner.util.FavSqliteHelper;
-import github.daisukiKaffuChino.qrCodeScanner.util.MyUtil;
-import github.daisukiKaffuChino.qrCodeScanner.util.QRCodeUtil;
+import github.daisukiKaffuChino.MomoQR.CaptureActivity;
+import github.daisukiKaffuChino.MomoQR.R;
+import github.daisukiKaffuChino.MomoQR.databinding.FragmentHomeBinding;
+import github.daisukiKaffuChino.MomoQR.model.HomeViewModel;
+import github.daisukiKaffuChino.MomoQR.util.FavSqliteHelper;
+import github.daisukiKaffuChino.MomoQR.util.MyUtil;
+import github.daisukiKaffuChino.MomoQR.util.QRCodeUtil;
 
 public class HomeFragment extends BaseBindingFragment<FragmentHomeBinding> {
     private FragmentHomeBinding binding;
@@ -67,6 +67,8 @@ public class HomeFragment extends BaseBindingFragment<FragmentHomeBinding> {
         binding.addFavBtn.setOnClickListener(v -> {
             showFavDialog();
         });
+        binding.openLinkBtn.setOnClickListener(v ->
+                MyUtil.detectIntentAndStart(viewModel.contentLiveData.getValue()));
         viewModel.contentLiveData.observe(getViewLifecycleOwner(), result -> {
             if (result != null & viewModel.isScanned) {
                 showScanResults(result, false);
@@ -104,7 +106,7 @@ public class HomeFragment extends BaseBindingFragment<FragmentHomeBinding> {
     private final ActivityResultLauncher<ScanOptions> barcodeLauncher = registerForActivityResult(new ScanContract(),
             result -> {
                 if (result.getContents() == null) {
-                    MyUtil.toast( R.string.scan_cancel);
+                    MyUtil.toast(R.string.scan_cancel);
                 } else {
                     showScanResults(result.getContents(), true);
                 }

@@ -1,4 +1,4 @@
-package github.daisukiKaffuChino.qrCodeScanner.model;
+package github.daisukiKaffuChino.MomoQR.model;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import java.util.ArrayList;
 
-import github.daisukiKaffuChino.qrCodeScanner.bean.FavBean;
+import github.daisukiKaffuChino.MomoQR.bean.FavBean;
 
 public class FavViewModelFactory implements ViewModelProvider.Factory {
     ArrayList<FavBean> beans;

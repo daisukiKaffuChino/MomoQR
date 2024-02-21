@@ -1,4 +1,4 @@
-package github.daisukiKaffuChino.qrCodeScanner;
+package github.daisukiKaffuChino.MomoQR;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -25,9 +25,9 @@ import com.google.android.material.navigation.NavigationView;
 
 import java.lang.ref.WeakReference;
 
-import github.daisukiKaffuChino.qrCodeScanner.databinding.ActivityStartBinding;
-import github.daisukiKaffuChino.qrCodeScanner.util.MyUtil;
-import github.daisukiKaffuChino.qrCodeScanner.util.WindowUtil;
+import github.daisukiKaffuChino.MomoQR.databinding.ActivityStartBinding;
+import github.daisukiKaffuChino.MomoQR.util.MyUtil;
+import github.daisukiKaffuChino.MomoQR.util.WindowUtil;
 
 public class StartActivity extends AppCompatActivity {
 
@@ -38,7 +38,7 @@ public class StartActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        github.daisukiKaffuChino.qrCodeScanner.databinding.ActivityStartBinding binding = ActivityStartBinding.inflate(getLayoutInflater());
+        ActivityStartBinding binding = ActivityStartBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         setSupportActionBar(binding.startToolbar);
 

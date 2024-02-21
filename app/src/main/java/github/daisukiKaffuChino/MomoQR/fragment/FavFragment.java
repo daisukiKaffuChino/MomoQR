@@ -1,4 +1,4 @@
-package github.daisukiKaffuChino.qrCodeScanner.fragment;
+package github.daisukiKaffuChino.MomoQR.fragment;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -16,14 +16,14 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.ArrayList;
 
-import github.daisukiKaffuChino.qrCodeScanner.R;
-import github.daisukiKaffuChino.qrCodeScanner.adapter.FavAdapter;
-import github.daisukiKaffuChino.qrCodeScanner.bean.FavBean;
-import github.daisukiKaffuChino.qrCodeScanner.databinding.FragmentFavBinding;
-import github.daisukiKaffuChino.qrCodeScanner.model.FavViewModel;
-import github.daisukiKaffuChino.qrCodeScanner.model.FavViewModelFactory;
-import github.daisukiKaffuChino.qrCodeScanner.util.FavSqliteHelper;
-import github.daisukiKaffuChino.qrCodeScanner.util.MyUtil;
+import github.daisukiKaffuChino.MomoQR.R;
+import github.daisukiKaffuChino.MomoQR.adapter.FavAdapter;
+import github.daisukiKaffuChino.MomoQR.bean.FavBean;
+import github.daisukiKaffuChino.MomoQR.databinding.FragmentFavBinding;
+import github.daisukiKaffuChino.MomoQR.model.FavViewModel;
+import github.daisukiKaffuChino.MomoQR.model.FavViewModelFactory;
+import github.daisukiKaffuChino.MomoQR.util.FavSqliteHelper;
+import github.daisukiKaffuChino.MomoQR.util.MyUtil;
 
 public class FavFragment extends BaseBindingFragment<FragmentFavBinding> {
 
@@ -50,8 +50,8 @@ public class FavFragment extends BaseBindingFragment<FragmentFavBinding> {
         initAdapter(viewModel.ls);
 
         binding.favFltBtn.setOnClickListener(v -> new MaterialAlertDialogBuilder(requireContext())
-        .setTitle(R.string.delete_all)
-        .setMessage(R.string.sure_to_delete)
+                .setTitle(R.string.delete_all)
+                .setMessage(R.string.sure_to_delete)
                 .setPositiveButton(R.string.ok, (dialogInterface, i) -> {
                     viewModel.deleteAll();
                     helper.deleteAllData();
@@ -59,13 +59,14 @@ public class FavFragment extends BaseBindingFragment<FragmentFavBinding> {
                     v.setVisibility(View.GONE);
                     binding.favEmptyView.setVisibility(View.VISIBLE);
                 })
-                .setNegativeButton(R.string.cancel,null)
+                .setNegativeButton(R.string.cancel, null)
                 .show());
     }
 
     private void initAdapter(ArrayList<FavBean> list) {
         adapter = new FavAdapter(requireContext(), list, pos -> {
-
+            String content = viewModel.ls.get(pos).getContent();
+            MyUtil.detectIntentAndStart(content);
         }, this::deleteDialog);
         binding.favRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false));
         binding.favRecyclerView.setAdapter(adapter);

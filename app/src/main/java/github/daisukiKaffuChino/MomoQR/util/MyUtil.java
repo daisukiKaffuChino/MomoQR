@@ -1,9 +1,13 @@
-package github.daisukiKaffuChino.qrCodeScanner.util;
+package github.daisukiKaffuChino.MomoQR.util;
 
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Build;
 import android.text.SpannableString;
 import android.text.TextUtils;
@@ -16,11 +20,13 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import github.daisukiKaffuChino.qrCodeScanner.MomoApplication;
-import github.daisukiKaffuChino.qrCodeScanner.R;
+import github.daisukiKaffuChino.MomoQR.MomoApplication;
+import github.daisukiKaffuChino.MomoQR.R;
+
 
 public class MyUtil {
 
@@ -91,5 +97,16 @@ public class MyUtil {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public static void detectIntentAndStart(String content) {
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(content));
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        PackageManager packageManager = MomoApplication.context.getPackageManager();
+        List<ResolveInfo> resolveInfoList = packageManager.queryIntentActivities(intent, 0);
+        if (resolveInfoList != null && !resolveInfoList.isEmpty())
+            MomoApplication.context.startActivity(intent);
+        else
+            MyUtil.toast(R.string.no_match_intent);
     }
 }

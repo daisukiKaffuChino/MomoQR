@@ -4,14 +4,13 @@ plugins {
 }
 
 android {
-    namespace 'github.daisukiKaffuChino.qrCodeScanner'
-    compileSdk 33
+    namespace 'github.daisukiKaffuChino.MomoQR'
+    compileSdk 34
 
     defaultConfig {
-        applicationId "github.daisukiKaffuChino.qrCodeScanner"
+        applicationId "github.daisukiKaffuChino.MomoQR"
         minSdk 26
-        //noinspection OldTargetApi
-        targetSdk 33
+        targetSdk 34
         versionCode 1
         versionName "1.0"
 

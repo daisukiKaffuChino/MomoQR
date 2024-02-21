@@ -1,4 +1,4 @@
-package github.daisukiKaffuChino.qrCodeScanner.bean;
+package github.daisukiKaffuChino.MomoQR.bean;
 
 import androidx.lifecycle.LiveData;
 

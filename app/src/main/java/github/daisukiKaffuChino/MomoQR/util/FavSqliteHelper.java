@@ -1,4 +1,4 @@
-package github.daisukiKaffuChino.qrCodeScanner.util;
+package github.daisukiKaffuChino.MomoQR.util;
 
 import android.annotation.SuppressLint;
 import android.content.ContentValues;
@@ -9,7 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.ArrayList;
 
-import github.daisukiKaffuChino.qrCodeScanner.bean.FavBean;
+import github.daisukiKaffuChino.MomoQR.bean.FavBean;
 
 public class FavSqliteHelper extends SQLiteOpenHelper {
     private final SQLiteDatabase sqLiteDatabase = getWritableDatabase();

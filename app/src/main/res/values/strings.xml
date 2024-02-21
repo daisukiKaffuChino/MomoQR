@@ -46,4 +46,5 @@
     <string name="sure_to_delete">Are you sure you want to delete it? This operation is irreversible.</string>
     <string name="delete_fail">Delete failed</string>
     <string name="delete_all">Delete All</string>
+    <string name="no_match_intent">No matched app</string>
 </resources>

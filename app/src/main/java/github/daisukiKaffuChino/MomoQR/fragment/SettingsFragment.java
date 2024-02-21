@@ -1,4 +1,4 @@
-package github.daisukiKaffuChino.qrCodeScanner.fragment;
+package github.daisukiKaffuChino.MomoQR.fragment;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -19,7 +19,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import java.util.Arrays;
 import java.util.Objects;
 
-import github.daisukiKaffuChino.qrCodeScanner.R;
+import github.daisukiKaffuChino.MomoQR.R;
 
 public class SettingsFragment extends PreferenceFragmentCompat {
     @Override
