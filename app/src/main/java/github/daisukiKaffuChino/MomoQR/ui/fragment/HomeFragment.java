@@ -86,10 +86,13 @@ public class HomeFragment extends BaseBindingFragment<FragmentHomeBinding> {
                 showScanResults(result, false);
             }
         });
+    }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         if (getArguments() != null && getArguments().getBoolean("startScanIntent", false))
             startScannerIntent();
-
     }
 
     private void startScannerIntent() {
