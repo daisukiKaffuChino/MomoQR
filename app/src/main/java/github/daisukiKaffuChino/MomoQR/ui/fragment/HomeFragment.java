@@ -80,7 +80,12 @@ public class HomeFragment extends BaseBindingFragment<FragmentHomeBinding> {
         binding.addFavBtn.setOnClickListener(v -> showEditTextDialog(EDITTEXT_DIALOG_FAV_TITLE));
         binding.openLinkBtn.setOnClickListener(v ->
                 MyUtil.detectIntentAndStart(viewModel.contentLiveData.getValue()));
-
+        binding.remakeCodeImg.setOnLongClickListener(v -> {
+            v.setDrawingCacheEnabled(true);
+            QRCodeUtil.INSTANCE.saveBitmap(requireContext(), v.getDrawingCache());
+            v.setDrawingCacheEnabled(false);
+            return true;
+        });
         viewModel.contentLiveData.observe(getViewLifecycleOwner(), result -> {
             if (result != null & viewModel.isScanned) {
                 showScanResults(result, false);

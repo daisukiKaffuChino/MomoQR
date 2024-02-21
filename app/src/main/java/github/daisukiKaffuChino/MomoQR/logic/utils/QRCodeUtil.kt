@@ -1,12 +1,17 @@
 package github.daisukiKaffuChino.MomoQR.logic.utils
 
 import android.content.ContentResolver
+import android.content.ContentValues
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.net.Uri
+import android.os.Build
+import android.os.Environment
+import android.provider.MediaStore
 import android.util.Log
+import android.widget.Toast
 import androidx.annotation.ColorInt
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.BinaryBitmap
@@ -177,4 +182,35 @@ object QRCodeUtil {
         }
         return bitmap
     }
+
+    fun saveBitmap(context: Context, bitmap: Bitmap) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            val nowTime = System.currentTimeMillis()
+            val displayName = "QR$nowTime.png"
+            val values = ContentValues()
+            values.put(MediaStore.MediaColumns.DISPLAY_NAME, displayName)
+            values.put(MediaStore.MediaColumns.MIME_TYPE, "image/png")
+            values.put(
+                MediaStore.MediaColumns.RELATIVE_PATH,
+                Environment.DIRECTORY_PICTURES + "/MomoQR"
+            )
+            val uri =
+                context.contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)
+            if (uri != null) {
+                val outputStream = context.contentResolver.openOutputStream(uri)
+                if (outputStream != null) {
+                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
+                    outputStream.close()
+                    Toast.makeText(
+                        context,
+                        "Saved:\n/Pictures/MomoQR/$displayName",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+        } else {
+            //TODO
+        }
+    }
+
 }

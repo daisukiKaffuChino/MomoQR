@@ -41,6 +41,9 @@
             android:launchMode="singleTop"
             android:screenOrientation="fullSensor" />
 
+        <activity android:name="com.journeyapps.barcodescanner.CaptureActivity"
+            android:enabled="false"/>
+
         <service
             android:name=".service.ScanTileService"
             android:exported="true"
