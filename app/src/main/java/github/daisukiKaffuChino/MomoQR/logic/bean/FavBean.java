@@ -1,4 +1,4 @@
-package github.daisukiKaffuChino.MomoQR.bean;
+package github.daisukiKaffuChino.MomoQR.logic.bean;
 
 import androidx.lifecycle.LiveData;
 

@@ -26,8 +26,8 @@ import com.google.android.material.navigation.NavigationView;
 import java.lang.ref.WeakReference;
 
 import github.daisukiKaffuChino.MomoQR.databinding.ActivityStartBinding;
-import github.daisukiKaffuChino.MomoQR.util.MyUtil;
-import github.daisukiKaffuChino.MomoQR.util.WindowUtil;
+import github.daisukiKaffuChino.MomoQR.logic.utils.MyUtil;
+import github.daisukiKaffuChino.MomoQR.logic.utils.WindowUtil;
 
 public class StartActivity extends AppCompatActivity {
 
@@ -72,6 +72,12 @@ public class StartActivity extends AppCompatActivity {
                     finish();
             }
         });
+
+        if (getIntent().getBooleanExtra("startScan",false)){
+            Bundle bundle=new Bundle();
+            bundle.putBoolean("startScanIntent",true);
+            navController.navigate(R.id.nav_home,bundle);
+        }
     }
 
     private void setupWithNavController(@NonNull final NavigationView navigationView, @NonNull final NavController navController) {

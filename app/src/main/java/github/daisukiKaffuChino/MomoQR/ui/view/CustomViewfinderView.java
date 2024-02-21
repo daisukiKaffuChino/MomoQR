@@ -1,4 +1,4 @@
-package github.daisukiKaffuChino.MomoQR.view;
+package github.daisukiKaffuChino.MomoQR.ui.view;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

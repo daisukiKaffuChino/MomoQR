@@ -1,4 +1,4 @@
-package github.daisukiKaffuChino.MomoQR.adapter;
+package github.daisukiKaffuChino.MomoQR.logic.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -16,7 +16,7 @@ import com.bumptech.glide.Glide;
 import java.util.List;
 
 import github.daisukiKaffuChino.MomoQR.R;
-import github.daisukiKaffuChino.MomoQR.bean.FavBean;
+import github.daisukiKaffuChino.MomoQR.logic.bean.FavBean;
 
 
 public class FavAdapter extends RecyclerView.Adapter<FavAdapter.FavViewHolder> {

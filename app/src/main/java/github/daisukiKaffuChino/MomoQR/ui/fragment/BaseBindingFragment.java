@@ -1,4 +1,4 @@
-package github.daisukiKaffuChino.MomoQR.fragment;
+package github.daisukiKaffuChino.MomoQR.ui.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

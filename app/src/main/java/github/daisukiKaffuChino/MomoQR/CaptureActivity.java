@@ -14,7 +14,7 @@ import com.journeyapps.barcodescanner.DecoratedBarcodeView;
 import java.util.Objects;
 
 import github.daisukiKaffuChino.MomoQR.databinding.ActivityCaptureBinding;
-import github.daisukiKaffuChino.MomoQR.util.WindowUtil;
+import github.daisukiKaffuChino.MomoQR.logic.utils.WindowUtil;
 
 public class CaptureActivity extends AppCompatActivity {
 

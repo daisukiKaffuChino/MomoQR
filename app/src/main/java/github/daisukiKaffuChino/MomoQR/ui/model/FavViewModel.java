@@ -1,10 +1,10 @@
-package github.daisukiKaffuChino.MomoQR.model;
+package github.daisukiKaffuChino.MomoQR.ui.model;
 
 import androidx.lifecycle.ViewModel;
 
 import java.util.ArrayList;
 
-import github.daisukiKaffuChino.MomoQR.bean.FavBean;
+import github.daisukiKaffuChino.MomoQR.logic.bean.FavBean;
 
 public class FavViewModel extends ViewModel {
 

@@ -1,4 +1,4 @@
-package github.daisukiKaffuChino.MomoQR.util;
+package github.daisukiKaffuChino.MomoQR.logic.utils;
 
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -104,7 +104,7 @@ public class MyUtil {
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         PackageManager packageManager = MomoApplication.context.getPackageManager();
         List<ResolveInfo> resolveInfoList = packageManager.queryIntentActivities(intent, 0);
-        if (resolveInfoList != null && !resolveInfoList.isEmpty())
+        if (!resolveInfoList.isEmpty())
             MomoApplication.context.startActivity(intent);
         else
             MyUtil.toast(R.string.no_match_intent);

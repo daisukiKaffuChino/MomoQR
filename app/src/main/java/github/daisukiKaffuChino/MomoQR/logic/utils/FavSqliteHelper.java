@@ -1,4 +1,4 @@
-package github.daisukiKaffuChino.MomoQR.util;
+package github.daisukiKaffuChino.MomoQR.logic.utils;
 
 import android.annotation.SuppressLint;
 import android.content.ContentValues;
@@ -9,7 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.ArrayList;
 
-import github.daisukiKaffuChino.MomoQR.bean.FavBean;
+import github.daisukiKaffuChino.MomoQR.logic.bean.FavBean;
 
 public class FavSqliteHelper extends SQLiteOpenHelper {
     private final SQLiteDatabase sqLiteDatabase = getWritableDatabase();

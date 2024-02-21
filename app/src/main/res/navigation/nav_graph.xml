@@ -6,16 +6,16 @@
 
     <fragment
         android:id="@+id/nav_home"
-        android:name="github.daisukiKaffuChino.MomoQR.fragment.HomeFragment"
+        android:name="github.daisukiKaffuChino.MomoQR.ui.fragment.HomeFragment"
         android:label="@string/app_name" />
 
     <fragment
         android:id="@+id/nav_fav"
-        android:name="github.daisukiKaffuChino.MomoQR.fragment.FavFragment"
+        android:name="github.daisukiKaffuChino.MomoQR.ui.fragment.FavFragment"
         android:label="@string/menu_fav" />
 
     <fragment
         android:id="@+id/nav_settings"
-        android:name="github.daisukiKaffuChino.MomoQR.fragment.SettingsFragment"
+        android:name="github.daisukiKaffuChino.MomoQR.ui.fragment.SettingsFragment"
         android:label="@string/menu_settings" />
 </navigation>

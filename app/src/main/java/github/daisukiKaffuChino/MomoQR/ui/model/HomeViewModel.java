@@ -1,4 +1,4 @@
-package github.daisukiKaffuChino.MomoQR.model;
+package github.daisukiKaffuChino.MomoQR.ui.model;
 
 import android.net.Uri;
 

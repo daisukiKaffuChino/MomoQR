@@ -1,4 +1,4 @@
-package github.daisukiKaffuChino.MomoQR.fragment;
+package github.daisukiKaffuChino.MomoQR.ui.fragment;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,10 +33,10 @@ import java.util.Objects;
 import github.daisukiKaffuChino.MomoQR.CaptureActivity;
 import github.daisukiKaffuChino.MomoQR.R;
 import github.daisukiKaffuChino.MomoQR.databinding.FragmentHomeBinding;
-import github.daisukiKaffuChino.MomoQR.model.HomeViewModel;
-import github.daisukiKaffuChino.MomoQR.util.FavSqliteHelper;
-import github.daisukiKaffuChino.MomoQR.util.MyUtil;
-import github.daisukiKaffuChino.MomoQR.util.QRCodeUtil;
+import github.daisukiKaffuChino.MomoQR.logic.utils.FavSqliteHelper;
+import github.daisukiKaffuChino.MomoQR.logic.utils.MyUtil;
+import github.daisukiKaffuChino.MomoQR.logic.utils.QRCodeUtil;
+import github.daisukiKaffuChino.MomoQR.ui.model.HomeViewModel;
 
 public class HomeFragment extends BaseBindingFragment<FragmentHomeBinding> {
     private FragmentHomeBinding binding;
@@ -57,7 +58,7 @@ public class HomeFragment extends BaseBindingFragment<FragmentHomeBinding> {
         binding = getBinding();
         binding.scanBtn.setOnClickListener(v -> startScannerIntent());
         binding.selectImageBtn.setOnClickListener(v -> {
-            if (Build.VERSION.SDK_INT >= 33) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 Intent intent = new Intent(MediaStore.ACTION_PICK_IMAGES);
                 intent.setType("image/*");
                 openGalleryRequest.launch(intent);
@@ -85,6 +86,10 @@ public class HomeFragment extends BaseBindingFragment<FragmentHomeBinding> {
                 showScanResults(result, false);
             }
         });
+
+        if (getArguments() != null && getArguments().getBoolean("startScanIntent", false))
+            startScannerIntent();
+
     }
 
     private void startScannerIntent() {
@@ -170,7 +175,8 @@ public class HomeFragment extends BaseBindingFragment<FragmentHomeBinding> {
             builder.setTitle(R.string.content_to_generate);
             builder.setPositiveButton(R.string.ok, (dialogInterface, i) -> {
                 EditText edt = ((AlertDialog) dialogInterface).findViewById(R.id.dialog_edt);
-                if (edt != null)
+                assert edt != null;
+                if (!TextUtils.isEmpty(edt.getText().toString()))
                     showScanResults(edt.getText().toString(), true);
             });
         }

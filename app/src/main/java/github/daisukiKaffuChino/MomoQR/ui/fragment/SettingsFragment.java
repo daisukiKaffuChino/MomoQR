@@ -1,4 +1,4 @@
-package github.daisukiKaffuChino.MomoQR.fragment;
+package github.daisukiKaffuChino.MomoQR.ui.fragment;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -27,7 +27,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         setPreferencesFromResource(R.xml.preference_settings_root, rootKey);
 
         findPreference("opensource").setOnPreferenceClickListener(preference -> {
-            Uri uriSetting = Uri.parse("github.daisukiKaffuChino.MomoQR");
+            Uri uriSetting = Uri.parse("https://github.com/daisukiKaffuChino/MomoQR");
             Intent settingsIntent = new Intent(Intent.ACTION_VIEW, uriSetting);
             startActivity(settingsIntent);
             return true;
@@ -38,7 +38,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 
     private String getVerInfo() {
         try {
-            PackageInfo packageInfo = requireContext().getPackageManager().getPackageInfo("github.daisukiKaffuChino.qrCodeScanner", 0);
+            PackageInfo packageInfo = requireContext().getPackageManager().getPackageInfo("github.daisukiKaffuChino.MomoQR", 0);
             String versionName = packageInfo.versionName;
             String versionCode = String.valueOf(packageInfo.versionCode);
             return versionName + " (" + versionCode + ")";

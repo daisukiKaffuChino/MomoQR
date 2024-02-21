@@ -1,4 +1,4 @@
-package github.daisukiKaffuChino.MomoQR.util;
+package github.daisukiKaffuChino.MomoQR.logic.utils;
 
 import android.app.Activity;
 import android.graphics.Color;
