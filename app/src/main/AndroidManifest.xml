@@ -26,6 +26,7 @@
         android:localeConfig="@xml/locate_config"
         android:resizeableActivity="true"
         android:supportsRtl="true"
+        android:theme="@style/Theme.MomoQR.Material2"
         tools:targetApi="tiramisu">
 
         <activity

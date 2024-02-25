@@ -52,6 +52,9 @@ public class StartActivity extends BaseActivity {
                     binding.drawer.closeDrawer(GravityCompat.START);
                     return;
                 }
+                if (navController.popBackStack()) {
+                    return;
+                }
                 long currentTIme = System.currentTimeMillis();
                 if (lastBackPressTime == -1L || currentTIme - lastBackPressTime >= 2000) {
                     MyUtil.toast(R.string.double_click_exit);

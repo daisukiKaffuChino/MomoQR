@@ -11,8 +11,8 @@ android {
         applicationId "github.daisukiKaffuChino.MomoQR"
         minSdk 26
         targetSdk 34
-        versionCode 240221
-        versionName "1.0.1"
+        versionCode 240226
+        versionName "1.0.2"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

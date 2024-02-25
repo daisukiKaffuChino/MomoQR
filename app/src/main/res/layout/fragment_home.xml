@@ -42,7 +42,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
                     android:text="@string/make_qr_code" />
-
             </LinearLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout

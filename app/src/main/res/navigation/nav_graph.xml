@@ -30,12 +30,5 @@
     <fragment
         android:id="@+id/nav_result"
         android:name="github.daisukiKaffuChino.MomoQR.ui.fragment.ResultFragment"
-        android:label="@string/scan_result">
-        <action
-            android:id="@+id/action_nav_result_to_nav_home"
-            app:destination="@id/nav_home" />
-        <action
-            android:id="@+id/action_nav_result_to_nav_fav"
-            app:destination="@id/nav_fav" />
-    </fragment>
+        android:label="@string/scan_result"/>
 </navigation>

@@ -62,4 +62,8 @@ public class FavSqliteHelper extends SQLiteOpenHelper {
         }
         return arrayList;
     }
+
+    public void closeDB(){
+        sqLiteDatabase.close();
+    }
 }

@@ -63,6 +63,12 @@ public class FavFragment extends BaseBindingFragment<FragmentFavBinding> {
                 .show());
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        helper.closeDB();
+    }
+
     private void initAdapter(ArrayList<FavBean> list) {
         adapter = new FavAdapter(requireContext(), list, pos -> {
             String content = viewModel.ls.get(pos).getContent();
