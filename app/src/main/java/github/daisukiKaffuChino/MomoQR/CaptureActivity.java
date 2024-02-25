@@ -5,7 +5,6 @@ import android.view.KeyEvent;
 import android.view.Window;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.WindowCompat;
 
 import com.journeyapps.barcodescanner.CaptureManager;
@@ -14,9 +13,8 @@ import com.journeyapps.barcodescanner.DecoratedBarcodeView;
 import java.util.Objects;
 
 import github.daisukiKaffuChino.MomoQR.databinding.ActivityCaptureBinding;
-import github.daisukiKaffuChino.MomoQR.logic.utils.WindowUtil;
 
-public class CaptureActivity extends AppCompatActivity {
+public class CaptureActivity extends BaseActivity {
 
     private ActivityCaptureBinding binding;
     private CaptureManager capture;
@@ -32,7 +30,6 @@ public class CaptureActivity extends AppCompatActivity {
 
         initToolbar();
 
-        WindowUtil.initWindow(this);
         Window window = getWindow();
         Objects.requireNonNull(WindowCompat.getInsetsController(window, window.getDecorView())).setAppearanceLightNavigationBars(false);
 

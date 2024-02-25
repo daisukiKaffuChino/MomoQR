@@ -31,6 +31,18 @@
     <PreferenceCategory app:title="@string/display">
         <SwitchPreferenceCompat
             app:defaultValue="false"
+            app:icon="@drawable/ic_material_design"
+            app:key="enableMaterial3"
+            app:title="@string/theme_enable_m3"
+            app:summary="@string/require_android_s"/>
+        <SwitchPreferenceCompat
+            app:defaultValue="false"
+            app:icon="@drawable/outline_palette_24"
+            app:key="dynamicColor"
+            app:dependency="enableMaterial3"
+            app:title="@string/theme_dynamic_color" />
+        <SwitchPreferenceCompat
+            app:defaultValue="false"
             app:icon="@drawable/ic_light_dark"
             app:key="forceDark"
             app:summary="@string/dark_mode_sum"

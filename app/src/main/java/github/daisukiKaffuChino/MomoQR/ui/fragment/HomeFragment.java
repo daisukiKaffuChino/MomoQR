@@ -86,6 +86,7 @@ public class HomeFragment extends BaseBindingFragment<FragmentHomeBinding> {
             v.setDrawingCacheEnabled(false);
             return true;
         });
+
         viewModel.contentLiveData.observe(getViewLifecycleOwner(), result -> {
             if (result != null & viewModel.isScanned) {
                 showScanResults(result, false);

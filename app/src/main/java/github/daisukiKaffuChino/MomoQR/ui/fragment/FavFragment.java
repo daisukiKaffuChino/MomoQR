@@ -17,13 +17,13 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import java.util.ArrayList;
 
 import github.daisukiKaffuChino.MomoQR.R;
+import github.daisukiKaffuChino.MomoQR.databinding.FragmentFavBinding;
 import github.daisukiKaffuChino.MomoQR.logic.adapter.FavAdapter;
 import github.daisukiKaffuChino.MomoQR.logic.bean.FavBean;
-import github.daisukiKaffuChino.MomoQR.databinding.FragmentFavBinding;
-import github.daisukiKaffuChino.MomoQR.ui.model.FavViewModel;
-import github.daisukiKaffuChino.MomoQR.ui.model.FavViewModelFactory;
 import github.daisukiKaffuChino.MomoQR.logic.utils.FavSqliteHelper;
 import github.daisukiKaffuChino.MomoQR.logic.utils.MyUtil;
+import github.daisukiKaffuChino.MomoQR.ui.model.FavViewModel;
+import github.daisukiKaffuChino.MomoQR.ui.model.FavViewModelFactory;
 
 public class FavFragment extends BaseBindingFragment<FragmentFavBinding> {
 

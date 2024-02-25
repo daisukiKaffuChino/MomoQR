@@ -10,6 +10,10 @@
     <uses-permission
         android:name="android.permission.QUERY_ALL_PACKAGES"
         tools:ignore="QueryAllPackagesPermission" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28"
+        tools:ignore="ScopedStorage" />
 
     <application
         android:name=".MomoApplication"
@@ -22,7 +26,6 @@
         android:localeConfig="@xml/locate_config"
         android:resizeableActivity="true"
         android:supportsRtl="true"
-        android:theme="@style/Theme.MaterialQR"
         tools:targetApi="tiramisu">
 
         <activity
@@ -39,10 +42,12 @@
         <activity
             android:name=".CaptureActivity"
             android:launchMode="singleTop"
-            android:screenOrientation="fullSensor" />
+            android:screenOrientation="fullSensor"
+            android:theme="@style/Theme.MomoQR.Material2" />
 
-        <activity android:name="com.journeyapps.barcodescanner.CaptureActivity"
-            android:enabled="false"/>
+        <activity
+            android:name="com.journeyapps.barcodescanner.CaptureActivity"
+            android:enabled="false" />
 
         <service
             android:name=".service.ScanTileService"

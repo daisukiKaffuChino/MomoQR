@@ -87,7 +87,6 @@ public class MyUtil {
             FileOutputStream outStream = new FileOutputStream(filePath);
             imageView.setDrawingCacheEnabled(true);
             Bitmap image = imageView.getDrawingCache();
-
             image.compress(Bitmap.CompressFormat.PNG, 100, outStream);
             imageView.setDrawingCacheEnabled(false);
             outStream.flush();

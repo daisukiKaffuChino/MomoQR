@@ -17,7 +17,7 @@
     <string name="scan_cancel">Canceled.</string>
     <string name="double_click_exit">Press again to exit.</string>
     <string name="select_gallery_pic">Pick images from gallery</string>
-    <string name="empty_data">Empty data!</string>
+    <string name="empty_data">Empty data...</string>
     <string name="make_qr_code">create qr code</string>
     <string name="scan">Scan</string>
     <string name="camera_id">Camera ID</string>
@@ -48,4 +48,8 @@
     <string name="delete_all">Delete All</string>
     <string name="no_match_intent">No matched app</string>
     <string name="content_to_generate">Content to be generated</string>
+    <string name="theme">Theme</string>
+    <string name="theme_enable_m3">Use Material 3 theme</string>
+    <string name="theme_dynamic_color">Dynamic color support</string>
+    <string name="require_android_s">Requires Android 12/12+</string>
 </resources>

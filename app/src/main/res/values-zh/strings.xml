@@ -3,7 +3,7 @@
     <string name="app_name">MomoQR</string>
     <string name="scanner_tip">置于取景框内扫描…</string>
     <string name="scan_title">扫码</string>
-    <string name="scan_result">扫描结果</string>
+    <string name="scan_result">识别结果</string>
     <string name="scan_via_camera">使用相机扫码</string>
     <string name="select_img">选择图片识别</string>
     <string name="menu_home">主页</string>
@@ -18,7 +18,7 @@
     <string name="scan_cancel">操作取消</string>
     <string name="double_click_exit">再按一次返回退出</string>
     <string name="select_gallery_pic">选择相册图片</string>
-    <string name="empty_data">数据为空！</string>
+    <string name="empty_data">数据为空...</string>
     <string name="make_qr_code">制作二维码</string>
     <string name="scan">扫描</string>
     <string name="camera_id">相机ID</string>
@@ -49,4 +49,8 @@
     <string name="delete_all">清空</string>
     <string name="no_match_intent">找不到可以打开的App</string>
     <string name="content_to_generate">待生成的内容</string>
+    <string name="theme">主题</string>
+    <string name="theme_enable_m3">启用 Material 3 主题</string>
+    <string name="theme_dynamic_color">动态取色支持</string>
+    <string name="require_android_s">需要 Android 12 或更高版本</string>
 </resources>

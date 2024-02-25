@@ -10,7 +10,6 @@ import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.view.GravityCompat;
 import androidx.customview.widget.Openable;
@@ -27,9 +26,8 @@ import java.lang.ref.WeakReference;
 
 import github.daisukiKaffuChino.MomoQR.databinding.ActivityStartBinding;
 import github.daisukiKaffuChino.MomoQR.logic.utils.MyUtil;
-import github.daisukiKaffuChino.MomoQR.logic.utils.WindowUtil;
 
-public class StartActivity extends AppCompatActivity {
+public class StartActivity extends BaseActivity {
 
     private AppBarConfiguration appBarConfiguration;
     private long lastBackPressTime = -1L;
@@ -54,8 +52,6 @@ public class StartActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         setupWithNavController(binding.navView, navController);
-
-        WindowUtil.initWindow(this);
 
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
