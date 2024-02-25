@@ -50,7 +50,7 @@
     <string name="no_match_intent">找不到可以打开的App</string>
     <string name="content_to_generate">待生成的内容</string>
     <string name="theme">主题</string>
-    <string name="theme_enable_m3">启用 Material 3 主题</string>
+    <string name="theme_enable_m3">启用 Material 3</string>
     <string name="theme_dynamic_color">动态取色支持</string>
     <string name="require_android_s">需要 Android 12 或更高版本</string>
 </resources>

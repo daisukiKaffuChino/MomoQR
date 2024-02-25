@@ -31,6 +31,9 @@ public class BaseActivity extends AppCompatActivity {
 
         if (enableMaterial3 && sp.getBoolean("dynamicColor", false))
             DynamicColors.applyToActivityIfAvailable(this);
+
+        if (enableMaterial3 && sp.getBoolean("dynamicColor", false))
+            DynamicColors.applyToActivityIfAvailable(this);
     }
 
     private void initWindow() {

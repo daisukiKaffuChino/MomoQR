@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Base application theme. -->
     <style name="Base.Theme.Material2" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorPrimary">@color/primary_day</item>
@@ -56,6 +56,24 @@
         <item name="colorSurfaceContainerHighest">@color/md_theme_surfaceContainerHighest</item>
     </style>
 
-    <style name="Theme.MomoQR.Material2" parent="Base.Theme.Material2" />
-    <style name="Theme.MomoQR.Material3" parent="Base.Theme.Material3" />
+    <style name="AppPreferenceThemeOverlay" parent="@style/PreferenceThemeOverlay">
+        <item name="switchPreferenceCompatStyle">@style/AppSwitchPreference</item>
+    </style>
+
+    <style name="AppSwitchPreference" parent="@style/Preference.SwitchPreferenceCompat.Material">
+        <item name="widgetLayout">@layout/preference_material_switch</item>
+    </style>
+
+    <style name="Theme.MomoQR.AppBarOverlay.Light" parent="ThemeOverlay.AppCompat.ActionBar" />
+    <style name="Theme.MomoQR.AppBarOverlay.Dark" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.MomoQR.Material2" parent="Base.Theme.Material2" >
+        <item name="actionBarStyle">@style/Theme.MomoQR.AppBarOverlay.Dark</item>
+    </style>
+
+    <style name="Theme.MomoQR.Material3" parent="Base.Theme.Material3">
+        <item name="preferenceTheme">@style/AppPreferenceThemeOverlay</item>
+        <item name="actionBarStyle">@style/Theme.MomoQR.AppBarOverlay.Light</item>
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
 </resources>

@@ -49,7 +49,7 @@
     <string name="no_match_intent">No matched app</string>
     <string name="content_to_generate">Content to be generated</string>
     <string name="theme">Theme</string>
-    <string name="theme_enable_m3">Use Material 3 theme</string>
+    <string name="theme_enable_m3">Use Material 3</string>
     <string name="theme_dynamic_color">Dynamic color support</string>
     <string name="require_android_s">Requires Android 12/12+</string>
 </resources>

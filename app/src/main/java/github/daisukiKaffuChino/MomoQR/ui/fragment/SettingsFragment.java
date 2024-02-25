@@ -79,6 +79,8 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             } else {
                 ((AppCompatActivity) requireActivity()).getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
             }
+        } else if (key.equals("enableMaterial3") | key.equals("dynamicColor")) {
+            ((AppCompatActivity) requireActivity()).recreate();
         }
     };
 

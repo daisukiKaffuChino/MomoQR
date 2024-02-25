@@ -33,13 +33,13 @@
             app:defaultValue="false"
             app:icon="@drawable/ic_material_design"
             app:key="enableMaterial3"
-            app:title="@string/theme_enable_m3"
-            app:summary="@string/require_android_s"/>
+            app:title="@string/theme_enable_m3" />
         <SwitchPreferenceCompat
             app:defaultValue="false"
+            app:dependency="enableMaterial3"
             app:icon="@drawable/outline_palette_24"
             app:key="dynamicColor"
-            app:dependency="enableMaterial3"
+            app:summary="@string/require_android_s"
             app:title="@string/theme_dynamic_color" />
         <SwitchPreferenceCompat
             app:defaultValue="false"
