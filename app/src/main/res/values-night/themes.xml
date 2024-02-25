@@ -54,5 +54,6 @@
         <item name="colorSurfaceContainer">@color/md_theme_night_surfaceContainer</item>
         <item name="colorSurfaceContainerHigh">@color/md_theme_night_surfaceContainerHigh</item>
         <item name="colorSurfaceContainerHighest">@color/md_theme_night_surfaceContainerHighest</item>
+        <item name="android:windowLightStatusBar">false</item>
     </style>
 </resources>

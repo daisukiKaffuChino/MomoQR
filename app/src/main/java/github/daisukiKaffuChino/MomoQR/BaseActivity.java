@@ -8,6 +8,7 @@ import android.view.WindowManager;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.view.WindowCompat;
 import androidx.preference.PreferenceManager;
 
@@ -21,9 +22,9 @@ public class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
     }
 
-    private void initTheme(){
+    private void initTheme() {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
-        boolean enableMaterial3=sp.getBoolean("enableMaterial3", false);
+        boolean enableMaterial3 = sp.getBoolean("enableMaterial3", false);
         if (enableMaterial3)
             setTheme(R.style.Theme_MomoQR_Material3);
         else
@@ -34,6 +35,9 @@ public class BaseActivity extends AppCompatActivity {
 
         if (enableMaterial3 && sp.getBoolean("dynamicColor", false))
             DynamicColors.applyToActivityIfAvailable(this);
+
+        if (sp.getBoolean("forceDark", false))
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
     }
 
     private void initWindow() {

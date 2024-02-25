@@ -54,6 +54,8 @@
         <item name="colorSurfaceContainer">@color/md_theme_surfaceContainer</item>
         <item name="colorSurfaceContainerHigh">@color/md_theme_surfaceContainerHigh</item>
         <item name="colorSurfaceContainerHighest">@color/md_theme_surfaceContainerHighest</item>
+        <item name="MyToolbarStyle">@style/ThemeOverlay.AppCompat.ActionBar</item>
+        <item name="android:windowLightStatusBar">true</item>
     </style>
 
     <style name="AppPreferenceThemeOverlay" parent="@style/PreferenceThemeOverlay">
@@ -64,16 +66,16 @@
         <item name="widgetLayout">@layout/preference_material_switch</item>
     </style>
 
-    <style name="Theme.MomoQR.AppBarOverlay.Light" parent="ThemeOverlay.AppCompat.ActionBar" />
-    <style name="Theme.MomoQR.AppBarOverlay.Dark" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="CustomActionBarTitle" parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">16sp</item>
+    </style>
 
-    <style name="Theme.MomoQR.Material2" parent="Base.Theme.Material2" >
-        <item name="actionBarStyle">@style/Theme.MomoQR.AppBarOverlay.Dark</item>
+    <style name="Theme.MomoQR.Material2" parent="Base.Theme.Material2">
+        <item name="MyToolbarStyle">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
     </style>
 
     <style name="Theme.MomoQR.Material3" parent="Base.Theme.Material3">
         <item name="preferenceTheme">@style/AppPreferenceThemeOverlay</item>
-        <item name="actionBarStyle">@style/Theme.MomoQR.AppBarOverlay.Light</item>
-        <item name="android:windowLightStatusBar">true</item>
     </style>
 </resources>
