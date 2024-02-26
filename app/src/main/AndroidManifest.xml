@@ -43,8 +43,7 @@
         <activity
             android:name=".CaptureActivity"
             android:launchMode="singleTop"
-            android:screenOrientation="fullSensor"
-            android:theme="@style/Theme.MomoQR.Material2" />
+            android:screenOrientation="fullSensor" />
 
         <activity
             android:name="com.journeyapps.barcodescanner.CaptureActivity"
@@ -61,6 +60,9 @@
             </intent-filter>
         </service>
 
+        <meta-data
+            android:name="com.bumptech.glide.module.AppGlideModule"
+            android:value="github.daisukiKaffuChino.MomoQR.MAppGlideModule"/>
     </application>
 
 </manifest>

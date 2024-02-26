@@ -42,20 +42,20 @@ import github.daisukiKaffuChino.MomoQR.ui.model.HomeViewModel;
 public class HomeFragment extends BaseBindingFragment<FragmentHomeBinding> {
     private FragmentHomeBinding binding;
     private HomeViewModel viewModel;
-    FavSqliteHelper helper;
+    private View navRoot;
     private static final int EDITTEXT_DIALOG_FAV_TITLE = 0;
     private static final int EDITTEXT_DIALOG_QRCODE_CONTENT = 1;
 
     @Override
     protected FragmentHomeBinding onCreateViewBinding(@NonNull LayoutInflater inflater, @Nullable ViewGroup parent) {
         viewModel = new ViewModelProvider(this).get(HomeViewModel.class);
-        helper = new FavSqliteHelper(requireContext());
         return FragmentHomeBinding.inflate(inflater, parent, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        navRoot=view;
         binding = getBinding();
         binding.scanBtn.setOnClickListener(v -> startScannerIntent());
         binding.selectImageBtn.setOnClickListener(v -> {
@@ -72,27 +72,8 @@ public class HomeFragment extends BaseBindingFragment<FragmentHomeBinding> {
         });
         binding.makeQRCodeBtn.setOnClickListener(v ->
                 showEditTextDialog(EDITTEXT_DIALOG_QRCODE_CONTENT));
-        binding.retryBtn.setOnClickListener(v -> {
-            viewModel.isScanned = false;
-            btnRootVisible(true);
-        });
-        binding.copyBtn.setOnClickListener(v ->
-                MyUtil.copyContent(Objects.requireNonNull(binding.resultText.getText()).toString()));
-        binding.addFavBtn.setOnClickListener(v -> showEditTextDialog(EDITTEXT_DIALOG_FAV_TITLE));
-        binding.openLinkBtn.setOnClickListener(v ->
-                MyUtil.detectIntentAndStart(viewModel.contentLiveData.getValue()));
-        binding.remakeCodeImg.setOnLongClickListener(v -> {
-            v.setDrawingCacheEnabled(true);
-            QRCodeUtil.INSTANCE.saveBitmap(requireContext(), v.getDrawingCache());
-            v.setDrawingCacheEnabled(false);
-            return true;
-        });
 
-        viewModel.contentLiveData.observe(getViewLifecycleOwner(), result -> {
-            if (result != null & viewModel.isScanned) {
-                showScanResults(result, false);
-            }
-        });
+
     }
 
     @Override
@@ -129,12 +110,18 @@ public class HomeFragment extends BaseBindingFragment<FragmentHomeBinding> {
         barcodeLauncher.launch(options);
     }
 
+    private void navigateResult(String result){
+        Bundle args=new Bundle();
+        args.putString("content",result);
+        Navigation.findNavController(navRoot).navigate(R.id.nav_result,args);
+    }
+
     private final ActivityResultLauncher<ScanOptions> barcodeLauncher = registerForActivityResult(new ScanContract(),
             result -> {
                 if (result.getContents() == null) {
                     MyUtil.toast(R.string.scan_cancel);
                 } else {
-                    showScanResults(result.getContents(), true);
+                    navigateResult(result.getContents());
                 }
             });
 
@@ -147,26 +134,12 @@ public class HomeFragment extends BaseBindingFragment<FragmentHomeBinding> {
                     Result mResult = QRCodeUtil.INSTANCE.scanningImage(requireContext(),
                             Objects.requireNonNull(intent.getData()));
                     if (mResult != null) {
-                        showScanResults(mResult.getText(), true);
+                        navigateResult(mResult.getText());
                     } else {
                         MyUtil.toast(R.string.empty_data);
                     }
                 }
             });
-
-
-    private void showScanResults(String content, boolean isSet) {
-        if (isSet) {
-            viewModel.contentLiveData.setValue(content);
-        }
-        viewModel.isScanned = true;
-        btnRootVisible(false);
-        if (content != null) {
-            binding.resultText.setText(content);
-            Bitmap bitmap = QRCodeUtil.INSTANCE.createQRCodeBitmap(content, 180, 180, Color.BLACK, Color.WHITE);
-            Glide.with(requireContext()).load(bitmap).into(binding.remakeCodeImg);
-        }
-    }
 
     private void showEditTextDialog(int mode) {
         MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(requireActivity());
@@ -176,48 +149,22 @@ public class HomeFragment extends BaseBindingFragment<FragmentHomeBinding> {
             builder.setTitle(R.string.add_fav);
             builder.setPositiveButton(R.string.ok, (dialogInterface, i) -> {
                 EditText edt = ((AlertDialog) dialogInterface).findViewById(R.id.dialog_edt);
-                if (edt != null)
-                    addFav(edt.getText().toString(), viewModel.contentLiveData.getValue());
+               // if (edt != null)
+                   // addFav(edt.getText().toString(), viewModel.contentLiveData.getValue());
             });
-            builder.setNeutralButton(R.string.use_current_date, (dialogInterface, i) ->
-                    addFav(MyUtil.currentTime(), viewModel.contentLiveData.getValue()));
+            //builder.setNeutralButton(R.string.use_current_date, (dialogInterface, i) ->
+                    //addFav(MyUtil.currentTime(), viewModel.contentLiveData.getValue()));
         } else if (mode == EDITTEXT_DIALOG_QRCODE_CONTENT) {
             builder.setTitle(R.string.content_to_generate);
             builder.setPositiveButton(R.string.ok, (dialogInterface, i) -> {
                 EditText edt = ((AlertDialog) dialogInterface).findViewById(R.id.dialog_edt);
                 assert edt != null;
-                if (!TextUtils.isEmpty(edt.getText().toString()))
-                    showScanResults(edt.getText().toString(), true);
+                //if (!TextUtils.isEmpty(edt.getText().toString()))
+                    //showScanResults(edt.getText().toString(), true);
             });
         }
         builder.show();
     }
 
-    private void addFav(String title, String content) {
-        if (MyUtil.hasSpecialChat(title)) {
-            MyUtil.toast(R.string.invalid_title);
-        } else {
-            String imageSavedPath = new MyUtil().saveImageViewImage(requireContext(), binding.remakeCodeImg);
-            if (imageSavedPath != null) {
-                boolean insertOk = helper.insertData(title, content, imageSavedPath, System.currentTimeMillis());
-                if (insertOk)
-                    MyUtil.toast(R.string.add_fav_ok);
-                else
-                    MyUtil.toast(R.string.add_fav_fail);
-            } else {
-                MyUtil.toast(R.string.add_fav_fail);
-            }
-        }
-    }
-
-    private void btnRootVisible(boolean visible) {
-        if (visible) {
-            binding.homeBtnRoot.setVisibility(View.VISIBLE);
-            binding.resultRoot.setVisibility(View.GONE);
-        } else {
-            binding.homeBtnRoot.setVisibility(View.GONE);
-            binding.resultRoot.setVisibility(View.VISIBLE);
-        }
-    }
 
 }

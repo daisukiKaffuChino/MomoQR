@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -47,7 +48,7 @@ public class FavFragment extends BaseBindingFragment<FragmentFavBinding> {
         viewModel = new ViewModelProvider(this, new FavViewModelFactory(helper.query())).get(FavViewModel.class);
         if (helper.query().size() > viewModel.ls.size())
             viewModel.ls = helper.query();
-        initAdapter(viewModel.ls);
+        initAdapter(view, viewModel.ls);
 
         binding.favFltBtn.setOnClickListener(v -> new MaterialAlertDialogBuilder(requireContext())
                 .setTitle(R.string.delete_all)
@@ -69,10 +70,12 @@ public class FavFragment extends BaseBindingFragment<FragmentFavBinding> {
         helper.closeDB();
     }
 
-    private void initAdapter(ArrayList<FavBean> list) {
+    private void initAdapter(View navRoot, ArrayList<FavBean> list) {
         adapter = new FavAdapter(requireContext(), list, pos -> {
             String content = viewModel.ls.get(pos).getContent();
-            MyUtil.detectIntentAndStart(content);
+            Bundle args = new Bundle();
+            args.putString("content", content);
+            Navigation.findNavController(navRoot).navigate(R.id.nav_result, args);
         }, this::deleteDialog);
         binding.favRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false));
         binding.favRecyclerView.setAdapter(adapter);

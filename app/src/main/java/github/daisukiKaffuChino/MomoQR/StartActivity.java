@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.view.GravityCompat;
 import androidx.customview.widget.Openable;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
@@ -26,6 +27,7 @@ import github.daisukiKaffuChino.MomoQR.logic.utils.MyUtil;
 
 public class StartActivity extends BaseActivity {
 
+    private ActivityStartBinding binding;
     private AppBarConfiguration appBarConfiguration;
     private long lastBackPressTime = -1L;
 
@@ -33,10 +35,11 @@ public class StartActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ActivityStartBinding binding = ActivityStartBinding.inflate(getLayoutInflater());
+        binding = ActivityStartBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         setSupportActionBar(binding.startToolbar);
 
+        //初始化导航
         appBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_home, R.id.nav_fav, R.id.nav_settings)
                 .setOpenableLayout(binding.drawer)
@@ -45,6 +48,7 @@ public class StartActivity extends BaseActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         setupWithNavController(binding.navView, navController);
 
+        //按键监听
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
@@ -64,13 +68,15 @@ public class StartActivity extends BaseActivity {
             }
         });
 
-        if (getIntent().getBooleanExtra("startScan",false)){
-            Bundle bundle=new Bundle();
-            bundle.putBoolean("startScanIntent",true);
-            navController.navigate(R.id.nav_home,bundle);
+        //从瓷贴打开
+        if (getIntent().getBooleanExtra("startScan", false)) {
+            Bundle bundle = new Bundle();
+            bundle.putBoolean("startScanIntent", true);
+            navController.navigate(R.id.nav_home, bundle);
         }
     }
 
+    //自定义重写导航监听
     private void setupWithNavController(@NonNull final NavigationView navigationView, @NonNull final NavController navController) {
         navigationView.setNavigationItemSelectedListener(item -> {
             MenuItem checkedItem = navigationView.getCheckedItem();
@@ -80,8 +86,9 @@ public class StartActivity extends BaseActivity {
             } else {
                 if (item.getItemId() == R.id.nav_exit)
                     finish();
-                else
+                else {
                     handled = NavigationUI.onNavDestinationSelected(item, navController);
+                }
             }
             ViewParent parent = navigationView.getParent();
             if (parent instanceof Openable) {
@@ -103,6 +110,11 @@ public class StartActivity extends BaseActivity {
                     MenuItem item = menu.getItem(h);
                     item.setChecked(matchDestination(destination, item.getItemId()));
                 }
+                //结果页面禁止抽屉滑出
+                if (destination.getId() == R.id.nav_result)
+                    binding.drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+                else
+                    binding.drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
             }
         });
     }
