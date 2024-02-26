@@ -3,8 +3,8 @@
     <string name="scanner_tip">Please scan within the framing frame…</string>
     <string name="scan_title">Scan</string>
     <string name="scan_result">Scanning Results</string>
-    <string name="scan_via_camera">scan via camera</string>
-    <string name="select_img">pick image</string>
+    <string name="scan_via_camera">Scan Via Camera</string>
+    <string name="select_img">Pick Image</string>
     <string name="menu_home">Home</string>
     <string name="menu_fav">Fav</string>
     <string name="menu_settings">Settings</string>
@@ -12,13 +12,12 @@
     <string name="nav_others">Others</string>
     <string name="open">Open</string>
     <string name="close">Close</string>
-    <string name="back_retry">rescan</string>
-    <string name="copy_content">copy</string>
+    <string name="copy_content">Copy</string>
     <string name="scan_cancel">Canceled.</string>
     <string name="double_click_exit">Press again to exit.</string>
     <string name="select_gallery_pic">Pick images from gallery</string>
-    <string name="empty_data">Empty data...</string>
-    <string name="make_qr_code">create qr code</string>
+    <string name="empty_data">Empty data…</string>
+    <string name="make_qr_code">Create QR Code</string>
     <string name="scan">Scan</string>
     <string name="camera_id">Camera ID</string>
     <string name="beep">Beep sound</string>
@@ -52,4 +51,8 @@
     <string name="theme_enable_m3">Use Material 3</string>
     <string name="theme_dynamic_color">Dynamic color support</string>
     <string name="require_android_s">Requires Android 12/12+</string>
+    <string name="result_tip_content">1. Long press the QR code below to save the image locally. If your Android version is lower than 9, you will need to grant MomoQR storage permission. \n2. Tiles is supported and MomoQR can start scanning through the dropdown status bar.</string>
+    <string name="tips">Tips</string>
+    <string name="tips_hide">don\'t show again</string>
+    <string name="tips_add_tile">Create tile</string>
 </resources>

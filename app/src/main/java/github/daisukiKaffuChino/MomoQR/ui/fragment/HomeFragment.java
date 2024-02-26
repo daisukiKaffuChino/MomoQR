@@ -17,7 +17,6 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.preference.PreferenceManager;
 
@@ -33,15 +32,14 @@ import github.daisukiKaffuChino.MomoQR.R;
 import github.daisukiKaffuChino.MomoQR.databinding.FragmentHomeBinding;
 import github.daisukiKaffuChino.MomoQR.logic.utils.MyUtil;
 import github.daisukiKaffuChino.MomoQR.logic.utils.QRCodeUtil;
-import github.daisukiKaffuChino.MomoQR.ui.model.HomeViewModel;
 
 public class HomeFragment extends BaseBindingFragment<FragmentHomeBinding> {
-    private HomeViewModel viewModel;
+    //private HomeViewModel viewModel;
     private View navRoot;
 
     @Override
     protected FragmentHomeBinding onCreateViewBinding(@NonNull LayoutInflater inflater, @Nullable ViewGroup parent) {
-        viewModel = new ViewModelProvider(this).get(HomeViewModel.class);
+        //viewModel = new ViewModelProvider(this).get(HomeViewModel.class);
         return FragmentHomeBinding.inflate(inflater, parent, false);
     }
 

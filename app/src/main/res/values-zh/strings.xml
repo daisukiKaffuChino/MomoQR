@@ -13,12 +13,11 @@
     <string name="nav_others">其它</string>
     <string name="open">打开</string>
     <string name="close">关闭</string>
-    <string name="back_retry">弃之，重扫</string>
     <string name="copy_content">复制</string>
     <string name="scan_cancel">操作取消</string>
     <string name="double_click_exit">再按一次返回退出</string>
     <string name="select_gallery_pic">选择相册图片</string>
-    <string name="empty_data">数据为空...</string>
+    <string name="empty_data">数据为空…</string>
     <string name="make_qr_code">制作二维码</string>
     <string name="scan">扫描</string>
     <string name="camera_id">相机ID</string>
@@ -53,4 +52,8 @@
     <string name="theme_enable_m3">启用 Material 3</string>
     <string name="theme_dynamic_color">动态取色支持</string>
     <string name="require_android_s">需要 Android 12 或更高版本</string>
+    <string name="result_tip_content">1. 长按下方二维码可以保存图片到本地。如果你的 Android 版本低于 9 ，那么需要额外授予 MomoQR 存储读写权限。\n2. MomoQR 已适配瓷贴，可通过下拉通知栏快速扫码。</string>
+    <string name="tips">小提示</string>
+    <string name="tips_hide">我知道了</string>
+    <string name="tips_add_tile">快速添加瓷贴</string>
 </resources>

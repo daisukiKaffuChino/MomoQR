@@ -1,7 +1,14 @@
 package github.daisukiKaffuChino.MomoQR.ui.fragment;
 
+import android.annotation.SuppressLint;
+import android.app.StatusBarManager;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.Icon;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +19,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.preference.PreferenceManager;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -38,6 +46,8 @@ public class ResultFragment extends BaseBindingFragment<FragmentResultBinding> {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         binding = getBinding();
+
+        initTips();
 
         binding.copyBtn.setOnClickListener(v ->
                 MyUtil.copyContent(Objects.requireNonNull(binding.resultText.getText()).toString()));
@@ -110,4 +120,31 @@ public class ResultFragment extends BaseBindingFragment<FragmentResultBinding> {
 
         builder.show();
     }
+
+    private void initTips() {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(requireContext());
+        if (sp.getBoolean("hideTips", false)) {
+            binding.resultTipCard.setVisibility(View.GONE);
+        } else {
+            binding.resultTipHideBtn.setOnClickListener(view -> {
+                binding.resultTipCard.setVisibility(View.GONE);
+                SharedPreferences.Editor editor = sp.edit();
+                editor.putBoolean("hideTips", true);
+                editor.apply();
+            });
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                binding.resultTipTileBtn.setVisibility(View.VISIBLE);
+                binding.resultTipTileBtn.setOnClickListener(view -> {
+                    @SuppressLint("WrongConstant") StatusBarManager manager = (StatusBarManager) requireActivity().getSystemService(Context.STATUS_BAR_SERVICE);
+                    ComponentName componentName = new ComponentName("github.daisukiKaffuChino.MomoQR",
+                            "github.daisukiKaffuChino.MomoQR.service.ScanTileService");
+                    Icon icon = Icon.createWithResource(requireActivity(), R.drawable.outline_qr_code_scanner_24);
+                    manager.requestAddTileService(componentName, "Scan Tile", icon, runnable -> {
+                    }, integer -> {
+                    });
+                });
+            }
+        }
+    }
+
 }
