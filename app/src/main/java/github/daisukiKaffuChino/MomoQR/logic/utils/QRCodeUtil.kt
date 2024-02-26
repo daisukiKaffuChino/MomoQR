@@ -3,6 +3,7 @@ package github.daisukiKaffuChino.MomoQR.logic.utils
 import android.content.ContentResolver
 import android.content.ContentValues
 import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
@@ -11,8 +12,8 @@ import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
-import android.widget.Toast
 import androidx.annotation.ColorInt
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.BinaryBitmap
 import com.google.zxing.ChecksumException
@@ -26,6 +27,13 @@ import com.google.zxing.WriterException
 import com.google.zxing.common.HybridBinarizer
 import com.google.zxing.qrcode.QRCodeReader
 import com.google.zxing.qrcode.QRCodeWriter
+import com.hjq.permissions.OnPermissionCallback
+import com.hjq.permissions.Permission
+import com.hjq.permissions.XXPermissions
+import github.daisukiKaffuChino.MomoQR.R
+import java.io.BufferedOutputStream
+import java.io.File
+import java.io.FileOutputStream
 import java.io.IOException
 import java.io.InputStream
 import java.util.Hashtable
@@ -37,8 +45,8 @@ object QRCodeUtil {
         content: String,
         width: Int,
         height: Int,
-        @ColorInt color_black: Int = Color.BLACK,
-        @ColorInt color_white: Int = Color.WHITE,
+        @ColorInt colorBlack: Int = Color.BLACK,
+        @ColorInt colorWhite: Int = Color.WHITE,
     ): Bitmap? {
         if (width < 0 || height < 0) { // 宽和高都需要>=0
             return null
@@ -58,9 +66,9 @@ object QRCodeUtil {
             for (y in 0 until height) {
                 for (x in 0 until width) {
                     if (bitMatrix[x, y]) {
-                        pixels[y * width + x] = color_black // 黑色色块像素设置
+                        pixels[y * width + x] = colorBlack // 黑色色块像素设置
                     } else {
-                        pixels[y * width + x] = color_white // 白色色块像素设置
+                        pixels[y * width + x] = colorWhite // 白色色块像素设置
                     }
                 }
             }
@@ -184,9 +192,9 @@ object QRCodeUtil {
     }
 
     fun saveBitmap(context: Context, bitmap: Bitmap) {
+        val nowTime = System.currentTimeMillis()
+        val displayName = "QR$nowTime.png"
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            val nowTime = System.currentTimeMillis()
-            val displayName = "QR$nowTime.png"
             val values = ContentValues()
             values.put(MediaStore.MediaColumns.DISPLAY_NAME, displayName)
             values.put(MediaStore.MediaColumns.MIME_TYPE, "image/png")
@@ -201,15 +209,71 @@ object QRCodeUtil {
                 if (outputStream != null) {
                     bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
                     outputStream.close()
-                    Toast.makeText(
-                        context,
-                        "Saved:\n/Pictures/MomoQR/$displayName",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    MaterialAlertDialogBuilder(context)
+                        .setTitle(R.string.save_ok)
+                        .setMessage("storage/emulated/0/Pictures/MomoQR/$displayName")
+                        .setPositiveButton(R.string.ok, null)
+                        .show()
                 }
             }
         } else {
-            //TODO
+            XXPermissions.with(context)
+                .permission(Permission.WRITE_EXTERNAL_STORAGE)
+                .request(object : OnPermissionCallback {
+                    override fun onGranted(permissions: MutableList<String>, allGranted: Boolean) {
+                        if (allGranted) {
+                            val sd = Environment.getExternalStorageDirectory().toString()
+                            val subForder = "$sd/Pictures/MomoQR"
+                            val foder = File(subForder)
+                            if (!foder.exists()) {
+                                foder.mkdir()
+                            }
+                            val myCaptureFile = File(subForder, displayName)
+                            if (!myCaptureFile.exists()) {
+                                try {
+                                    if (!myCaptureFile.createNewFile()) {
+                                        MyUtil.toast(R.string.create_file_failed)
+                                    }
+                                } catch (e: IOException) {
+                                    e.printStackTrace()
+                                }
+                            }
+                            try {
+                                val bos =
+                                    BufferedOutputStream(FileOutputStream(myCaptureFile))
+                                bitmap.compress(Bitmap.CompressFormat.PNG, 100, bos)
+                                bos.flush()
+                                bos.close()
+                                MaterialAlertDialogBuilder(context)
+                                    .setTitle(R.string.save_ok)
+                                    .setMessage("storage/emulated/0/Pictures/MomoQR/$displayName")
+                                    .setPositiveButton(R.string.ok, null)
+                                    .show()
+                                context.sendBroadcast(
+                                    Intent(
+                                        Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,
+                                        Uri.parse("file://$subForder/$displayName")
+                                    )
+                                )
+                            } catch (e: Exception) {
+                                e.printStackTrace()
+                                MyUtil.toast(R.string.save_failed)
+                            }
+                        }
+                    }
+
+                    override fun onDenied(
+                        permissions: MutableList<String>,
+                        doNotAskAgain: Boolean
+                    ) {
+                        if (doNotAskAgain) {
+                            MyUtil.toast(R.string.pm_denied_forever)
+                            XXPermissions.startPermissionActivity(context, permissions)
+                        } else {
+                            MyUtil.toast(R.string.pm_grant_fail)
+                        }
+                    }
+                })
         }
     }
 

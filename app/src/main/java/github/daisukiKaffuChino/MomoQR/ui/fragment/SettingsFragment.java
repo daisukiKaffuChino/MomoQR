@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -25,6 +26,9 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         setPreferencesFromResource(R.xml.preference_settings_root, rootKey);
+
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.S)
+            findPreference("dynamicColor").setEnabled(false);
 
         findPreference("opensource").setOnPreferenceClickListener(preference -> {
             Uri uriSetting = Uri.parse("https://github.com/daisukiKaffuChino/MomoQR");
@@ -80,7 +84,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                 ((AppCompatActivity) requireActivity()).getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
             }
         } else if (key.equals("enableMaterial3") | key.equals("dynamicColor")) {
-            ((AppCompatActivity) requireActivity()).recreate();
+            requireActivity().recreate();
         }
     };
 

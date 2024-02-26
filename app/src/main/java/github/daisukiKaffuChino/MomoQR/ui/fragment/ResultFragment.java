@@ -23,6 +23,8 @@ import androidx.preference.PreferenceManager;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.hjq.permissions.Permission;
+import com.hjq.permissions.XXPermissions;
 
 import java.util.Objects;
 
@@ -53,10 +55,13 @@ public class ResultFragment extends BaseBindingFragment<FragmentResultBinding> {
                 MyUtil.copyContent(Objects.requireNonNull(binding.resultText.getText()).toString()));
         binding.addFavBtn.setOnClickListener(v -> showEditTextDialog());
         binding.openLinkBtn.setOnClickListener(v ->
-                MyUtil.detectIntentAndStart(viewModel.contentLiveData.getValue()));
+                XXPermissions.with(requireActivity())
+                        .permission(Permission.GET_INSTALLED_APPS)
+                        .request((permissions, allGranted) ->
+                                MyUtil.detectIntentAndStart(viewModel.contentLiveData.getValue())));
         binding.remakeCodeImg.setOnLongClickListener(v -> {
             v.setDrawingCacheEnabled(true);
-            QRCodeUtil.INSTANCE.saveBitmap(requireContext(), v.getDrawingCache());
+            QRCodeUtil.INSTANCE.saveBitmap(requireActivity(), v.getDrawingCache());
             v.setDrawingCacheEnabled(false);
             return true;
         });

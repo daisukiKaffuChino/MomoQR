@@ -55,4 +55,10 @@
     <string name="tips">Tips</string>
     <string name="tips_hide">don\'t show again</string>
     <string name="tips_add_tile">Create tile</string>
+    <string name="language">Language</string>
+    <string name="pm_denied_forever">Permanently denied authorization, please manually grant storage permission.</string>
+    <string name="pm_grant_fail">Permission grant failed.</string>
+    <string name="save_ok">Saved</string>
+    <string name="save_failed">Save failed</string>
+    <string name="create_file_failed">Create file failed</string>
 </resources>

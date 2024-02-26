@@ -56,7 +56,7 @@ public class StartActivity extends BaseActivity {
                     binding.drawer.closeDrawer(GravityCompat.START);
                     return;
                 }
-                if (navController.popBackStack()) {
+                if (navController.navigateUp()) {
                     return;
                 }
                 long currentTIme = System.currentTimeMillis();

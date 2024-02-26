@@ -56,4 +56,10 @@
     <string name="tips">小提示</string>
     <string name="tips_hide">我知道了</string>
     <string name="tips_add_tile">快速添加瓷贴</string>
+    <string name="language">语言</string>
+    <string name="pm_denied_forever">权限被永久拒绝，请手动授予存储读写权限。</string>
+    <string name="pm_grant_fail">授权失败</string>
+    <string name="save_ok">已保存</string>
+    <string name="save_failed">保存失败</string>
+    <string name="create_file_failed">创建文件失败</string>
 </resources>

@@ -7,18 +7,19 @@
         android:required="true" />
 
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="com.android.permission.GET_INSTALLED_APPS" />
     <uses-permission
         android:name="android.permission.QUERY_ALL_PACKAGES"
         tools:ignore="QueryAllPackagesPermission" />
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-        android:maxSdkVersion="28"
         tools:ignore="ScopedStorage" />
 
     <application
         android:name=".MomoApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
+        android:enableOnBackInvokedCallback="true"
         android:fullBackupContent="@xml/backup_rules"
         android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
@@ -62,7 +63,11 @@
 
         <meta-data
             android:name="com.bumptech.glide.module.AppGlideModule"
-            android:value="github.daisukiKaffuChino.MomoQR.MAppGlideModule"/>
+            android:value="github.daisukiKaffuChino.MomoQR.MAppGlideModule" />
+
+        <meta-data
+            android:name="ScopedStorage"
+            android:value="true" />
     </application>
 
 </manifest>
