@@ -6,24 +6,23 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.Navigation;
-import androidx.viewbinding.ViewBinding;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.Objects;
 
 import github.daisukiKaffuChino.MomoQR.R;
-import github.daisukiKaffuChino.MomoQR.databinding.FragmentHomeBinding;
 import github.daisukiKaffuChino.MomoQR.databinding.FragmentResultBinding;
 import github.daisukiKaffuChino.MomoQR.logic.utils.FavSqliteHelper;
 import github.daisukiKaffuChino.MomoQR.logic.utils.MyUtil;
 import github.daisukiKaffuChino.MomoQR.logic.utils.QRCodeUtil;
-import github.daisukiKaffuChino.MomoQR.ui.model.HomeViewModel;
 import github.daisukiKaffuChino.MomoQR.ui.model.ResultViewModel;
 
 public class ResultFragment extends BaseBindingFragment<FragmentResultBinding> {
@@ -42,7 +41,7 @@ public class ResultFragment extends BaseBindingFragment<FragmentResultBinding> {
 
         binding.copyBtn.setOnClickListener(v ->
                 MyUtil.copyContent(Objects.requireNonNull(binding.resultText.getText()).toString()));
-        //binding.addFavBtn.setOnClickListener(v -> showEditTextDialog(EDITTEXT_DIALOG_FAV_TITLE));
+        binding.addFavBtn.setOnClickListener(v -> showEditTextDialog());
         binding.openLinkBtn.setOnClickListener(v ->
                 MyUtil.detectIntentAndStart(viewModel.contentLiveData.getValue()));
         binding.remakeCodeImg.setOnLongClickListener(v -> {
@@ -63,20 +62,14 @@ public class ResultFragment extends BaseBindingFragment<FragmentResultBinding> {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         helper = new FavSqliteHelper(requireContext());
-        viewModel= new ViewModelProvider(this).get(ResultViewModel.class);
-        if (getArguments() != null){
-            String content=getArguments().getString("content");
+        viewModel = new ViewModelProvider(this).get(ResultViewModel.class);
+        if (getArguments() != null) {
+            String content = getArguments().getString("content");
             viewModel.contentLiveData.setValue(content);
         }
     }
 
     private void showScanResults(String content) {
-/*
-        if (isSet) {
-            viewModel.contentLiveData.setValue(content);
-        }
-        viewModel.isScanned = true;
-        */
         if (content != null) {
             binding.resultText.setText(content);
             Bitmap bitmap = QRCodeUtil.INSTANCE.createQRCodeBitmap(content, 180, 180, Color.BLACK, Color.WHITE);
@@ -101,4 +94,20 @@ public class ResultFragment extends BaseBindingFragment<FragmentResultBinding> {
         }
     }
 
+    private void showEditTextDialog() {
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(requireActivity());
+        builder.setTitle(R.string.add_fav);
+        builder.setView(R.layout.dialog_edittext);
+        builder.setNegativeButton(R.string.cancel, null);
+
+        builder.setPositiveButton(R.string.ok, (dialogInterface, i) -> {
+            EditText edt = ((AlertDialog) dialogInterface).findViewById(R.id.dialog_edt);
+            if (edt != null)
+                addFav(edt.getText().toString(), viewModel.contentLiveData.getValue());
+        });
+        builder.setNeutralButton(R.string.use_current_date, (dialogInterface, i) ->
+                addFav(MyUtil.currentTime(), viewModel.contentLiveData.getValue()));
+
+        builder.show();
+    }
 }

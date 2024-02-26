@@ -3,8 +3,6 @@ package github.daisukiKaffuChino.MomoQR.ui.fragment;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -23,7 +21,6 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.preference.PreferenceManager;
 
-import com.bumptech.glide.Glide;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.zxing.Result;
 import com.journeyapps.barcodescanner.ScanContract;
@@ -34,17 +31,13 @@ import java.util.Objects;
 import github.daisukiKaffuChino.MomoQR.CaptureActivity;
 import github.daisukiKaffuChino.MomoQR.R;
 import github.daisukiKaffuChino.MomoQR.databinding.FragmentHomeBinding;
-import github.daisukiKaffuChino.MomoQR.logic.utils.FavSqliteHelper;
 import github.daisukiKaffuChino.MomoQR.logic.utils.MyUtil;
 import github.daisukiKaffuChino.MomoQR.logic.utils.QRCodeUtil;
 import github.daisukiKaffuChino.MomoQR.ui.model.HomeViewModel;
 
 public class HomeFragment extends BaseBindingFragment<FragmentHomeBinding> {
-    private FragmentHomeBinding binding;
     private HomeViewModel viewModel;
     private View navRoot;
-    private static final int EDITTEXT_DIALOG_FAV_TITLE = 0;
-    private static final int EDITTEXT_DIALOG_QRCODE_CONTENT = 1;
 
     @Override
     protected FragmentHomeBinding onCreateViewBinding(@NonNull LayoutInflater inflater, @Nullable ViewGroup parent) {
@@ -55,8 +48,8 @@ public class HomeFragment extends BaseBindingFragment<FragmentHomeBinding> {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        navRoot=view;
-        binding = getBinding();
+        navRoot = view;
+        FragmentHomeBinding binding = getBinding();
         binding.scanBtn.setOnClickListener(v -> startScannerIntent());
         binding.selectImageBtn.setOnClickListener(v -> {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -71,8 +64,7 @@ public class HomeFragment extends BaseBindingFragment<FragmentHomeBinding> {
             }
         });
         binding.makeQRCodeBtn.setOnClickListener(v ->
-                showEditTextDialog(EDITTEXT_DIALOG_QRCODE_CONTENT));
-
+                showEditTextDialog());
 
     }
 
@@ -110,10 +102,10 @@ public class HomeFragment extends BaseBindingFragment<FragmentHomeBinding> {
         barcodeLauncher.launch(options);
     }
 
-    private void navigateResult(String result){
-        Bundle args=new Bundle();
-        args.putString("content",result);
-        Navigation.findNavController(navRoot).navigate(R.id.nav_result,args);
+    private void navigateResult(String result) {
+        Bundle args = new Bundle();
+        args.putString("content", result);
+        Navigation.findNavController(navRoot).navigate(R.id.nav_result, args);
     }
 
     private final ActivityResultLauncher<ScanOptions> barcodeLauncher = registerForActivityResult(new ScanContract(),
@@ -141,30 +133,18 @@ public class HomeFragment extends BaseBindingFragment<FragmentHomeBinding> {
                 }
             });
 
-    private void showEditTextDialog(int mode) {
+    private void showEditTextDialog() {
         MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(requireActivity());
+        builder.setTitle(R.string.content_to_generate);
         builder.setView(R.layout.dialog_edittext);
         builder.setNegativeButton(R.string.cancel, null);
-        if (mode == EDITTEXT_DIALOG_FAV_TITLE) {
-            builder.setTitle(R.string.add_fav);
-            builder.setPositiveButton(R.string.ok, (dialogInterface, i) -> {
-                EditText edt = ((AlertDialog) dialogInterface).findViewById(R.id.dialog_edt);
-               // if (edt != null)
-                   // addFav(edt.getText().toString(), viewModel.contentLiveData.getValue());
-            });
-            //builder.setNeutralButton(R.string.use_current_date, (dialogInterface, i) ->
-                    //addFav(MyUtil.currentTime(), viewModel.contentLiveData.getValue()));
-        } else if (mode == EDITTEXT_DIALOG_QRCODE_CONTENT) {
-            builder.setTitle(R.string.content_to_generate);
-            builder.setPositiveButton(R.string.ok, (dialogInterface, i) -> {
-                EditText edt = ((AlertDialog) dialogInterface).findViewById(R.id.dialog_edt);
-                assert edt != null;
-                //if (!TextUtils.isEmpty(edt.getText().toString()))
-                    //showScanResults(edt.getText().toString(), true);
-            });
-        }
+        builder.setPositiveButton(R.string.ok, (dialogInterface, i) -> {
+            EditText edt = ((AlertDialog) dialogInterface).findViewById(R.id.dialog_edt);
+            assert edt != null;
+            if (!TextUtils.isEmpty(edt.getText().toString()))
+                navigateResult(edt.getText().toString());
+        });
         builder.show();
     }
-
 
 }
