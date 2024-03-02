@@ -31,4 +31,16 @@
             app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
     </com.google.android.material.appbar.AppBarLayout>
 
+    <ImageView
+        android:id="@+id/capture_bulb_btn"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_gravity="bottom|center"
+        android:clickable="true"
+        android:contentDescription="@string/flash_light"
+        android:foreground="?selectableItemBackgroundBorderless"
+        android:padding="8dp"
+        app:srcCompat="@drawable/outline_lightbulb_circle_24"
+        app:tint="@android:color/white" />
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

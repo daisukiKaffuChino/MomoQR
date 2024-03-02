@@ -66,4 +66,5 @@
     <string name="not_ask_save_path">不确认保存路径</string>
     <string name="require_android_q">至少需要 Android 10</string>
     <string name="toggle_day_night">切换深浅色主题</string>
+    <string name="flash_light">闪光灯</string>
 </resources>

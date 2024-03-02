@@ -65,4 +65,5 @@
     <string name="not_ask_save_path">Don\'t ask save path</string>
     <string name="require_android_q">Requires at least Android 10</string>
     <string name="toggle_day_night">Toggle Light/Dark</string>
+    <string name="flash_light">Flashlight</string>
 </resources>
