@@ -7,13 +7,9 @@
         android:required="true" />
 
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="com.android.permission.GET_INSTALLED_APPS" />
     <uses-permission
         android:name="android.permission.QUERY_ALL_PACKAGES"
         tools:ignore="QueryAllPackagesPermission" />
-    <uses-permission
-        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-        tools:ignore="ScopedStorage" />
 
     <application
         android:name=".MomoApplication"
@@ -65,9 +61,6 @@
             android:name="com.bumptech.glide.module.AppGlideModule"
             android:value="github.daisukiKaffuChino.MomoQR.MAppGlideModule" />
 
-        <meta-data
-            android:name="ScopedStorage"
-            android:value="true" />
     </application>
 
 </manifest>

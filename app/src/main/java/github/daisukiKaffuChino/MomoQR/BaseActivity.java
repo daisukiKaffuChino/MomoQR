@@ -33,11 +33,16 @@ public class BaseActivity extends AppCompatActivity {
         if (enableMaterial3 && sp.getBoolean("dynamicColor", false))
             DynamicColors.applyToActivityIfAvailable(this);
 
-        if (enableMaterial3 && sp.getBoolean("dynamicColor", false))
-            DynamicColors.applyToActivityIfAvailable(this);
-
-        if (sp.getBoolean("forceDark", false))
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        switch (Integer.parseInt(sp.getString("dayNightTheme", "0"))) {
+            case 0:
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+                break;
+            case 1:
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                break;
+            case 2:
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        }
     }
 
     private void initWindow() {

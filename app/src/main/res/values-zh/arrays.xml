@@ -30,12 +30,14 @@
         <item>4</item>
     </string-array>
 
-    <string-array name="lang_entries">
-        <item>英语</item>
-        <item>简体中文</item>
+    <string-array name="dayNight_entries">
+        <item>跟随系统</item>
+        <item>浅色模式</item>
+        <item>深色模式</item>
     </string-array>
-    <string-array name="lang_value">
+    <string-array name="dayNight_value">
         <item>0</item>
         <item>1</item>
+        <item>2</item>
     </string-array>
 </resources>

@@ -30,12 +30,14 @@
         <item>4</item>
     </string-array>
 
-    <string-array name="lang_entries">
-        <item>English</item>
-        <item>Simplified Chinese</item>
+    <string-array name="dayNight_entries">
+        <item>Follow System</item>
+        <item>Light Mode</item>
+        <item>Dark Mode</item>
     </string-array>
-    <string-array name="lang_value">
+    <string-array name="dayNight_value">
         <item>0</item>
         <item>1</item>
+        <item>2</item>
     </string-array>
 </resources>

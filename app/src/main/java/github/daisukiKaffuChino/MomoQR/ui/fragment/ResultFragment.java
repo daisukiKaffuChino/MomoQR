@@ -3,18 +3,25 @@ package github.daisukiKaffuChino.MomoQR.ui.fragment;
 import android.annotation.SuppressLint;
 import android.app.StatusBarManager;
 import android.content.ComponentName;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.Icon;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.ParcelFileDescriptor;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -23,9 +30,10 @@ import androidx.preference.PreferenceManager;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.hjq.permissions.Permission;
-import com.hjq.permissions.XXPermissions;
 
+import java.io.BufferedOutputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Objects;
 
 import github.daisukiKaffuChino.MomoQR.R;
@@ -55,13 +63,11 @@ public class ResultFragment extends BaseBindingFragment<FragmentResultBinding> {
                 MyUtil.copyContent(Objects.requireNonNull(binding.resultText.getText()).toString()));
         binding.addFavBtn.setOnClickListener(v -> showEditTextDialog());
         binding.openLinkBtn.setOnClickListener(v ->
-                XXPermissions.with(requireActivity())
-                        .permission(Permission.GET_INSTALLED_APPS)
-                        .request((permissions, allGranted) ->
-                                MyUtil.detectIntentAndStart(viewModel.contentLiveData.getValue())));
+                MyUtil.detectIntentAndStart(viewModel.contentLiveData.getValue()));
         binding.remakeCodeImg.setOnLongClickListener(v -> {
+            //TODO 更换为新方法
             v.setDrawingCacheEnabled(true);
-            QRCodeUtil.INSTANCE.saveBitmap(requireActivity(), v.getDrawingCache());
+            saveBitmapLocal(v.getDrawingCache());
             v.setDrawingCacheEnabled(false);
             return true;
         });
@@ -105,6 +111,63 @@ public class ResultFragment extends BaseBindingFragment<FragmentResultBinding> {
                     MyUtil.toast(R.string.add_fav_fail);
             } else {
                 MyUtil.toast(R.string.add_fav_fail);
+            }
+        }
+    }
+
+    private void saveBitmapLocal(Bitmap bitmap) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            QRCodeUtil.INSTANCE.saveBitmapAboveQ(requireActivity(), bitmap);
+        } else {
+            String fileName = "QR" + System.currentTimeMillis() + ".png";
+            saveRequest.launch(fileName);
+        }
+    }
+
+    private final ActivityResultLauncher<String> saveRequest = registerForActivityResult(
+            new ActivityResultContracts.CreateDocument("image/png"),
+            uri -> saveBitmapViaUri(requireContext(), uri));
+
+    private void saveBitmapViaUri(Context context, Uri uri) {
+        ParcelFileDescriptor pfd = null;
+        try {
+            if (uri != null) {
+                pfd = context.getContentResolver().openFileDescriptor(uri, "rw");
+                assert pfd != null;
+                BufferedOutputStream bos =
+                        new BufferedOutputStream(new FileOutputStream(pfd.getFileDescriptor()));
+                binding.remakeCodeImg.setDrawingCacheEnabled(true);
+                Bitmap bitmap = binding.remakeCodeImg.getDrawingCache();
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, bos);
+                binding.remakeCodeImg.setDrawingCacheEnabled(false);
+                bos.flush();
+                bos.close();
+
+                //尝试获取文件名
+                ContentResolver cr = context.getContentResolver();
+                Cursor cur = cr.query(
+                        uri, new String[]{MediaStore.MediaColumns.DISPLAY_NAME}, null, null, null);
+                String name = "";
+                if (cur != null) {
+                    if (cur.moveToFirst()) {
+                        int index = cur.getColumnIndex(MediaStore.Images.ImageColumns.DISPLAY_NAME);
+                        name = cur.getString(index);
+                    }
+                    cur.close();
+                }
+
+                new MyUtil().showMessageDialog(context,
+                        getString(R.string.save_ok),
+                        name);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (pfd != null)
+                    pfd.close();
+            } catch (IOException e1) {
+                e1.printStackTrace();
             }
         }
     }

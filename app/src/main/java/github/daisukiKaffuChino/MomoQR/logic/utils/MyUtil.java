@@ -14,6 +14,8 @@ import android.text.TextUtils;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -107,5 +109,13 @@ public class MyUtil {
             MomoApplication.context.startActivity(intent);
         else
             MyUtil.toast(R.string.no_match_intent);
+    }
+
+    public void showMessageDialog(Context context, String title, String content) {
+        new MaterialAlertDialogBuilder(context)
+                .setTitle(title)
+                .setMessage(content)
+                .setPositiveButton(R.string.ok, null)
+                .show();
     }
 }

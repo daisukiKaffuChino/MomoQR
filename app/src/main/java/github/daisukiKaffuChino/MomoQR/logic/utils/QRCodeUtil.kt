@@ -3,17 +3,14 @@ package github.daisukiKaffuChino.MomoQR.logic.utils
 import android.content.ContentResolver
 import android.content.ContentValues
 import android.content.Context
-import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.net.Uri
-import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
 import androidx.annotation.ColorInt
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.BinaryBitmap
 import com.google.zxing.ChecksumException
@@ -27,13 +24,7 @@ import com.google.zxing.WriterException
 import com.google.zxing.common.HybridBinarizer
 import com.google.zxing.qrcode.QRCodeReader
 import com.google.zxing.qrcode.QRCodeWriter
-import com.hjq.permissions.OnPermissionCallback
-import com.hjq.permissions.Permission
-import com.hjq.permissions.XXPermissions
 import github.daisukiKaffuChino.MomoQR.R
-import java.io.BufferedOutputStream
-import java.io.File
-import java.io.FileOutputStream
 import java.io.IOException
 import java.io.InputStream
 import java.util.Hashtable
@@ -191,89 +182,29 @@ object QRCodeUtil {
         return bitmap
     }
 
-    fun saveBitmap(context: Context, bitmap: Bitmap) {
+    fun saveBitmapAboveQ(context: Context, bitmap: Bitmap) {
         val nowTime = System.currentTimeMillis()
         val displayName = "QR$nowTime.png"
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            val values = ContentValues()
-            values.put(MediaStore.MediaColumns.DISPLAY_NAME, displayName)
-            values.put(MediaStore.MediaColumns.MIME_TYPE, "image/png")
-            values.put(
-                MediaStore.MediaColumns.RELATIVE_PATH,
-                Environment.DIRECTORY_PICTURES + "/MomoQR"
-            )
-            val uri =
-                context.contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)
-            if (uri != null) {
-                val outputStream = context.contentResolver.openOutputStream(uri)
-                if (outputStream != null) {
-                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
-                    outputStream.close()
-                    MaterialAlertDialogBuilder(context)
-                        .setTitle(R.string.save_ok)
-                        .setMessage("storage/emulated/0/Pictures/MomoQR/$displayName")
-                        .setPositiveButton(R.string.ok, null)
-                        .show()
-                }
+        val values = ContentValues()
+        values.put(MediaStore.MediaColumns.DISPLAY_NAME, displayName)
+        values.put(MediaStore.MediaColumns.MIME_TYPE, "image/png")
+        values.put(
+            MediaStore.MediaColumns.RELATIVE_PATH,
+            Environment.DIRECTORY_PICTURES + "/MomoQR"
+        )
+        val uri =
+            context.contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)
+        if (uri != null) {
+            val outputStream = context.contentResolver.openOutputStream(uri)
+            if (outputStream != null) {
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
+                outputStream.close()
+                MyUtil().showMessageDialog(
+                    context,
+                    context.getString(R.string.save_ok),
+                    "storage/emulated/0/Pictures/MomoQR/$displayName"
+                )
             }
-        } else {
-            XXPermissions.with(context)
-                .permission(Permission.WRITE_EXTERNAL_STORAGE)
-                .request(object : OnPermissionCallback {
-                    override fun onGranted(permissions: MutableList<String>, allGranted: Boolean) {
-                        if (allGranted) {
-                            val sd = Environment.getExternalStorageDirectory().toString()
-                            val subForder = "$sd/Pictures/MomoQR"
-                            val foder = File(subForder)
-                            if (!foder.exists()) {
-                                foder.mkdir()
-                            }
-                            val myCaptureFile = File(subForder, displayName)
-                            if (!myCaptureFile.exists()) {
-                                try {
-                                    if (!myCaptureFile.createNewFile()) {
-                                        MyUtil.toast(R.string.create_file_failed)
-                                    }
-                                } catch (e: IOException) {
-                                    e.printStackTrace()
-                                }
-                            }
-                            try {
-                                val bos =
-                                    BufferedOutputStream(FileOutputStream(myCaptureFile))
-                                bitmap.compress(Bitmap.CompressFormat.PNG, 100, bos)
-                                bos.flush()
-                                bos.close()
-                                MaterialAlertDialogBuilder(context)
-                                    .setTitle(R.string.save_ok)
-                                    .setMessage("storage/emulated/0/Pictures/MomoQR/$displayName")
-                                    .setPositiveButton(R.string.ok, null)
-                                    .show()
-                                context.sendBroadcast(
-                                    Intent(
-                                        Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,
-                                        Uri.parse("file://$subForder/$displayName")
-                                    )
-                                )
-                            } catch (e: Exception) {
-                                e.printStackTrace()
-                                MyUtil.toast(R.string.save_failed)
-                            }
-                        }
-                    }
-
-                    override fun onDenied(
-                        permissions: MutableList<String>,
-                        doNotAskAgain: Boolean
-                    ) {
-                        if (doNotAskAgain) {
-                            MyUtil.toast(R.string.pm_denied_forever)
-                            XXPermissions.startPermissionActivity(context, permissions)
-                        } else {
-                            MyUtil.toast(R.string.pm_grant_fail)
-                        }
-                    }
-                })
         }
     }
 

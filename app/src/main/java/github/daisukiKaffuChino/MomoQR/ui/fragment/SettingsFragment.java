@@ -30,6 +30,9 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.S)
             findPreference("dynamicColor").setEnabled(false);
 
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q)
+            findPreference("notAskForSavePath").setEnabled(false);
+
         findPreference("opensource").setOnPreferenceClickListener(preference -> {
             Uri uriSetting = Uri.parse("https://github.com/daisukiKaffuChino/MomoQR");
             Intent settingsIntent = new Intent(Intent.ACTION_VIEW, uriSetting);
@@ -77,11 +80,16 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 
     private final SharedPreferences.OnSharedPreferenceChangeListener mListener = (sharedPreferences, key) -> {
         assert key != null;
-        if (key.equals("forceDark")) {
-            if (sharedPreferences.getBoolean(key, false)) {
-                ((AppCompatActivity) requireActivity()).getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-            } else {
-                ((AppCompatActivity) requireActivity()).getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+        if (key.equals("dayNightTheme")) {
+            switch (sharedPreferences.getString(key, "0")) {
+                case "0":
+                    ((AppCompatActivity) requireActivity()).getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+                    break;
+                case "1":
+                    ((AppCompatActivity) requireActivity()).getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                    break;
+                case "2":
+                    ((AppCompatActivity) requireActivity()).getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
             }
         } else if (key.equals("enableMaterial3") | key.equals("dynamicColor")) {
             requireActivity().recreate();
