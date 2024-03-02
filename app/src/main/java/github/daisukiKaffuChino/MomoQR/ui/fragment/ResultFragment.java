@@ -116,9 +116,12 @@ public class ResultFragment extends BaseBindingFragment<FragmentResultBinding> {
     }
 
     private void saveBitmapLocal(Bitmap bitmap) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(requireContext());
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q & sp.getBoolean("notAskForSavePath", false)) {
+            //悄无声息地保存
             QRCodeUtil.INSTANCE.saveBitmapAboveQ(requireActivity(), bitmap);
         } else {
+            //申请临时uri保存
             String fileName = "QR" + System.currentTimeMillis() + ".png";
             saveRequest.launch(fileName);
         }

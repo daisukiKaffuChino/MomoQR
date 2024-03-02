@@ -31,7 +31,6 @@
     <PreferenceCategory app:title="@string/storage">
         <SwitchPreferenceCompat
             app:defaultValue="false"
-            app:dependency="enableMaterial3"
             app:icon="@drawable/ic_content_save_edit_outline"
             app:key="notAskForSavePath"
             app:summary="@string/require_android_q"

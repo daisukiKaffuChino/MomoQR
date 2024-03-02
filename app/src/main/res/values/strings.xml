@@ -31,14 +31,14 @@
     <string name="open_source">Open Source</string>
     <string name="licensed">Apache-2.0 Licensed</string>
     <string name="cancel">Cancel</string>
-    <string name="ok">confirm</string>
+    <string name="ok">Confirm</string>
     <string name="text_copied_toast">Text copird success.</string>
     <string name="no_data">No data</string>
     <string name="add_fav">Add to fav</string>
     <string name="input_title">Type a title:</string>
     <string name="add_fav_ok">Success</string>
     <string name="add_fav_fail">Add to fav failed</string>
-    <string name="use_current_date">use current date</string>
+    <string name="use_current_date">Use current date</string>
     <string name="success">success</string>
     <string name="invalid_title">Invalid title</string>
     <string name="delete_item">Delete Item</string>
@@ -62,7 +62,7 @@
     <string name="save_failed">Save failed</string>
     <string name="create_file_failed">Create file failed</string>
     <string name="storage">Storage</string>
-    <string name="not_ask_save_path">Don\'t confirm save path</string>
+    <string name="not_ask_save_path">Don\'t ask save path</string>
     <string name="require_android_q">Requires at least Android 10</string>
     <string name="toggle_day_night">Toggle Light/Dark</string>
 </resources>
