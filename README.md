@@ -21,5 +21,4 @@ MomoQR是一款简单的二维码扫描和生成工具，为老旧备用机打�
 - **[Android Jetpack](https://github.com/androidx/androidx)**: Apache-2.0 license
 - **[Material Components for Android](https://github.com/material-components/material-components-android)**: Apache-2.0 license
 - **[Glide](https://github.com/bumptech/glide)**: [View License](https://github.com/bumptech/glide/blob/master/LICENSE)
-- **[XXPermissions](https://github.com/getActivity/XXPermissions)**: Apache-2.0 license
 - **[ZXing Android Embedded](https://github.com/journeyapps/zxing-android-embedded)**: Apache-2.0 license
