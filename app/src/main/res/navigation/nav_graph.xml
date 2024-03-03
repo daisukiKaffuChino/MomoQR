@@ -33,7 +33,11 @@
     <fragment
         android:id="@+id/nav_result"
         android:name="github.daisukiKaffuChino.MomoQR.ui.fragment.ResultFragment"
-        android:label="@string/scan_result"/>
+        android:label="@string/scan_result">
+        <action
+            android:id="@+id/action_nav_result_to_nav_edt_dialog"
+            app:destination="@id/nav_edt_dialog" />
+    </fragment>
 
     <dialog
         android:id="@+id/nav_edt_dialog"

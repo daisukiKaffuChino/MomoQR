@@ -51,7 +51,7 @@
     <string name="theme_enable_m3">启用 Material 3</string>
     <string name="theme_dynamic_color">动态取色支持</string>
     <string name="require_android_s">至少需要 Android 12</string>
-    <string name="result_tip_content">1. 长按下方二维码可以保存图片到本地。如果你的 Android 版本低于 9 ，那么需要额外授予 MomoQR 存储读写权限。\n2. MomoQR 已适配瓷贴，可通过下拉通知栏快速扫码。</string>
+    <string name="result_tip_content">1. 长按下方二维码可以保存图片到本地。如果你的 Android 版本为 10 及以上，可以快速保存到默认目录（可选）。\n2. 在任何 Android 版本上 MomoQR 都不需要存储读写权限。\n3. MomoQR 已适配瓷贴，可通过下拉通知栏快速扫码。</string>
     <string name="tips">小提示</string>
     <string name="tips_hide">我知道了</string>
     <string name="tips_add_tile">快速添加瓷贴</string>
@@ -67,4 +67,5 @@
     <string name="toggle_day_night">切换深浅色主题</string>
     <string name="flash_light">闪光灯</string>
     <string name="mark_as_important">标记为重要内容</string>
+    <string name="qr_not_prepare_ok">二维码还未生成完毕</string>
 </resources>

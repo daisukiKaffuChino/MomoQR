@@ -8,6 +8,7 @@ public class FavBean extends LiveData<FavBean> {
     private String title;
     private String img;
     private long time;
+    private boolean isImportant;
 
     public String getId() {
         return this.id;
@@ -51,6 +52,15 @@ public class FavBean extends LiveData<FavBean> {
 
     public void setTitle(String str) {
         this.title = str;
+        postValue(this);
+    }
+
+    public boolean getIsImportant() {
+        return this.isImportant;
+    }
+
+    public void setIsImportant(boolean isImportant) {
+        this.isImportant = isImportant;
         postValue(this);
     }
 }

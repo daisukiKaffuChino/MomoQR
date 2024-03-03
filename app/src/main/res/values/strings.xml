@@ -50,7 +50,7 @@
     <string name="theme_enable_m3">Use Material 3</string>
     <string name="theme_dynamic_color">Dynamic color support</string>
     <string name="require_android_s">Requires at least Android 12</string>
-    <string name="result_tip_content">1. Long press the QR code below to save the image locally. If your Android version is lower than 9, you will need to grant MomoQR storage permission. \n2. Tiles is supported and MomoQR can start scanning through the dropdown status bar.</string>
+    <string name="result_tip_content">1. Long press the QR code below to save the image locally. If your Android version is 10 or above, you can quickly save it to the default directory (optional).\n2. On any Android version, MomoQR doesn\'t need to request storage permission.\n3. Tiles is supported and MomoQR can start scanning through the dropdown status bar.</string>
     <string name="tips">Tips</string>
     <string name="tips_hide">don\'t show again</string>
     <string name="tips_add_tile">Create tile</string>
@@ -66,4 +66,5 @@
     <string name="toggle_day_night">Toggle Light/Dark</string>
     <string name="flash_light">Flashlight</string>
     <string name="mark_as_important">Mark as Important Content</string>
+    <string name="qr_not_prepare_ok">The QR code has not been generated yet</string>
 </resources>

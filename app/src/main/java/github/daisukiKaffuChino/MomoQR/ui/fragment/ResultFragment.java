@@ -18,18 +18,15 @@ import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.PreferenceManager;
 
 import com.bumptech.glide.Glide;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
@@ -38,15 +35,15 @@ import java.util.Objects;
 
 import github.daisukiKaffuChino.MomoQR.R;
 import github.daisukiKaffuChino.MomoQR.databinding.FragmentResultBinding;
-import github.daisukiKaffuChino.MomoQR.logic.utils.FavSqliteHelper;
 import github.daisukiKaffuChino.MomoQR.logic.utils.MyUtil;
 import github.daisukiKaffuChino.MomoQR.logic.utils.QRCodeUtil;
+import github.daisukiKaffuChino.MomoQR.ui.dialog.EditTextDialog;
 import github.daisukiKaffuChino.MomoQR.ui.model.ResultViewModel;
 
 public class ResultFragment extends BaseBindingFragment<FragmentResultBinding> {
     FragmentResultBinding binding;
     ResultViewModel viewModel;
-    FavSqliteHelper helper;
+    MyUtil myUtil;
 
     @Override
     protected FragmentResultBinding onCreateViewBinding(@NonNull LayoutInflater inflater, @Nullable ViewGroup parent) {
@@ -61,7 +58,13 @@ public class ResultFragment extends BaseBindingFragment<FragmentResultBinding> {
 
         binding.copyBtn.setOnClickListener(v ->
                 MyUtil.copyContent(Objects.requireNonNull(binding.resultText.getText()).toString()));
-        binding.addFavBtn.setOnClickListener(v -> showEditTextDialog());
+        binding.addFavBtn.setOnClickListener(v -> {
+            Bundle bundle = new Bundle();
+            bundle.putString("mode", EditTextDialog.MODE_INPUT_WITH_CHECKBOX);
+            bundle.putString("content",viewModel.contentLiveData.getValue());
+            bundle.putString("imgPath",myUtil.saveImageViewImage(binding.remakeCodeImg));
+            getNavController().navigate(R.id.nav_edt_dialog, bundle);
+        });
         binding.openLinkBtn.setOnClickListener(v ->
                 MyUtil.detectIntentAndStart(viewModel.contentLiveData.getValue()));
         binding.remakeCodeImg.setOnLongClickListener(v -> {
@@ -82,7 +85,7 @@ public class ResultFragment extends BaseBindingFragment<FragmentResultBinding> {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        helper = new FavSqliteHelper(requireContext());
+        myUtil=new MyUtil(requireContext());
         viewModel = new ViewModelProvider(this).get(ResultViewModel.class);
         if (getArguments() != null) {
             String content = getArguments().getString("content");
@@ -98,22 +101,7 @@ public class ResultFragment extends BaseBindingFragment<FragmentResultBinding> {
         }
     }
 
-    private void addFav(String title, String content) {
-        if (MyUtil.hasSpecialChat(title)) {
-            MyUtil.toast(R.string.invalid_title);
-        } else {
-            String imageSavedPath = new MyUtil().saveImageViewImage(requireContext(), binding.remakeCodeImg);
-            if (imageSavedPath != null) {
-                boolean insertOk = helper.insertData(title, content, imageSavedPath, System.currentTimeMillis());
-                if (insertOk)
-                    MyUtil.toast(R.string.add_fav_ok);
-                else
-                    MyUtil.toast(R.string.add_fav_fail);
-            } else {
-                MyUtil.toast(R.string.add_fav_fail);
-            }
-        }
-    }
+
 
     private void saveBitmapLocal(Bitmap bitmap) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(requireContext());
@@ -159,7 +147,7 @@ public class ResultFragment extends BaseBindingFragment<FragmentResultBinding> {
                     cur.close();
                 }
 
-                new MyUtil().showMessageDialog(context,
+                myUtil.showMessageDialog(
                         getString(R.string.save_ok),
                         name);
             }
@@ -173,23 +161,6 @@ public class ResultFragment extends BaseBindingFragment<FragmentResultBinding> {
                 e1.printStackTrace();
             }
         }
-    }
-
-    private void showEditTextDialog() {
-        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(requireActivity());
-        builder.setTitle(R.string.add_fav);
-        builder.setView(R.layout.dialog_edittext);
-        builder.setNegativeButton(R.string.cancel, null);
-
-        builder.setPositiveButton(R.string.ok, (dialogInterface, i) -> {
-            EditText edt = ((AlertDialog) dialogInterface).findViewById(R.id.dialog_edt);
-            if (edt != null)
-                addFav(edt.getText().toString(), viewModel.contentLiveData.getValue());
-        });
-        builder.setNeutralButton(R.string.use_current_date, (dialogInterface, i) ->
-                addFav(MyUtil.currentTime(), viewModel.contentLiveData.getValue()));
-
-        builder.show();
     }
 
     private void initTips() {

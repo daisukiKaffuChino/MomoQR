@@ -19,19 +19,23 @@ public class FavSqliteHelper extends SQLiteOpenHelper {
     }
 
     public FavSqliteHelper(Context context) {
-        super(context, "FAV_DB", (SQLiteDatabase.CursorFactory) null, 1);
+        super(context, "FAV_DB", (SQLiteDatabase.CursorFactory) null, 2);
     }
 
     @Override
     public void onCreate(SQLiteDatabase sQLiteDatabase) {
-        sQLiteDatabase.execSQL("create table data(id integer primary key autoincrement,title text,content text,img text,time long)");
+        sQLiteDatabase.execSQL("create table data(id integer primary key autoincrement,title text,content text,img text,important integer,time integer)");
     }
 
-    public boolean insertData(String str, String str2, String str3, long str4) {
+    public boolean insertData(String str, String str2, String str3, boolean important, long str4) {
         ContentValues contentValues = new ContentValues();
         contentValues.put("title", str);
         contentValues.put("content", str2);
         contentValues.put("img", str3);
+        if (important)
+            contentValues.put("important", 1);
+        else
+            contentValues.put("important", 0);
         contentValues.put("time", str4);
         return this.sqLiteDatabase.insert("data", null, contentValues) > 0;
     }
@@ -40,7 +44,7 @@ public class FavSqliteHelper extends SQLiteOpenHelper {
         return this.sqLiteDatabase.delete("data", "id=?", new String[]{String.valueOf(str)}) > 0;
     }
 
-    public void deleteAllData(){
+    public void deleteAllData() {
         sqLiteDatabase.delete("data", null, null);
     }
 
@@ -55,6 +59,7 @@ public class FavSqliteHelper extends SQLiteOpenHelper {
                 bean.setTitle(query.getString(query.getColumnIndex("title")));
                 bean.setContent(query.getString(query.getColumnIndex("content")));
                 bean.setImg(query.getString(query.getColumnIndex("img")));
+                bean.setIsImportant(query.getInt(query.getColumnIndex("important")) != 0);
                 bean.setTime(query.getLong(query.getColumnIndex("time")));
                 arrayList.add(bean);
             }
@@ -63,7 +68,7 @@ public class FavSqliteHelper extends SQLiteOpenHelper {
         return arrayList;
     }
 
-    public void closeDB(){
+    public void closeDB() {
         sqLiteDatabase.close();
     }
 }

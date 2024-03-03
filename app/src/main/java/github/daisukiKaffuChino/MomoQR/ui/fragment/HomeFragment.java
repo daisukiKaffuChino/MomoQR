@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,8 +14,6 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.util.Pair;
-import androidx.lifecycle.Observer;
 import androidx.preference.PreferenceManager;
 
 import com.google.zxing.Result;
@@ -60,8 +57,7 @@ public class HomeFragment extends BaseBindingFragment<FragmentHomeBinding> {
         binding.makeQRCodeBtn.setOnClickListener(v -> {
             Bundle bundle = new Bundle();
             bundle.putString("mode", EditTextDialog.MODE_INPUT_ONLY);
-            startFragmentForResult(R.id.action_nav_home_to_nav_edt_dialog, (int) System.currentTimeMillis(), bundle)//TODO 1.0.4
-                    .observe(getViewLifecycleOwner(), mViaPoiResultObserver);
+            getNavController().navigate(R.id.nav_edt_dialog, bundle);
         });
     }
 
@@ -129,11 +125,5 @@ public class HomeFragment extends BaseBindingFragment<FragmentHomeBinding> {
                     }
                 }
             });
-
-    //从DialogFragment中接受
-    private final Observer<Pair<Integer, Object>> mViaPoiResultObserver = integerObjectPair -> {
-        String resultData = (String) integerObjectPair.second;
-        if (!TextUtils.isEmpty(resultData)) navigateResult(resultData);
-    };
 
 }

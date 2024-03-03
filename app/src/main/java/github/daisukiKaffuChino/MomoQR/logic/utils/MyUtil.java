@@ -31,6 +31,11 @@ import github.daisukiKaffuChino.MomoQR.R;
 
 
 public class MyUtil {
+    Context context;
+
+    public MyUtil(Context context) {
+        this.context = context;
+    }
 
     public static void copyContent(String text) {
         ClipboardManager clipboard = (ClipboardManager) MomoApplication.context.getSystemService(
@@ -53,7 +58,7 @@ public class MyUtil {
                 if (source.equals("\"") || source.equals("\'")) {
                     return true;
                 }
-                String speChat = "[ `~!@#$%^&*()+=|{}':;',\\[\\].<>/?~！@#￥%……&*（）——+|{}【】‘；：”“’。，、？﹉✔✘～‖……...＝＄＊％＆·〔〕〖〗《》「」『』｛｝]";
+                String speChat = "[ `~!@#$%^&*()+=|{}';',\\[\\].<>?~！@#￥%……&*（）——+|{}【】‘；：”“’。，、？﹉✔✘～‖……...＝＄＊％＆·〔〕〖〗《》「」『』｛｝]";
                 Pattern pattern = Pattern.compile(speChat);
                 Matcher matcher = pattern.matcher(source);
                 return matcher.find();
@@ -67,16 +72,16 @@ public class MyUtil {
     public static String currentTime() {
         LocalDate currentDate = LocalDate.now();
         LocalTime currentTime = LocalTime.now();
-        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy年MM月dd日");
-        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH时mm分ss秒");
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
         String formattedDate = currentDate.format(dateFormatter);
         String formattedTime = currentTime.format(timeFormatter);
-        return formattedDate + formattedTime;
+        return formattedDate + "-" + formattedTime;
     }
 
-    public String saveImageViewImage(Context context, ImageView imageView) {
+    public String saveImageViewImage(ImageView imageView) {
         if (imageView.getDrawable() == null) {  //检查是否已生成二维码
-            Toast.makeText(context, "还未生成二维码", Toast.LENGTH_SHORT).show();
+            toast(R.string.qr_not_prepare_ok);
             return null;
         }
         File file = context.getDir("img", Context.MODE_PRIVATE);
@@ -111,11 +116,30 @@ public class MyUtil {
             MyUtil.toast(R.string.no_match_intent);
     }
 
-    public void showMessageDialog(Context context, String title, String content) {
+    public void showMessageDialog(String title, String content) {
         new MaterialAlertDialogBuilder(context)
                 .setTitle(title)
                 .setMessage(content)
                 .setPositiveButton(R.string.ok, null)
                 .show();
+    }
+
+    public void addFav(String title, String content, String imageSavedPath, boolean checked) {
+        FavSqliteHelper helper = new FavSqliteHelper(context);
+        if (MyUtil.hasSpecialChat(title)) {
+            MyUtil.toast(R.string.invalid_title);
+        } else {
+            if (imageSavedPath != null) {
+                boolean insertOk = helper.insertData(title, content, imageSavedPath, checked, System.currentTimeMillis());
+                if (insertOk)
+                    MyUtil.toast(R.string.add_fav_ok);
+                else
+                    MyUtil.toast(R.string.add_fav_fail);
+                helper.closeDB();
+            } else {
+                MyUtil.toast(R.string.add_fav_fail);
+                helper.closeDB();
+            }
+        }
     }
 }

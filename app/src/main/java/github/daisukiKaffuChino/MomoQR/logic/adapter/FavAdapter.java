@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.card.MaterialCardView;
 
 import java.util.List;
 
@@ -37,6 +38,7 @@ public class FavAdapter extends RecyclerView.Adapter<FavAdapter.FavViewHolder> {
         ImageView image;
         TextView title, content;
         LinearLayout root;
+        MaterialCardView cardView;
 
         public FavViewHolder(View itemView) {
             super(itemView);
@@ -44,6 +46,7 @@ public class FavAdapter extends RecyclerView.Adapter<FavAdapter.FavViewHolder> {
             title = itemView.findViewById(R.id.fav_item_title_textView);
             content = itemView.findViewById(R.id.fav_item_content_textView);
             root = itemView.findViewById(R.id.fav_item_root);
+            cardView = itemView.findViewById(R.id.fav_item_card);
         }
     }
 
@@ -59,6 +62,7 @@ public class FavAdapter extends RecyclerView.Adapter<FavAdapter.FavViewHolder> {
         final FavBean s = listData.get(position);
         holder.title.setText(s.getTitle());
         holder.content.setText(s.getContent());
+        holder.cardView.setChecked(s.getIsImportant());
         Glide.with(context).load(s.getImg()).into(holder.image);
 
         int bindingPosition = holder.getBindingAdapterPosition();
