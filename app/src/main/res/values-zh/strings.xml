@@ -25,8 +25,6 @@
     <string name="orientation_locked">锁定页面方向</string>
     <string name="identify_type">识别类型</string>
     <string name="display">显示</string>
-    <string name="dark_mode">强制深色模式</string>
-    <string name="dark_mode_sum">否则跟随系统</string>
     <string name="about_app">关于 MomoQR</string>
     <string name="developer">Github@daisukiKaffuChino\n酷安@得想办法娶了智乃</string>
     <string name="open_source">开放源代码</string>
@@ -37,6 +35,7 @@
     <string name="no_data">无数据</string>
     <string name="add_fav">添加到收藏</string>
     <string name="input_title">输入标题</string>
+    <string name="input_content">输入内容</string>
     <string name="add_fav_ok">收藏成功</string>
     <string name="add_fav_fail">添加到收藏失败</string>
     <string name="use_current_date">使用当前日期</string>
@@ -67,4 +66,5 @@
     <string name="require_android_q">至少需要 Android 10</string>
     <string name="toggle_day_night">切换深浅色主题</string>
     <string name="flash_light">闪光灯</string>
+    <string name="mark_as_important">标记为重要内容</string>
 </resources>

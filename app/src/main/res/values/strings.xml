@@ -24,8 +24,6 @@
     <string name="orientation_locked">Lock orientation</string>
     <string name="identify_type">Types of identification</string>
     <string name="display">Display</string>
-    <string name="dark_mode">Force dark mode</string>
-    <string name="dark_mode_sum">Otherwise MomoQR will follow the System.</string>
     <string name="about_app">About MomoQR</string>
     <string name="developer">Github@daisukiKaffuChino\nCoolapk@得想办法娶了智乃</string>
     <string name="open_source">Open Source</string>
@@ -36,6 +34,7 @@
     <string name="no_data">No data</string>
     <string name="add_fav">Add to fav</string>
     <string name="input_title">Type a title:</string>
+    <string name="input_content">Type content here:</string>
     <string name="add_fav_ok">Success</string>
     <string name="add_fav_fail">Add to fav failed</string>
     <string name="use_current_date">Use current date</string>
@@ -66,4 +65,5 @@
     <string name="require_android_q">Requires at least Android 10</string>
     <string name="toggle_day_night">Toggle Light/Dark</string>
     <string name="flash_light">Flashlight</string>
+    <string name="mark_as_important">Mark as Important Content</string>
 </resources>

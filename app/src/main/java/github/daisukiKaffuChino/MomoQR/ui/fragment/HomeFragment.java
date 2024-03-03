@@ -10,17 +10,15 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.navigation.Navigation;
+import androidx.core.util.Pair;
+import androidx.lifecycle.Observer;
 import androidx.preference.PreferenceManager;
 
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.zxing.Result;
 import com.journeyapps.barcodescanner.ScanContract;
 import com.journeyapps.barcodescanner.ScanOptions;
@@ -32,11 +30,10 @@ import github.daisukiKaffuChino.MomoQR.R;
 import github.daisukiKaffuChino.MomoQR.databinding.FragmentHomeBinding;
 import github.daisukiKaffuChino.MomoQR.logic.utils.MyUtil;
 import github.daisukiKaffuChino.MomoQR.logic.utils.QRCodeUtil;
+import github.daisukiKaffuChino.MomoQR.ui.dialog.EditTextDialog;
 
 public class HomeFragment extends BaseBindingFragment<FragmentHomeBinding> {
     //private HomeViewModel viewModel;
-    private View navRoot;
-
     @Override
     protected FragmentHomeBinding onCreateViewBinding(@NonNull LayoutInflater inflater, @Nullable ViewGroup parent) {
         //viewModel = new ViewModelProvider(this).get(HomeViewModel.class);
@@ -46,7 +43,6 @@ public class HomeFragment extends BaseBindingFragment<FragmentHomeBinding> {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        navRoot = view;
         FragmentHomeBinding binding = getBinding();
         binding.scanBtn.setOnClickListener(v -> startScannerIntent());
         binding.selectImageBtn.setOnClickListener(v -> {
@@ -61,9 +57,12 @@ public class HomeFragment extends BaseBindingFragment<FragmentHomeBinding> {
                 openGalleryRequest.launch(Intent.createChooser(intent, getString(R.string.select_gallery_pic)));
             }
         });
-        binding.makeQRCodeBtn.setOnClickListener(v ->
-                showEditTextDialog());
-
+        binding.makeQRCodeBtn.setOnClickListener(v -> {
+            Bundle bundle = new Bundle();
+            bundle.putString("mode", EditTextDialog.MODE_INPUT_ONLY);
+            startFragmentForResult(R.id.action_nav_home_to_nav_edt_dialog, (int) System.currentTimeMillis(), bundle)//TODO 1.0.4
+                    .observe(getViewLifecycleOwner(), mViaPoiResultObserver);
+        });
     }
 
     @Override
@@ -103,7 +102,7 @@ public class HomeFragment extends BaseBindingFragment<FragmentHomeBinding> {
     private void navigateResult(String result) {
         Bundle args = new Bundle();
         args.putString("content", result);
-        Navigation.findNavController(navRoot).navigate(R.id.nav_result, args);
+        getNavController().navigate(R.id.nav_result, args);
     }
 
     private final ActivityResultLauncher<ScanOptions> barcodeLauncher = registerForActivityResult(new ScanContract(),
@@ -131,18 +130,10 @@ public class HomeFragment extends BaseBindingFragment<FragmentHomeBinding> {
                 }
             });
 
-    private void showEditTextDialog() {
-        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(requireActivity());
-        builder.setTitle(R.string.content_to_generate);
-        builder.setView(R.layout.dialog_edittext);
-        builder.setNegativeButton(R.string.cancel, null);
-        builder.setPositiveButton(R.string.ok, (dialogInterface, i) -> {
-            EditText edt = ((AlertDialog) dialogInterface).findViewById(R.id.dialog_edt);
-            assert edt != null;
-            if (!TextUtils.isEmpty(edt.getText().toString()))
-                navigateResult(edt.getText().toString());
-        });
-        builder.show();
-    }
+    //从DialogFragment中接受
+    private final Observer<Pair<Integer, Object>> mViaPoiResultObserver = integerObjectPair -> {
+        String resultData = (String) integerObjectPair.second;
+        if (!TextUtils.isEmpty(resultData)) navigateResult(resultData);
+    };
 
 }
