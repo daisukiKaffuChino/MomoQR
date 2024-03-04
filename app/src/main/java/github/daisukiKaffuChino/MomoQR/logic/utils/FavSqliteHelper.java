@@ -19,7 +19,7 @@ public class FavSqliteHelper extends SQLiteOpenHelper {
     }
 
     public FavSqliteHelper(Context context) {
-        super(context, "FAV_DB", (SQLiteDatabase.CursorFactory) null, 2);
+        super(context, "FAV_DB", null, 2);
     }
 
     @Override

@@ -5,9 +5,15 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -43,6 +49,8 @@ public class FavFragment extends BaseBindingFragment<FragmentFavBinding> {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         binding = getBinding();
+
+        initFltBtnMargin();
 
         helper = new FavSqliteHelper(requireContext());
         viewModel = new ViewModelProvider(this, new FavViewModelFactory(helper.query())).get(FavViewModel.class);
@@ -82,6 +90,18 @@ public class FavFragment extends BaseBindingFragment<FragmentFavBinding> {
         if (list.size() > 0) {
             binding.favEmptyView.setVisibility(View.GONE);
             binding.favFltBtn.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void initFltBtnMargin() {
+        Window window = requireActivity().getWindow();
+        WindowInsetsCompat windowInsetsCompat = ViewCompat.getRootWindowInsets(window.getDecorView());
+        if (windowInsetsCompat != null) {
+            Insets insets = windowInsetsCompat.getInsets(WindowInsetsCompat.Type.navigationBars());
+            int barHeight = insets.bottom;
+            CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) binding.favFltBtn.getLayoutParams();
+            layoutParams.setMargins(0, 0, 0, barHeight + 16);
+            binding.favFltBtn.requestLayout();
         }
     }
 
