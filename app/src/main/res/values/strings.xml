@@ -67,4 +67,8 @@
     <string name="flash_light">Flashlight</string>
     <string name="mark_as_important">Mark as Important Content</string>
     <string name="qr_not_prepare_ok">The QR code has not been generated yet</string>
+    <string name="flashlight_error">Flashlight error</string>
+    <string name="force_flashlight_opposite">Force the flashlight faces the opposite direction as the device\'s screen</string>
+    <string name="dont_flash_my_eye">Don\'t flash my eyes</string>
+    <string name="hardware_not_support">Hardware not support</string>
 </resources>

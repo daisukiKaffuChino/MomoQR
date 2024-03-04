@@ -68,4 +68,8 @@
     <string name="flash_light">闪光灯</string>
     <string name="mark_as_important">标记为重要内容</string>
     <string name="qr_not_prepare_ok">二维码还未生成完毕</string>
+    <string name="flashlight_error">闪光灯错误</string>
+    <string name="force_flashlight_opposite">强制闪光灯朝向与设备屏幕相反</string>
+    <string name="dont_flash_my_eye">不要闪瞎我的眼睛</string>
+    <string name="hardware_not_support">硬件不支持</string>
 </resources>

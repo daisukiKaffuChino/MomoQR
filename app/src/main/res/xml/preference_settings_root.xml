@@ -9,6 +9,12 @@
             app:key="cameraId"
             app:title="@string/camera_id"
             app:useSimpleSummaryProvider="true" />
+        <SwitchPreferenceCompat
+            app:defaultValue="true"
+            app:icon="@drawable/outline_flashlight_on_24"
+            app:key="forceFlashlightOpposite"
+            app:summary="@string/force_flashlight_opposite"
+            app:title="@string/dont_flash_my_eye" />
         <ListPreference
             app:defaultValue="0"
             app:entries="@array/identify_entries"
