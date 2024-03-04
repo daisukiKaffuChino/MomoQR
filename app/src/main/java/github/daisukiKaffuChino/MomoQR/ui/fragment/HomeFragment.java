@@ -27,7 +27,6 @@ import github.daisukiKaffuChino.MomoQR.R;
 import github.daisukiKaffuChino.MomoQR.databinding.FragmentHomeBinding;
 import github.daisukiKaffuChino.MomoQR.logic.utils.MyUtil;
 import github.daisukiKaffuChino.MomoQR.logic.utils.QRCodeUtil;
-import github.daisukiKaffuChino.MomoQR.ui.dialog.EditTextDialog;
 
 public class HomeFragment extends BaseBindingFragment<FragmentHomeBinding> {
     //private HomeViewModel viewModel;
@@ -56,7 +55,7 @@ public class HomeFragment extends BaseBindingFragment<FragmentHomeBinding> {
         });
         binding.makeQRCodeBtn.setOnClickListener(v -> {
             Bundle bundle = new Bundle();
-            bundle.putString("mode", EditTextDialog.MODE_INPUT_ONLY);
+            bundle.putString("mode", EditTextDialogFragment.MODE_INPUT_ONLY);
             getNavController().navigate(R.id.nav_edt_dialog, bundle);
         });
     }

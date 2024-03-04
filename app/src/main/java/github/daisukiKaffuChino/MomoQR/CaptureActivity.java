@@ -1,6 +1,5 @@
 package github.daisukiKaffuChino.MomoQR;
 
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.hardware.camera2.CameraAccessException;

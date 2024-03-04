@@ -1,4 +1,4 @@
-package github.daisukiKaffuChino.MomoQR.ui.dialog;
+package github.daisukiKaffuChino.MomoQR.ui.fragment;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
@@ -23,7 +23,7 @@ import java.util.Objects;
 import github.daisukiKaffuChino.MomoQR.R;
 import github.daisukiKaffuChino.MomoQR.logic.utils.MyUtil;
 
-public class EditTextDialog extends DialogFragment {
+public class EditTextDialogFragment extends DialogFragment {
     public final static String MODE_INPUT_ONLY = "MODE_INPUT_ONLY";
     public final static String MODE_INPUT_WITH_CHECKBOX = "MODE_INPUT_WITH_CHECKBOX";
 

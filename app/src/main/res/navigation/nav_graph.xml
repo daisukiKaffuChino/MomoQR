@@ -41,6 +41,6 @@
 
     <dialog
         android:id="@+id/nav_edt_dialog"
-        android:name="github.daisukiKaffuChino.MomoQR.ui.dialog.EditTextDialog"/>
+        android:name="github.daisukiKaffuChino.MomoQR.ui.fragment.EditTextDialogFragment"/>
 
 </navigation>

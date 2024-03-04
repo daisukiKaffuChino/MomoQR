@@ -37,7 +37,6 @@ import github.daisukiKaffuChino.MomoQR.R;
 import github.daisukiKaffuChino.MomoQR.databinding.FragmentResultBinding;
 import github.daisukiKaffuChino.MomoQR.logic.utils.MyUtil;
 import github.daisukiKaffuChino.MomoQR.logic.utils.QRCodeUtil;
-import github.daisukiKaffuChino.MomoQR.ui.dialog.EditTextDialog;
 import github.daisukiKaffuChino.MomoQR.ui.model.ResultViewModel;
 
 public class ResultFragment extends BaseBindingFragment<FragmentResultBinding> {
@@ -60,7 +59,7 @@ public class ResultFragment extends BaseBindingFragment<FragmentResultBinding> {
                 MyUtil.copyContent(Objects.requireNonNull(binding.resultText.getText()).toString()));
         binding.addFavBtn.setOnClickListener(v -> {
             Bundle bundle = new Bundle();
-            bundle.putString("mode", EditTextDialog.MODE_INPUT_WITH_CHECKBOX);
+            bundle.putString("mode", EditTextDialogFragment.MODE_INPUT_WITH_CHECKBOX);
             bundle.putString("content",viewModel.contentLiveData.getValue());
             bundle.putString("imgPath",myUtil.saveImageViewImage(binding.remakeCodeImg));
             getNavController().navigate(R.id.nav_edt_dialog, bundle);
