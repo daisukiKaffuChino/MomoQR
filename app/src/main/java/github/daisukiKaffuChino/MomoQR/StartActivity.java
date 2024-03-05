@@ -86,7 +86,9 @@ public class StartActivity extends BaseActivity {
             } else {
                 if (item.getItemId() == R.id.nav_exit)
                     finish();
-                else {
+                else if (item.getItemId() == R.id.nav_about_dialog) {
+                    navController.navigate(R.id.nav_about_dialog);
+                } else {
                     handled = NavigationUI.onNavDestinationSelected(item, navController);
                 }
             }

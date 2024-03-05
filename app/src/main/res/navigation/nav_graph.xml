@@ -7,7 +7,7 @@
     <fragment
         android:id="@+id/nav_home"
         android:name="github.daisukiKaffuChino.MomoQR.ui.fragment.HomeFragment"
-        android:label="@string/app_name" >
+        android:label="@string/app_name">
         <action
             android:id="@+id/action_nav_home_to_nav_result"
             app:destination="@id/nav_result" />
@@ -19,7 +19,7 @@
     <fragment
         android:id="@+id/nav_fav"
         android:name="github.daisukiKaffuChino.MomoQR.ui.fragment.FavFragment"
-        android:label="@string/menu_fav" >
+        android:label="@string/menu_fav">
         <action
             android:id="@+id/action_nav_fav_to_nav_result"
             app:destination="@id/nav_result" />
@@ -41,6 +41,9 @@
 
     <dialog
         android:id="@+id/nav_edt_dialog"
-        android:name="github.daisukiKaffuChino.MomoQR.ui.fragment.EditTextDialogFragment"/>
+        android:name="github.daisukiKaffuChino.MomoQR.ui.fragment.EditTextDialogFragment" />
 
+    <dialog
+        android:id="@+id/nav_about_dialog"
+        android:name="github.daisukiKaffuChino.MomoQR.ui.fragment.AboutDialogFragment" />
 </navigation>

@@ -62,7 +62,6 @@ public class EditTextDialogFragment extends DialogFragment {
 
         alertDialog.setOnShowListener(dialogInterface -> {
             Button positiveButton = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
-            Button negativeButton = alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE);
             NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_content_main);
 
             positiveButton.setOnClickListener(v -> {
@@ -84,7 +83,6 @@ public class EditTextDialogFragment extends DialogFragment {
                     navController.navigateUp();
                 });
             }
-            negativeButton.setOnClickListener(v -> navController.navigateUp());
         });
         return alertDialog;
     }

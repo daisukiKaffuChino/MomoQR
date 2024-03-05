@@ -56,15 +56,4 @@
             app:title="@string/toggle_day_night"
             app:useSimpleSummaryProvider="true" />
     </PreferenceCategory>
-    <PreferenceCategory app:title="@string/about_app">
-        <Preference
-            app:icon="@drawable/outline_info_24"
-            app:key="appInfo"
-            app:summary="@string/developer" />
-        <Preference
-            app:icon="@drawable/ic_github"
-            app:key="opensource"
-            app:summary="@string/licensed"
-            app:title="@string/open_source" />
-    </PreferenceCategory>
 </PreferenceScreen>

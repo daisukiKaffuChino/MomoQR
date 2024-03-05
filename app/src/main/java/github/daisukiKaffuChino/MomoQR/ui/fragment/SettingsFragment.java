@@ -1,10 +1,6 @@
 package github.daisukiKaffuChino.MomoQR.ui.fragment;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -41,25 +37,6 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             notAskForSavePath.setEnabled(false);
         }
 
-        findPreference("opensource").setOnPreferenceClickListener(preference -> {
-            Uri uriSetting = Uri.parse("https://github.com/daisukiKaffuChino/MomoQR");
-            Intent settingsIntent = new Intent(Intent.ACTION_VIEW, uriSetting);
-            startActivity(settingsIntent);
-            return true;
-        });
-
-        findPreference("appInfo").setTitle(getVerInfo());
-    }
-
-    private String getVerInfo() {
-        try {
-            PackageInfo packageInfo = requireContext().getPackageManager().getPackageInfo("github.daisukiKaffuChino.MomoQR", 0);
-            String versionName = packageInfo.versionName;
-            String versionCode = String.valueOf(packageInfo.versionCode);
-            return versionName + " (" + versionCode + ")";
-        } catch (PackageManager.NameNotFoundException e) {
-            return "ERROR!";
-        }
     }
 
     @Override

@@ -24,10 +24,9 @@
     <string name="orientation_locked">Lock orientation</string>
     <string name="identify_type">Types of identification</string>
     <string name="display">Display</string>
-    <string name="about_app">About MomoQR</string>
+    <string name="about_app">About</string>
     <string name="developer">Github@daisukiKaffuChino\nCoolapk@得想办法娶了智乃</string>
-    <string name="open_source">Open Source</string>
-    <string name="licensed">Apache-2.0 Licensed</string>
+    <string name="open_source"><string name="open_source">View source code at <a href="https://github.com/daisukiKaffuChino/MomoQR">Github</a></string></string>
     <string name="cancel">Cancel</string>
     <string name="ok">Confirm</string>
     <string name="text_copied_toast">Text copird success.</string>
