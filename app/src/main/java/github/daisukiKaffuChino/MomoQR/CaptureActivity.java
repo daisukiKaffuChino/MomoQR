@@ -1,10 +1,5 @@
 package github.daisukiKaffuChino.MomoQR;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.hardware.camera2.CameraAccessException;
-import android.hardware.camera2.CameraCharacteristics;
-import android.hardware.camera2.CameraManager;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.Window;
@@ -17,7 +12,6 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.preference.PreferenceManager;
 
 import com.journeyapps.barcodescanner.CaptureManager;
 import com.journeyapps.barcodescanner.DecoratedBarcodeView;
@@ -25,7 +19,6 @@ import com.journeyapps.barcodescanner.DecoratedBarcodeView;
 import java.util.Objects;
 
 import github.daisukiKaffuChino.MomoQR.databinding.ActivityCaptureBinding;
-import github.daisukiKaffuChino.MomoQR.logic.utils.MyUtil;
 import github.daisukiKaffuChino.MomoQR.ui.model.CaptureViewModel;
 
 public class CaptureActivity extends BaseActivity {
@@ -33,7 +26,6 @@ public class CaptureActivity extends BaseActivity {
     private ActivityCaptureBinding binding;
     private CaptureManager capture;
     private DecoratedBarcodeView barcodeScannerView;
-    private CameraManager cameraManager;
     private CaptureViewModel viewModel;
 
     @Override
@@ -49,16 +41,26 @@ public class CaptureActivity extends BaseActivity {
         Window window = getWindow();
         Objects.requireNonNull(WindowCompat.getInsetsController(window, window.getDecorView())).setAppearanceLightNavigationBars(false);
 
-        cameraManager = (CameraManager) this.getSystemService(Context.CAMERA_SERVICE);
         viewModel.flashLiveData.observe(this, result -> {
-            if (result != null) {
-                setLight(result);
-            }
+            if (result != null)
+                toggleLight(result);
         });
 
         binding.captureBulbBtn.setOnClickListener(v -> {
             boolean state = Boolean.TRUE.equals(viewModel.flashLiveData.getValue());
-            setLight(!state);
+            viewModel.flashLiveData.setValue(!state);
+        });
+
+        barcodeScannerView.setTorchListener(new DecoratedBarcodeView.TorchListener() {
+            @Override
+            public void onTorchOn() {
+                binding.captureBulbBtn.setImageResource(R.drawable.baseline_lightbulb_circle_24);
+            }
+
+            @Override
+            public void onTorchOff() {
+                binding.captureBulbBtn.setImageResource(R.drawable.outline_lightbulb_circle_24);
+            }
         });
 
         capture = new CaptureManager(this, barcodeScannerView);
@@ -90,44 +92,11 @@ public class CaptureActivity extends BaseActivity {
         binding.captureToolbar.setNavigationOnClickListener(v -> finish());
     }
 
-    private void setLight(boolean i) {
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
-        boolean forceFlashlightOpposite = sp.getBoolean("forceFlashlightOpposite", true);
-        try {
-            String[] ids = cameraManager.getCameraIdList();
-            for (String id : ids) {
-                CameraCharacteristics c = cameraManager.getCameraCharacteristics(id);
-                Boolean flashAvailable = c.get(CameraCharacteristics.FLASH_INFO_AVAILABLE);
-                Integer lensFacing = c.get(CameraCharacteristics.LENS_FACING);
-
-                if (flashAvailable != null && flashAvailable) {
-                    viewModel.flashLiveData.setValue(!i);
-                    if (forceFlashlightOpposite && lensFacing != null && lensFacing == CameraCharacteristics.LENS_FACING_BACK) {
-                        cameraManager.setTorchMode(id, i);
-                        switchBulbBtnState(i);
-                        break;
-                    } else if (!forceFlashlightOpposite) {
-                        cameraManager.setTorchMode(id, i);
-                        switchBulbBtnState(i);
-                        break;
-                    }
-                } else {
-                    MyUtil.toast(R.string.hardware_not_support);
-                    break;
-                }
-
-            }
-        } catch (CameraAccessException e) {
-            MyUtil.toast(R.string.flashlight_error);
-            e.printStackTrace();
-        }
-    }
-
-    private void switchBulbBtnState(boolean state) {
+    private void toggleLight(boolean state) {
         if (state)
-            binding.captureBulbBtn.setImageResource(R.drawable.baseline_lightbulb_circle_24);
+            barcodeScannerView.setTorchOn();
         else
-            binding.captureBulbBtn.setImageResource(R.drawable.outline_lightbulb_circle_24);
+            barcodeScannerView.setTorchOff();
     }
 
     @Override

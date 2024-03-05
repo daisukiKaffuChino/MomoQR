@@ -27,11 +27,19 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         setPreferencesFromResource(R.xml.preference_settings_root, rootKey);
 
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.S)
-            findPreference("dynamicColor").setEnabled(false);
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
+            Preference dynamicColor=findPreference("dynamicColor");
+            assert dynamicColor != null;
+            dynamicColor.setSummary(R.string.require_android_s);
+            dynamicColor.setEnabled(false);
+        }
 
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q)
-            findPreference("notAskForSavePath").setEnabled(false);
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+            Preference notAskForSavePath=findPreference("notAskForSavePath");
+            assert notAskForSavePath != null;
+            notAskForSavePath.setSummary(R.string.require_android_q);
+            notAskForSavePath.setEnabled(false);
+        }
 
         findPreference("opensource").setOnPreferenceClickListener(preference -> {
             Uri uriSetting = Uri.parse("https://github.com/daisukiKaffuChino/MomoQR");

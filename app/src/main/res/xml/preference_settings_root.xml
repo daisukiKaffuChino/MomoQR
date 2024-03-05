@@ -9,12 +9,6 @@
             app:key="cameraId"
             app:title="@string/camera_id"
             app:useSimpleSummaryProvider="true" />
-        <SwitchPreferenceCompat
-            app:defaultValue="true"
-            app:icon="@drawable/outline_flashlight_on_24"
-            app:key="forceFlashlightOpposite"
-            app:summary="@string/force_flashlight_opposite"
-            app:title="@string/dont_flash_my_eye" />
         <ListPreference
             app:defaultValue="0"
             app:entries="@array/identify_entries"
@@ -39,7 +33,6 @@
             app:defaultValue="false"
             app:icon="@drawable/ic_content_save_edit_outline"
             app:key="notAskForSavePath"
-            app:summary="@string/require_android_q"
             app:title="@string/not_ask_save_path" />
     </PreferenceCategory>
     <PreferenceCategory app:title="@string/display">
@@ -53,7 +46,6 @@
             app:dependency="enableMaterial3"
             app:icon="@drawable/outline_palette_24"
             app:key="dynamicColor"
-            app:summary="@string/require_android_s"
             app:title="@string/theme_dynamic_color" />
         <ListPreference
             app:defaultValue="0"
