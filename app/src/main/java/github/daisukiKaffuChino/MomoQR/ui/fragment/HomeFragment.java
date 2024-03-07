@@ -72,9 +72,10 @@ public class HomeFragment extends BaseBindingFragment<FragmentHomeBinding> {
                 }
             }
         });
-        binding.homeCreateMoreTypeBtn.setOnClickListener(v -> {
-            getNavController().navigate(R.id.nav_create_qr_list_dialog);
-        });
+        binding.homeCreateMoreTypeBtn.setOnClickListener(v ->
+                getNavController().navigate(R.id.nav_qr_create_list));
+        binding.homeStartCardHelpBtn.setOnClickListener(v ->
+                getNavController().navigate(R.id.nav_help));
     }
 
     @Override

@@ -14,6 +14,12 @@
         <action
             android:id="@+id/action_nav_home_to_nav_edt_dialog"
             app:destination="@id/nav_edt_dialog" />
+        <action
+            android:id="@+id/action_nav_home_to_nav_create_qr_list_dialog"
+            app:destination="@id/nav_qr_create_list" />
+        <action
+            android:id="@+id/action_nav_home_to_nav_help"
+            app:destination="@id/nav_help" />
     </fragment>
 
     <fragment
@@ -47,8 +53,16 @@
         android:id="@+id/nav_about_dialog"
         android:name="github.daisukiKaffuChino.MomoQR.ui.fragment.AboutDialogFragment" />
 
-    <dialog
-        android:id="@+id/nav_create_qr_list_dialog"
-        android:name="github.daisukiKaffuChino.MomoQR.ui.fragment.CreateMoreTypeQrDialogFragment" />
+    <fragment
+        android:id="@+id/nav_qr_create_list"
+        android:name="github.daisukiKaffuChino.MomoQR.ui.fragment.QrCreateListFragment">
+        <action
+            android:id="@+id/action_nav_create_qr_list_dialog_to_nav_result"
+            app:destination="@id/nav_result" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_help"
+        android:name="github.daisukiKaffuChino.MomoQR.ui.fragment.HelpFragment" />
 
 </navigation>

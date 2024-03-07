@@ -69,4 +69,7 @@
     <string name="create_text">Create text</string>
     <string name="more_type">More types</string>
     <string name="clipboard_error_toast">Clipboard is empty or unsupported type</string>
+    <string name="wifi" translatable="false">Wi-Fi</string>
+    <string name="email" translatable="false">E-mail</string>
+    <string name="apps">Apps</string>
 </resources>

@@ -113,7 +113,8 @@ public class StartActivity extends BaseActivity {
                     item.setChecked(matchDestination(destination, item.getItemId()));
                 }
                 //结果页面禁止抽屉滑出
-                if (destination.getId() == R.id.nav_result)
+                int desId = destination.getId();
+                if (desId == R.id.nav_result || desId == R.id.nav_help || desId == R.id.nav_qr_create_list)
                     binding.drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
                 else
                     binding.drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
