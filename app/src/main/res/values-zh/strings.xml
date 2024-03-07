@@ -69,4 +69,5 @@
     <string name="get_from_clipboard">从剪贴板获取</string>
     <string name="create_text">创建文本</string>
     <string name="more_type">更多类型</string>
+    <string name="clipboard_error_toast">剪贴板为空或不支持的类型</string>
 </resources>

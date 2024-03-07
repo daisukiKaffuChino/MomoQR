@@ -42,7 +42,9 @@ public class EditTextDialogFragment extends DialogFragment {
         String MODE = getArguments().getString("mode", MODE_INPUT_ONLY);
         String favContent = getArguments().getString("content", "");
         String favImagePath = getArguments().getString("imgPath", "");
+        String ext = getArguments().getString("ext", "");
 
+        editText.setText(ext);
         if (Objects.equals(MODE, MODE_INPUT_ONLY)) {
             builder.setTitle(R.string.content_to_generate);
             textInputLayout.setHint(R.string.input_content);
@@ -86,6 +88,5 @@ public class EditTextDialogFragment extends DialogFragment {
         });
         return alertDialog;
     }
-
 
 }

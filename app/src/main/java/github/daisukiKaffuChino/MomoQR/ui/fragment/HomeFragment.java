@@ -1,6 +1,10 @@
 package github.daisukiKaffuChino.MomoQR.ui.fragment;
 
 import android.app.Activity;
+import android.content.ClipData;
+import android.content.ClipDescription;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -53,10 +57,23 @@ public class HomeFragment extends BaseBindingFragment<FragmentHomeBinding> {
                 openGalleryRequest.launch(Intent.createChooser(intent, getString(R.string.select_gallery_pic)));
             }
         });
-        binding.homeCreateFromTextBtn.setOnClickListener(v -> {
-            Bundle bundle = new Bundle();
-            bundle.putString("mode", EditTextDialogFragment.MODE_INPUT_ONLY);
-            getNavController().navigate(R.id.nav_edt_dialog, bundle);
+        binding.homeCreateFromTextBtn.setOnClickListener(v ->
+                navigateEditTextDialog(null));
+        binding.homeCreateFromClipboardBtn.setOnClickListener(v -> {
+            ClipboardManager clipboardManager = (ClipboardManager) requireActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+            if (!clipboardManager.hasPrimaryClip() ||
+                    !Objects.requireNonNull(clipboardManager.getPrimaryClipDescription()).hasMimeType(ClipDescription.MIMETYPE_TEXT_PLAIN)) {
+                MyUtil.toast(R.string.clipboard_error_toast);
+            } else {
+                ClipData clipData = clipboardManager.getPrimaryClip();
+                if (clipData != null && clipData.getItemCount() > 0) {
+                    CharSequence text = clipData.getItemAt(0).getText();
+                    navigateEditTextDialog(text.toString());
+                }
+            }
+        });
+        binding.homeCreateMoreTypeBtn.setOnClickListener(v -> {
+            getNavController().navigate(R.id.nav_create_qr_list_dialog);
         });
     }
 
@@ -124,5 +141,12 @@ public class HomeFragment extends BaseBindingFragment<FragmentHomeBinding> {
                     }
                 }
             });
+
+    private void navigateEditTextDialog(@Nullable String ext) {
+        Bundle bundle = new Bundle();
+        bundle.putString("mode", EditTextDialogFragment.MODE_INPUT_ONLY);
+        if (ext != null) bundle.putString("ext", ext);
+        getNavController().navigate(R.id.nav_edt_dialog, bundle);
+    }
 
 }
