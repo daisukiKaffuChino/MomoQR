@@ -5,7 +5,6 @@
     <string name="scan_title">扫码</string>
     <string name="scan_result">识别结果</string>
     <string name="scan_via_camera">使用相机扫码</string>
-    <string name="select_img">选择图片识别</string>
     <string name="menu_home">主页</string>
     <string name="menu_fav">收藏</string>
     <string name="menu_settings">设置</string>
@@ -16,7 +15,7 @@
     <string name="copy_content">复制</string>
     <string name="scan_cancel">操作取消</string>
     <string name="double_click_exit">再按一次返回退出</string>
-    <string name="select_gallery_pic">选择相册图片</string>
+    <string name="select_gallery_pic">从相册选择图片</string>
     <string name="empty_data">数据为空…</string>
     <string name="make_qr_code">制作二维码</string>
     <string name="scan">扫描</string>
@@ -47,16 +46,14 @@
     <string name="no_match_intent">找不到可以打开的App</string>
     <string name="content_to_generate">待生成的内容</string>
     <string name="theme">主题</string>
-    <string name="theme_enable_m3">启用 Material 3</string>
+    <string name="theme_enable_m2">启用 Material 2</string>
+    <string name="theme_m2_sum">对旧设备友好的经典主题</string>
     <string name="theme_dynamic_color">动态取色支持</string>
     <string name="require_android_s">至少需要 Android 12</string>
     <string name="result_tip_content">1. 长按下方二维码可以保存图片到本地。如果你的 Android 版本为 10 及以上，可以快速保存到默认目录（可选）。\n2. 在任何 Android 版本上 MomoQR 都不需要存储读写权限。\n3. MomoQR 已适配瓷贴，可通过下拉通知栏快速扫码。</string>
     <string name="tips">小提示</string>
     <string name="tips_hide">我知道了</string>
     <string name="tips_add_tile">快速添加瓷贴</string>
-    <string name="language">语言</string>
-    <string name="pm_denied_forever">权限被永久拒绝，请手动授予存储读写权限。</string>
-    <string name="pm_grant_fail">授权失败</string>
     <string name="save_ok">已保存</string>
     <string name="save_failed">保存失败</string>
     <string name="create_file_failed">创建文件失败</string>
@@ -67,4 +64,9 @@
     <string name="flash_light">闪光灯</string>
     <string name="mark_as_important">标记为重要内容</string>
     <string name="qr_not_prepare_ok">二维码还未生成完毕</string>
+    <string name="start">开始</string>
+    <string name="help">帮助</string>
+    <string name="get_from_clipboard">从剪贴板获取</string>
+    <string name="create_text">创建文本</string>
+    <string name="more_type">更多类型</string>
 </resources>

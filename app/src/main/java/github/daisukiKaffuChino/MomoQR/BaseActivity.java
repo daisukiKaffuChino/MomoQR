@@ -24,13 +24,13 @@ public class BaseActivity extends AppCompatActivity {
 
     private void initTheme() {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
-        boolean enableMaterial3 = sp.getBoolean("enableMaterial3", false);
-        if (enableMaterial3)
-            setTheme(R.style.Theme_MomoQR_Material3);
-        else
+        boolean enableMaterial2 = sp.getBoolean("enableMaterial2", false);
+        if (enableMaterial2)
             setTheme(R.style.Theme_MomoQR_Material2);
+        else
+            setTheme(R.style.Theme_MomoQR_Material3);
 
-        if (enableMaterial3 && sp.getBoolean("dynamicColor", false))
+        if (!enableMaterial2 && sp.getBoolean("dynamicColor", false))
             DynamicColors.applyToActivityIfAvailable(this);
 
         switch (Integer.parseInt(sp.getString("dayNightTheme", "0"))) {

@@ -40,8 +40,8 @@ public class HomeFragment extends BaseBindingFragment<FragmentHomeBinding> {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         FragmentHomeBinding binding = getBinding();
-        binding.scanBtn.setOnClickListener(v -> startScannerIntent());
-        binding.selectImageBtn.setOnClickListener(v -> {
+        binding.homeScanBtn.setOnClickListener(v -> startScannerIntent());
+        binding.homeSelectImageBtn.setOnClickListener(v -> {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 Intent intent = new Intent(MediaStore.ACTION_PICK_IMAGES);
                 intent.setType("image/*");
@@ -53,7 +53,7 @@ public class HomeFragment extends BaseBindingFragment<FragmentHomeBinding> {
                 openGalleryRequest.launch(Intent.createChooser(intent, getString(R.string.select_gallery_pic)));
             }
         });
-        binding.makeQRCodeBtn.setOnClickListener(v -> {
+        binding.homeCreateFromTextBtn.setOnClickListener(v -> {
             Bundle bundle = new Bundle();
             bundle.putString("mode", EditTextDialogFragment.MODE_INPUT_ONLY);
             getNavController().navigate(R.id.nav_edt_dialog, bundle);

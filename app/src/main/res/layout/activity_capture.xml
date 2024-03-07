@@ -38,7 +38,7 @@
         android:layout_gravity="bottom|center"
         android:clickable="true"
         android:contentDescription="@string/flash_light"
-        android:foreground="?selectableItemBackground"
+        android:foreground="?attr/selectableItemBackgroundBorderless"
         android:padding="8dp"
         app:srcCompat="@drawable/outline_lightbulb_circle_24"
         app:tint="@android:color/white" />
