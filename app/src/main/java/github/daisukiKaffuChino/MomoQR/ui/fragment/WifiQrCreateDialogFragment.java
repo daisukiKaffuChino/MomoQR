@@ -85,7 +85,7 @@ public class WifiQrCreateDialogFragment extends DialogFragment {
         if (securityType.equals(spinnerStrings[0]) && !TextUtils.isEmpty(password)) {
             result = "WIFI:S:" + name + ";T:WEP;P:" + password + ";;";
         } else if (securityType.equals(spinnerStrings[1]) && !TextUtils.isEmpty(password)) {
-            result = "WIFI:S:" + name + ";T:WPA:" + password + ";;";
+            result = "WIFI:S:" + name + ";T:WPA:P:" + password + ";;";
         } else if (securityType.equals(spinnerStrings[2])) {
             result = "WIFI:S:" + name + ";T:nopass;P:;;";
         }
