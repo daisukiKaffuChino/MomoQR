@@ -16,7 +16,7 @@
     <string name="scan_cancel">操作取消</string>
     <string name="double_click_exit">再按一次返回退出</string>
     <string name="select_gallery_pic">从相册选择图片</string>
-    <string name="empty_data">数据为空…</string>
+    <string name="empty_data">数据为空</string>
     <string name="make_qr_code">制作二维码</string>
     <string name="scan">扫描</string>
     <string name="camera_id">相机ID</string>
@@ -74,4 +74,7 @@
     <string name="wifi_name">Wi-Fi 名称</string>
     <string name="security">安全性</string>
     <string name="password">密码</string>
+    <string name="recipient">收件人地址</string>
+    <string name="title">标题</string>
+    <string name="content">内容</string>
 </resources>

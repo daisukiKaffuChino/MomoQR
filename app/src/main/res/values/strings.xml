@@ -15,7 +15,7 @@
     <string name="scan_cancel">Canceled.</string>
     <string name="double_click_exit">Press again to exit.</string>
     <string name="select_gallery_pic">Pick image from gallery</string>
-    <string name="empty_data">Empty data…</string>
+    <string name="empty_data">Empty data</string>
     <string name="make_qr_code">Create QR Code</string>
     <string name="scan">Scan</string>
     <string name="camera_id">Camera ID</string>
@@ -75,4 +75,7 @@
     <string name="wifi_name">Wi-Fi Name</string>
     <string name="security">Security</string>
     <string name="password">Password</string>
+    <string name="recipient">Recipient Address</string>
+    <string name="title">Title</string>
+    <string name="content">Content</string>
 </resources>
