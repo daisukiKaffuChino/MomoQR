@@ -7,8 +7,17 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+
+import github.daisukiKaffuChino.MomoQR.R;
 import github.daisukiKaffuChino.MomoQR.databinding.FragmentQrCreateListBinding;
+import github.daisukiKaffuChino.MomoQR.logic.adapter.CreateQrListAdapter;
 
 public class QrCreateListFragment extends BaseBindingFragment<FragmentQrCreateListBinding> {
     @Override
@@ -19,7 +28,41 @@ public class QrCreateListFragment extends BaseBindingFragment<FragmentQrCreateLi
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        FragmentQrCreateListBinding binding=getBinding();
+        FragmentQrCreateListBinding binding = getBinding();
 
+        Map<Integer, String> map = new HashMap<>();
+        map.put(R.drawable.ic_wifi_plus, getString(R.string.wifi));
+        map.put(R.drawable.ic_email_edit_outline, getString(R.string.email));
+        map.put(R.drawable.ic_google_play, getString(R.string.apps));
+        CreateQrListAdapter adapter = new CreateQrListAdapter(map, pos -> {
+            ArrayList<String> titles = new ArrayList<>();
+            for (int key : map.keySet()) {
+                titles.add(map.get(key));
+            }
+            String title = titles.get(pos);
+            if (Objects.equals(title, getString(R.string.wifi))) {
+
+            } else if (Objects.equals(title, getString(R.string.email))) {
+
+            } else if (Objects.equals(title, getString(R.string.apps))) {
+
+            }
+        });
+        binding.createListRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false));
+        binding.createListRecyclerView.setAdapter(adapter);
+    }
+
+    private void addToMap(Map<Integer, ArrayList<String>> map, int key, String value) {
+        ArrayList<String> list;
+
+        if (map.containsKey(key)) {
+            list = map.get(key);
+        } else {
+            list = new ArrayList<>();
+            map.put(key, list);
+        }
+
+        assert list != null;
+        list.add(value);
     }
 }

@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -28,7 +27,7 @@ import github.daisukiKaffuChino.MomoQR.databinding.FragmentFavBinding;
 import github.daisukiKaffuChino.MomoQR.logic.adapter.FavAdapter;
 import github.daisukiKaffuChino.MomoQR.logic.bean.FavBean;
 import github.daisukiKaffuChino.MomoQR.logic.utils.FavSqliteHelper;
-import github.daisukiKaffuChino.MomoQR.logic.utils.MyUtil;
+import github.daisukiKaffuChino.MomoQR.logic.utils.ActionUtil;
 import github.daisukiKaffuChino.MomoQR.ui.model.FavViewModel;
 import github.daisukiKaffuChino.MomoQR.ui.model.FavViewModelFactory;
 
@@ -112,7 +111,7 @@ public class FavFragment extends BaseBindingFragment<FragmentFavBinding> {
         builder.setPositiveButton(R.string.ok, (dialogInterface, i) -> {
             boolean success = helper.deleteData(viewModel.ls.get(pos).getId());
             if (!success) {
-                MyUtil.toast(R.string.delete_fail);
+                ActionUtil.toast(R.string.delete_fail);
                 dialogInterface.dismiss();
                 return;
             }

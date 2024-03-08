@@ -30,10 +30,10 @@ import github.daisukiKaffuChino.MomoQR.MomoApplication;
 import github.daisukiKaffuChino.MomoQR.R;
 
 
-public class MyUtil {
+public class ActionUtil {
     Context context;
 
-    public MyUtil(Context context) {
+    public ActionUtil(Context context) {
         this.context = context;
     }
 
@@ -113,7 +113,7 @@ public class MyUtil {
         if (!resolveInfoList.isEmpty())
             MomoApplication.context.startActivity(intent);
         else
-            MyUtil.toast(R.string.no_match_intent);
+            ActionUtil.toast(R.string.no_match_intent);
     }
 
     public void showMessageDialog(String title, String content) {
@@ -126,18 +126,18 @@ public class MyUtil {
 
     public void addFav(String title, String content, String imageSavedPath, boolean checked) {
         FavSqliteHelper helper = new FavSqliteHelper(context);
-        if (MyUtil.hasSpecialChat(title)) {
-            MyUtil.toast(R.string.invalid_title);
+        if (ActionUtil.hasSpecialChat(title)) {
+            ActionUtil.toast(R.string.invalid_title);
         } else {
             if (imageSavedPath != null) {
                 boolean insertOk = helper.insertData(title, content, imageSavedPath, checked, System.currentTimeMillis());
                 if (insertOk)
-                    MyUtil.toast(R.string.add_fav_ok);
+                    ActionUtil.toast(R.string.add_fav_ok);
                 else
-                    MyUtil.toast(R.string.add_fav_fail);
+                    ActionUtil.toast(R.string.add_fav_fail);
                 helper.closeDB();
             } else {
-                MyUtil.toast(R.string.add_fav_fail);
+                ActionUtil.toast(R.string.add_fav_fail);
                 helper.closeDB();
             }
         }

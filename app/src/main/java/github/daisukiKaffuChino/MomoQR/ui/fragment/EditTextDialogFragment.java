@@ -21,7 +21,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import java.util.Objects;
 
 import github.daisukiKaffuChino.MomoQR.R;
-import github.daisukiKaffuChino.MomoQR.logic.utils.MyUtil;
+import github.daisukiKaffuChino.MomoQR.logic.utils.ActionUtil;
 
 public class EditTextDialogFragment extends DialogFragment {
     public final static String MODE_INPUT_ONLY = "MODE_INPUT_ONLY";
@@ -30,7 +30,7 @@ public class EditTextDialogFragment extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        MyUtil myUtil = new MyUtil(requireContext());
+        ActionUtil actionUtil = new ActionUtil(requireContext());
         MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(requireActivity());
 
         @SuppressLint("InflateParams") View view = getLayoutInflater().inflate(R.layout.dialog_edittext, null);
@@ -74,14 +74,14 @@ public class EditTextDialogFragment extends DialogFragment {
                     navController.navigateUp();
                     navController.navigate(R.id.nav_result, args);
                 } else if (Objects.equals(MODE, MODE_INPUT_WITH_CHECKBOX)) {
-                    myUtil.addFav(contentText, favContent, favImagePath, checkBox.isChecked());
+                    actionUtil.addFav(contentText, favContent, favImagePath, checkBox.isChecked());
                     navController.navigateUp();
                 }
             });
             if (Objects.equals(MODE, MODE_INPUT_WITH_CHECKBOX)) {
                 Button neutralButton = alertDialog.getButton(AlertDialog.BUTTON_NEUTRAL);
                 neutralButton.setOnClickListener(v -> {
-                    myUtil.addFav(MyUtil.currentTime(), favContent, favImagePath, checkBox.isChecked());
+                    actionUtil.addFav(ActionUtil.currentTime(), favContent, favImagePath, checkBox.isChecked());
                     navController.navigateUp();
                 });
             }

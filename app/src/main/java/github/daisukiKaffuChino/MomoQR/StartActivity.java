@@ -23,7 +23,7 @@ import com.google.android.material.navigation.NavigationView;
 import java.lang.ref.WeakReference;
 
 import github.daisukiKaffuChino.MomoQR.databinding.ActivityStartBinding;
-import github.daisukiKaffuChino.MomoQR.logic.utils.MyUtil;
+import github.daisukiKaffuChino.MomoQR.logic.utils.ActionUtil;
 
 public class StartActivity extends BaseActivity {
 
@@ -61,7 +61,7 @@ public class StartActivity extends BaseActivity {
                 }
                 long currentTIme = System.currentTimeMillis();
                 if (lastBackPressTime == -1L || currentTIme - lastBackPressTime >= 2000) {
-                    MyUtil.toast(R.string.double_click_exit);
+                    ActionUtil.toast(R.string.double_click_exit);
                     lastBackPressTime = currentTIme;
                 } else
                     finish();

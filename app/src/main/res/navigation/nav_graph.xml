@@ -45,6 +45,20 @@
             app:destination="@id/nav_edt_dialog" />
     </fragment>
 
+    <fragment
+        android:id="@+id/nav_qr_create_list"
+        android:name="github.daisukiKaffuChino.MomoQR.ui.fragment.QrCreateListFragment"
+        android:label="@string/make_qr_code">
+        <action
+            android:id="@+id/action_nav_create_qr_list_dialog_to_nav_result"
+            app:destination="@id/nav_result" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_help"
+        android:name="github.daisukiKaffuChino.MomoQR.ui.fragment.HelpFragment"
+        android:label="@string/help" />
+
     <dialog
         android:id="@+id/nav_edt_dialog"
         android:name="github.daisukiKaffuChino.MomoQR.ui.fragment.EditTextDialogFragment" />
@@ -53,16 +67,8 @@
         android:id="@+id/nav_about_dialog"
         android:name="github.daisukiKaffuChino.MomoQR.ui.fragment.AboutDialogFragment" />
 
-    <fragment
-        android:id="@+id/nav_qr_create_list"
-        android:name="github.daisukiKaffuChino.MomoQR.ui.fragment.QrCreateListFragment">
-        <action
-            android:id="@+id/action_nav_create_qr_list_dialog_to_nav_result"
-            app:destination="@id/nav_result" />
-    </fragment>
-
-    <fragment
-        android:id="@+id/nav_help"
-        android:name="github.daisukiKaffuChino.MomoQR.ui.fragment.HelpFragment" />
+    <dialog
+        android:id="@+id/nav_app_list_dialog"
+        android:name="github.daisukiKaffuChino.MomoQR.ui.fragment.AppListDialogFragment" />
 
 </navigation>

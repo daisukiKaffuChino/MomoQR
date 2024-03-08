@@ -29,7 +29,7 @@ import java.util.Objects;
 import github.daisukiKaffuChino.MomoQR.CaptureActivity;
 import github.daisukiKaffuChino.MomoQR.R;
 import github.daisukiKaffuChino.MomoQR.databinding.FragmentHomeBinding;
-import github.daisukiKaffuChino.MomoQR.logic.utils.MyUtil;
+import github.daisukiKaffuChino.MomoQR.logic.utils.ActionUtil;
 import github.daisukiKaffuChino.MomoQR.logic.utils.QRCodeUtil;
 
 public class HomeFragment extends BaseBindingFragment<FragmentHomeBinding> {
@@ -63,7 +63,7 @@ public class HomeFragment extends BaseBindingFragment<FragmentHomeBinding> {
             ClipboardManager clipboardManager = (ClipboardManager) requireActivity().getSystemService(Context.CLIPBOARD_SERVICE);
             if (!clipboardManager.hasPrimaryClip() ||
                     !Objects.requireNonNull(clipboardManager.getPrimaryClipDescription()).hasMimeType(ClipDescription.MIMETYPE_TEXT_PLAIN)) {
-                MyUtil.toast(R.string.clipboard_error_toast);
+                ActionUtil.toast(R.string.clipboard_error_toast);
             } else {
                 ClipData clipData = clipboardManager.getPrimaryClip();
                 if (clipData != null && clipData.getItemCount() > 0) {
@@ -121,7 +121,7 @@ public class HomeFragment extends BaseBindingFragment<FragmentHomeBinding> {
     private final ActivityResultLauncher<ScanOptions> barcodeLauncher = registerForActivityResult(new ScanContract(),
             result -> {
                 if (result.getContents() == null) {
-                    MyUtil.toast(R.string.scan_cancel);
+                    ActionUtil.toast(R.string.scan_cancel);
                 } else {
                     navigateResult(result.getContents());
                 }
@@ -138,7 +138,7 @@ public class HomeFragment extends BaseBindingFragment<FragmentHomeBinding> {
                     if (mResult != null) {
                         navigateResult(mResult.getText());
                     } else {
-                        MyUtil.toast(R.string.empty_data);
+                        ActionUtil.toast(R.string.empty_data);
                     }
                 }
             });

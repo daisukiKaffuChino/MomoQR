@@ -199,7 +199,9 @@ object QRCodeUtil {
             if (outputStream != null) {
                 bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
                 outputStream.close()
-                MyUtil(context).showMessageDialog(
+                ActionUtil(
+                    context
+                ).showMessageDialog(
                     context.getString(R.string.save_ok),
                     "storage/emulated/0/Pictures/MomoQR/$displayName"
                 )

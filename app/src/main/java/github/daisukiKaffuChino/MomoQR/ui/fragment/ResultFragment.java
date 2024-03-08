@@ -35,14 +35,14 @@ import java.util.Objects;
 
 import github.daisukiKaffuChino.MomoQR.R;
 import github.daisukiKaffuChino.MomoQR.databinding.FragmentResultBinding;
-import github.daisukiKaffuChino.MomoQR.logic.utils.MyUtil;
+import github.daisukiKaffuChino.MomoQR.logic.utils.ActionUtil;
 import github.daisukiKaffuChino.MomoQR.logic.utils.QRCodeUtil;
 import github.daisukiKaffuChino.MomoQR.ui.model.ResultViewModel;
 
 public class ResultFragment extends BaseBindingFragment<FragmentResultBinding> {
     FragmentResultBinding binding;
     ResultViewModel viewModel;
-    MyUtil myUtil;
+    ActionUtil actionUtil;
 
     @Override
     protected FragmentResultBinding onCreateViewBinding(@NonNull LayoutInflater inflater, @Nullable ViewGroup parent) {
@@ -56,16 +56,16 @@ public class ResultFragment extends BaseBindingFragment<FragmentResultBinding> {
         initTips();
 
         binding.copyBtn.setOnClickListener(v ->
-                MyUtil.copyContent(Objects.requireNonNull(binding.resultText.getText()).toString()));
+                ActionUtil.copyContent(Objects.requireNonNull(binding.resultText.getText()).toString()));
         binding.addFavBtn.setOnClickListener(v -> {
             Bundle bundle = new Bundle();
             bundle.putString("mode", EditTextDialogFragment.MODE_INPUT_WITH_CHECKBOX);
             bundle.putString("content",viewModel.contentLiveData.getValue());
-            bundle.putString("imgPath",myUtil.saveImageViewImage(binding.remakeCodeImg));
+            bundle.putString("imgPath", actionUtil.saveImageViewImage(binding.remakeCodeImg));
             getNavController().navigate(R.id.nav_edt_dialog, bundle);
         });
         binding.openLinkBtn.setOnClickListener(v ->
-                MyUtil.detectIntentAndStart(viewModel.contentLiveData.getValue()));
+                ActionUtil.detectIntentAndStart(viewModel.contentLiveData.getValue()));
         binding.remakeCodeImg.setOnLongClickListener(v -> {
             //TODO 更换为新方法
             v.setDrawingCacheEnabled(true);
@@ -84,7 +84,7 @@ public class ResultFragment extends BaseBindingFragment<FragmentResultBinding> {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        myUtil=new MyUtil(requireContext());
+        actionUtil =new ActionUtil(requireContext());
         viewModel = new ViewModelProvider(this).get(ResultViewModel.class);
         if (getArguments() != null) {
             String content = getArguments().getString("content");
@@ -146,7 +146,7 @@ public class ResultFragment extends BaseBindingFragment<FragmentResultBinding> {
                     cur.close();
                 }
 
-                myUtil.showMessageDialog(
+                actionUtil.showMessageDialog(
                         getString(R.string.save_ok),
                         name);
             }
