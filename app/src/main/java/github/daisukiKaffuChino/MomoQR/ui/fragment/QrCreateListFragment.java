@@ -17,7 +17,7 @@ import java.util.Objects;
 
 import github.daisukiKaffuChino.MomoQR.R;
 import github.daisukiKaffuChino.MomoQR.databinding.FragmentQrCreateListBinding;
-import github.daisukiKaffuChino.MomoQR.logic.adapter.CreateQrListAdapter;
+import github.daisukiKaffuChino.MomoQR.logic.adapter.SimpleRecyclerAdapter;
 
 public class QrCreateListFragment extends BaseBindingFragment<FragmentQrCreateListBinding> {
     @Override
@@ -34,18 +34,13 @@ public class QrCreateListFragment extends BaseBindingFragment<FragmentQrCreateLi
         map.put(R.drawable.ic_wifi_plus, getString(R.string.wifi));
         map.put(R.drawable.ic_email_edit_outline, getString(R.string.email));
         map.put(R.drawable.ic_google_play, getString(R.string.apps));
-        CreateQrListAdapter adapter = new CreateQrListAdapter(map, pos -> {
-            ArrayList<String> titles = new ArrayList<>();
-            for (int key : map.keySet()) {
-                titles.add(map.get(key));
-            }
-            String title = titles.get(pos);
+        SimpleRecyclerAdapter adapter = new SimpleRecyclerAdapter(map, title -> {
             if (Objects.equals(title, getString(R.string.wifi))) {
 
             } else if (Objects.equals(title, getString(R.string.email))) {
 
             } else if (Objects.equals(title, getString(R.string.apps))) {
-
+                getNavController().navigate(R.id.nav_app_list_dialog);
             }
         });
         binding.createListRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false));

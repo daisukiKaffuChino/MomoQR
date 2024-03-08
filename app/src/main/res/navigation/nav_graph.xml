@@ -12,10 +12,7 @@
             android:id="@+id/action_nav_home_to_nav_result"
             app:destination="@id/nav_result" />
         <action
-            android:id="@+id/action_nav_home_to_nav_edt_dialog"
-            app:destination="@id/nav_edt_dialog" />
-        <action
-            android:id="@+id/action_nav_home_to_nav_create_qr_list_dialog"
+            android:id="@+id/action_nav_home_to_nav_qr_list"
             app:destination="@id/nav_qr_create_list" />
         <action
             android:id="@+id/action_nav_home_to_nav_help"
@@ -39,11 +36,7 @@
     <fragment
         android:id="@+id/nav_result"
         android:name="github.daisukiKaffuChino.MomoQR.ui.fragment.ResultFragment"
-        android:label="@string/scan_result">
-        <action
-            android:id="@+id/action_nav_result_to_nav_edt_dialog"
-            app:destination="@id/nav_edt_dialog" />
-    </fragment>
+        android:label="@string/scan_result" />
 
     <fragment
         android:id="@+id/nav_qr_create_list"
@@ -71,4 +64,11 @@
         android:id="@+id/nav_app_list_dialog"
         android:name="github.daisukiKaffuChino.MomoQR.ui.fragment.AppListDialogFragment" />
 
+    <dialog
+        android:id="@+id/nav_wifi_dialog"
+        android:name="github.daisukiKaffuChino.MomoQR.ui.fragment.WifiQrCreateDialogFragment" />
+
+    <dialog
+        android:id="@+id/nav_email_dialog"
+        android:name="github.daisukiKaffuChino.MomoQR.ui.fragment.MailQrCreateDialogFragment" />
 </navigation>

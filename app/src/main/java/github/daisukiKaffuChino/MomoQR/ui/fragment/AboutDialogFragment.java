@@ -16,11 +16,12 @@ import github.daisukiKaffuChino.MomoQR.databinding.DialogAboutBinding;
 
 public class AboutDialogFragment extends DialogFragment {
     DialogAboutBinding binding;
+
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        binding=DialogAboutBinding.inflate(getLayoutInflater());
-        MaterialAlertDialogBuilder builder=new MaterialAlertDialogBuilder(requireActivity())
+        binding = DialogAboutBinding.inflate(getLayoutInflater());
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(requireActivity())
                 .setView(binding.getRoot());
         binding.aboutVerSubTitle.setText(getVerInfo());
         binding.aboutOpensourceText.setMovementMethod(LinkMovementMethod.getInstance());
@@ -30,7 +31,7 @@ public class AboutDialogFragment extends DialogFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        binding=null;
+        binding = null;
     }
 
     private String getVerInfo() {
