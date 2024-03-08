@@ -1,6 +1,7 @@
 # MomoQR
 
 <img src="./image/banner.png" alt="BANNER" width="512" />
+
 [<img alt="Get it on GitHub" height="80" src="./image/badges/get-it-on-github.png">](https://github.com/daisukiKaffuChino/MomoQR/releases)
 
 ## 简介
