@@ -72,4 +72,7 @@
     <string name="wifi" translatable="false">Wi-Fi</string>
     <string name="email" translatable="false">E-mail</string>
     <string name="apps">Apps</string>
+    <string name="wifi_name">Wi-Fi Name</string>
+    <string name="security">Security</string>
+    <string name="password">Password</string>
 </resources>

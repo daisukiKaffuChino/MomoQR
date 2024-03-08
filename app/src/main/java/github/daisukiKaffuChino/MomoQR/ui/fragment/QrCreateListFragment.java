@@ -36,9 +36,9 @@ public class QrCreateListFragment extends BaseBindingFragment<FragmentQrCreateLi
         map.put(R.drawable.ic_google_play, getString(R.string.apps));
         SimpleRecyclerAdapter adapter = new SimpleRecyclerAdapter(map, title -> {
             if (Objects.equals(title, getString(R.string.wifi))) {
-
+                getNavController().navigate(R.id.nav_wifi_dialog);
             } else if (Objects.equals(title, getString(R.string.email))) {
-
+                getNavController().navigate(R.id.nav_email_dialog);
             } else if (Objects.equals(title, getString(R.string.apps))) {
                 getNavController().navigate(R.id.nav_app_list_dialog);
             }
@@ -47,17 +47,4 @@ public class QrCreateListFragment extends BaseBindingFragment<FragmentQrCreateLi
         binding.createListRecyclerView.setAdapter(adapter);
     }
 
-    private void addToMap(Map<Integer, ArrayList<String>> map, int key, String value) {
-        ArrayList<String> list;
-
-        if (map.containsKey(key)) {
-            list = map.get(key);
-        } else {
-            list = new ArrayList<>();
-            map.put(key, list);
-        }
-
-        assert list != null;
-        list.add(value);
-    }
 }

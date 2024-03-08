@@ -71,4 +71,7 @@
     <string name="more_type">更多类型</string>
     <string name="clipboard_error_toast">剪贴板为空或不支持的类型</string>
     <string name="apps">应用程序</string>
+    <string name="wifi_name">Wi-Fi 名称</string>
+    <string name="security">安全性</string>
+    <string name="password">密码</string>
 </resources>
