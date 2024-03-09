@@ -1,7 +1,10 @@
 package github.daisukiKaffuChino.MomoQR.ui.fragment;
 
 import android.annotation.SuppressLint;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +19,7 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
@@ -26,8 +29,8 @@ import github.daisukiKaffuChino.MomoQR.R;
 import github.daisukiKaffuChino.MomoQR.databinding.FragmentFavBinding;
 import github.daisukiKaffuChino.MomoQR.logic.adapter.FavAdapter;
 import github.daisukiKaffuChino.MomoQR.logic.bean.FavBean;
-import github.daisukiKaffuChino.MomoQR.logic.utils.FavSqliteHelper;
 import github.daisukiKaffuChino.MomoQR.logic.utils.ActionUtil;
+import github.daisukiKaffuChino.MomoQR.logic.utils.FavSqliteHelper;
 import github.daisukiKaffuChino.MomoQR.ui.model.FavViewModel;
 import github.daisukiKaffuChino.MomoQR.ui.model.FavViewModelFactory;
 
@@ -77,6 +80,16 @@ public class FavFragment extends BaseBindingFragment<FragmentFavBinding> {
         helper.closeDB();
     }
 
+    @Override
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            Log.i("xx", "l");
+        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            Log.i("xx", "p");
+        }
+    }
+
     private void initAdapter(View navRoot, ArrayList<FavBean> list) {
         adapter = new FavAdapter(requireContext(), list, pos -> {
             String content = viewModel.ls.get(pos).getContent();
@@ -84,7 +97,10 @@ public class FavFragment extends BaseBindingFragment<FragmentFavBinding> {
             args.putString("content", content);
             Navigation.findNavController(navRoot).navigate(R.id.nav_result, args);
         }, this::deleteDialog);
-        binding.favRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false));
+        if (Resources.getSystem().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT)
+            binding.favRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
+        else
+            binding.favRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
         binding.favRecyclerView.setAdapter(adapter);
         if (list.size() > 0) {
             binding.favEmptyView.setVisibility(View.GONE);
