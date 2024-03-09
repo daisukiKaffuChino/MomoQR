@@ -80,21 +80,12 @@ public class FavFragment extends BaseBindingFragment<FragmentFavBinding> {
         helper.closeDB();
     }
 
-    @Override
-    public void onConfigurationChanged(@NonNull Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            Log.i("xx", "l");
-        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
-            Log.i("xx", "p");
-        }
-    }
-
     private void initAdapter(View navRoot, ArrayList<FavBean> list) {
         adapter = new FavAdapter(requireContext(), list, pos -> {
             String content = viewModel.ls.get(pos).getContent();
             Bundle args = new Bundle();
             args.putString("content", content);
+            args.putBoolean("isFromFav", true);
             Navigation.findNavController(navRoot).navigate(R.id.nav_result, args);
         }, this::deleteDialog);
         if (Resources.getSystem().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT)

@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel;
 
 public class ResultViewModel extends ViewModel {
     public MutableLiveData<String> contentLiveData;
+    public boolean isFromFav;
 
     public ResultViewModel() {
         contentLiveData = new MutableLiveData<>();

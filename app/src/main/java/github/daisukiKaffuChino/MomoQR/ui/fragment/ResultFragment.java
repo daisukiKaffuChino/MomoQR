@@ -60,7 +60,7 @@ public class ResultFragment extends BaseBindingFragment<FragmentResultBinding> {
         binding.addFavBtn.setOnClickListener(v -> {
             Bundle bundle = new Bundle();
             bundle.putString("mode", EditTextDialogFragment.MODE_INPUT_WITH_CHECKBOX);
-            bundle.putString("content",viewModel.contentLiveData.getValue());
+            bundle.putString("content", viewModel.contentLiveData.getValue());
             bundle.putString("imgPath", actionUtil.saveImageViewImage(binding.remakeCodeImg));
             getNavController().navigate(R.id.nav_edt_dialog, bundle);
         });
@@ -74,6 +74,8 @@ public class ResultFragment extends BaseBindingFragment<FragmentResultBinding> {
             return true;
         });
 
+        binding.addFavBtn.setEnabled(!viewModel.isFromFav);
+
         viewModel.contentLiveData.observe(getViewLifecycleOwner(), result -> {
             if (result != null) {
                 showScanResults(result);
@@ -84,11 +86,13 @@ public class ResultFragment extends BaseBindingFragment<FragmentResultBinding> {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        actionUtil =new ActionUtil(requireContext());
+        actionUtil = new ActionUtil(requireContext());
         viewModel = new ViewModelProvider(this).get(ResultViewModel.class);
         if (getArguments() != null) {
             String content = getArguments().getString("content");
+            boolean isFromFav = getArguments().getBoolean("isFromFav", false);
             viewModel.contentLiveData.setValue(content);
+            viewModel.isFromFav = isFromFav;
         }
     }
 
@@ -99,7 +103,6 @@ public class ResultFragment extends BaseBindingFragment<FragmentResultBinding> {
             Glide.with(requireContext()).load(bitmap).into(binding.remakeCodeImg);
         }
     }
-
 
 
     private void saveBitmapLocal(Bitmap bitmap) {
