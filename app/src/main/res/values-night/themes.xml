@@ -5,6 +5,8 @@
         <item name="colorPrimaryVariant">@color/primary_night_variant</item>
         <item name="colorSecondary">@color/secondary_night</item>
         <item name="colorSecondaryVariant">@color/secondary_night_variant</item>
+        <item name="primaryTextColor">@color/textBlackNight</item>
+        <item name="secondaryTextColor">@color/textGrayNight</item>
     </style>
 
     <style name="Base.Theme.Material3" parent="Theme.Material3.DayNight.NoActionBar">
@@ -54,6 +56,8 @@
         <item name="colorSurfaceContainer">@color/md_theme_night_surfaceContainer</item>
         <item name="colorSurfaceContainerHigh">@color/md_theme_night_surfaceContainerHigh</item>
         <item name="colorSurfaceContainerHighest">@color/md_theme_night_surfaceContainerHighest</item>
+        <item name="primaryTextColor">@color/textBlackNight</item>
+        <item name="secondaryTextColor">@color/textGrayNight</item>
         <item name="android:windowLightStatusBar">false</item>
     </style>
 </resources>

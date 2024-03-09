@@ -26,7 +26,7 @@
     <string name="display">显示</string>
     <string name="about_app">关于</string>
     <string name="developer">Github@daisukiKaffuChino\n酷安@得想办法娶了智乃</string>
-    <string name="open_source">在 <a href="https://github.com/daisukiKaffuChino/MomoQR">Github</a> 上开源</string>
+    <string name="open_source">在 <a href="https://github.com/daisukiKaffuChino/MomoQR">Github</a> 上查看源代码</string>
     <string name="cancel">取消</string>
     <string name="ok">确认</string>
     <string name="text_copied_toast">复制完毕</string>
@@ -77,4 +77,9 @@
     <string name="recipient">收件人地址</string>
     <string name="title">标题</string>
     <string name="content">内容</string>
+    <string name="supported_code">支持的图形码</string>
+    <string name="how_to_correct_scan">如何正确扫描</string>
+    <string name="how_to_correct_scan_content">1. 确保您想要扫描的代码清晰可见，且最好不要有倾斜角度。\n2. 应避免光反射或阴影影响扫描对象。\n3. 扫描时保持适当距离，不要过于靠近，否则可能会对焦困难。\n4. 如果您扫描了不支持的类型，那么会导致识别失败。请仔细确认 MomoQR 支持的图形码类型。</string>
+    <string name="feedback_and_update">反馈问题和获取更新</string>
+    <string name="feedback_and_update_content">要报告问题，请访问 <a href="https://github.com/daisukiKaffuChino/MomoQR">MomoQR 的仓库</a> 来提交 issue 。访问 release 页面来查看所有已发布的版本。这是目前的唯一发布渠道。</string>
 </resources>

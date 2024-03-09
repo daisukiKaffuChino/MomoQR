@@ -78,4 +78,9 @@
     <string name="recipient">Recipient Address</string>
     <string name="title">Title</string>
     <string name="content">Content</string>
+    <string name="supported_code">Supported code</string>
+    <string name="how_to_correct_scan">How to scan correctly</string>
+    <string name="how_to_correct_scan_content">1. Make sure that the code you want to scan is clearly visible and preferably not tilted.\n2. Avoid light reflections or shadows affecting the swept object.\n3. Keep a proper distance when scanning, and do not make the camera too close, or it may cause out of focus.\n4. If you scan for unsupported types, recognition will fail. Please confirm the graphic code type supported by MomoQR carefully.</string>
+    <string name="feedback_and_update">Feedback issues and get updates</string>
+    <string name="feedback_and_update_content">To report bugs, visit the <a href="https://github.com/daisukiKaffuChino/MomoQR">Repo of MomoQR</a> to submit an issue. Visit the release page to view all released versions. This is the only channel for MomoQR\'s current release.</string>
 </resources>

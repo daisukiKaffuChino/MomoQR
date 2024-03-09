@@ -32,7 +32,8 @@
         <activity
             android:name=".StartActivity"
             android:exported="true"
-            android:screenOrientation="user">
+            android:screenOrientation="user"
+            android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

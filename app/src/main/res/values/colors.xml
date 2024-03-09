@@ -5,6 +5,11 @@
     <color name="mask">#1f000000</color>
     <color name="icon_background">#F596AA</color>
 
+    <color name="textBlackDay">#181818</color>
+    <color name="textGrayDay">#454545</color>
+    <color name="textBlackNight">#E0E0E0</color>
+    <color name="textGrayNight">#9E9E9E</color>
+
     <color name="primary_day">#EA6596</color>
     <color name="primary_day_variant">#E64480</color>
     <color name="primary_night">#D22464</color>

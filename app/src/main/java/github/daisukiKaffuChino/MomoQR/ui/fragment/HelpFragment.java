@@ -1,6 +1,7 @@
 package github.daisukiKaffuChino.MomoQR.ui.fragment;
 
 import android.os.Bundle;
+import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,5 +20,7 @@ public class HelpFragment extends BaseBindingFragment<FragmentHelpBinding> {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        FragmentHelpBinding binding = getBinding();
+        binding.helpFeedbackAndUpdateContentText.setMovementMethod(LinkMovementMethod.getInstance());
     }
 }

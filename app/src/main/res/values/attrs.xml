@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <attr name="MyToolbarStyle" format="integer" />
+    <attr name="primaryTextColor" format="color" />
+    <attr name="secondaryTextColor" format="color" />
 </resources>
