@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+    <PreferenceCategory app:title="@string/scan">
+        <ListPreference
+            app:defaultValue="0"
+            app:entries="@array/camera_entries"
+            app:entryValues="@array/camera_value"
+            app:icon="@drawable/outline_camera_24"
+            app:key="cameraId"
+            app:title="@string/camera_id"
+            app:useSimpleSummaryProvider="true" />
+        <ListPreference
+            app:defaultValue="0"
+            app:entries="@array/identify_entries"
+            app:entryValues="@array/identify_value"
+            app:icon="@drawable/outline_qr_code_scanner_24"
+            app:key="identifyType"
+            app:title="@string/identify_type"
+            app:useSimpleSummaryProvider="true" />
+        <SwitchPreferenceCompat
+            app:defaultValue="true"
+            app:icon="@drawable/bell_check_outline"
+            app:key="beepSound"
+            app:title="@string/beep" />
+        <SwitchPreferenceCompat
+            app:defaultValue="true"
+            app:icon="@drawable/baseline_screen_lock_rotation_24"
+            app:key="lockOrientation"
+            app:title="@string/orientation_locked" />
+    </PreferenceCategory>
+    <PreferenceCategory app:title="@string/storage">
+        <SwitchPreferenceCompat
+            app:defaultValue="false"
+            app:icon="@drawable/ic_content_save_edit_outline"
+            app:key="notAskForSavePath"
+            app:title="@string/not_ask_save_path" />
+    </PreferenceCategory>
+    <PreferenceCategory app:title="@string/display">
+        <SwitchPreferenceCompat
+            app:defaultValue="false"
+            app:disableDependentsState="true"
+            app:icon="@drawable/ic_material_design"
+            app:key="enableMaterial2"
+            app:summary="@string/theme_m2_sum"
+            app:title="@string/theme_enable_m2" />
+        <SwitchPreferenceCompat
+            app:defaultValue="false"
+            app:dependency="enableMaterial2"
+            app:icon="@drawable/outline_palette_24"
+            app:key="dynamicColor"
+            app:title="@string/theme_dynamic_color" />
+        <ListPreference
+            app:defaultValue="0"
+            app:entries="@array/dayNight_entries"
+            app:entryValues="@array/dayNight_value"
+            app:icon="@drawable/ic_light_dark"
+            app:key="dayNightTheme"
+            app:title="@string/toggle_day_night"
+            app:useSimpleSummaryProvider="true" />
+    </PreferenceCategory>
+</PreferenceScreen>

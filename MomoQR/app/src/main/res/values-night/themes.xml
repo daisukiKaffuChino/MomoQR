@@ -1,0 +1,63 @@
+<resources>
+    <!-- Base application theme. -->
+    <style name="Base.Theme.Material2" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/primary_night</item>
+        <item name="colorPrimaryVariant">@color/primary_night_variant</item>
+        <item name="colorSecondary">@color/secondary_night</item>
+        <item name="colorSecondaryVariant">@color/secondary_night_variant</item>
+        <item name="primaryTextColor">@color/textBlackNight</item>
+        <item name="secondaryTextColor">@color/textGrayNight</item>
+    </style>
+
+    <style name="Base.Theme.Material3" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/md_theme_night_primary</item>
+        <item name="colorOnPrimary">@color/md_theme_night_onPrimary</item>
+        <item name="colorPrimaryContainer">@color/md_theme_night_primaryContainer</item>
+        <item name="colorOnPrimaryContainer">@color/md_theme_night_onPrimaryContainer</item>
+        <item name="colorSecondary">@color/md_theme_night_secondary</item>
+        <item name="colorOnSecondary">@color/md_theme_night_onSecondary</item>
+        <item name="colorSecondaryContainer">@color/md_theme_night_secondaryContainer</item>
+        <item name="colorOnSecondaryContainer">@color/md_theme_night_onSecondaryContainer</item>
+        <item name="colorTertiary">@color/md_theme_night_tertiary</item>
+        <item name="colorOnTertiary">@color/md_theme_night_onTertiary</item>
+        <item name="colorTertiaryContainer">@color/md_theme_night_tertiaryContainer</item>
+        <item name="colorOnTertiaryContainer">@color/md_theme_night_onTertiaryContainer</item>
+        <item name="colorError">@color/md_theme_night_error</item>
+        <item name="colorOnError">@color/md_theme_night_onError</item>
+        <item name="colorErrorContainer">@color/md_theme_night_errorContainer</item>
+        <item name="colorOnErrorContainer">@color/md_theme_night_onErrorContainer</item>
+        <item name="android:colorBackground">@color/md_theme_night_background</item>
+        <item name="colorOnBackground">@color/md_theme_night_onBackground</item>
+        <item name="colorSurface">@color/md_theme_night_surface</item>
+        <item name="colorOnSurface">@color/md_theme_night_onSurface</item>
+        <item name="colorSurfaceVariant">@color/md_theme_night_surfaceVariant</item>
+        <item name="colorOnSurfaceVariant">@color/md_theme_night_onSurfaceVariant</item>
+        <item name="colorOutline">@color/md_theme_night_outline</item>
+        <item name="colorOutlineVariant">@color/md_theme_night_outlineVariant</item>
+        <item name="colorSurfaceInverse">@color/md_theme_night_inverseSurface</item>
+        <item name="colorOnSurfaceInverse">@color/md_theme_night_inverseOnSurface</item>
+        <item name="colorPrimaryInverse">@color/md_theme_night_inversePrimary</item>
+        <item name="colorPrimaryFixed">@color/md_theme_night_primaryFixed</item>
+        <item name="colorOnPrimaryFixed">@color/md_theme_night_onPrimaryFixed</item>
+        <item name="colorPrimaryFixedDim">@color/md_theme_night_primaryFixedDim</item>
+        <item name="colorOnPrimaryFixedVariant">@color/md_theme_night_onPrimaryFixedVariant</item>
+        <item name="colorSecondaryFixed">@color/md_theme_night_secondaryFixed</item>
+        <item name="colorOnSecondaryFixed">@color/md_theme_night_onSecondaryFixed</item>
+        <item name="colorSecondaryFixedDim">@color/md_theme_night_secondaryFixedDim</item>
+        <item name="colorOnSecondaryFixedVariant">@color/md_theme_night_onSecondaryFixedVariant</item>
+        <item name="colorTertiaryFixed">@color/md_theme_night_tertiaryFixed</item>
+        <item name="colorOnTertiaryFixed">@color/md_theme_night_onTertiaryFixed</item>
+        <item name="colorTertiaryFixedDim">@color/md_theme_night_tertiaryFixedDim</item>
+        <item name="colorOnTertiaryFixedVariant">@color/md_theme_night_onTertiaryFixedVariant</item>
+        <item name="colorSurfaceDim">@color/md_theme_night_surfaceDim</item>
+        <item name="colorSurfaceBright">@color/md_theme_night_surfaceBright</item>
+        <item name="colorSurfaceContainerLowest">@color/md_theme_night_surfaceContainerLowest</item>
+        <item name="colorSurfaceContainerLow">@color/md_theme_night_surfaceContainerLow</item>
+        <item name="colorSurfaceContainer">@color/md_theme_night_surfaceContainer</item>
+        <item name="colorSurfaceContainerHigh">@color/md_theme_night_surfaceContainerHigh</item>
+        <item name="colorSurfaceContainerHighest">@color/md_theme_night_surfaceContainerHighest</item>
+        <item name="primaryTextColor">@color/textBlackNight</item>
+        <item name="secondaryTextColor">@color/textGrayNight</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+</resources>
