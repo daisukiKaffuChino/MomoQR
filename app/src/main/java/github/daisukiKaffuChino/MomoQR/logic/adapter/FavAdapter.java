@@ -34,7 +34,7 @@ public class FavAdapter extends RecyclerView.Adapter<FavAdapter.FavViewHolder> {
         this.longClickListener = longClickListener;
     }
 
-    static class FavViewHolder extends RecyclerView.ViewHolder {
+    public static class FavViewHolder extends RecyclerView.ViewHolder {
         ImageView image;
         TextView title, content;
         LinearLayout root;
@@ -62,7 +62,7 @@ public class FavAdapter extends RecyclerView.Adapter<FavAdapter.FavViewHolder> {
         final FavBean s = listData.get(position);
         holder.title.setText(s.getTitle());
         holder.content.setText(s.getContent());
-        holder.cardView.setChecked(s.getIsImportant());
+        holder.cardView.setChecked(s.getStar());
         Glide.with(context).load(s.getImg()).into(holder.image);
 
         int bindingPosition = holder.getBindingAdapterPosition();

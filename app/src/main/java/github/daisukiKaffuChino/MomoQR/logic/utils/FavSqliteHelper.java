@@ -59,7 +59,7 @@ public class FavSqliteHelper extends SQLiteOpenHelper {
                 bean.setTitle(query.getString(query.getColumnIndex("title")));
                 bean.setContent(query.getString(query.getColumnIndex("content")));
                 bean.setImg(query.getString(query.getColumnIndex("img")));
-                bean.setIsImportant(query.getInt(query.getColumnIndex("important")) != 0);
+                bean.setStar(query.getInt(query.getColumnIndex("important")) != 0);
                 bean.setTime(query.getLong(query.getColumnIndex("time")));
                 arrayList.add(bean);
             }
