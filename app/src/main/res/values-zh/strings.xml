@@ -85,4 +85,5 @@
     <string name="save">保存</string>
     <string name="original_img">原图</string>
     <string name="share">分享</string>
+    <string name="clear_cache">清理缓存</string>
 </resources>

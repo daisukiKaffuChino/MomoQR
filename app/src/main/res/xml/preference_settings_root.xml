@@ -34,6 +34,10 @@
             app:icon="@drawable/ic_content_save_edit_outline"
             app:key="notAskForSavePath"
             app:title="@string/not_ask_save_path" />
+        <Preference
+            app:title="@string/clear_cache"
+            app:icon="@drawable/outline_cleaning_services_24"
+            app:key="clearCache"/>
     </PreferenceCategory>
     <PreferenceCategory app:title="@string/display">
         <SwitchPreferenceCompat

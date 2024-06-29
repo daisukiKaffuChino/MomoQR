@@ -100,7 +100,7 @@ public class ActionUtil {
             outStream.close();
             return filePath;
         } catch (IOException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
             return null;
         }
     }

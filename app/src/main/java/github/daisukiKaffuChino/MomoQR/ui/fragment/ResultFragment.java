@@ -102,7 +102,7 @@ public class ResultFragment extends BaseBindingFragment<FragmentResultBinding> {
             String content = getArguments().getString("content");
             String imgPath = getArguments().getString("imgPath");
             boolean isFromFav = getArguments().getBoolean("isFromFav", false);
-            viewModel.contentLiveData.setValue(content);
+            viewModel.contentLiveData.setValue(imgPath);
             viewModel.pathLiveData.setValue(imgPath);
             viewModel.isFromFav = isFromFav;
         }

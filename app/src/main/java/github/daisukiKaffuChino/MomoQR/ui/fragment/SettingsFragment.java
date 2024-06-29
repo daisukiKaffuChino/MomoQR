@@ -13,10 +13,13 @@ import androidx.preference.PreferenceFragmentCompat;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.Objects;
 
 import github.daisukiKaffuChino.MomoQR.R;
+
+import java.text.DecimalFormat;
 
 public class SettingsFragment extends PreferenceFragmentCompat {
     @Override
@@ -24,19 +27,28 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         setPreferencesFromResource(R.xml.preference_settings_root, rootKey);
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
-            Preference dynamicColor=findPreference("dynamicColor");
+            Preference dynamicColor = findPreference("dynamicColor");
             assert dynamicColor != null;
             dynamicColor.setSummary(R.string.require_android_s);
             dynamicColor.setEnabled(false);
         }
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
-            Preference notAskForSavePath=findPreference("notAskForSavePath");
+            Preference notAskForSavePath = findPreference("notAskForSavePath");
             assert notAskForSavePath != null;
             notAskForSavePath.setSummary(R.string.require_android_q);
             notAskForSavePath.setEnabled(false);
         }
 
+        Preference clearCache = findPreference("clearCache");
+        assert clearCache != null;
+        clearCache.setSummary(getReadableFileSize(getFolderSize(requireContext().getCacheDir())));
+        clearCache.setOnPreferenceClickListener(preference -> {
+            File cacheDir=requireContext().getCacheDir();
+            if (clearFolder(cacheDir))
+                preference.setSummary(getReadableFileSize(getFolderSize(cacheDir)));
+            return false;
+        });
     }
 
     @Override
@@ -93,4 +105,45 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         super.onPause();
     }
 
+    private long getFolderSize(File folder) {
+        long size = 0;
+        if (folder != null && folder.isDirectory()) {
+            File[] files = folder.listFiles();
+            if (files != null) {
+                for (File file : files) {
+                    if (file.isFile()) {
+                        size += file.length();
+                    } else if (file.isDirectory()) {
+                        size += getFolderSize(file);
+                    }
+                }
+            }
+        }
+        return size;
+    }
+
+    private String getReadableFileSize(long size) {
+        if (size <= 0) return "0 B";
+        final String[] units = new String[]{"B", "KB", "MB", "GB", "TB"};
+        int digitGroups = (int) (Math.log10(size) / Math.log10(1024));
+        return new DecimalFormat("#,##0.#").format(size / Math.pow(1024, digitGroups)) + " " + units[digitGroups];
+    }
+
+    private boolean clearFolder(File folder) {
+        boolean success = true;
+        if (folder != null && folder.isDirectory()) {
+            File[] files = folder.listFiles();
+            if (files != null) {
+                for (File file : files) {
+                    if (file.isFile()) {
+                        success &= file.delete();
+                    } else if (file.isDirectory()) {
+                        success &= clearFolder(file);
+                        success &= file.delete();
+                    }
+                }
+            }
+        }
+        return success;
+    }
 }
