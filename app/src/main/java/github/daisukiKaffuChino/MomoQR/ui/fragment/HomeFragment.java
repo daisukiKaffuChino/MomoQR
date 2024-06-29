@@ -112,19 +112,19 @@ public class HomeFragment extends BaseBindingFragment<FragmentHomeBinding> {
         barcodeLauncher.launch(options);
     }
 
-    private void navigateResult(String result) {
+    private void navigateResult(String result, @Nullable String imgPath) {
         Bundle args = new Bundle();
         args.putString("content", result);
+        args.putString("imgPath", imgPath);
         getNavController().navigate(R.id.nav_result, args);
     }
 
     private final ActivityResultLauncher<ScanOptions> barcodeLauncher = registerForActivityResult(new ScanContract(),
             result -> {
-                if (result.getContents() == null) {
+                if (result.getContents() == null)
                     ActionUtil.toast(R.string.scan_cancel);
-                } else {
-                    navigateResult(result.getContents());
-                }
+                else
+                    navigateResult(result.getContents(), result.getBarcodeImagePath());
             });
 
     private final ActivityResultLauncher<Intent> openGalleryRequest = registerForActivityResult(
@@ -136,7 +136,7 @@ public class HomeFragment extends BaseBindingFragment<FragmentHomeBinding> {
                     Result mResult = QRCodeUtil.INSTANCE.scanningImage(requireContext(),
                             Objects.requireNonNull(intent.getData()));
                     if (mResult != null) {
-                        navigateResult(mResult.getText());
+                        navigateResult(mResult.getText(), null);
                     } else {
                         ActionUtil.toast(R.string.empty_data);
                     }

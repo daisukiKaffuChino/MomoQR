@@ -10,14 +10,13 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
 import github.daisukiKaffuChino.MomoQR.R;
 import github.daisukiKaffuChino.MomoQR.databinding.FragmentQrCreateListBinding;
-import github.daisukiKaffuChino.MomoQR.logic.adapter.SimpleRecyclerAdapter;
+import github.daisukiKaffuChino.MomoQR.logic.adapter.AppListAdapter;
 
 public class QrCreateListFragment extends BaseBindingFragment<FragmentQrCreateListBinding> {
     @Override
@@ -34,7 +33,7 @@ public class QrCreateListFragment extends BaseBindingFragment<FragmentQrCreateLi
         map.put(R.drawable.ic_wifi_plus, getString(R.string.wifi));
         map.put(R.drawable.ic_email_edit_outline, getString(R.string.email));
         map.put(R.drawable.ic_google_play, getString(R.string.apps));
-        SimpleRecyclerAdapter adapter = new SimpleRecyclerAdapter(map, title -> {
+        AppListAdapter adapter = new AppListAdapter(map, title -> {
             if (Objects.equals(title, getString(R.string.wifi))) {
                 getNavController().navigate(R.id.nav_wifi_dialog);
             } else if (Objects.equals(title, getString(R.string.email))) {

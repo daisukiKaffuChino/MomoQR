@@ -49,9 +49,9 @@
     <string name="theme_m2_sum">Classic theme friendly to old devices</string>
     <string name="theme_dynamic_color">Dynamic color support</string>
     <string name="require_android_s">Requires at least Android 12</string>
-    <string name="result_tip_content">1. Long press the QR code below to save the image locally. If your Android version is 10 or above, you can quickly save it to the default directory (optional).\n2. On any Android version, MomoQR doesn\'t need to request storage permission.\n3. Tiles is supported and MomoQR can start scanning through the dropdown status bar.</string>
+    <string name="result_tip_content">1. Click the button to save the image locally. If your Android version is 10 or above, you can quickly save it to the default directory (optional). 2. On any Android version, MomoQR doesn\'t need to request storage permission. 3. Tiles is supported and MomoQR can start scanning through the dropdown status bar.</string>
     <string name="tips">Tips</string>
-    <string name="tips_hide">don\'t show again</string>
+    <string name="tips_hide">Don\'t show again</string>
     <string name="tips_add_tile">Create tile</string>
     <string name="save_ok">Saved</string>
     <string name="save_failed">Save failed</string>
@@ -83,4 +83,7 @@
     <string name="how_to_correct_scan_content">1. Make sure that the code you want to scan is clearly visible and preferably not tilted.\n2. Avoid light reflections or shadows affecting the swept object.\n3. Keep a proper distance when scanning, and do not make the camera too close, or it may cause out of focus.\n4. If you scan for unsupported types, recognition will fail. Please confirm the graphic code type supported by MomoQR carefully.</string>
     <string name="feedback_and_update">Feedback issues and get updates</string>
     <string name="feedback_and_update_content">To report bugs, visit the <a href="https://github.com/daisukiKaffuChino/MomoQR">Repo of MomoQR</a> to submit an issue. Visit the release page to view all released versions. This is the only channel for MomoQR\'s current release.</string>
+    <string name="save">save</string>
+    <string name="original_img">Original Image</string>
+    <string name="share">Share</string>
 </resources>

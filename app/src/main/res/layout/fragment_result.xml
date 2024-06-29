@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fillViewport="true"
     tools:context=".CaptureActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -137,5 +138,39 @@
             </LinearLayout>
 
         </com.google.android.material.card.MaterialCardView>
+
+        <Button
+            android:id="@+id/result_origin_image_btn"
+            style="@style/Widget.Material3.Button.IconButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:contentDescription="@string/original_img"
+            app:icon="@drawable/outline_local_florist_24"
+            app:layout_constraintEnd_toStartOf="@+id/result_share_btn"
+            app:layout_constraintTop_toBottomOf="@+id/result_box" />
+
+        <Button
+            android:id="@+id/result_share_btn"
+            style="@style/Widget.Material3.Button.IconButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:contentDescription="@string/share"
+            app:icon="@drawable/outline_share_24"
+            app:layout_constraintEnd_toStartOf="@+id/result_save_btn"
+            app:layout_constraintTop_toBottomOf="@+id/result_box" />
+
+        <Button
+            android:id="@+id/result_save_btn"
+            style="@style/Widget.Material3.Button.IconButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:contentDescription="@string/save"
+            app:icon="@drawable/outline_save_24"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/result_box" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

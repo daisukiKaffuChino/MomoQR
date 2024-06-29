@@ -23,6 +23,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ShareCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.PreferenceManager;
 
@@ -38,6 +39,7 @@ import github.daisukiKaffuChino.MomoQR.databinding.FragmentResultBinding;
 import github.daisukiKaffuChino.MomoQR.logic.utils.ActionUtil;
 import github.daisukiKaffuChino.MomoQR.logic.utils.QRCodeUtil;
 import github.daisukiKaffuChino.MomoQR.ui.model.ResultViewModel;
+import github.daisukiKaffuChino.MomoQR.ui.view.ShowImageDialog;
 
 public class ResultFragment extends BaseBindingFragment<FragmentResultBinding> {
     FragmentResultBinding binding;
@@ -66,20 +68,28 @@ public class ResultFragment extends BaseBindingFragment<FragmentResultBinding> {
         });
         binding.openLinkBtn.setOnClickListener(v ->
                 ActionUtil.detectIntentAndStart(viewModel.contentLiveData.getValue()));
-        binding.remakeCodeImg.setOnLongClickListener(v -> {
-            //TODO 更换为新方法
-            v.setDrawingCacheEnabled(true);
-            saveBitmapLocal(v.getDrawingCache());
-            v.setDrawingCacheEnabled(false);
-            return true;
-        });
 
         binding.addFavBtn.setEnabled(!viewModel.isFromFav);
 
+        binding.resultOriginImageBtn.setEnabled(!viewModel.isFromFav && viewModel.pathLiveData.getValue() != null);
+
+        binding.resultOriginImageBtn.setOnClickListener(v -> new ShowImageDialog(requireContext(), viewModel.pathLiveData.getValue()).show());
+
+        binding.resultShareBtn.setOnClickListener(v -> new ShareCompat.IntentBuilder(requireContext())
+                .setType("text/plain")
+                .setChooserTitle("Share MomoQR")
+                .setText(viewModel.contentLiveData.getValue())
+                .startChooser());
+
+        binding.resultSaveBtn.setOnClickListener(v -> {
+            //TODO 更换为新方法
+            binding.remakeCodeImg.setDrawingCacheEnabled(true);
+            saveBitmapLocal(v.getDrawingCache());
+            binding.remakeCodeImg.setDrawingCacheEnabled(false);
+        });
+
         viewModel.contentLiveData.observe(getViewLifecycleOwner(), result -> {
-            if (result != null) {
-                showScanResults(result);
-            }
+            if (result != null) showScanResults(result);
         });
     }
 
@@ -90,8 +100,10 @@ public class ResultFragment extends BaseBindingFragment<FragmentResultBinding> {
         viewModel = new ViewModelProvider(this).get(ResultViewModel.class);
         if (getArguments() != null) {
             String content = getArguments().getString("content");
+            String imgPath = getArguments().getString("imgPath");
             boolean isFromFav = getArguments().getBoolean("isFromFav", false);
             viewModel.contentLiveData.setValue(content);
+            viewModel.pathLiveData.setValue(imgPath);
             viewModel.isFromFav = isFromFav;
         }
     }
@@ -154,13 +166,13 @@ public class ResultFragment extends BaseBindingFragment<FragmentResultBinding> {
                         name);
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         } finally {
             try {
                 if (pfd != null)
                     pfd.close();
             } catch (IOException e1) {
-                e1.printStackTrace();
+                e1.fillInStackTrace();
             }
         }
     }

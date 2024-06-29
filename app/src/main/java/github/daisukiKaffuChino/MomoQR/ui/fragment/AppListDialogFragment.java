@@ -19,7 +19,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import java.util.ArrayList;
 
 import github.daisukiKaffuChino.MomoQR.R;
-import github.daisukiKaffuChino.MomoQR.logic.adapter.SimpleRecyclerAdapter;
+import github.daisukiKaffuChino.MomoQR.logic.adapter.AppListAdapter;
 import github.daisukiKaffuChino.MomoQR.logic.bean.AppInfoBean;
 import github.daisukiKaffuChino.MomoQR.logic.utils.QueryAppsUtil;
 
@@ -35,7 +35,7 @@ public class AppListDialogFragment extends DialogFragment {
         builder.setView(view);
 
         ArrayList<AppInfoBean> beans = new QueryAppsUtil().getAppList(context.getPackageManager());
-        SimpleRecyclerAdapter adapter = new SimpleRecyclerAdapter(context, beans, ext -> {
+        AppListAdapter adapter = new AppListAdapter(context, beans, ext -> {
             NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_content_main);
             Bundle args = new Bundle();
             args.putString("content", "https://play.google.com/store/apps/details?id=" + ext);

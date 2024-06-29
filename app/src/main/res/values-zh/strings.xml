@@ -50,9 +50,9 @@
     <string name="theme_m2_sum">对旧设备友好的经典主题</string>
     <string name="theme_dynamic_color">动态取色支持</string>
     <string name="require_android_s">至少需要 Android 12</string>
-    <string name="result_tip_content">1. 长按下方二维码可以保存图片到本地。如果你的 Android 版本为 10 及以上，可以快速保存到默认目录（可选）。\n2. 在任何 Android 版本上 MomoQR 都不需要存储读写权限。\n3. MomoQR 已适配瓷贴，可通过下拉通知栏快速扫码。</string>
+    <string name="result_tip_content">1. 你可以保存图片到本地。如果你的 Android 版本为 10 及以上，可以快速保存到默认目录（可选）。\n2. 在任何 Android 版本上 MomoQR 都不需要存储读写权限。\n3. MomoQR 已适配瓷贴，可通过下拉通知栏快速扫码。</string>
     <string name="tips">小提示</string>
-    <string name="tips_hide">我知道了</string>
+    <string name="tips_hide">已阅，不再显示</string>
     <string name="tips_add_tile">快速添加瓷贴</string>
     <string name="save_ok">已保存</string>
     <string name="save_failed">保存失败</string>
@@ -82,4 +82,7 @@
     <string name="how_to_correct_scan_content">1. 确保您想要扫描的代码清晰可见，且最好不要有倾斜角度。\n2. 应避免光反射或阴影影响扫描对象。\n3. 扫描时保持适当距离，不要过于靠近，否则可能会对焦困难。\n4. 如果您扫描了不支持的类型，那么会导致识别失败。请仔细确认 MomoQR 支持的图形码类型。</string>
     <string name="feedback_and_update">反馈问题和获取更新</string>
     <string name="feedback_and_update_content">要报告问题，请访问 <a href="https://github.com/daisukiKaffuChino/MomoQR">MomoQR 的仓库</a> 来提交 issue 。访问 release 页面来查看所有已发布的版本。这是目前的唯一发布渠道。</string>
+    <string name="save">保存</string>
+    <string name="original_img">原图</string>
+    <string name="share">分享</string>
 </resources>

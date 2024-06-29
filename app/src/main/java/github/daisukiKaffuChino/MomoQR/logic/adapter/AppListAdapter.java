@@ -19,18 +19,18 @@ import java.util.Map;
 import github.daisukiKaffuChino.MomoQR.R;
 import github.daisukiKaffuChino.MomoQR.logic.bean.AppInfoBean;
 
-public class SimpleRecyclerAdapter extends RecyclerView.Adapter<SimpleRecyclerAdapter.SimpleRecyclerVH> {
+public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.SimpleRecyclerVH> {
     private final OnItemClickListener onItemClickListener;
     Map<Integer, String> map;
     ArrayList<AppInfoBean> beans;
     Context context;
 
-    public SimpleRecyclerAdapter(Map<Integer, String> map, OnItemClickListener listener) {
+    public AppListAdapter(Map<Integer, String> map, OnItemClickListener listener) {
         this.map = map;
         onItemClickListener = listener;
     }
 
-    public SimpleRecyclerAdapter(Context context, ArrayList<AppInfoBean> beans, OnItemClickListener listener) {
+    public AppListAdapter(Context context, ArrayList<AppInfoBean> beans, OnItemClickListener listener) {
         this.beans = beans;
         this.context = context;
         onItemClickListener = listener;
@@ -77,7 +77,7 @@ public class SimpleRecyclerAdapter extends RecyclerView.Adapter<SimpleRecyclerAd
             return beans.size();
     }
 
-    static class SimpleRecyclerVH extends RecyclerView.ViewHolder {
+    public static class SimpleRecyclerVH extends RecyclerView.ViewHolder {
         ImageView icon;
         TextView title;
         LinearLayout content;

@@ -68,6 +68,10 @@ public class EditTextDialogFragment extends DialogFragment {
 
             positiveButton.setOnClickListener(v -> {
                 String contentText = editText.getText().toString();
+                if (contentText.isEmpty()) {
+                    ActionUtil.toast(R.string.empty_data);
+                    return;
+                }
                 if (Objects.equals(MODE, MODE_INPUT_ONLY)) {
                     Bundle args = new Bundle();
                     args.putString("content", contentText);
@@ -77,6 +81,7 @@ public class EditTextDialogFragment extends DialogFragment {
                     actionUtil.addFav(contentText, favContent, favImagePath, checkBox.isChecked());
                     navController.navigateUp();
                 }
+
             });
             if (Objects.equals(MODE, MODE_INPUT_WITH_CHECKBOX)) {
                 Button neutralButton = alertDialog.getButton(AlertDialog.BUTTON_NEUTRAL);
