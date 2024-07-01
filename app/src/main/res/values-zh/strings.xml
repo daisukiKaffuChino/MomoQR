@@ -86,4 +86,6 @@
     <string name="original_img">原图</string>
     <string name="share">分享</string>
     <string name="clear_cache">清理缓存</string>
+    <string name="dont_need_clear">不需要清理</string>
+    <string name="wait_for_generate">请等待图片生成</string>
 </resources>

@@ -45,6 +45,7 @@ public class ResultFragment extends BaseBindingFragment<FragmentResultBinding> {
     FragmentResultBinding binding;
     ResultViewModel viewModel;
     ActionUtil actionUtil;
+    Bitmap generatedQRBitmap;
 
     @Override
     protected FragmentResultBinding onCreateViewBinding(@NonNull LayoutInflater inflater, @Nullable ViewGroup parent) {
@@ -82,10 +83,10 @@ public class ResultFragment extends BaseBindingFragment<FragmentResultBinding> {
                 .startChooser());
 
         binding.resultSaveBtn.setOnClickListener(v -> {
-            //TODO 更换为新方法
-            binding.remakeCodeImg.setDrawingCacheEnabled(true);
-            saveBitmapLocal(v.getDrawingCache());
-            binding.remakeCodeImg.setDrawingCacheEnabled(false);
+           if (generatedQRBitmap==null)
+               ActionUtil.toast(R.string.wait_for_generate);
+           else
+               saveBitmapLocal(generatedQRBitmap);
         });
 
         viewModel.contentLiveData.observe(getViewLifecycleOwner(), result -> {
@@ -111,8 +112,8 @@ public class ResultFragment extends BaseBindingFragment<FragmentResultBinding> {
     private void showScanResults(String content) {
         if (content != null) {
             binding.resultText.setText(content);
-            Bitmap bitmap = QRCodeUtil.INSTANCE.createQRCodeBitmap(content, 180, 180, Color.BLACK, Color.WHITE);
-            Glide.with(requireContext()).load(bitmap).into(binding.remakeCodeImg);
+            generatedQRBitmap = QRCodeUtil.INSTANCE.createQRCodeBitmap(content, 180, 180, Color.BLACK, Color.WHITE);
+            Glide.with(requireContext()).load(generatedQRBitmap).into(binding.remakeCodeImg);
         }
     }
 

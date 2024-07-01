@@ -87,4 +87,6 @@
     <string name="original_img">Original Image</string>
     <string name="share">Share</string>
     <string name="clear_cache">Clear Cache</string>
+    <string name="dont_need_clear">No need for cleaning</string>
+    <string name="wait_for_generate">Please wait for the image to be generated</string>
 </resources>

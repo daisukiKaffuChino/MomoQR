@@ -14,12 +14,12 @@ import androidx.preference.PreferenceFragmentCompat;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.io.File;
+import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.Objects;
 
 import github.daisukiKaffuChino.MomoQR.R;
-
-import java.text.DecimalFormat;
+import github.daisukiKaffuChino.MomoQR.logic.utils.ActionUtil;
 
 public class SettingsFragment extends PreferenceFragmentCompat {
     @Override
@@ -44,10 +44,14 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         assert clearCache != null;
         clearCache.setSummary(getReadableFileSize(getFolderSize(requireContext().getCacheDir())));
         clearCache.setOnPreferenceClickListener(preference -> {
-            File cacheDir=requireContext().getCacheDir();
+            File cacheDir = requireContext().getCacheDir();
+            if (getFolderSize(cacheDir) < 10000) {
+                ActionUtil.toast(R.string.dont_need_clear);
+                return true;
+            }
             if (clearFolder(cacheDir))
                 preference.setSummary(getReadableFileSize(getFolderSize(cacheDir)));
-            return false;
+            return true;
         });
     }
 

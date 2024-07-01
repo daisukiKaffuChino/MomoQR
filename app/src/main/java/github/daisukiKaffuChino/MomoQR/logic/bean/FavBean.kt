@@ -31,7 +31,7 @@ class FavBean : LiveData<FavBean?>() {
         }
     var star = false
         set(star) {
-           field = star
+            field = star
             postValue(this)
         }
 }
