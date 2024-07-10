@@ -89,4 +89,9 @@
     <string name="clear_cache">Clear Cache</string>
     <string name="dont_need_clear">No need for cleaning</string>
     <string name="wait_for_generate">Please wait for the image to be generated</string>
+    <string name="color_palette">Color palette</string>
+    <string name="set_qr_theme_color_text">You can customize the foreground and background colors of the QR code.</string>
+    <string name="fore_color">Foreground</string>
+    <string name="back_color">Background</string>
+    <string name="presets">Presets</string>
 </resources>

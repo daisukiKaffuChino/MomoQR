@@ -20,7 +20,7 @@
             android:backgroundTint="?attr/colorSecondaryVariant"
             android:text="@string/menu_fav"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/result_tip_card" />
+            app:layout_constraintTop_toBottomOf="@id/result_qr_theme_card" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/copy_btn"
@@ -137,6 +137,78 @@
 
             </LinearLayout>
 
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/result_qr_theme_card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/result_tip_card">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="4dp">
+
+                <ImageView
+                    android:id="@+id/result_paint_icon"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginStart="16dp"
+                    android:importantForAccessibility="no"
+                    android:src="@drawable/outline_format_paint_24"
+                    app:layout_constraintBottom_toBottomOf="@+id/result_qr_palette_bg_btn"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/result_theme_color_text"
+                    app:tint="?attr/colorPrimary" />
+
+                <TextView
+                    android:id="@+id/result_theme_color_text"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:padding="12dp"
+                    android:text="@string/set_qr_theme_color_text"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/result_paint_icon"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Button
+                    android:id="@+id/result_qr_palette_fore_btn"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/fore_color"
+                    android:textAllCaps="false"
+                    app:layout_constraintEnd_toStartOf="@+id/result_qr_palette_bg_btn"
+                    app:layout_constraintTop_toBottomOf="@+id/result_theme_color_text" />
+
+                <Button
+                    android:id="@+id/result_qr_palette_bg_btn"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="4dp"
+                    android:text="@string/back_color"
+                    android:textAllCaps="false"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/result_theme_color_text" />
+
+                <Button
+                    android:id="@+id/result_qr_palette_presets_btn"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/presets"
+                    android:textAllCaps="false"
+                    app:layout_constraintStart_toEndOf="@+id/result_paint_icon"
+                    app:layout_constraintTop_toBottomOf="@+id/result_theme_color_text" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.card.MaterialCardView>
 
         <Button

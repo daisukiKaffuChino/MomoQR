@@ -88,4 +88,9 @@
     <string name="clear_cache">清理缓存</string>
     <string name="dont_need_clear">不需要清理</string>
     <string name="wait_for_generate">请等待图片生成</string>
+    <string name="color_palette">调色盘</string>
+    <string name="set_qr_theme_color_text">你可以自定义二维码的前景色和背景色。</string>
+    <string name="fore_color">前景色</string>
+    <string name="back_color">背景色</string>
+    <string name="presets">预设</string>
 </resources>

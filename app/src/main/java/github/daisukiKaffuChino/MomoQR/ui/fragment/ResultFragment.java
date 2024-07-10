@@ -28,6 +28,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.PreferenceManager;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
@@ -40,12 +41,15 @@ import github.daisukiKaffuChino.MomoQR.logic.utils.ActionUtil;
 import github.daisukiKaffuChino.MomoQR.logic.utils.QRCodeUtil;
 import github.daisukiKaffuChino.MomoQR.ui.model.ResultViewModel;
 import github.daisukiKaffuChino.MomoQR.ui.view.ShowImageDialog;
+import github.daisukiKaffuChino.MomoQR.ui.view.colorpicker.ColorModel;
+import github.daisukiKaffuChino.MomoQR.ui.view.colorpicker.ColorPickerDialog;
 
 public class ResultFragment extends BaseBindingFragment<FragmentResultBinding> {
     FragmentResultBinding binding;
     ResultViewModel viewModel;
     ActionUtil actionUtil;
     Bitmap generatedQRBitmap;
+    SharedPreferences sp;
 
     @Override
     protected FragmentResultBinding onCreateViewBinding(@NonNull LayoutInflater inflater, @Nullable ViewGroup parent) {
@@ -83,20 +87,66 @@ public class ResultFragment extends BaseBindingFragment<FragmentResultBinding> {
                 .startChooser());
 
         binding.resultSaveBtn.setOnClickListener(v -> {
-           if (generatedQRBitmap==null)
-               ActionUtil.toast(R.string.wait_for_generate);
-           else
-               saveBitmapLocal(generatedQRBitmap);
+            if (generatedQRBitmap == null)
+                ActionUtil.toast(R.string.wait_for_generate);
+            else
+                saveBitmapLocal(generatedQRBitmap);
+        });
+
+        binding.resultQrPaletteForeBtn.setOnClickListener(v -> showPaletteDialog("qrForegroundColor"));
+        binding.resultQrPaletteBgBtn.setOnClickListener(v -> showPaletteDialog("qrBackgroundColor"));
+
+        binding.resultQrPalettePresetsBtn.setOnClickListener(v -> {
+            MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(requireContext());
+            builder.setTitle(getString(R.string.presets));
+            String[] items = {"White/Black", "Momoi", "Midori", "Yuzu", "Alice"};
+            builder.setItems(items, (dialog, which) -> {
+                int fore, back;
+                switch (items[which]) {
+                    case "Momoi":
+                        fore = Color.WHITE;
+                        back = Color.parseColor("#F59BC3");
+                        break;
+                    case "Midori":
+                        fore = Color.parseColor("#B8DE58");
+                        back = Color.parseColor("#2A374D");
+                        break;
+                    case "Yuzu":
+                        fore = Color.parseColor("#FD9197");
+                        back = Color.parseColor("#95DBEB");
+                        break;
+                    case "Alice":
+                        fore = Color.parseColor("#5DBDFF");
+                        back = Color.parseColor("#7B8393");
+                        break;
+                    default:
+                        fore = Color.BLACK;
+                        back = Color.WHITE;
+                }
+                SharedPreferences.Editor edt = sp.edit();
+                edt.putInt("qrForegroundColor", fore);
+                edt.putInt("qrBackgroundColor", back);
+                edt.apply();
+                viewModel.qrForegroundColor.setValue(fore);
+                viewModel.qrBackgroundColor.setValue(back);
+            });
+            builder.show();
         });
 
         viewModel.contentLiveData.observe(getViewLifecycleOwner(), result -> {
-            if (result != null) showScanResults(result);
+            if (result != null) {
+                binding.resultText.setText(result);
+                viewModel.qrForegroundColor.setValue(sp.getInt("qrForegroundColor", Color.BLACK));
+                viewModel.qrBackgroundColor.setValue(sp.getInt("qrBackgroundColor", Color.WHITE));
+            }
         });
+
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        sp = PreferenceManager.getDefaultSharedPreferences(requireContext());
         actionUtil = new ActionUtil(requireContext());
         viewModel = new ViewModelProvider(this).get(ResultViewModel.class);
         if (getArguments() != null) {
@@ -109,14 +159,21 @@ public class ResultFragment extends BaseBindingFragment<FragmentResultBinding> {
         }
     }
 
-    private void showScanResults(String content) {
+    @Override
+    public void onStart() {
+        super.onStart();
+        viewModel.qrForegroundColor.observe(getViewLifecycleOwner(), result ->
+                displayQrImage(viewModel.contentLiveData.getValue(), result, sp.getInt("qrBackgroundColor", Color.WHITE)));
+        viewModel.qrBackgroundColor.observe(getViewLifecycleOwner(), result ->
+                displayQrImage(viewModel.contentLiveData.getValue(), sp.getInt("qrForegroundColor", Color.BLACK), result));
+    }
+
+    private void displayQrImage(String content, int fore, int back) {
         if (content != null) {
-            binding.resultText.setText(content);
-            generatedQRBitmap = QRCodeUtil.INSTANCE.createQRCodeBitmap(content, 180, 180, Color.BLACK, Color.WHITE);
+            generatedQRBitmap = QRCodeUtil.INSTANCE.createQRCodeBitmap(content, 180, 180, fore, back);
             Glide.with(requireContext()).load(generatedQRBitmap).into(binding.remakeCodeImg);
         }
     }
-
 
     private void saveBitmapLocal(Bitmap bitmap) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(requireContext());
@@ -176,6 +233,23 @@ public class ResultFragment extends BaseBindingFragment<FragmentResultBinding> {
                 e1.fillInStackTrace();
             }
         }
+    }
+
+    private void showPaletteDialog(String dataName) {
+        ColorPickerDialog colorPickerDialog = new ColorPickerDialog.Builder()
+                .setInitialColor(Color.BLUE)
+                .setColorModel(ColorModel.RGB)
+                .onColorSelected(color -> {
+                    SharedPreferences.Editor edt = sp.edit();
+                    edt.putInt(dataName, color);
+                    edt.apply();
+                    if (dataName.equals("qrForegroundColor"))
+                        viewModel.qrForegroundColor.setValue(color);
+                    else
+                        viewModel.qrBackgroundColor.setValue(color);
+                })
+                .create();
+        colorPickerDialog.show(getChildFragmentManager(), "qr_palette");
     }
 
     private void initTips() {
