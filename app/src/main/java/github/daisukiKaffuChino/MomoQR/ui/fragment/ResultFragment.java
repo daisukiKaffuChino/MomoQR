@@ -82,7 +82,7 @@ public class ResultFragment extends BaseBindingFragment<FragmentResultBinding> {
 
         binding.resultShareBtn.setOnClickListener(v -> new ShareCompat.IntentBuilder(requireContext())
                 .setType("text/plain")
-                .setChooserTitle("Share MomoQR")
+                .setChooserTitle("From MomoQR")
                 .setText(viewModel.contentLiveData.getValue())
                 .startChooser());
 
@@ -112,8 +112,8 @@ public class ResultFragment extends BaseBindingFragment<FragmentResultBinding> {
                         back = Color.parseColor("#2A374D");
                         break;
                     case "Yuzu":
-                        fore = Color.parseColor("#FD9197");
-                        back = Color.parseColor("#95DBEB");
+                        fore = Color.parseColor("#F5B877");
+                        back = Color.parseColor("#AC4457");
                         break;
                     case "Alice":
                         fore = Color.parseColor("#5DBDFF");
@@ -199,10 +199,7 @@ public class ResultFragment extends BaseBindingFragment<FragmentResultBinding> {
                 assert pfd != null;
                 BufferedOutputStream bos =
                         new BufferedOutputStream(new FileOutputStream(pfd.getFileDescriptor()));
-                binding.remakeCodeImg.setDrawingCacheEnabled(true);
-                Bitmap bitmap = binding.remakeCodeImg.getDrawingCache();
-                bitmap.compress(Bitmap.CompressFormat.PNG, 100, bos);
-                binding.remakeCodeImg.setDrawingCacheEnabled(false);
+                generatedQRBitmap.compress(Bitmap.CompressFormat.PNG, 100, bos);
                 bos.flush();
                 bos.close();
 
