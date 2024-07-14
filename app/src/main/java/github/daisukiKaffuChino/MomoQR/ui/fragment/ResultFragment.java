@@ -68,7 +68,7 @@ public class ResultFragment extends BaseBindingFragment<FragmentResultBinding> {
             Bundle bundle = new Bundle();
             bundle.putString("mode", EditTextDialogFragment.MODE_INPUT_WITH_CHECKBOX);
             bundle.putString("content", viewModel.contentLiveData.getValue());
-            bundle.putString("imgPath", actionUtil.saveImageViewImage(binding.remakeCodeImg));
+            //bundle.putString("imgPath", actionUtil.saveImageViewImage(binding.remakeCodeImg));
             getNavController().navigate(R.id.nav_edt_dialog, bundle);
         });
         binding.openLinkBtn.setOnClickListener(v ->

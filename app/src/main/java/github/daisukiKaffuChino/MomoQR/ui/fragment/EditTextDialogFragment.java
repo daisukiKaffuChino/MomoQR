@@ -2,6 +2,8 @@ package github.daisukiKaffuChino.MomoQR.ui.fragment;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -22,6 +24,7 @@ import java.util.Objects;
 
 import github.daisukiKaffuChino.MomoQR.R;
 import github.daisukiKaffuChino.MomoQR.logic.utils.ActionUtil;
+import github.daisukiKaffuChino.MomoQR.logic.utils.QRCodeUtil;
 
 public class EditTextDialogFragment extends DialogFragment {
     public final static String MODE_INPUT_ONLY = "MODE_INPUT_ONLY";
@@ -30,7 +33,7 @@ public class EditTextDialogFragment extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        ActionUtil actionUtil = new ActionUtil(requireContext());
+
         MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(requireActivity());
 
         @SuppressLint("InflateParams") View view = getLayoutInflater().inflate(R.layout.dialog_edittext, null);
@@ -41,7 +44,7 @@ public class EditTextDialogFragment extends DialogFragment {
         assert getArguments() != null;
         String MODE = getArguments().getString("mode", MODE_INPUT_ONLY);
         String favContent = getArguments().getString("content", "");
-        String favImagePath = getArguments().getString("imgPath", "");
+        //String favImagePath = getArguments().getString("imgPath", "");
         String ext = getArguments().getString("ext", "");
 
         editText.setText(ext);
@@ -78,20 +81,27 @@ public class EditTextDialogFragment extends DialogFragment {
                     navController.navigateUp();
                     navController.navigate(R.id.nav_result, args);
                 } else if (Objects.equals(MODE, MODE_INPUT_WITH_CHECKBOX)) {
-                    actionUtil.addFav(contentText, favContent, favImagePath, checkBox.isChecked());
+                    saveToFav(contentText, favContent, checkBox.isChecked());
                     navController.navigateUp();
                 }
 
             });
             if (Objects.equals(MODE, MODE_INPUT_WITH_CHECKBOX)) {
-                Button neutralButton = alertDialog.getButton(AlertDialog.BUTTON_NEUTRAL);
+                Button neutralButton = alertDialog.getButton(AlertDialog.BUTTON_NEUTRAL)
                 neutralButton.setOnClickListener(v -> {
-                    actionUtil.addFav(ActionUtil.currentTime(), favContent, favImagePath, checkBox.isChecked());
+                    saveToFav(ActionUtil.currentTime(), favContent, checkBox.isChecked());
                     navController.navigateUp();
                 });
             }
         });
         return alertDialog;
+    }
+
+    private void saveToFav(String title, String content, boolean isStar) {
+        ActionUtil actionUtil = new ActionUtil(requireContext());
+        Bitmap bitmap = QRCodeUtil.INSTANCE.createQRCodeBitmap(content, 180, 180, Color.BLACK, Color.WHITE);
+        String favImagePath = actionUtil.saveBitmapPrivate(bitmap);
+        if (favImagePath != null) actionUtil.addFav(title, content, favImagePath, isStar);
     }
 
 }

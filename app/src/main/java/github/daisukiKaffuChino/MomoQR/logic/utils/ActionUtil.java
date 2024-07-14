@@ -79,8 +79,8 @@ public class ActionUtil {
         return formattedDate + "-" + formattedTime;
     }
 
-    public String saveImageViewImage(ImageView imageView) {
-        if (imageView.getDrawable() == null) {  //检查是否已生成二维码
+    public String saveBitmapPrivate(Bitmap bitmap) {
+        if (bitmap == null) {  //检查是否已生成二维码
             toast(R.string.qr_not_prepare_ok);
             return null;
         }
@@ -92,10 +92,7 @@ public class ActionUtil {
         String filePath = file + File.separator + fileName;
         try {
             FileOutputStream outStream = new FileOutputStream(filePath);
-            imageView.setDrawingCacheEnabled(true);
-            Bitmap image = imageView.getDrawingCache();
-            image.compress(Bitmap.CompressFormat.PNG, 100, outStream);
-            imageView.setDrawingCacheEnabled(false);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, outStream);
             outStream.flush();
             outStream.close();
             return filePath;
