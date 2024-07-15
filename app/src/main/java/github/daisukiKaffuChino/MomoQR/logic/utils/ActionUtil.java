@@ -1,18 +1,24 @@
 package github.daisukiKaffuChino.MomoQR.logic.utils;
 
+import android.app.Activity;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
+import android.graphics.RenderEffect;
+import android.graphics.Shader;
 import android.net.Uri;
 import android.os.Build;
 import android.text.SpannableString;
 import android.text.TextUtils;
-import android.widget.ImageView;
+import android.view.View;
 import android.widget.Toast;
+
+import androidx.preference.PreferenceManager;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
@@ -113,12 +119,26 @@ public class ActionUtil {
             ActionUtil.toast(R.string.no_match_intent);
     }
 
-    public void showMessageDialog(String title, String content) {
+    public void showMessageDialog(Activity activity, String title, String content) {
+        decorBlur(activity.getWindow().getDecorView(), true);
         new MaterialAlertDialogBuilder(context)
                 .setTitle(title)
                 .setMessage(content)
                 .setPositiveButton(R.string.ok, null)
+                .setOnDismissListener(
+                        dialog -> decorBlur(activity.getWindow().getDecorView(), false)
+                )
                 .show();
+    }
+
+    public void decorBlur(View decorView, boolean isBlur) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+        if (sp.getBoolean("dialogBackgroundBlur", true) && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            if (isBlur)
+                decorView.setRenderEffect(RenderEffect.createBlurEffect(24, 24, Shader.TileMode.CLAMP));
+            else
+                decorView.setRenderEffect(null);
+        }
     }
 
     public void addFav(String title, String content, String imageSavedPath, boolean checked) {

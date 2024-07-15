@@ -97,6 +97,7 @@ public class ResultFragment extends BaseBindingFragment<FragmentResultBinding> {
         binding.resultQrPaletteBgBtn.setOnClickListener(v -> showPaletteDialog("qrBackgroundColor"));
 
         binding.resultQrPalettePresetsBtn.setOnClickListener(v -> {
+            actionUtil.decorBlur(requireActivity().getWindow().getDecorView(), true);
             MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(requireContext());
             builder.setTitle(getString(R.string.presets));
             String[] items = {"White/Black", "Momoi", "Midori", "Yuzu", "Alice"};
@@ -130,6 +131,9 @@ public class ResultFragment extends BaseBindingFragment<FragmentResultBinding> {
                 viewModel.qrForegroundColor.setValue(fore);
                 viewModel.qrBackgroundColor.setValue(back);
             });
+            builder.setOnDismissListener(
+                    dialog -> actionUtil.decorBlur(requireActivity().getWindow().getDecorView(), false)
+            );
             builder.show();
         });
 
@@ -217,6 +221,7 @@ public class ResultFragment extends BaseBindingFragment<FragmentResultBinding> {
                 }
 
                 actionUtil.showMessageDialog(
+                        requireActivity(),
                         getString(R.string.save_ok),
                         name);
             }
@@ -233,8 +238,13 @@ public class ResultFragment extends BaseBindingFragment<FragmentResultBinding> {
     }
 
     private void showPaletteDialog(String dataName) {
+        int initialColor;
+        if (dataName.equals("qrForegroundColor"))
+            initialColor = sp.getInt("qrForegroundColor", Color.BLACK);
+        else
+            initialColor = sp.getInt("qrBackgroundColor", Color.WHITE);
         ColorPickerDialog colorPickerDialog = new ColorPickerDialog.Builder()
-                .setInitialColor(Color.BLUE)
+                .setInitialColor(initialColor)
                 .setColorModel(ColorModel.RGB)
                 .onColorSelected(color -> {
                     SharedPreferences.Editor edt = sp.edit();
@@ -250,7 +260,6 @@ public class ResultFragment extends BaseBindingFragment<FragmentResultBinding> {
     }
 
     private void initTips() {
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(requireContext());
         if (sp.getBoolean("hideTips", false)) {
             binding.resultTipCard.setVisibility(View.GONE);
         } else {

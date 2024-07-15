@@ -1,5 +1,6 @@
 package github.daisukiKaffuChino.MomoQR.logic.utils
 
+import android.app.Activity
 import android.content.ContentResolver
 import android.content.ContentValues
 import android.content.Context
@@ -182,7 +183,7 @@ object QRCodeUtil {
         return bitmap
     }
 
-    fun saveBitmapAboveQ(context: Context, bitmap: Bitmap) {
+    fun saveBitmapAboveQ(context: Activity, bitmap: Bitmap) {
         val nowTime = System.currentTimeMillis()
         val displayName = "QR$nowTime.png"
         val values = ContentValues()
@@ -202,6 +203,7 @@ object QRCodeUtil {
                 ActionUtil(
                     context
                 ).showMessageDialog(
+                    context,
                     context.getString(R.string.save_ok),
                     "storage/emulated/0/Pictures/MomoQR/$displayName"
                 )

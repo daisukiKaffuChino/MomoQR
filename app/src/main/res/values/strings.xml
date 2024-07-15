@@ -47,7 +47,7 @@
     <string name="theme">Theme</string>
     <string name="theme_enable_m2">Use Material 2</string>
     <string name="theme_m2_sum">Classic theme friendly to old devices</string>
-    <string name="theme_dynamic_color">Dynamic color support</string>
+    <string name="theme_dynamic_color">Dynamic color (Monet)</string>
     <string name="require_android_s">Requires at least Android 12</string>
     <string name="result_tip_content">1. Click the button to save the image locally. If your Android version is 10 or above, you can quickly save it to the default directory (optional). 2. On any Android version, MomoQR doesn\'t need to request storage permission. 3. Tiles is supported and MomoQR can start scanning through the dropdown status bar.</string>
     <string name="tips">Tips</string>
@@ -59,7 +59,7 @@
     <string name="storage">Storage</string>
     <string name="not_ask_save_path">Don\'t ask save path</string>
     <string name="require_android_q">Requires at least Android 10</string>
-    <string name="toggle_day_night">Toggle Light/Dark</string>
+    <string name="toggle_day_night">Toggle Light/Dark Theme</string>
     <string name="flash_light">Flashlight</string>
     <string name="mark_as_important">Mark as Important Content</string>
     <string name="qr_not_prepare_ok">The QR code has not been generated yet</string>
@@ -94,4 +94,5 @@
     <string name="fore_color">Foreground</string>
     <string name="back_color">Background</string>
     <string name="presets">Presets</string>
+    <string name="dialog_bg_blur">Blurred dialog box background</string>
 </resources>

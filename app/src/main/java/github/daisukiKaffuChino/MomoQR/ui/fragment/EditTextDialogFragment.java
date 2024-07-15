@@ -2,6 +2,7 @@ package github.daisukiKaffuChino.MomoQR.ui.fragment;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -29,11 +30,14 @@ import github.daisukiKaffuChino.MomoQR.logic.utils.QRCodeUtil;
 public class EditTextDialogFragment extends DialogFragment {
     public final static String MODE_INPUT_ONLY = "MODE_INPUT_ONLY";
     public final static String MODE_INPUT_WITH_CHECKBOX = "MODE_INPUT_WITH_CHECKBOX";
+    ActionUtil actionUtil;
 
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
 
+        actionUtil = new ActionUtil(requireContext());
+        actionUtil.decorBlur(requireActivity().getWindow().getDecorView(), true);
         MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(requireActivity());
 
         @SuppressLint("InflateParams") View view = getLayoutInflater().inflate(R.layout.dialog_edittext, null);
@@ -87,7 +91,7 @@ public class EditTextDialogFragment extends DialogFragment {
 
             });
             if (Objects.equals(MODE, MODE_INPUT_WITH_CHECKBOX)) {
-                Button neutralButton = alertDialog.getButton(AlertDialog.BUTTON_NEUTRAL)
+                Button neutralButton = alertDialog.getButton(AlertDialog.BUTTON_NEUTRAL);
                 neutralButton.setOnClickListener(v -> {
                     saveToFav(ActionUtil.currentTime(), favContent, checkBox.isChecked());
                     navController.navigateUp();
@@ -95,6 +99,12 @@ public class EditTextDialogFragment extends DialogFragment {
             }
         });
         return alertDialog;
+    }
+
+    @Override
+    public void onDismiss(@NonNull DialogInterface dialog) {
+        super.onDismiss(dialog);
+        actionUtil.decorBlur(requireActivity().getWindow().getDecorView(), false);
     }
 
     private void saveToFav(String title, String content, boolean isStar) {

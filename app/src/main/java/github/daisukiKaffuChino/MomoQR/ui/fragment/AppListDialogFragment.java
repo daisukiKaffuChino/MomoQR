@@ -3,6 +3,7 @@ package github.daisukiKaffuChino.MomoQR.ui.fragment;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 
@@ -21,13 +22,18 @@ import java.util.ArrayList;
 import github.daisukiKaffuChino.MomoQR.R;
 import github.daisukiKaffuChino.MomoQR.logic.adapter.AppListAdapter;
 import github.daisukiKaffuChino.MomoQR.logic.bean.AppInfoBean;
+import github.daisukiKaffuChino.MomoQR.logic.utils.ActionUtil;
 import github.daisukiKaffuChino.MomoQR.logic.utils.QueryAppsUtil;
 
 public class AppListDialogFragment extends DialogFragment {
+    ActionUtil actionUtil;
+
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         Context context = requireActivity();
+        actionUtil = new ActionUtil(requireContext());
+        actionUtil.decorBlur(requireActivity().getWindow().getDecorView(), true);
         MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(context);
 
         @SuppressLint("InflateParams") View view = getLayoutInflater().inflate(R.layout.fragment_qr_create_list, null);
@@ -48,5 +54,11 @@ public class AppListDialogFragment extends DialogFragment {
         builder.setTitle(R.string.apps);
         builder.setNegativeButton(R.string.cancel, null);
         return builder.create();
+    }
+
+    @Override
+    public void onDismiss(@NonNull DialogInterface dialog) {
+        super.onDismiss(dialog);
+        actionUtil.decorBlur(requireActivity().getWindow().getDecorView(), false);
     }
 }

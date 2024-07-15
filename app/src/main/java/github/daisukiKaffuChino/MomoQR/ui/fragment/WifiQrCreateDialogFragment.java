@@ -1,6 +1,7 @@
 package github.daisukiKaffuChino.MomoQR.ui.fragment;
 
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -24,11 +25,14 @@ import github.daisukiKaffuChino.MomoQR.logic.utils.ActionUtil;
 public class WifiQrCreateDialogFragment extends DialogFragment {
     DialogCreateWifiQrBinding binding;
     String[] spinnerStrings = {"WEP", "WPA/WPA2 PSK", "-"};
+    ActionUtil actionUtil;
 
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         binding = DialogCreateWifiQrBinding.inflate(getLayoutInflater());
+        actionUtil = new ActionUtil(requireContext());
+        actionUtil.decorBlur(requireActivity().getWindow().getDecorView(), true);
         MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(requireActivity());
         builder.setTitle(R.string.wifi);
         builder.setView(binding.getRoot());
@@ -71,6 +75,12 @@ public class WifiQrCreateDialogFragment extends DialogFragment {
         });
         builder.setNegativeButton(R.string.cancel, null);
         return builder.create();
+    }
+
+    @Override
+    public void onDismiss(@NonNull DialogInterface dialog) {
+        super.onDismiss(dialog);
+        actionUtil.decorBlur(requireActivity().getWindow().getDecorView(), false);
     }
 
     @Override

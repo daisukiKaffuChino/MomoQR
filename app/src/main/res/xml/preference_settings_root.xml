@@ -35,9 +35,9 @@
             app:key="notAskForSavePath"
             app:title="@string/not_ask_save_path" />
         <Preference
-            app:title="@string/clear_cache"
             app:icon="@drawable/outline_cleaning_services_24"
-            app:key="clearCache"/>
+            app:key="clearCache"
+            app:title="@string/clear_cache" />
     </PreferenceCategory>
     <PreferenceCategory app:title="@string/display">
         <SwitchPreferenceCompat
@@ -53,6 +53,11 @@
             app:icon="@drawable/outline_palette_24"
             app:key="dynamicColor"
             app:title="@string/theme_dynamic_color" />
+        <SwitchPreferenceCompat
+            app:defaultValue="true"
+            app:icon="@drawable/outline_blur_on_24"
+            app:key="dialogBackgroundBlur"
+            app:title="@string/dialog_bg_blur" />
         <ListPreference
             app:defaultValue="0"
             app:entries="@array/dayNight_entries"
@@ -62,4 +67,7 @@
             app:title="@string/toggle_day_night"
             app:useSimpleSummaryProvider="true" />
     </PreferenceCategory>
+    <github.daisukiKaffuChino.MomoQR.ui.view.MillenniumPreference
+        app:key="millennium"
+        app:selectable="false" />
 </PreferenceScreen>

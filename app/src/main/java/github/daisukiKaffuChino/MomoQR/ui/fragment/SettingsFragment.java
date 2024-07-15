@@ -28,9 +28,13 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
             Preference dynamicColor = findPreference("dynamicColor");
+            Preference dialogBackgroundBlur = findPreference("dialogBackgroundBlur");
             assert dynamicColor != null;
             dynamicColor.setSummary(R.string.require_android_s);
             dynamicColor.setEnabled(false);
+            assert dialogBackgroundBlur != null;
+            dialogBackgroundBlur.setSummary(R.string.require_android_s);
+            dialogBackgroundBlur.setEnabled(false);
         }
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {

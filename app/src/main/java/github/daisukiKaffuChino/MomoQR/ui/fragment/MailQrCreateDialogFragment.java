@@ -1,6 +1,7 @@
 package github.daisukiKaffuChino.MomoQR.ui.fragment;
 
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.TextUtils;
 
@@ -20,10 +21,13 @@ import github.daisukiKaffuChino.MomoQR.logic.utils.ActionUtil;
 
 public class MailQrCreateDialogFragment extends DialogFragment {
     DialogCreateEmailQrBinding binding;
+    ActionUtil actionUtil;
 
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+        actionUtil = new ActionUtil(requireContext());
+        actionUtil.decorBlur(requireActivity().getWindow().getDecorView(), true);
         MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(requireActivity());
 
         binding = DialogCreateEmailQrBinding.inflate(getLayoutInflater());
@@ -49,6 +53,12 @@ public class MailQrCreateDialogFragment extends DialogFragment {
         });
         builder.setNegativeButton(R.string.cancel, null);
         return builder.create();
+    }
+
+    @Override
+    public void onDismiss(@NonNull DialogInterface dialog) {
+        super.onDismiss(dialog);
+        actionUtil.decorBlur(requireActivity().getWindow().getDecorView(), false);
     }
 
     @Override

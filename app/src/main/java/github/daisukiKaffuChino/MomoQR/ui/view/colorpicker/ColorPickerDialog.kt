@@ -1,20 +1,21 @@
 package github.daisukiKaffuChino.MomoQR.ui.view.colorpicker
 
 import android.app.Dialog
+import android.content.DialogInterface
 import android.os.Bundle
 import androidx.annotation.ColorInt
 import androidx.annotation.StringRes
-import androidx.appcompat.app.AlertDialog
 import androidx.core.graphics.ColorUtils
 import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import github.daisukiKaffuChino.MomoQR.logic.utils.ActionUtil
 import kotlin.properties.Delegates
 
 /**
  * A subclass of DialogFragment with color picker dialog.
  */
 class ColorPickerDialog internal constructor() : DialogFragment() {
-
     companion object {
         private const val ACTION_OK_KEY = "key_action_ok"
         private const val ACTION_CANCEL_KEY = "key_action_cancel"
@@ -315,8 +316,8 @@ class ColorPickerDialog internal constructor() : DialogFragment() {
                 }
             }
         )
-
-        return AlertDialog.Builder(requireContext())
+        ActionUtil(requireContext()).decorBlur(requireActivity().window.decorView, true)
+        return MaterialAlertDialogBuilder(requireContext())
             .setView(pickerView)
             .create()
     }
@@ -331,6 +332,11 @@ class ColorPickerDialog internal constructor() : DialogFragment() {
         )
         outState.putAll(bundle)
         super.onSaveInstanceState(outState)
+    }
+
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+        ActionUtil(requireContext()).decorBlur(requireActivity().window.decorView, false)
     }
 
     override fun onDestroyView() {

@@ -48,7 +48,7 @@
     <string name="theme">主题</string>
     <string name="theme_enable_m2">启用 Material 2</string>
     <string name="theme_m2_sum">对旧设备友好的经典主题</string>
-    <string name="theme_dynamic_color">动态取色支持</string>
+    <string name="theme_dynamic_color">动态取色 (Monet)</string>
     <string name="require_android_s">至少需要 Android 12</string>
     <string name="result_tip_content">1. 你可以保存图片到本地。如果你的 Android 版本为 10 及以上，可以快速保存到默认目录（可选）。\n2. 在任何 Android 版本上 MomoQR 都不需要存储读写权限。\n3. MomoQR 已适配瓷贴，可通过下拉通知栏快速扫码。</string>
     <string name="tips">小提示</string>
@@ -93,4 +93,5 @@
     <string name="fore_color">前景色</string>
     <string name="back_color">背景色</string>
     <string name="presets">预设</string>
+    <string name="dialog_bg_blur">对话框背景模糊</string>
 </resources>
