@@ -5,16 +5,17 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="24dp"
+    android:paddingTop="16dp"
+    android:paddingBottom="24dp"
     tools:viewBindingIgnore="true">
 
     <ImageView
-        android:id="@+id/preference_gdd_logo"
         android:layout_width="wrap_content"
-        android:layout_height="24dp"
+        android:layout_height="36dp"
         android:layout_gravity="center"
         android:adjustViewBounds="true"
-        android:alpha="0.66"
+        android:alpha="0.34"
         android:importantForAccessibility="no"
-        app:srcCompat="@drawable/gdd_black" />
+        app:srcCompat="@drawable/millennium_logo"
+        app:tint="?attr/colorOnBackground" />
 </LinearLayout>

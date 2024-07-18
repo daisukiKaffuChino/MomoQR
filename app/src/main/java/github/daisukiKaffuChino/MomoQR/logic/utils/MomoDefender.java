@@ -2,7 +2,7 @@ package github.daisukiKaffuChino.MomoQR.logic.utils;
 /*
  * LuaAppDefender.java
  * reOpenLua-Open-Source
- *
+ * https://github.com/daisukiKaffuChino/reOpenLua-Open-Source
  */
 
 import android.annotation.SuppressLint;
@@ -12,8 +12,6 @@ import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.os.Build;
 import android.util.DisplayMetrics;
-
-import com.google.zxing.client.android.BuildConfig;
 
 import java.io.File;
 import java.lang.reflect.Constructor;
@@ -25,7 +23,7 @@ import java.util.Objects;
 
 public class MomoDefender {
     @SuppressLint("StaticFieldLeak")
-    protected static Context context;
+    protected Context context;
 
     public MomoDefender(Context c) {
         context = c;
@@ -35,14 +33,9 @@ public class MomoDefender {
         String PATH_PackageParser = "android.content.pm.PackageParser";
         String apkPath = c.getPackageManager().getApplicationInfo(Objects.requireNonNull(getName()), 0).sourceDir;
         try {
-            // apk包的文件路径
-            // 这是一个Package 解释器, 是隐藏的
-            // 构造函数的参数只有一个, apk文件的路径
-            // PackageParser packageParser = new PackageParser(apkPath);
             @SuppressLint("PrivateApi") Class<?> pkgParserCls = Class.forName(PATH_PackageParser);
             Class[] typeArgs = new Class[1];
             typeArgs[0] = String.class;
-            // 这个是与显示有关的, 里面涉及到一些像素显示等等, 我们使用默认的情况
             DisplayMetrics metrics = new DisplayMetrics();
             metrics.setToDefaults();
             Constructor pkgParserCt;

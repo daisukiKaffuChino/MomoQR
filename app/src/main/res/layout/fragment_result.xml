@@ -68,6 +68,7 @@
                 android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
 
+
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/result_tip_card"
             android:layout_width="match_parent"
@@ -79,63 +80,57 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
                 android:padding="4dp">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/result_tip_content_text"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    tools:ignore="UseCompoundDrawables">
-
-                    <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_marginStart="16dp"
-                        android:contentDescription="@string/tips"
-                        android:src="@drawable/outline_tips_and_updates_24"
-                        app:tint="?attr/colorPrimary" />
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginEnd="16dp"
-                        android:layout_weight="1"
-                        android:paddingTop="12dp"
-                        android:text="@string/result_tip_content" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="12dp"
                     android:layout_marginEnd="16dp"
-                    android:gravity="end"
-                    android:orientation="horizontal">
+                    android:layout_weight="1"
+                    android:text="@string/result_tip_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/result_tip_icon"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                    <Button
-                        android:id="@+id/result_tip_hide_btn"
-                        style="@style/Widget.MaterialComponents.Button.TextButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/tips_hide"
-                        android:textAllCaps="false" />
+                <ImageView
+                    android:id="@+id/result_tip_icon"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginStart="16dp"
+                    android:contentDescription="@string/tips"
+                    android:src="@drawable/outline_tips_and_updates_24"
+                    app:layout_constraintBottom_toBottomOf="@+id/result_tip_content_text"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/result_tip_content_text"
+                    app:tint="?attr/colorPrimary" />
 
-                    <Button
-                        android:id="@+id/result_tip_tile_btn"
-                        style="@style/Widget.MaterialComponents.Button.TextButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/tips_add_tile"
-                        android:textAllCaps="false"
-                        android:visibility="gone" />
-                </LinearLayout>
+                <Button
+                    android:id="@+id/result_tip_hide_btn"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tips_hide"
+                    android:textAllCaps="false"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/result_tip_content_text" />
 
-            </LinearLayout>
+                <Button
+                    android:id="@+id/result_tip_tile_btn"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tips_add_tile"
+                    android:textAllCaps="false"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toStartOf="@+id/result_tip_hide_btn"
+                    app:layout_constraintTop_toBottomOf="@+id/result_tip_content_text" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </com.google.android.material.card.MaterialCardView>
 
