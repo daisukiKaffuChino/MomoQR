@@ -1,6 +1,4 @@
 -keep class **.R$* { *; }
--keep class com.jph.android.entity.** { *; } #实体类不参与混淆
--keep class com.jph.android.view.** { *; } #自定义控件不参与混淆
 -keep class github.daisukiKaffuChino.MomoQR.logic.bean.** { *; }
 -keepattributes Signature
 -keepattributes *Annotation*

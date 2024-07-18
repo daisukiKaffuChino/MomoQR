@@ -1,4 +1,9 @@
 package github.daisukiKaffuChino.MomoQR.logic.utils;
+/*
+ * LuaAppDefender.java
+ * reOpenLua-Open-Source
+ *
+ */
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -7,6 +12,8 @@ import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.os.Build;
 import android.util.DisplayMetrics;
+
+import com.google.zxing.client.android.BuildConfig;
 
 import java.io.File;
 import java.lang.reflect.Constructor;
@@ -18,17 +25,15 @@ import java.util.Objects;
 
 public class MomoDefender {
     @SuppressLint("StaticFieldLeak")
-    protected static Context ct;
+    protected static Context context;
+
     public MomoDefender(Context c) {
-        ct = c;
+        context = c;
     }
 
-    private String prepare() throws PackageManager.NameNotFoundException {
-        return prepare(ct);
-    }
     private String prepare(Context c) throws PackageManager.NameNotFoundException {
         String PATH_PackageParser = "android.content.pm.PackageParser";
-        String apkPath=c.getPackageManager().getApplicationInfo(Objects.requireNonNull(getName()), 0).sourceDir;
+        String apkPath = c.getPackageManager().getApplicationInfo(Objects.requireNonNull(getName()), 0).sourceDir;
         try {
             // apk包的文件路径
             // 这是一个Package 解释器, 是隐藏的
@@ -53,7 +58,7 @@ public class MomoDefender {
                     pkgParser_collectCertificatesMtd.invoke(pkgParser, pkgParserPkg, false);
                     Field mSigningDetailsField = pkgParserPkg.getClass().getDeclaredField("mSigningDetails"); // SigningDetails
                     mSigningDetailsField.setAccessible(true);
-                    Object mSigningDetails =  mSigningDetailsField.get(pkgParserPkg);
+                    Object mSigningDetails = mSigningDetailsField.get(pkgParserPkg);
                     assert mSigningDetails != null;
                     Field infoField = mSigningDetails.getClass().getDeclaredField("signatures");
                     infoField.setAccessible(true);
@@ -70,16 +75,15 @@ public class MomoDefender {
                     return info[0].toCharsString();
                 }
             }
-        }
-        catch (Exception ignore) {
+        } catch (Exception ignore) {
         }
         return "";
     }
 
-    private String getName(){
-        PackageManager manager = ct.getPackageManager();
+    private String getName() {
+        PackageManager manager = context.getPackageManager();
         try {
-            PackageInfo info = manager.getPackageInfo(ct.getPackageName(), 0);
+            PackageInfo info = manager.getPackageInfo(context.getPackageName(), 0);
             return info.packageName;
         } catch (PackageManager.NameNotFoundException e) {
             return null;
@@ -87,7 +91,7 @@ public class MomoDefender {
     }
 
     private static String apply(String text) {
-        try{
+        try {
             MessageDigest md5 = MessageDigest.getInstance("MD5");
             byte[] bytes = md5.digest(text.getBytes(StandardCharsets.UTF_8));
 
@@ -97,14 +101,27 @@ public class MomoDefender {
                 builder.append(Integer.toHexString((0x000000FF & aByte) | 0xFFFFFF00).substring(6));
             }
             return builder.toString();
-        }catch (Exception e){
+        } catch (Exception e) {
             return "";
         }
 
     }
 
-    public String get() throws PackageManager.NameNotFoundException {
-        return apply(prepare(ct));
+    public boolean get() {
+        try {
+            String[] hiddenStringParts = {
+                    "2ab", "ab9", "98c", "44c",
+                    "2a6", "aae", "668", "4a5",
+                    "f2d", "c40", "bc"
+            };
+            StringBuilder originalStringBuilder = new StringBuilder();
+            for (String part : hiddenStringParts) {
+                originalStringBuilder.append(part);
+            }
+            return !apply(prepare(context)).equals(originalStringBuilder.toString());
+        } catch (PackageManager.NameNotFoundException e) {
+            return true;
+        }
     }
 
 }

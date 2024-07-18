@@ -7,7 +7,6 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -82,24 +81,7 @@ public class HomeFragment extends BaseBindingFragment<FragmentHomeBinding> {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         MomoDefender momoDefender = new MomoDefender(requireContext());
-        String[] hiddenStringParts = {
-                "2ab", "ab9", "98c", "44c",
-                "2a6", "aae", "668", "4a5",
-                "f2d", "c40", "bc"
-        };
-        StringBuilder originalStringBuilder = new StringBuilder();
-        for (String part : hiddenStringParts) {
-            originalStringBuilder.append(part);
-        }
-        //boolean release=false;
-        try {
-            //if (!momoDefender.get().equals(originalStringBuilder.toString()) && release) {
-            if (!momoDefender.get().equals(originalStringBuilder.toString())) {
-                throw new RuntimeException("");
-            }
-        } catch (PackageManager.NameNotFoundException e) {
-            throw new RuntimeException("");
-        }
+        //if(momoDefender.get()) throw new RuntimeException();
         if (getArguments() != null && getArguments().getBoolean("startScanIntent", false))
             startScannerIntent();
     }
