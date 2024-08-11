@@ -69,10 +69,15 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     }
 
     private void showListPreference(@NonNull ListPreference preference) {
+        ActionUtil actionUtil = new ActionUtil(requireContext());
         int selectionIndex = Arrays.asList(preference.getEntryValues()).indexOf(preference.getValue());
+        actionUtil.decorBlur(requireActivity().getWindow().getDecorView(), true);
         MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(requireContext());
         builder.setTitle(preference.getTitle());
         builder.setNegativeButton(R.string.cancel, null);
+        builder.setOnDismissListener(
+                dialog -> actionUtil.decorBlur(requireActivity().getWindow().getDecorView(), false)
+        );
         builder.setSingleChoiceItems(preference.getEntries(), selectionIndex, (dialog, index) -> {
             String newValue = preference.getEntryValues()[index].toString();
             if (preference.callChangeListener(newValue)) {
