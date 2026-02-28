@@ -1,98 +1,86 @@
 <resources>
     <string name="app_name">MomoQR</string>
-    <string name="scanner_tip">Please scan within the framing frame…</string>
-    <string name="scan_title">Scan</string>
-    <string name="scan_result">Scanning Results</string>
-    <string name="scan_via_camera">Scan via camera</string>
-    <string name="menu_home">Home</string>
-    <string name="menu_fav">Fav</string>
-    <string name="menu_settings">Settings</string>
-    <string name="menu_exit">Exit</string>
-    <string name="nav_others">Others</string>
-    <string name="open">Open</string>
-    <string name="close">Close</string>
-    <string name="copy_content">Copy</string>
-    <string name="scan_cancel">Canceled.</string>
-    <string name="double_click_exit">Press again to exit.</string>
-    <string name="select_gallery_pic">Pick image from gallery</string>
-    <string name="empty_data">Empty data</string>
-    <string name="make_qr_code">Create QR Code</string>
-    <string name="scan">Scan</string>
-    <string name="camera_id">Camera ID</string>
-    <string name="beep">Beep sound</string>
-    <string name="orientation_locked">Lock orientation</string>
-    <string name="identify_type">Types of identification</string>
-    <string name="display">Display</string>
-    <string name="about_app">About</string>
-    <string name="developer">Github@daisukiKaffuChino\nCoolapk@得想办法娶了智乃</string>
-    <string name="open_source"><string name="open_source">View source code at <a href="https://github.com/daisukiKaffuChino/MomoQR">Github</a></string></string>
-    <string name="cancel">Cancel</string>
-    <string name="ok">Confirm</string>
-    <string name="text_copied_toast">Text copied success.</string>
-    <string name="no_data">No data</string>
-    <string name="add_fav">Add to fav</string>
-    <string name="input_title">Type a title:</string>
-    <string name="input_content">Type content here:</string>
-    <string name="add_fav_ok">Success</string>
-    <string name="add_fav_fail">Add to fav failed</string>
-    <string name="use_current_date">Use current date</string>
-    <string name="success">success</string>
-    <string name="invalid_title">Invalid title</string>
-    <string name="delete_item">Delete Item</string>
-    <string name="sure_to_delete">Are you sure you want to delete it? This operation is irreversible.</string>
-    <string name="delete_fail">Delete failed</string>
-    <string name="delete_all">Delete All</string>
-    <string name="no_match_intent">No matched app</string>
-    <string name="content_to_generate">Content to be generated</string>
-    <string name="theme">Theme</string>
-    <string name="theme_enable_m2">Use Material 2</string>
-    <string name="theme_m2_sum">Classic theme friendly to old devices</string>
-    <string name="theme_dynamic_color">Dynamic color (Monet)</string>
-    <string name="require_android_s">Requires at least Android 12</string>
-    <string name="result_tip_content">1. Click the button to save the image locally. If your Android version is 10 or above, you can quickly save it to the default directory (optional). 2. On any Android version, MomoQR doesn\'t need to request storage permission. 3. Tiles is supported and MomoQR can start scanning through the dropdown status bar.</string>
-    <string name="tips">Tips</string>
-    <string name="tips_hide">Don\'t show again</string>
-    <string name="tips_add_tile">Create tile</string>
-    <string name="save_ok">Saved</string>
-    <string name="save_failed">Save failed</string>
-    <string name="create_file_failed">Create file failed</string>
-    <string name="storage">Storage</string>
-    <string name="not_ask_save_path">Don\'t ask save path</string>
-    <string name="require_android_q">Requires at least Android 10</string>
-    <string name="toggle_day_night">Toggle Light/Dark Theme</string>
-    <string name="flash_light">Flashlight</string>
-    <string name="mark_as_important">Mark as Important Content</string>
-    <string name="qr_not_prepare_ok">The QR code has not been generated yet</string>
-    <string name="start">Start</string>
-    <string name="help">Help</string>
-    <string name="get_from_clipboard">Get from clipboard</string>
-    <string name="create_text">Create text</string>
-    <string name="more_type">More types</string>
-    <string name="clipboard_error_toast">Clipboard is empty or unsupported type</string>
-    <string name="wifi" translatable="false">Wi-Fi</string>
-    <string name="email" translatable="false">E-mail</string>
-    <string name="apps">Apps</string>
-    <string name="wifi_name">Wi-Fi Name</string>
-    <string name="security">Security</string>
-    <string name="password">Password</string>
-    <string name="recipient">Recipient Address</string>
-    <string name="title">Title</string>
-    <string name="content">Content</string>
-    <string name="supported_code">Supported code</string>
-    <string name="how_to_correct_scan">How to scan correctly</string>
-    <string name="how_to_correct_scan_content">1. Make sure that the code you want to scan is clearly visible and preferably not tilted.\n2. Avoid light reflections or shadows affecting the swept object.\n3. Keep a proper distance when scanning, and do not make the camera too close, or it may cause out of focus.\n4. If you scan for unsupported types, recognition will fail. Please confirm the graphic code type supported by MomoQR carefully.</string>
-    <string name="feedback_and_update">Feedback issues and get updates</string>
-    <string name="feedback_and_update_content">To report bugs, visit the <a href="https://github.com/daisukiKaffuChino/MomoQR">Repo of MomoQR</a> to submit an issue. Visit the release page to view all released versions. This is the only channel for MomoQR\'s current release.</string>
-    <string name="save">save</string>
-    <string name="original_img">Original Image</string>
-    <string name="share">Share</string>
-    <string name="clear_cache">Clear Cache</string>
-    <string name="dont_need_clear">No need for cleaning</string>
-    <string name="wait_for_generate">Please wait for the image to be generated</string>
-    <string name="color_palette">Color palette</string>
-    <string name="set_qr_theme_color_text">You can customize the foreground and background colors of the QR code.</string>
-    <string name="fore_color">Foreground</string>
-    <string name="back_color">Background</string>
-    <string name="presets">Presets</string>
-    <string name="dialog_bg_blur">Blurred dialog box background</string>
+
+    <string name="action_exit_app">Exit app</string>
+    <string name="action_delete">Delete</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="action_save">Save</string>
+    <string name="action_confirm">Confirm</string>
+    <string name="action_back">Back</string>
+
+    <string name="page_home">Home</string>
+    <string name="page_stars">Stars</string>
+    <string name="page_settings">Settings</string>
+    <string name="page_crash">Oops!\nApp went wrong</string>
+
+    <string name="label_category">Category</string>
+    <string name="label_priority">Priority</string>
+
+
+    <string name="pref_appearance">Appearance</string>
+    <string name="pref_appearance_desc">Theme Style, Language</string>
+    <string name="pref_appearance_dynamic_color">Dynamic Color</string>
+    <string name="pref_appearance_dynamic_color_desc">Use the system wallpaper\'s theme color, available on Android 12+</string>
+    <string name="pref_palette_style">Palette Style</string>
+    <string name="pref_palette_style_desc">Choose the color scheme method for applying the theme color</string>
+    <string name="pref_contrast_level">Contrast Level</string>
+    <string name="pref_contrast_level_desc">Change the app\'s color contrast</string>
+    <string name="pref_language">Language</string>
+    <string name="pref_language_desc">Change language</string>
+    <string name="pref_language_follow_system">Follow system"</string>
+    <string name="pref_dark_mode">Dark Mode</string>
+    <string name="pref_dark_mode_desc">Enable or disable the dark mode for this app</string>
+    <string name="pref_interface_interaction">Interface &amp; Interaction</string>
+    <string name="pref_interface_interaction_desc">Star List, Haptic Feedback</string>
+    <string name="pref_camera">Camera &amp; Scanner</string>
+    <string name="pref_camera_desc">Camera ID, Identification Type</string>
+    <string name="pref_data">Data</string>
+    <string name="pref_data_desc">Backup, Category Manager</string>
+    <string name="pref_about">About</string>
+    <string name="pref_about_desc">App Info, Developer, License</string>
+    <string name="pref_app_version">Version</string>
+    <string name="pref_developer">Developer</string>
+    <string name="pref_licence">Open Source Licenses</string>
+
+    <string name="palette_tonal_spot">Tonal Spot</string>
+    <string name="palette_neutral">Neutral</string>
+    <string name="palette_vibrant">Vibrant</string>
+    <string name="palette_expressive">Expressive</string>
+    <string name="palette_rainbow">Rainbow</string>
+    <string name="palette_fruit_salad">Fruit Salad</string>
+    <string name="palette_monochrome">Monochrome</string>
+    <string name="palette_fidelity">Fidelity</string>
+    <string name="palette_content">Content</string>
+
+    <string name="priority_not_urgent">Not Urgent</string>
+    <string name="priority_not_important">Not Important</string>
+    <string name="priority_default">Default</string>
+    <string name="priority_important">Important</string>
+    <string name="priority_urgent">Urgent</string>
+
+    <string name="dark_mode_system">Follow System</string>
+    <string name="dark_mode_light">Light</string>
+    <string name="dark_mode_dark">Dark</string>
+
+    <string name="contrast_very_low">Very Low</string>
+    <string name="contrast_low">Low</string>
+    <string name="contrast_default">Default</string>
+    <string name="contrast_high">High</string>
+    <string name="contrast_very_high">Very High</string>
+
+    <string name="tip_tips">Tips</string>
+    <string name="tip_no_crash_logs">No crash logs</string>
+    <string name="tip_copy_logs_to_github">Your report is very useful. Please copy all the content to GitHub issues and explain how to reproduce it.</string>
+
+    <string name="time_today">Today</string>
+    <string name="time_tomorrow">Tomorrow</string>
+    <string name="time_in_days">in %d d</string>
+    <string name="time_in_weeks">in %d w</string>
+    <string name="time_in_months">in %d mo</string>
+    <string name="time_in_years">in %d y</string>
+    <string name="time_yesterday">Yesterday</string>
+    <string name="time_days_ago">%d d ago</string>
+    <string name="time_weeks_ago">%d w ago</string>
+    <string name="time_months_ago">%d mo ago</string>
+    <string name="time_years_ago">%d y ago</string>
 </resources>
