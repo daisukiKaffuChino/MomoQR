@@ -3,6 +3,8 @@ package github.daisukikaffuchino.momoqr.ui.theme
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.AnimationVector1D
 import androidx.compose.animation.core.FiniteAnimationSpec
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.shape.CornerBasedShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ButtonDefaults
@@ -173,3 +175,13 @@ internal interface ShapeWithHorizontalCenterOptically : Shape {
 }
 
 internal const val CenterOpticallyCoefficient = 0.11f
+
+@Composable
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+fun animatedShape(shapes: ButtonShapes, interactionSource: MutableInteractionSource?): Shape {
+    val userInteractionSource = interactionSource ?: remember { MutableInteractionSource() }
+    val pressed by userInteractionSource.collectIsPressedAsState()
+    val animatedShape =
+        shapeByInteraction(shapes, pressed, Defaults.shapesDefaultAnimationSpec)
+    return animatedShape
+}

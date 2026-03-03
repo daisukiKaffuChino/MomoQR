@@ -1,0 +1,16 @@
+{
+  "uniqueId": "com.github.SumiMakito:AwesomeQRCode",
+  "artifactVersion": "1.2.0",
+  "name": "AwesomeQRCode",
+  "developers": [
+    {
+      "name": "sumimakito"
+    }
+  ],
+  "description": "An awesome QR code generator for Android.",
+  "website": "https://github.com/sumimakito/AwesomeQRCode",
+  "tag": "custom",
+  "licenses": [
+    "Apache-2.0"
+  ]
+}

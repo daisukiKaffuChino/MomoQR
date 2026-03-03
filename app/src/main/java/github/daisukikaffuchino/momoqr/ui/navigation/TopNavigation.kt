@@ -13,9 +13,11 @@ import github.daisukikaffuchino.momoqr.ui.pages.home.HomePage
 import github.daisukikaffuchino.momoqr.ui.pages.settings.SettingsAbout
 import github.daisukikaffuchino.momoqr.ui.pages.settings.SettingsAboutLicence
 import github.daisukikaffuchino.momoqr.ui.pages.settings.SettingsAppearance
+import github.daisukikaffuchino.momoqr.ui.pages.settings.SettingsCamera
 import github.daisukikaffuchino.momoqr.ui.pages.settings.SettingsData
 import github.daisukikaffuchino.momoqr.ui.pages.settings.SettingsDataCategory
 import github.daisukikaffuchino.momoqr.ui.pages.settings.SettingsInterface
+import github.daisukikaffuchino.momoqr.ui.pages.settings.SettingsLab
 import github.daisukikaffuchino.momoqr.ui.pages.settings.SettingsMain
 import github.daisukikaffuchino.momoqr.ui.pages.stars.StarsPage
 import github.daisukikaffuchino.momoqr.ui.theme.fadeScale
@@ -122,6 +124,7 @@ fun TopNavigation(
                         toInterfacePage = { backStack.add(MomoScreen.Settings.Interface) },
                         toCameraPage = { backStack.add(MomoScreen.Settings.Camera) },
                         toDataPage = { backStack.add(MomoScreen.Settings.Data) },
+                        toLabPage = { backStack.add(MomoScreen.Settings.Lab) }
                     )
                 }
 
@@ -134,7 +137,7 @@ fun TopNavigation(
                 }
 
                 entry<MomoScreen.Settings.Camera>(metadata = settingsTransition()) {
-                    SettingsInterface(onNavigateUp = ::onBack)
+                    SettingsCamera(onNavigateUp = ::onBack)
                 }
 
                 entry<MomoScreen.Settings.Data>(metadata = settingsTransition()) {
@@ -147,6 +150,10 @@ fun TopNavigation(
 
                 entry<MomoScreen.Settings.DataCategory>(metadata = settingsTransition()) {
                     SettingsDataCategory(onNavigateUp = ::onBack)
+                }
+
+                entry<MomoScreen.Settings.Lab>(metadata = settingsTransition()) {
+                    SettingsLab(onNavigateUp = ::onBack)
                 }
 
                 entry<MomoScreen.Settings.About>(metadata = settingsTransition()) {

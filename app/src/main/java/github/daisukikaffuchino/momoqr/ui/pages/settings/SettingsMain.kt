@@ -10,6 +10,7 @@ import github.daisukikaffuchino.momoqr.R
 import github.daisukikaffuchino.momoqr.ui.components.TopAppBarScaffold
 import github.daisukikaffuchino.momoqr.ui.pages.settings.components.SettingsContainer
 import github.daisukikaffuchino.momoqr.ui.pages.settings.components.SettingsItem
+import github.daisukikaffuchino.momoqr.ui.theme.Defaults
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable
@@ -18,6 +19,7 @@ fun SettingsMain(
     toInterfacePage: () -> Unit,
     toCameraPage: () -> Unit,
     toDataPage: () -> Unit,
+    toLabPage: () -> Unit,
     toAboutPage: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -31,6 +33,7 @@ fun SettingsMain(
                     leadingIconRes = R.drawable.ic_palette,
                     title = stringResource(R.string.pref_appearance),
                     description = stringResource(R.string.pref_appearance_desc),
+                    shapes = Defaults.largerShapes(),
                     onClick = toAppearancePage
                 )
             }
@@ -40,6 +43,7 @@ fun SettingsMain(
                     leadingIconRes = R.drawable.ic_view_comfy,
                     title = stringResource(R.string.pref_interface_interaction),
                     description = stringResource(R.string.pref_interface_interaction_desc),
+                    shapes = Defaults.largerShapes(),
                     onClick = toInterfacePage
                 )
             }
@@ -49,6 +53,7 @@ fun SettingsMain(
                     leadingIconRes = R.drawable.ic_qr_code_scanner,
                     title = stringResource(R.string.pref_camera),
                     description = stringResource(R.string.pref_camera_desc),
+                    shapes = Defaults.largerShapes(),
                     onClick = toCameraPage
                 )
             }
@@ -58,7 +63,18 @@ fun SettingsMain(
                     leadingIconRes = R.drawable.ic_data_table,
                     title = stringResource(R.string.pref_data),
                     description = stringResource(R.string.pref_data_desc),
+                    shapes = Defaults.largerShapes(),
                     onClick = toDataPage
+                )
+            }
+
+            item {
+                SettingsItem(
+                    leadingIconRes = R.drawable.ic_experiment,
+                    title = stringResource(R.string.pref_lab),
+                    description = stringResource(R.string.pref_lab_desc),
+                    shapes = Defaults.largerShapes(),
+                    onClick = toLabPage
                 )
             }
 
@@ -67,6 +83,7 @@ fun SettingsMain(
                     leadingIconRes = R.drawable.ic_info,
                     title = stringResource(R.string.pref_about),
                     description = stringResource(R.string.pref_about_desc),
+                    shapes = Defaults.largerShapes(),
                     onClick = toAboutPage
                 )
             }

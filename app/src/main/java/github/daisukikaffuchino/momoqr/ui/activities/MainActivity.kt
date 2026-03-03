@@ -2,7 +2,8 @@ package github.daisukikaffuchino.momoqr.ui.activities
 
 import android.os.Bundle
 import android.view.WindowManager
-import androidx.activity.ComponentActivity
+import android.widget.Toast
+import androidx.activity.addCallback
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.animation.Crossfade
@@ -27,6 +28,7 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation3.runtime.NavKey
+import github.daisukikaffuchino.momoqr.R
 import github.daisukikaffuchino.momoqr.constants.Constants
 import github.daisukikaffuchino.momoqr.logic.datastore.DataStoreManager
 import github.daisukikaffuchino.momoqr.logic.model.DarkMode
@@ -47,6 +49,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var mainBackStack: TopLevelBackStack<NavKey>
     lateinit var mainViewModel: MainViewModel
     lateinit var navigationScaffoldState: NavigationSuiteScaffoldState
+    private var lastBackPressTime = 0L
 
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
@@ -59,6 +62,21 @@ class MainActivity : AppCompatActivity() {
         }
 
         super.onCreate(savedInstanceState)
+
+        onBackPressedDispatcher.addCallback(this) {
+            if (mainBackStack.backStack.size <= 1) {
+                val currentTime = System.currentTimeMillis()
+                if (currentTime - lastBackPressTime > 1500) {
+                    lastBackPressTime = currentTime
+                    Toast.makeText(
+                        this@MainActivity,
+                        R.string.toast_press_again_to_exit,
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } else finish()
+            } else mainBackStack.removeLast()
+        }
+
         setContent {
             mainViewModel = viewModel()
             mainBackStack = mainViewModel.mainBackStack

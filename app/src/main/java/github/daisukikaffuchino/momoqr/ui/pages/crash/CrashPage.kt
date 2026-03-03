@@ -50,6 +50,7 @@ import github.daisukikaffuchino.momoqr.ui.activities.CrashActivity.Companion.CRA
 import github.daisukikaffuchino.momoqr.ui.activities.CrashActivity.Companion.DEVICE_SDK_PREFIX
 import github.daisukikaffuchino.momoqr.ui.activities.CrashActivity.Companion.MODEL_PREFIX
 import github.daisukikaffuchino.momoqr.ui.theme.Defaults
+import github.daisukikaffuchino.momoqr.ui.theme.animatedShape
 import github.daisukikaffuchino.momoqr.ui.theme.shapeByInteraction
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -60,7 +61,7 @@ fun CrashPage(
     crashLog: String,
     exitApp: () -> Unit,
     modifier: Modifier = Modifier,
-    shapes: ButtonShapes = Defaults.shapes()
+    shapes: ButtonShapes = Defaults.largerShapes()
 ) {
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     val scrollState = rememberScrollState()
@@ -121,9 +122,6 @@ fun CrashPage(
         }
 
         val interactionSource = remember { MutableInteractionSource() }
-        val pressed by interactionSource.collectIsPressedAsState()
-        val animatedShape =
-            shapeByInteraction(shapes, pressed, Defaults.shapesDefaultAnimationSpec)
 
         Column(
             modifier = Modifier
@@ -134,7 +132,7 @@ fun CrashPage(
         ) {
             Card(
                 modifier = Modifier.fillMaxWidth(),
-                shape = animatedShape,
+                shape = animatedShape(shapes, interactionSource),
                 colors = CardDefaults.cardColors(
                     containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
                 )
@@ -159,18 +157,6 @@ fun CrashPage(
             SelectionContainer {
                 Text(
                     text = buildAnnotatedString {
-                        /*append(crashLog)
-                        val index = crashLog.indexOf(packageName)
-                        if (index != -1) {
-                            addStyle(
-                                style = SpanStyle(
-                                    fontWeight = FontWeight.Bold,
-                                    background = MaterialTheme.colorScheme.primary
-                                ),
-                                start = index,
-                                end = index + packageName.length
-                            )
-                        }*/
                         append(deviceInfo)
                         val splitLines = crashLog.lines()
                         splitLines.forEach {

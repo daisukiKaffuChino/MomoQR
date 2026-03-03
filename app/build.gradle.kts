@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.ksp)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.aboutlibraries)
 }
 
 ksp {
@@ -35,12 +36,14 @@ android {
         release {
             isMinifyEnabled = true
             isShrinkResources = true
+            isDebuggable = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_21
         targetCompatibility = JavaVersion.VERSION_21
@@ -48,10 +51,19 @@ android {
 
     buildFeatures {
         compose = true
+        buildConfig = true
     }
+
     dependenciesInfo {
         includeInApk = false
         includeInBundle = false
+    }
+
+    //noinspection WrongGradleMethod
+    aboutLibraries {
+        collect {
+            configPath = file("$projectDir/licences")
+        }
     }
 }
 
@@ -99,6 +111,12 @@ dependencies {
 
     // M3 Color
     implementation(libs.kyant.m3color)
+
+    // About Libraries
+    implementation(libs.aboutlibraries.core)
+    implementation(libs.aboutlibraries.compose)
+
+    implementation("com.google.zxing:core:3.5.4")
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

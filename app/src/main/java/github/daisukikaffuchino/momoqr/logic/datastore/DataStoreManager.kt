@@ -12,7 +12,6 @@ import github.daisukikaffuchino.momoqr.MomoApplication
 import github.daisukikaffuchino.momoqr.constants.Constants
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import kotlinx.serialization.json.Json
 
 object DataStoreManager {
     private val Context.dataStore by preferencesDataStore(

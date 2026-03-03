@@ -33,6 +33,9 @@ sealed class MomoScreen : NavKey {
         data object DataCategory : Settings()
 
         @Serializable
+        data object Lab : Settings()
+
+        @Serializable
         data object About : Settings()
 
         // @Serializable

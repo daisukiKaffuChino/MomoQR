@@ -76,7 +76,7 @@ fun dynamicColorScheme(
         PaletteStyle.Expressive -> SchemeExpressive(hct, isDark, contrastLevel)
         PaletteStyle.Rainbow -> SchemeRainbow(hct, isDark, contrastLevel)
         PaletteStyle.FruitSalad -> SchemeFruitSalad(hct, isDark, contrastLevel)
-        PaletteStyle.Monochrome -> SchemeMonochrome(hct, isDark, contrastLevel)
+        //PaletteStyle.Monochrome -> SchemeMonochrome(hct, isDark, contrastLevel)
         PaletteStyle.Fidelity -> SchemeFidelity(hct, isDark, contrastLevel)
         PaletteStyle.Content -> SchemeContent(hct, isDark, contrastLevel)
     }

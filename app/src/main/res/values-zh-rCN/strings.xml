@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="page_home">主页</string>
+    <string name="page_stars">星标</string>
+    <string name="page_settings">设置</string>
+
+</resources>

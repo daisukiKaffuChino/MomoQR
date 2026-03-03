@@ -12,7 +12,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.ButtonShapes
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -27,8 +29,10 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import github.daisukikaffuchino.momoqr.ui.theme.Defaults
+import github.daisukikaffuchino.momoqr.ui.theme.animatedShape
 import github.daisukikaffuchino.momoqr.ui.theme.shapeByInteraction
 import github.daisukikaffuchino.momoqr.utils.VibrationUtils
 
@@ -44,6 +48,27 @@ fun SettingsItem(
 ) = SettingsItem(
     leadingIcon = painterResource(leadingIconRes),
     title = title,
+    description = description,
+    trailingContent = null,
+    enableClick = enableClick,
+    onClick = onClick,
+    modifier = modifier
+)
+
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun SettingsItem(
+    modifier: Modifier = Modifier,
+    @DrawableRes leadingIconRes: Int,
+    title: String,
+    shapes: ButtonShapes = Defaults.shapes(),
+    description: String? = null,
+    enableClick: Boolean = true,
+    onClick: () -> Unit = {}
+) = SettingsItem(
+    leadingIcon = painterResource(leadingIconRes),
+    title = title,
+    shapes = shapes,
     description = description,
     trailingContent = null,
     enableClick = enableClick,
@@ -170,9 +195,9 @@ fun SettingsItem(
             text = title,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
-            style = MaterialTheme.typography.titleLarge.copy(
+            style = MaterialTheme.typography.titleMedium.copy(
                 color = MaterialTheme.colorScheme.onSurface,
-                fontSize = 20.sp
+                fontSize = 18.sp
             )
         )
     },
@@ -180,7 +205,6 @@ fun SettingsItem(
         description?.let {
             Text(
                 text = it,
-                // maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
                 style = MaterialTheme.typography.bodyMedium.copy(
                     color = MaterialTheme.colorScheme.onSurfaceVariant
@@ -211,15 +235,12 @@ fun SettingsItem(
 ) {
     val view = LocalView.current
     val userInteractionSource = interactionSource ?: remember { MutableInteractionSource() }
-    val pressed by userInteractionSource.collectIsPressedAsState()
-    val animatedShape =
-        shapeByInteraction(shapes, pressed, Defaults.shapesDefaultAnimationSpec)
 
     Row(
         modifier = modifier
             .fillMaxWidth()
             .wrapContentHeight()
-            .clip(animatedShape)
+            .clip(animatedShape(shapes, userInteractionSource))
             .clickable(
                 interactionSource = userInteractionSource,
                 enabled = enableClick,

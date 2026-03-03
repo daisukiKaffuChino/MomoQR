@@ -37,6 +37,7 @@ object Defaults {
     val settingsItemVerticalPadding = 16.dp
 
     val settingsItemPadding = 4.dp
+    val settingsSegmentedItemPadding = 2.dp
 
     val overviewCardHeight = 120.dp
 
@@ -63,7 +64,12 @@ object Defaults {
 
     val defaultShape: CornerBasedShape
         @Composable
-        get() = MaterialTheme.shapes.large
+        get() = MaterialTheme.shapes.extraSmall
+
+    @OptIn(ExperimentalMaterial3ExpressiveApi::class)
+    val largeCornerShape: CornerBasedShape
+        @Composable
+        get() = MaterialTheme.shapes.largeIncreased
 
     val pressedShape: CornerBasedShape
         @Composable
@@ -78,7 +84,14 @@ object Defaults {
     )
 
     @OptIn(ExperimentalMaterial3ExpressiveApi::class)
+    @Composable
+    fun largerShapes() = ButtonShapes(
+        shape = largeCornerShape,
+        pressedShape = pressedShape
+    )
+
+    @OptIn(ExperimentalMaterial3ExpressiveApi::class)
     val shapesDefaultAnimationSpec: FiniteAnimationSpec<Float>
         @Composable
-        get() = MaterialTheme.motionScheme.defaultEffectsSpec<Float>()
+        get() = MaterialTheme.motionScheme.defaultEffectsSpec()
 }

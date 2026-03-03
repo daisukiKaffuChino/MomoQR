@@ -16,6 +16,7 @@
     <string name="label_category">Category</string>
     <string name="label_priority">Priority</string>
 
+    <string name="title_warning">Warning</string>
 
     <string name="pref_appearance">Appearance</string>
     <string name="pref_appearance_desc">Theme Style, Language</string>
@@ -36,11 +37,23 @@
     <string name="pref_camera_desc">Camera ID, Identification Type</string>
     <string name="pref_data">Data</string>
     <string name="pref_data_desc">Backup, Category Manager</string>
+    <string name="pref_lab">Laboratory</string>
+    <string name="pref_lab_desc">Experimental Features</string>
     <string name="pref_about">About</string>
     <string name="pref_about_desc">App Info, Developer, License</string>
-    <string name="pref_app_version">Version</string>
     <string name="pref_developer">Developer</string>
-    <string name="pref_licence">Open Source Licenses</string>
+    <string name="pref_view_on_github">View On GitHub</string>
+    <string name="pref_view_on_github_desc">View source code, submit bugs, and improvement suggestions</string>
+    <string name="pref_translate">Participate in translation</string>
+    <string name="pref_translate_desc">Help us translate MomoQR into your language</string>
+    <string name="pref_policy">Privacy Policy</string>
+    <string name="pref_policy_desc">Learn how we protect privacy</string>
+    <string name="pref_licence">Open-source Licenses</string>
+    <string name="pref_licence_desc">Check the open source libraries used by MomoQR</string>
+
+    <string name="pref_label_theme">Theme</string>
+    <string name="pref_label_info">Information</string>
+    <string name="pref_label_others">Others</string>
 
     <string name="palette_tonal_spot">Tonal Spot</string>
     <string name="palette_neutral">Neutral</string>
@@ -48,7 +61,7 @@
     <string name="palette_expressive">Expressive</string>
     <string name="palette_rainbow">Rainbow</string>
     <string name="palette_fruit_salad">Fruit Salad</string>
-    <string name="palette_monochrome">Monochrome</string>
+<!--    <string name="palette_monochrome">Monochrome</string>-->
     <string name="palette_fidelity">Fidelity</string>
     <string name="palette_content">Content</string>
 
@@ -83,4 +96,7 @@
     <string name="time_weeks_ago">%d w ago</string>
     <string name="time_months_ago">%d mo ago</string>
     <string name="time_years_ago">%d y ago</string>
+
+    <string name="toast_press_again_to_exit">Press again to exit</string>
+
 </resources>

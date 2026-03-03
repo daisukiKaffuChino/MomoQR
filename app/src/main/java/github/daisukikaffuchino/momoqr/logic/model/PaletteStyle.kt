@@ -13,9 +13,9 @@ enum class PaletteStyle(
     Expressive(id = 4, nameRes = R.string.palette_expressive),
     Rainbow(id = 5, nameRes = R.string.palette_rainbow),
     FruitSalad(id = 6, nameRes = R.string.palette_fruit_salad),
-    Monochrome(id = 7, nameRes = R.string.palette_monochrome),
-    Fidelity(id = 8, nameRes = R.string.palette_fidelity),
-    Content(id = 9, nameRes = R.string.palette_content);
+//  Monochrome(id = 7, nameRes = R.string.palette_monochrome),
+    Fidelity(id = 7, nameRes = R.string.palette_fidelity),
+    Content(id = 8, nameRes = R.string.palette_content);
 
     companion object {
         fun fromId(id: Int) = entries.firstOrNull { it.id == id } ?: TonalSpot
