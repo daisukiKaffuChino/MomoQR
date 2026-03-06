@@ -1,110 +1,137 @@
 package github.daisukikaffuchino.momoqr.ui.pages.home
 
 import android.content.res.Configuration
-import androidx.annotation.DrawableRes
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.interaction.collectIsPressedAsState
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonShapes
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import github.daisukikaffuchino.momoqr.R
 import github.daisukikaffuchino.momoqr.ui.components.TopAppBarScaffold
-import github.daisukikaffuchino.momoqr.ui.pages.settings.components.SettingsContainer
-import github.daisukikaffuchino.momoqr.ui.pages.settings.components.settingsSection
+import github.daisukikaffuchino.momoqr.ui.components.segmentedGroup
+import github.daisukikaffuchino.momoqr.ui.components.segmentedSection
+import github.daisukikaffuchino.momoqr.ui.pages.home.components.GenerateActionCard
+import github.daisukikaffuchino.momoqr.ui.pages.home.components.ScanFromCameraCard
+import github.daisukikaffuchino.momoqr.ui.pages.home.components.ScanFromGalleryCard
 import github.daisukikaffuchino.momoqr.ui.theme.Defaults
-import github.daisukikaffuchino.momoqr.ui.theme.animatedShape
-import github.daisukikaffuchino.momoqr.ui.theme.shapeByInteraction
+import github.daisukikaffuchino.momoqr.ui.viewmodels.SharedViewModel
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun HomePage(
+    toScanPage: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+
+    val sharedViewModel = hiltViewModel<SharedViewModel>()
+    val scanResult by sharedViewModel.scanResult.collectAsState()
+    val context = LocalContext.current
+
+    LaunchedEffect(scanResult) {
+        scanResult?.let {
+            Toast.makeText(
+                context,
+                "扫描结果: $it",
+                Toast.LENGTH_SHORT
+            ).show()
+
+            sharedViewModel.clearScanResult()
+        }
+    }
+
     TopAppBarScaffold(
         title = stringResource(R.string.page_home),
         modifier = modifier,
     ) {
         val configuration = LocalConfiguration.current
-        Column(Modifier.fillMaxWidth()) {
-            LazyVerticalStaggeredGrid(
-                modifier = Modifier.fillMaxSize(),
-                columns = when (configuration.orientation) {
-                    Configuration.ORIENTATION_LANDSCAPE ->
-                        StaggeredGridCells.Fixed(2)
 
-                    else ->
-                        StaggeredGridCells.Fixed(1)
-                },
-                horizontalArrangement = Arrangement.spacedBy(10.dp),
-                verticalItemSpacing = 10.dp
-            ) {
-                item {
-                    ScanFromCameraCard { }
-                }
-                item {
-                    ScanFromCameraCard { }
-                }
-                item {
-                    ScanFromCameraCard { }
-                }
-            }
-        }
-
-    }
-}
-
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
-@Composable
-fun ScanFromCameraCard(
-    modifier: Modifier = Modifier,
-    onClick: () -> Unit = {}
-) {
-    val interactionSource = remember { MutableInteractionSource() }
-    val animatedShape = animatedShape(Defaults.largerShapes(), interactionSource)
-    val cardColors = CardDefaults.cardColors(containerColor = Defaults.Colors.Container)
-    Card(
-        modifier = modifier.height(Defaults.overviewCardHeight),
-        colors = cardColors,
-        shape = animatedShape
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxSize()
-                .clickable(
-                    enabled = true,
-                    onClick = onClick,
-                    interactionSource = interactionSource
-                )
+        LazyColumn(
+            modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.spacedBy(Defaults.settingsItemPadding)
         ) {
-            Button(
-                onClick = { /* TODO */ },
-                //modifier = Modifier.align(Alignment.BottomEnd) // 右下角对齐
-            ) {
-                Text("Click")
+
+            item{
+                Text(
+                    text = stringResource(R.string.label_scan),
+                    style = MaterialTheme.typography.labelLarge,
+                    color = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.padding(
+                        horizontal = Defaults.screenVerticalPadding,
+                        vertical = Defaults.settingsItemPadding
+                    )
+                )
             }
+
+            item{
+                LazyVerticalStaggeredGrid(
+                    modifier = when (configuration.orientation) {
+                        Configuration.ORIENTATION_LANDSCAPE ->
+                            Modifier.fillMaxWidth().height(112.dp)
+
+                        else ->
+                            Modifier.fillMaxWidth().height(220.dp)
+                    },
+                    columns = when (configuration.orientation) {
+                        Configuration.ORIENTATION_LANDSCAPE ->
+                            StaggeredGridCells.Fixed(2)
+
+                        else ->
+                            StaggeredGridCells.Fixed(1)
+                    },
+                    horizontalArrangement = Arrangement.spacedBy(16.dp),
+                    verticalItemSpacing = 8.dp
+                ) {
+                    item {
+                        ScanFromCameraCard(
+                            onClick = toScanPage
+                        )
+                    }
+                    item {
+                        ScanFromGalleryCard()
+                    }
+                }
+            }
+
+            segmentedSection(R.string.label_generate) {
+                segmentedGroup {
+                    GenerateActionCard(
+                        icon = painterResource(R.drawable.ic_edit_square),
+                        title = stringResource(R.string.label_generate_text),
+                        //onClick = { uriHandler.openUri(Constants.GITHUB_REPO) },
+                    )
+                    GenerateActionCard(
+                        icon = painterResource(R.drawable.ic_content_paste),
+                        title = stringResource(R.string.label_generate_from_clip_board),
+                        //onClick = toLicencePage
+                    )
+                    GenerateActionCard(
+                        icon = painterResource(R.drawable.ic_more),
+                        title = stringResource(R.string.label_generate_more_type),
+                        //onClick = toLicencePage
+                    )
+                }
+            }
+
         }
+
     }
+
 }

@@ -16,15 +16,15 @@ import github.daisukikaffuchino.momoqr.logic.model.ContrastLevel
 import github.daisukikaffuchino.momoqr.logic.model.DarkMode
 import github.daisukikaffuchino.momoqr.logic.model.PaletteStyle
 import github.daisukikaffuchino.momoqr.ui.components.TopAppBarScaffold
-import github.daisukikaffuchino.momoqr.ui.pages.settings.components.SettingsContainer
+import github.daisukikaffuchino.momoqr.ui.components.CardListItemContainer
 import github.daisukikaffuchino.momoqr.ui.pages.settings.components.SettingsItem
 import github.daisukikaffuchino.momoqr.ui.pages.settings.components.SwitchSettingsItem
 import github.daisukikaffuchino.momoqr.ui.pages.settings.components.appearance.ContrastPicker
 import github.daisukikaffuchino.momoqr.ui.pages.settings.components.appearance.DarkModePicker
 import github.daisukikaffuchino.momoqr.ui.pages.settings.components.appearance.LanguageItem
 import github.daisukikaffuchino.momoqr.ui.pages.settings.components.appearance.PalettePicker
-import github.daisukikaffuchino.momoqr.ui.pages.settings.components.settingsGroup
-import github.daisukikaffuchino.momoqr.ui.pages.settings.components.settingsSection
+import github.daisukikaffuchino.momoqr.ui.components.segmentedGroup
+import github.daisukikaffuchino.momoqr.ui.components.segmentedSection
 import github.daisukikaffuchino.momoqr.utils.setAppLanguage
 import kotlinx.coroutines.launch
 
@@ -47,10 +47,10 @@ fun SettingsAppearance(
         onBack = onNavigateUp,
         modifier = modifier,
     ) {
-        SettingsContainer(Modifier.fillMaxSize()) {
+        CardListItemContainer(Modifier.fillMaxSize()) {
 
-            settingsSection(R.string.pref_label_theme) {
-                settingsGroup {
+            segmentedSection(R.string.pref_label_theme) {
+                segmentedGroup {
                     SwitchSettingsItem(
                         checked = dynamicColor,
                         leadingIconRes = R.drawable.ic_wand_stars,
@@ -76,8 +76,8 @@ fun SettingsAppearance(
                 }
             }
 
-            settingsSection(R.string.pref_language) {
-                settingsGroup {
+            segmentedSection(R.string.pref_language) {
+                segmentedGroup {
                     LanguageItem(DataStoreManager) {
                         scope.launch {
                             val dataStoreManager = DataStoreManager

@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.ksp)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.aboutlibraries)
+    alias(libs.plugins.hilt)
 }
 
 ksp {
@@ -112,11 +113,22 @@ dependencies {
     // M3 Color
     implementation(libs.kyant.m3color)
 
+    // CameraX
+    implementation(libs.androidx.camera.core)
+    implementation(libs.androidx.camera.camera2)
+    implementation(libs.androidx.camera.lifecycle)
+    implementation(libs.androidx.camera.compose)
+
     // About Libraries
     implementation(libs.aboutlibraries.core)
     implementation(libs.aboutlibraries.compose)
 
-    implementation("com.google.zxing:core:3.5.4")
+    implementation(libs.core)
+
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.compiler)
+    implementation(libs.androidx.hilt.navigation.compose)
+    ksp(libs.androidx.hilt.compiler)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

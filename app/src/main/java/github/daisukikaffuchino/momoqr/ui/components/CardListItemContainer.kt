@@ -1,7 +1,5 @@
-package github.daisukikaffuchino.momoqr.ui.pages.settings.components
+package github.daisukikaffuchino.momoqr.ui.components
 
-import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
@@ -16,17 +14,13 @@ import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import github.daisukikaffuchino.momoqr.ui.theme.Defaults
-import github.daisukikaffuchino.momoqr.ui.theme.shapeByInteraction
 
 @Composable
-fun SettingsContainer(
+fun CardListItemContainer(
     modifier: Modifier = Modifier,
     state: LazyListState = rememberLazyListState(),
     content: LazyListScope.() -> Unit,
@@ -49,7 +43,7 @@ fun SettingsContainer(
 }
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
-fun LazyListScope.settingsGroup(
+fun LazyListScope.segmentedGroup(
     content: @Composable ColumnScope.() -> Unit
 ) {
     item {
@@ -67,7 +61,7 @@ fun LazyListScope.settingsGroup(
 }
 
 
-fun LazyListScope.settingsSection(
+fun LazyListScope.segmentedSection(
     titleRes: Int? = null,
     titleString: String? = null,
     content: LazyListScope.() -> Unit

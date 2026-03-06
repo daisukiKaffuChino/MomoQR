@@ -37,10 +37,10 @@ import github.daisukikaffuchino.momoqr.constants.Constants
 import github.daisukikaffuchino.momoqr.logic.datastore.DataStoreManager
 import github.daisukikaffuchino.momoqr.logic.model.Languages
 import github.daisukikaffuchino.momoqr.ui.components.TopAppBarScaffold
-import github.daisukikaffuchino.momoqr.ui.pages.settings.components.SettingsContainer
+import github.daisukikaffuchino.momoqr.ui.components.CardListItemContainer
 import github.daisukikaffuchino.momoqr.ui.pages.settings.components.SettingsItem
-import github.daisukikaffuchino.momoqr.ui.pages.settings.components.settingsGroup
-import github.daisukikaffuchino.momoqr.ui.pages.settings.components.settingsSection
+import github.daisukikaffuchino.momoqr.ui.components.segmentedGroup
+import github.daisukikaffuchino.momoqr.ui.components.segmentedSection
 import github.daisukikaffuchino.momoqr.ui.theme.Defaults
 import github.daisukikaffuchino.momoqr.utils.appVersion
 import kotlinx.coroutines.delay
@@ -80,7 +80,7 @@ fun SettingsAbout(
             }
         }
 
-        SettingsContainer(Modifier.fillMaxWidth()) {
+        CardListItemContainer(Modifier.fillMaxWidth()) {
 
             item {
                 LogoCard(
@@ -99,8 +99,8 @@ fun SettingsAbout(
                 Spacer(modifier = Modifier.size(Defaults.settingsItemPadding))
             }
 
-            settingsSection(R.string.pref_label_info) {
-                settingsGroup {
+            segmentedSection(R.string.pref_label_info) {
+                segmentedGroup {
                     SettingsItem(
                         leadingIconRes = R.drawable.ic_code,
                         title = context.appVersion(),
@@ -134,8 +134,8 @@ fun SettingsAbout(
                 }
             }
 
-            settingsSection(R.string.pref_label_others) {
-                settingsGroup {
+            segmentedSection(R.string.pref_label_others) {
+                segmentedGroup {
                     SettingsItem(
                         leadingIconRes = R.drawable.ic_github,
                         title = stringResource(R.string.pref_view_on_github),

@@ -26,8 +26,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation3.runtime.NavKey
+import dagger.hilt.android.AndroidEntryPoint
 import github.daisukikaffuchino.momoqr.R
 import github.daisukikaffuchino.momoqr.constants.Constants
 import github.daisukikaffuchino.momoqr.logic.datastore.DataStoreManager
@@ -36,6 +38,7 @@ import github.daisukikaffuchino.momoqr.logic.model.PaletteStyle
 import github.daisukikaffuchino.momoqr.ui.navigation.MomoDestination
 import github.daisukikaffuchino.momoqr.ui.navigation.TopLevelBackStack
 import github.daisukikaffuchino.momoqr.ui.navigation.TopNavigation
+import github.daisukikaffuchino.momoqr.ui.pages.scan.CodeScannerViewModel
 import github.daisukikaffuchino.momoqr.ui.theme.Defaults
 import github.daisukikaffuchino.momoqr.ui.theme.MomoQRTheme
 import github.daisukikaffuchino.momoqr.ui.viewmodels.MainViewModel
@@ -45,6 +48,7 @@ import github.daisukikaffuchino.momoqr.utils.setAppLanguage
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     lateinit var mainBackStack: TopLevelBackStack<NavKey>
     lateinit var mainViewModel: MainViewModel
@@ -78,7 +82,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         setContent {
-            mainViewModel = viewModel()
+            mainViewModel = hiltViewModel<MainViewModel>()
             mainBackStack = mainViewModel.mainBackStack
             navigationScaffoldState = rememberNavigationSuiteScaffoldState()
 

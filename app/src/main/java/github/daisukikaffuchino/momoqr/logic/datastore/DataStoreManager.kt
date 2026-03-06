@@ -12,6 +12,7 @@ import github.daisukikaffuchino.momoqr.MomoApplication
 import github.daisukikaffuchino.momoqr.constants.Constants
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import kotlinx.serialization.json.Json
 
 object DataStoreManager {
     private val Context.dataStore by preferencesDataStore(
@@ -34,9 +35,12 @@ object DataStoreManager {
     private val PALETTE_STYLE = intPreferencesKey(Constants.PREF_PALETTE_STYLE)
     private val DARK_MODE = intPreferencesKey(Constants.PREF_DARK_MODE)
     private val CONTRAST_LEVEL = floatPreferencesKey(Constants.PREF_CONTRAST_LEVEL)
+    private val LANGUAGE = stringPreferencesKey(Constants.PREF_LANGUAGE)
     private val SECURE_MODE = booleanPreferencesKey(Constants.PREF_SECURE_MODE)
     private val HAPTIC_FEEDBACK = booleanPreferencesKey(Constants.PREF_HAPTIC_FEEDBACK)
-    private val LANGUAGE = stringPreferencesKey(Constants.PREF_LANGUAGE)
+    private val SORTING_METHOD = intPreferencesKey(Constants.PREF_SORTING_METHOD)
+    private val CATEGORIES = stringPreferencesKey(Constants.PREF_CATEGORIES)
+
 
 
     // Getters
@@ -56,6 +60,10 @@ object DataStoreManager {
         preferences[CONTRAST_LEVEL] ?: Constants.PREF_CONTRAST_LEVEL_DEFAULT
     }
 
+    val languageFlow: Flow<String?> = dataStore.data.map { preferences ->
+        preferences[LANGUAGE]
+    }
+
     val secureModeFlow: Flow<Boolean> = dataStore.data.map { preferences ->
         preferences[SECURE_MODE] ?: Constants.PREF_SECURE_MODE_DEFAULT
     }
@@ -64,8 +72,12 @@ object DataStoreManager {
         preferences[HAPTIC_FEEDBACK] ?: Constants.PREF_HAPTIC_FEEDBACK_DEFAULT
     }
 
-    val languageFlow: Flow<String?> = dataStore.data.map { preferences ->
-        preferences[LANGUAGE]
+    val sortingMethodFlow: Flow<Int> = dataStore.data.map { preferences ->
+        preferences[SORTING_METHOD] ?: Constants.PREF_SORTING_METHOD_DEFAULT
+    }
+
+    val categoriesFlow: Flow<List<String>> = dataStore.data.map { preferences ->
+        Json.decodeFromString(preferences[CATEGORIES] ?: Constants.PREF_CATEGORIES_DEFAULT)
     }
 
 
@@ -94,6 +106,15 @@ object DataStoreManager {
         }
     }
 
+    suspend fun setLanguage(code: String?) {
+        dataStore.edit {
+            if (code == null)
+                it.remove(LANGUAGE)
+            else
+                it[LANGUAGE] = code
+        }
+    }
+
     suspend fun setSecureMode(value: Boolean) {
         dataStore.edit { preferences ->
             preferences[SECURE_MODE] = value
@@ -106,12 +127,15 @@ object DataStoreManager {
         }
     }
 
-    suspend fun setLanguage(code: String?) {
-        dataStore.edit {
-            if (code == null)
-                it.remove(LANGUAGE)
-            else
-                it[LANGUAGE] = code
+    suspend fun setSortingMethod(value: Int) {
+        dataStore.edit { preferences ->
+            preferences[SORTING_METHOD] = value
+        }
+    }
+
+    suspend fun setCategories(value: List<String>) {
+        dataStore.edit { preferences ->
+            preferences[CATEGORIES] = Json.encodeToString(value)
         }
     }
 

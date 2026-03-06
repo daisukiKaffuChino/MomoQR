@@ -7,24 +7,26 @@ import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.lerp
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.dp
 
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 object Defaults {
     /**
-     * 屏幕左右两边预留边距（防止内容全部贴边显示过丑）
+     * 屏幕左右两边预留边距
      */
     val screenHorizontalPadding = 16.dp
 
     /**
-     * 屏幕上下预留边距（防止内容全部贴边显示过丑）
+     * 屏幕上下预留边距
      */
     val screenVerticalPadding = 8.dp
 
     /**
      * 列表卡片默认高度
      */
-    val toDoCardHeight = 110.dp
+    val starsCardHeight = 110.dp
 
     /**
      * 设置项水平边距
@@ -39,14 +41,11 @@ object Defaults {
     val settingsItemPadding = 4.dp
     val settingsSegmentedItemPadding = 2.dp
 
-    val overviewCardHeight = 120.dp
+    val homeScanCardHeight = 100.dp
 
     val ScreenContainerShape: Shape
         @Composable
-        get() = MaterialTheme.shapes.large/*.copy(
-            bottomStart = ZeroCornerSize,
-            bottomEnd = ZeroCornerSize
-        )*/
+        get() = MaterialTheme.shapes.largeIncreased
 
     object Colors {
         val Container: Color
@@ -57,6 +56,22 @@ object Defaults {
             @Composable
             get() = MaterialTheme.colorScheme.surfaceContainer
 
+        val Primary: Color
+            @Composable
+            get() = lerp(
+                MaterialTheme.colorScheme.primary,
+                Color.White,
+                0.085f
+            )
+
+        val Secondary: Color
+            @Composable
+            get() = lerp(
+                MaterialTheme.colorScheme.secondary,
+                Color.White,
+                0.085f
+            )
+
         //val Green = Color(0xFF349938)
     }
 
@@ -66,7 +81,6 @@ object Defaults {
         @Composable
         get() = MaterialTheme.shapes.extraSmall
 
-    @OptIn(ExperimentalMaterial3ExpressiveApi::class)
     val largeCornerShape: CornerBasedShape
         @Composable
         get() = MaterialTheme.shapes.largeIncreased
@@ -75,22 +89,18 @@ object Defaults {
         @Composable
         get() = MaterialTheme.shapes.small
 
-
-    @OptIn(ExperimentalMaterial3ExpressiveApi::class)
     @Composable
     fun shapes() = ButtonShapes(
         shape = defaultShape,
         pressedShape = pressedShape
     )
 
-    @OptIn(ExperimentalMaterial3ExpressiveApi::class)
     @Composable
     fun largerShapes() = ButtonShapes(
         shape = largeCornerShape,
         pressedShape = pressedShape
     )
 
-    @OptIn(ExperimentalMaterial3ExpressiveApi::class)
     val shapesDefaultAnimationSpec: FiniteAnimationSpec<Float>
         @Composable
         get() = MaterialTheme.motionScheme.defaultEffectsSpec()

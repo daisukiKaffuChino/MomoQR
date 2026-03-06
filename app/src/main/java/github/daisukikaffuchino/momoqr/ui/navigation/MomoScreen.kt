@@ -7,7 +7,11 @@ import kotlinx.serialization.Serializable
 @Serializable
 sealed class MomoScreen : NavKey {
     @Serializable
-    data object Home : MomoScreen()
+    data object Home : MomoScreen(){
+
+        @Serializable
+        data object Scan : MomoScreen()
+    }
 
     @Serializable
     data object Stars : MomoScreen()
@@ -21,7 +25,7 @@ sealed class MomoScreen : NavKey {
         data object Appearance : Settings()
 
         @Serializable
-        data object Interface : Settings()
+        data object Interaction : Settings()
 
         @Serializable
         data object Camera : Settings()

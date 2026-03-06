@@ -7,8 +7,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import github.daisukikaffuchino.momoqr.R
+import github.daisukikaffuchino.momoqr.ui.components.CardListItemContainer
 import github.daisukikaffuchino.momoqr.ui.components.TopAppBarScaffold
-import github.daisukikaffuchino.momoqr.ui.pages.settings.components.SettingsContainer
 import github.daisukikaffuchino.momoqr.ui.pages.settings.components.SettingsItem
 import github.daisukikaffuchino.momoqr.ui.theme.Defaults
 
@@ -16,7 +16,7 @@ import github.daisukikaffuchino.momoqr.ui.theme.Defaults
 @Composable
 fun SettingsMain(
     toAppearancePage: () -> Unit,
-    toInterfacePage: () -> Unit,
+    toInteractionPage: () -> Unit,
     toCameraPage: () -> Unit,
     toDataPage: () -> Unit,
     toLabPage: () -> Unit,
@@ -27,7 +27,7 @@ fun SettingsMain(
         title = stringResource(R.string.page_settings),
         modifier = modifier
     ) {
-        SettingsContainer(Modifier.fillMaxSize()) {
+        CardListItemContainer(Modifier.fillMaxSize()) {
             item {
                 SettingsItem(
                     leadingIconRes = R.drawable.ic_palette,
@@ -40,11 +40,11 @@ fun SettingsMain(
 
             item {
                 SettingsItem(
-                    leadingIconRes = R.drawable.ic_view_comfy,
+                    leadingIconRes = R.drawable.ic_auto_awesome_mosaic,
                     title = stringResource(R.string.pref_interface_interaction),
                     description = stringResource(R.string.pref_interface_interaction_desc),
                     shapes = Defaults.largerShapes(),
-                    onClick = toInterfacePage
+                    onClick = toInteractionPage
                 )
             }
 

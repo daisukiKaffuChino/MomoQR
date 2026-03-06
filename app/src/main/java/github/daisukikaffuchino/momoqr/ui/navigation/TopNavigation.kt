@@ -5,18 +5,22 @@ import androidx.compose.animation.SharedTransitionLayout
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.ui.NavDisplay
 import github.daisukikaffuchino.momoqr.ui.pages.home.HomePage
+import github.daisukikaffuchino.momoqr.ui.pages.scan.ScanPage
 import github.daisukikaffuchino.momoqr.ui.pages.settings.SettingsAbout
 import github.daisukikaffuchino.momoqr.ui.pages.settings.SettingsAboutLicence
 import github.daisukikaffuchino.momoqr.ui.pages.settings.SettingsAppearance
 import github.daisukikaffuchino.momoqr.ui.pages.settings.SettingsCamera
 import github.daisukikaffuchino.momoqr.ui.pages.settings.SettingsData
 import github.daisukikaffuchino.momoqr.ui.pages.settings.SettingsDataCategory
-import github.daisukikaffuchino.momoqr.ui.pages.settings.SettingsInterface
+import github.daisukikaffuchino.momoqr.ui.pages.settings.SettingsInteraction
 import github.daisukikaffuchino.momoqr.ui.pages.settings.SettingsLab
 import github.daisukikaffuchino.momoqr.ui.pages.settings.SettingsMain
 import github.daisukikaffuchino.momoqr.ui.pages.stars.StarsPage
@@ -24,7 +28,10 @@ import github.daisukikaffuchino.momoqr.ui.theme.fadeScale
 import github.daisukikaffuchino.momoqr.ui.theme.materialSharedAxisX
 import github.daisukikaffuchino.momoqr.ui.theme.veilFade
 import github.daisukikaffuchino.momoqr.ui.viewmodels.MainViewModel
-import kotlin.collections.removeLast
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalAnimationApi::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable
@@ -35,15 +42,6 @@ fun TopNavigation(
 ) {
     fun onBack() {
         backStack.removeLast()
-    }
-
-    val veilColor = MaterialTheme.colorScheme.surfaceDim
-    fun editorTransition() = NavDisplay.transitionSpec {
-        veilFade(veilColor)
-    } + NavDisplay.popTransitionSpec {
-        veilFade(veilColor)
-    } + NavDisplay.predictivePopTransitionSpec {
-        veilFade(veilColor)
     }
 
     val initialOffestFactor = 0.10f
@@ -78,7 +76,13 @@ fun TopNavigation(
             predictivePopTransitionSpec = { defaultTransition },
             entryProvider = entryProvider {
                 entry<MomoScreen.Home> {
-                    HomePage()
+                    HomePage(
+                        toScanPage = { backStack.add(MomoScreen.Home.Scan) }
+                    )
+                }
+
+                entry<MomoScreen.Home.Scan>(metadata = settingsTransition()) {
+                    ScanPage(onNavigateUp = ::onBack)
                 }
 
                 entry<MomoScreen.Stars> {
@@ -88,40 +92,11 @@ fun TopNavigation(
                     )
                 }
 
-//                entry<VerveDoScreen.Editor.Add>(metadata = editorTransition()) {
-//                    TaskAddPage(
-//                        onSave = {
-//                            viewModel.addTodo(it)
-//                            onBack()
-//                        },
-//                        onNavigateUp = ::onBack
-//                    )
-//                }
-
-//                entry<VerveDoScreen.Editor.Edit>(metadata = editorTransition()) { editorArgs ->
-//                    TaskEditPage(
-//                        toDo = editorArgs.toDo,
-//                        onSave = {
-//                            viewModel.addTodo(it)
-//                            // 如果原来的待办状态为未完成并且修改后状态为完成
-//                            if (!editorArgs.toDo.isCompleted && it.isCompleted) {
-//                                viewModel.playConfetti()
-//                            }
-//                            onBack()
-//                        },
-//                        onDelete = {
-//                            viewModel.deleteTodo(editorArgs.toDo)
-//                            onBack()
-//                        },
-//                        onNavigateUp = ::onBack
-//                    )
-//                }
-
                 entry<MomoScreen.Settings.Main> {
                     SettingsMain(
                         toAppearancePage = { backStack.add(MomoScreen.Settings.Appearance) },
                         toAboutPage = { backStack.add(MomoScreen.Settings.About) },
-                        toInterfacePage = { backStack.add(MomoScreen.Settings.Interface) },
+                        toInteractionPage = { backStack.add(MomoScreen.Settings.Interaction) },
                         toCameraPage = { backStack.add(MomoScreen.Settings.Camera) },
                         toDataPage = { backStack.add(MomoScreen.Settings.Data) },
                         toLabPage = { backStack.add(MomoScreen.Settings.Lab) }
@@ -132,8 +107,8 @@ fun TopNavigation(
                     SettingsAppearance(onNavigateUp = ::onBack)
                 }
 
-                entry<MomoScreen.Settings.Interface>(metadata = settingsTransition()) {
-                    SettingsInterface(onNavigateUp = ::onBack)
+                entry<MomoScreen.Settings.Interaction>(metadata = settingsTransition()) {
+                    SettingsInteraction(onNavigateUp = ::onBack)
                 }
 
                 entry<MomoScreen.Settings.Camera>(metadata = settingsTransition()) {
@@ -177,3 +152,4 @@ fun TopNavigation(
         )
     }
 }
+

@@ -3,9 +3,11 @@ package github.daisukikaffuchino.momoqr
 import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
+import dagger.hilt.android.HiltAndroidApp
 import github.daisukikaffuchino.momoqr.logic.database.StarDatabase
 import github.daisukikaffuchino.momoqr.ui.pages.crash.CrashHandler
 
+@HiltAndroidApp
 class MomoApplication : Application() {
     private val database by lazy { StarDatabase.getDatabase(this) }
 

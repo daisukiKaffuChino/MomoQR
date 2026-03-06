@@ -9,7 +9,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Badge
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.FilledTonalButton
@@ -25,7 +24,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import com.mikepenz.aboutlibraries.ui.compose.android.produceLibraries
 import com.mikepenz.aboutlibraries.ui.compose.util.author
@@ -33,7 +31,7 @@ import com.mikepenz.aboutlibraries.ui.compose.util.htmlReadyLicenseContent
 import github.daisukikaffuchino.momoqr.R
 import github.daisukikaffuchino.momoqr.ui.components.BasicDialog
 import github.daisukikaffuchino.momoqr.ui.components.TopAppBarScaffold
-import github.daisukikaffuchino.momoqr.ui.pages.settings.components.SettingsContainer
+import github.daisukikaffuchino.momoqr.ui.components.CardListItemContainer
 import github.daisukikaffuchino.momoqr.ui.pages.settings.components.SettingsItem
 import github.daisukikaffuchino.momoqr.ui.theme.Defaults
 import github.daisukikaffuchino.momoqr.utils.VibrationUtils
@@ -53,7 +51,7 @@ fun SettingsAboutLicence(
         onBack = onNavigateUp,
         modifier = modifier
     ) {
-        SettingsContainer(Modifier.fillMaxSize()) {
+        CardListItemContainer(Modifier.fillMaxSize()) {
             items(
                 items = libraries?.libraries ?: listOf(),
                 key = { it.artifactId }

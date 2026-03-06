@@ -13,6 +13,15 @@
     <string name="page_settings">Settings</string>
     <string name="page_crash">Oops!\nApp went wrong</string>
 
+    <string name="label_scan">Scan</string>
+    <string name="label_from_camera">From Camera</string>
+    <string name="label_from_gallery">From Gallery</string>
+    <string name="label_generate">Generate</string>
+    <string name="label_generate_text">Text</string>
+    <string name="label_generate_from_clip_board">From clipboard</string>
+    <string name="label_generate_wifi_sharing">Wi-Fi sharing</string>
+    <string name="label_generate_more_type">More types</string>
+
     <string name="label_category">Category</string>
     <string name="label_priority">Priority</string>
 
@@ -50,6 +59,14 @@
     <string name="pref_policy_desc">Learn how we protect privacy</string>
     <string name="pref_licence">Open-source Licenses</string>
     <string name="pref_licence_desc">Check the open source libraries used by MomoQR</string>
+    <string name="pref_sorting_method">Sorting Method</string>
+    <string name="pref_category_global">Global Settings</string>
+    <string name="pref_haptic_feedback">Haptic Feedback</string>
+    <string name="pref_haptic_feedback_desc">Provide slight vibration feedback for some operations</string>
+    <string name="pref_secure_mode">Secure Mode</string>
+    <string name="pref_secure_mode_desc">Prevent screenshots and protect the background preview image</string>
+
+
 
     <string name="pref_label_theme">Theme</string>
     <string name="pref_label_info">Information</string>
@@ -81,9 +98,17 @@
     <string name="contrast_high">High</string>
     <string name="contrast_very_high">Very High</string>
 
+    <string name="sorting_sequential">Sequential</string>
+    <string name="sorting_category">Category</string>
+    <string name="sorting_priority">Priority</string>
+    <string name="sorting_marked">Marked</string>
+    <string name="sorting_alphabetical_ascending">Alphabetical (Ascending)</string>
+    <string name="sorting_alphabetical_descending">Alphabetical (Descending)</string>
+
     <string name="tip_tips">Tips</string>
     <string name="tip_no_crash_logs">No crash logs</string>
     <string name="tip_copy_logs_to_github">Your report is very useful. Please copy all the content to GitHub issues and explain how to reproduce it.</string>
+    <string name="tip_haptic_feedback_more_info">Before using this feature, you need to enable haptic feedback in the system settings (usually under the \"Sound &amp; Vibration\" section in the \"Haptic Feedback\" option)</string>
 
     <string name="time_today">Today</string>
     <string name="time_tomorrow">Tomorrow</string>
@@ -98,5 +123,6 @@
     <string name="time_years_ago">%d y ago</string>
 
     <string name="toast_press_again_to_exit">Press again to exit</string>
+    <string name="toast_failed_to_initialize_camera">Failed to initialize camera</string>
 
 </resources>
