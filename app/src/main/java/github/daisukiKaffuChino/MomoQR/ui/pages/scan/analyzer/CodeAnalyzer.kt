@@ -13,13 +13,18 @@ import com.google.zxing.common.HybridBinarizer
 import java.nio.ByteBuffer
 import kotlin.math.roundToInt
 
-class ZXingCodeAnalyzer(
-    private val codeDetector: CodeDetector
+class CodeAnalyzer(
+    private val codeDetector: CodeDetector,
+    formats: List<BarcodeFormat>,
+    private val enhancedPreprocess: Boolean
 ) : ImageAnalysis.Analyzer {
 
     private val reader = MultiFormatReader().apply {
+        //Log.d("xxx3", "formats = $formats")
         val map = mapOf(
-            DecodeHintType.POSSIBLE_FORMATS to BarcodeFormat.entries
+            DecodeHintType.POSSIBLE_FORMATS to formats,
+            DecodeHintType.TRY_HARDER to true,
+            DecodeHintType.CHARACTER_SET to "UTF-8"
         )
         setHints(map)
     }
@@ -39,7 +44,11 @@ class ZXingCodeAnalyzer(
 
         image.use { img ->
             val plane = img.planes[0]
-            val imageData = plane.buffer.toByteArray()
+            val tempImageData = plane.buffer.toByteArray()
+            val imageData = if (enhancedPreprocess)
+                enhanceContrast(tempImageData)
+            else
+                tempImageData
 
             val size = img.width.coerceAtMost(img.height) * RATIO
 
@@ -83,14 +92,14 @@ class ZXingCodeAnalyzer(
             reader.reset()
             try {
                 val result = reader.decode(binaryBitmap)
-                codeDetector.onCodeFound(result.text)
+                codeDetector.onDetected(result.text)
             } catch (_: ReaderException) {
                 val invertedSource = source.invert()
                 val invertedBinaryBitmap = BinaryBitmap(HybridBinarizer(invertedSource))
                 reader.reset()
                 try {
                     val result = reader.decode(invertedBinaryBitmap)
-                    codeDetector.onCodeFound(result.text)
+                    codeDetector.onDetected(result.text)
                 } catch (_: ReaderException) {
                     // Not Found
                 }
@@ -98,5 +107,16 @@ class ZXingCodeAnalyzer(
         } catch (e: Exception) {
             codeDetector.onError(e)
         }
+    }
+
+    private fun enhanceContrast(data: ByteArray): ByteArray {
+        val out = ByteArray(data.size)
+
+        for (i in data.indices) {
+            val v = data[i].toInt() and 0xff
+            out[i] = if (v > 128) 255.toByte() else 0
+        }
+
+        return out
     }
 }

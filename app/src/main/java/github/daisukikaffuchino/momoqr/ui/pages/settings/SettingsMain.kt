@@ -41,8 +41,8 @@ fun SettingsMain(
             item {
                 SettingsItem(
                     leadingIconRes = R.drawable.ic_auto_awesome_mosaic,
-                    title = stringResource(R.string.pref_interface_interaction),
-                    description = stringResource(R.string.pref_interface_interaction_desc),
+                    title = stringResource(R.string.pref_interaction),
+                    description = stringResource(R.string.pref_interaction_desc),
                     shapes = Defaults.largerShapes(),
                     onClick = toInteractionPage
                 )

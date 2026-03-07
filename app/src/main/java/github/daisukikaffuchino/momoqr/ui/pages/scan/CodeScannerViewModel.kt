@@ -1,10 +1,14 @@
 package github.daisukikaffuchino.momoqr.ui.pages.scan
 
+import android.media.AudioManager
+import android.media.ToneGenerator
 import android.util.Log
 import androidx.camera.camera2.Camera2Config
 import androidx.camera.core.Camera
 import androidx.camera.core.CameraInfoUnavailableException
+import androidx.camera.core.CameraSelector
 import androidx.camera.core.CameraSelector.DEFAULT_BACK_CAMERA
+import androidx.camera.core.CameraSelector.DEFAULT_FRONT_CAMERA
 import androidx.camera.core.FocusMeteringAction
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.Preview
@@ -15,9 +19,12 @@ import androidx.camera.lifecycle.awaitInstance
 import androidx.compose.ui.platform.WindowInfo
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.zxing.BarcodeFormat
 import dagger.hilt.android.lifecycle.HiltViewModel
+import github.daisukikaffuchino.momoqr.constants.Constants
+import github.daisukikaffuchino.momoqr.logic.datastore.DataStoreManager
+import github.daisukikaffuchino.momoqr.ui.pages.scan.analyzer.CodeAnalyzer
 import github.daisukikaffuchino.momoqr.ui.pages.scan.analyzer.CodeDetector
-import github.daisukikaffuchino.momoqr.ui.pages.scan.analyzer.ZXingCodeAnalyzer
 import kotlinx.coroutines.awaitCancellation
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -32,7 +39,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CodeScannerViewModel @Inject constructor() : ViewModel() {
-
+    private var formats: List<BarcodeFormat> = listOf(BarcodeFormat.QR_CODE)
+    private var switchCamera = Constants.PREF_SWITCH_CAMERA_DEFAULT
+    private var beepSound = Constants.PREF_BEEP_SOUND_DEFAULT
+    private var enhancedProcessing = Constants.PREF_ENHANCED_PREPROCESSING_DEFAULT
     private var _state = MutableStateFlow(CodeScannerScreenState())
     var state = _state.asStateFlow()
 
@@ -41,6 +51,21 @@ class CodeScannerViewModel @Inject constructor() : ViewModel() {
 
     private var camera: Camera? = null
     private var imageAnalysis: ImageAnalysis? = null
+
+    init {
+        viewModelScope.launch {
+            DataStoreManager.barcodeFormatsFlow.collect { formats = it.toList() }
+        }
+        viewModelScope.launch {
+            DataStoreManager.switchCameraFlow.collect { switchCamera = it }
+        }
+        viewModelScope.launch {
+            DataStoreManager.beepSoundFlow.collect { beepSound = it }
+        }
+        viewModelScope.launch {
+            DataStoreManager.enhancedPreprocessFlow.collect { enhancedProcessing = it }
+        }
+    }
 
     fun onEvent(event: CodeScannerScreenUserEvent) {
         when (event) {
@@ -59,10 +84,12 @@ class CodeScannerViewModel @Inject constructor() : ViewModel() {
                 val processCameraProvider =
                     ProcessCameraProvider.awaitInstance(event.appContext).also { it.unbindAll() }
 
+                val selector = safeCameraSelector(processCameraProvider)
+
                 try {
                     camera = processCameraProvider.bindToLifecycle(
                         event.lifecycleOwner,
-                        DEFAULT_BACK_CAMERA,
+                        selector,
                         getCameraPreviewUseCase(),
                         imageAnalysisUseCase
                     ).apply {
@@ -108,9 +135,7 @@ class CodeScannerViewModel @Inject constructor() : ViewModel() {
                 }
             }
 
-            else -> {
-                Log.i("Scanner","NO_ACTION")
-            }
+            else -> {}
         }
     }
 
@@ -126,17 +151,34 @@ class CodeScannerViewModel @Inject constructor() : ViewModel() {
         cameraExecutor?.let { if (!it.isShutdown) it.shutdownNow() }
     }
 
-    private fun getCodeAnalyzer(): ZXingCodeAnalyzer {
-        return ZXingCodeAnalyzer(getBarcodeDetector())
+    private fun getCodeAnalyzer(): CodeAnalyzer {
+        return CodeAnalyzer(
+            codeDetector = getBarcodeDetector(),
+            formats = formats,
+            enhancedProcessing
+        )
+    }
+
+    private val toneGenerator = ToneGenerator(
+        AudioManager.STREAM_MUSIC,
+        100
+    )
+
+    private fun playBeep() {
+        toneGenerator.startTone(
+            ToneGenerator.TONE_PROP_BEEP,
+            150
+        )
     }
 
     private fun getBarcodeDetector(): CodeDetector =
         object : CodeDetector {
-            override fun onCodeFound(codeValue: String) {
+            override fun onDetected(codeValue: String) {
                 viewModelScope.launch {
-                    //Toast.makeText(MomoApplication.context,codeValue, Toast.LENGTH_SHORT).show()
-                    //sendResult(codeValue)
                     imageAnalysis?.clearAnalyzer()
+
+                    if (beepSound) playBeep()
+
                     backendEventsChannel.send(
                         CodeScannerScreenBackendEvent.CodeScanComplete(codeValue)
                     )
@@ -188,5 +230,21 @@ class CodeScannerViewModel @Inject constructor() : ViewModel() {
         }
     }
 
+    private fun safeCameraSelector(
+        provider: ProcessCameraProvider
+    ): CameraSelector {
+        return if (switchCamera) {
+            if (provider.hasCamera(DEFAULT_FRONT_CAMERA))
+                DEFAULT_FRONT_CAMERA
+            else
+                DEFAULT_BACK_CAMERA
+        } else
+            DEFAULT_BACK_CAMERA
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        toneGenerator.release()
+    }
 
 }

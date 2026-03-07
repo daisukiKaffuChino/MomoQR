@@ -34,13 +34,13 @@ fun SettingsInteraction(
     val secureMode by DataStoreManager.secureModeFlow.collectAsState(initial = Constants.PREF_SECURE_MODE_DEFAULT)
     val sortingMethod by DataStoreManager.sortingMethodFlow.collectAsState(initial = Constants.PREF_SORTING_METHOD_DEFAULT)
     val hapticFeedback by DataStoreManager.hapticFeedbackFlow.collectAsState(initial = Constants.PREF_HAPTIC_FEEDBACK_DEFAULT)
-
+    
     val scope = rememberCoroutineScope()
     var showSortingMethodDialog by rememberSaveable { mutableStateOf(false) }
 
 
     TopAppBarScaffold(
-        title = stringResource(R.string.pref_interface_interaction),
+        title = stringResource(R.string.pref_interaction),
         onBack = onNavigateUp,
         modifier = modifier,
     ) {

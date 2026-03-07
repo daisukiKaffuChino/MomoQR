@@ -29,8 +29,6 @@ object Constants {
     const val PREF_LANGUAGE = "language"
 
 
-
-
     const val PREF_SECURE_MODE = "secure_mode"
     const val PREF_SECURE_MODE_DEFAULT = false
 
@@ -40,6 +38,14 @@ object Constants {
     const val PREF_SORTING_METHOD = "sorting_method"
     const val PREF_SORTING_METHOD_DEFAULT = 1
 
+    const val PREF_BARCODE_FORMATS = "barcode_formats"
+
+    const val PREF_SWITCH_CAMERA = "switch_camera"
+    const val PREF_SWITCH_CAMERA_DEFAULT = false
+    const val PREF_BEEP_SOUND = "beep_sound"
+    const val PREF_BEEP_SOUND_DEFAULT = true
+    const val PREF_ENHANCED_PREPROCESSING = "enhanced_preprocessing"
+    const val PREF_ENHANCED_PREPROCESSING_DEFAULT = true
 
 
     const val PREF_CATEGORIES = "categories"

@@ -7,12 +7,15 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.floatPreferencesKey
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
+import androidx.datastore.preferences.core.stringSetPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
+import com.google.zxing.BarcodeFormat
 import github.daisukikaffuchino.momoqr.MomoApplication
 import github.daisukikaffuchino.momoqr.constants.Constants
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.serialization.json.Json
+import kotlin.math.E
 
 object DataStoreManager {
     private val Context.dataStore by preferencesDataStore(
@@ -40,8 +43,10 @@ object DataStoreManager {
     private val HAPTIC_FEEDBACK = booleanPreferencesKey(Constants.PREF_HAPTIC_FEEDBACK)
     private val SORTING_METHOD = intPreferencesKey(Constants.PREF_SORTING_METHOD)
     private val CATEGORIES = stringPreferencesKey(Constants.PREF_CATEGORIES)
-
-
+    private val BARCODE_FORMATS = stringSetPreferencesKey(Constants.PREF_BARCODE_FORMATS)
+    private val SWITCH_CAMERA = booleanPreferencesKey(Constants.PREF_SWITCH_CAMERA)
+    private val BEEP_SOUND = booleanPreferencesKey(Constants.PREF_BEEP_SOUND)
+    private val ENHANCED_PREPROCESSING = booleanPreferencesKey(Constants.PREF_ENHANCED_PREPROCESSING)
 
     // Getters
     val dynamicColorFlow: Flow<Boolean> = dataStore.data.map { preferences ->
@@ -79,6 +84,28 @@ object DataStoreManager {
     val categoriesFlow: Flow<List<String>> = dataStore.data.map { preferences ->
         Json.decodeFromString(preferences[CATEGORIES] ?: Constants.PREF_CATEGORIES_DEFAULT)
     }
+
+    val barcodeFormatsFlow: Flow<Set<BarcodeFormat>> = dataStore.data.map { prefs ->
+            prefs[BARCODE_FORMATS]
+                ?.mapNotNull {
+                    runCatching { BarcodeFormat.valueOf(it) }.getOrNull()
+                }
+                ?.toSet()
+                ?: setOf(BarcodeFormat.QR_CODE) //默认值
+        }
+
+    val switchCameraFlow: Flow<Boolean> = dataStore.data.map { preferences ->
+        preferences[SWITCH_CAMERA] ?: Constants.PREF_SWITCH_CAMERA_DEFAULT
+    }
+
+    val beepSoundFlow: Flow<Boolean> = dataStore.data.map { preferences ->
+        preferences[BEEP_SOUND] ?: Constants.PREF_BEEP_SOUND_DEFAULT
+    }
+
+    val enhancedPreprocessFlow: Flow<Boolean> = dataStore.data.map { preferences ->
+        preferences[ENHANCED_PREPROCESSING] ?: Constants.PREF_ENHANCED_PREPROCESSING_DEFAULT
+    }
+
 
 
     // Setters
@@ -136,6 +163,30 @@ object DataStoreManager {
     suspend fun setCategories(value: List<String>) {
         dataStore.edit { preferences ->
             preferences[CATEGORIES] = Json.encodeToString(value)
+        }
+    }
+
+    suspend fun setCodeFormats(formats: Set<BarcodeFormat>) {
+        dataStore.edit { preferences ->
+            preferences[BARCODE_FORMATS] = formats.map { f -> f.name }.toSet()
+        }
+    }
+
+    suspend fun setSwitchCamera(value: Boolean) {
+        dataStore.edit { preferences ->
+            preferences[SWITCH_CAMERA] = value
+        }
+    }
+
+    suspend fun setBeepSound(value: Boolean) {
+        dataStore.edit { preferences ->
+            preferences[BEEP_SOUND] = value
+        }
+    }
+
+    suspend fun setEnhancedPreprocess(value: Boolean) {
+        dataStore.edit { preferences ->
+            preferences[ENHANCED_PREPROCESSING] = value
         }
     }
 

@@ -40,16 +40,16 @@
     <string name="pref_language_follow_system">Follow system"</string>
     <string name="pref_dark_mode">Dark Mode</string>
     <string name="pref_dark_mode_desc">Enable or disable the dark mode for this app</string>
-    <string name="pref_interface_interaction">Interface &amp; Interaction</string>
-    <string name="pref_interface_interaction_desc">Star List, Haptic Feedback</string>
+    <string name="pref_interaction">Interaction</string>
+    <string name="pref_interaction_desc">Sorting, Haptic Feedback</string>
     <string name="pref_camera">Camera &amp; Scanner</string>
     <string name="pref_camera_desc">Camera ID, Identification Type</string>
-    <string name="pref_data">Data</string>
+    <string name="pref_data">Data &amp; Storage</string>
     <string name="pref_data_desc">Backup, Category Manager</string>
     <string name="pref_lab">Laboratory</string>
     <string name="pref_lab_desc">Experimental Features</string>
     <string name="pref_about">About</string>
-    <string name="pref_about_desc">App Info, Developer, License</string>
+    <string name="pref_about_desc">App Information, Licenses</string>
     <string name="pref_developer">Developer</string>
     <string name="pref_view_on_github">View On GitHub</string>
     <string name="pref_view_on_github_desc">View source code, submit bugs, and improvement suggestions</string>
@@ -65,12 +65,20 @@
     <string name="pref_haptic_feedback_desc">Provide slight vibration feedback for some operations</string>
     <string name="pref_secure_mode">Secure Mode</string>
     <string name="pref_secure_mode_desc">Prevent screenshots and protect the background preview image</string>
-
-
+    <string name="pref_identification_type">Identification Type</string>
+    <string name="pref_identification_type_desc">By removing unnecessary barcode formats, the analysis speed will be faster</string>
+    <string name="pref_switch_camera">Switch Camera</string>
+    <string name="pref_switch_camera_desc">If unavailable, the default will be used</string>
+    <string name="pref_beep">Beep Sound</string>
+    <string name="pref_beep_desc">Provide a prompt after analysis</string>
+    <string name="pref_enhanced_preprocessing">Enhanced Preprocessing</string>
+    <string name="pref_enhanced_preprocessing_desc">Attempt to improve recognition rate; may not achieve the expected effect and requires further testing</string>
 
     <string name="pref_label_theme">Theme</string>
     <string name="pref_label_info">Information</string>
     <string name="pref_label_others">Others</string>
+    <string name="pref_label_camera">Camera</string>
+    <string name="pref_label_scanner">Scanner</string>
 
     <string name="palette_tonal_spot">Tonal Spot</string>
     <string name="palette_neutral">Neutral</string>
@@ -78,7 +86,7 @@
     <string name="palette_expressive">Expressive</string>
     <string name="palette_rainbow">Rainbow</string>
     <string name="palette_fruit_salad">Fruit Salad</string>
-<!--    <string name="palette_monochrome">Monochrome</string>-->
+    <!--    <string name="palette_monochrome">Monochrome</string>-->
     <string name="palette_fidelity">Fidelity</string>
     <string name="palette_content">Content</string>
 
@@ -109,6 +117,7 @@
     <string name="tip_no_crash_logs">No crash logs</string>
     <string name="tip_copy_logs_to_github">Your report is very useful. Please copy all the content to GitHub issues and explain how to reproduce it.</string>
     <string name="tip_haptic_feedback_more_info">Before using this feature, you need to enable haptic feedback in the system settings (usually under the \"Sound &amp; Vibration\" section in the \"Haptic Feedback\" option)</string>
+    <string name="tip_align_to_scan">Align the QR code for scanning</string>
 
     <string name="time_today">Today</string>
     <string name="time_tomorrow">Tomorrow</string>
@@ -124,5 +133,6 @@
 
     <string name="toast_press_again_to_exit">Press again to exit</string>
     <string name="toast_failed_to_initialize_camera">Failed to initialize camera</string>
+    <string name="toast_qr_code_format_can_not_remove">QR code format cannot be removed</string>
 
 </resources>

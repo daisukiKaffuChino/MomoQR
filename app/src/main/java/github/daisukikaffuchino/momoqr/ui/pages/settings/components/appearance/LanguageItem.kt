@@ -75,7 +75,7 @@ private fun LanguageSelectionSheet(
     onLanguageChange: (Languages.Language) -> Unit,
 ) {
     ModalBottomSheet(onDismissRequest = { onDismiss() }) {
-        Column(modifier = Modifier.padding(horizontal = Defaults.settingsItemVerticalPadding)) {
+        Column(Modifier.padding(horizontal = Defaults.settingsItemVerticalPadding)) {
             Languages.Language.entries
                 .sortedBy { it.code }
                 .forEach {

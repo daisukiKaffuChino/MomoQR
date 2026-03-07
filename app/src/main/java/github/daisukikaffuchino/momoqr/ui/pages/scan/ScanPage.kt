@@ -50,7 +50,7 @@ fun ScanPage(
                         handled = true
                         scope.launch {
                             sharedViewModel.sendScanResult(event.codeValue)
-                            delay(500)
+                            delay(300)
                             onNavigateUp()
                         }
                     }
