@@ -17,7 +17,8 @@
     <string name="label_from_camera">From Camera</string>
     <string name="label_from_gallery">From Gallery</string>
     <string name="label_generate">Generate</string>
-    <string name="label_generate_text">Text</string>
+    <string name="label_generate_color_palette">Color palette"</string>
+    <string name="label_generate_text">Plain text</string>
     <string name="label_generate_from_clip_board">From clipboard</string>
     <string name="label_generate_wifi_sharing">Wi-Fi sharing</string>
     <string name="label_generate_more_type">More types</string>
@@ -36,16 +37,15 @@
     <string name="pref_contrast_level">Contrast Level</string>
     <string name="pref_contrast_level_desc">Change the app\'s color contrast</string>
     <string name="pref_language">Language</string>
-    <string name="pref_language_desc">Change language</string>
     <string name="pref_language_follow_system">Follow system"</string>
     <string name="pref_dark_mode">Dark Mode</string>
-    <string name="pref_dark_mode_desc">Enable or disable the dark mode for this app</string>
+    <string name="pref_dark_mode_desc">Enable or disable the dark mode</string>
     <string name="pref_interaction">Interaction</string>
     <string name="pref_interaction_desc">Sorting, Haptic Feedback</string>
     <string name="pref_camera">Camera &amp; Scanner</string>
-    <string name="pref_camera_desc">Camera ID, Identification Type</string>
+    <string name="pref_camera_desc">Identification Type, Rendering</string>
     <string name="pref_data">Data &amp; Storage</string>
-    <string name="pref_data_desc">Backup, Category Manager</string>
+    <string name="pref_data_desc">Manage Storage, Categories</string>
     <string name="pref_lab">Laboratory</string>
     <string name="pref_lab_desc">Experimental Features</string>
     <string name="pref_about">About</string>
@@ -67,18 +67,25 @@
     <string name="pref_secure_mode_desc">Prevent screenshots and protect the background preview image</string>
     <string name="pref_identification_type">Identification Type</string>
     <string name="pref_identification_type_desc">By removing unnecessary barcode formats, the analysis speed will be faster</string>
-    <string name="pref_switch_camera">Switch Camera</string>
-    <string name="pref_switch_camera_desc">If unavailable, the default will be used</string>
+    <string name="pref_front_camera">Use Front Camera</string>
+    <string name="pref_front_camera_desc">If unavailable, the default will be used</string>
     <string name="pref_beep">Beep Sound</string>
     <string name="pref_beep_desc">Provide a prompt after analysis</string>
     <string name="pref_enhanced_preprocessing">Enhanced Preprocessing</string>
-    <string name="pref_enhanced_preprocessing_desc">Attempt to improve recognition rate; may not achieve the expected effect and requires further testing</string>
+    <string name="pref_enhanced_preprocessing_desc">Attempts to improve recognition rate; effectiveness may vary</string>
+    <string name="pref_error_correction_level">Error correction level</string>
+    <string name="pref_error_correction_level_desc">Adjust the QR code error correction level; higher levels better protect data if the code is dirty or damaged, but increase QR code size</string>
+    <string name="pref_auto_copy">Auto Copy</string>
+    <string name="pref_auto_copy_desc">Automatically copy the original data after scanning</string>
 
     <string name="pref_label_theme">Theme</string>
     <string name="pref_label_info">Information</string>
     <string name="pref_label_others">Others</string>
     <string name="pref_label_camera">Camera</string>
     <string name="pref_label_scanner">Scanner</string>
+    <string name="pref_label_rendering">Rendering</string>
+    <string name="pref_label_star_list">Stars List</string>
+    <string name="pref_label_global">Global</string>
 
     <string name="palette_tonal_spot">Tonal Spot</string>
     <string name="palette_neutral">Neutral</string>
@@ -86,7 +93,6 @@
     <string name="palette_expressive">Expressive</string>
     <string name="palette_rainbow">Rainbow</string>
     <string name="palette_fruit_salad">Fruit Salad</string>
-    <!--    <string name="palette_monochrome">Monochrome</string>-->
     <string name="palette_fidelity">Fidelity</string>
     <string name="palette_content">Content</string>
 
@@ -116,23 +122,13 @@
     <string name="tip_tips">Tips</string>
     <string name="tip_no_crash_logs">No crash logs</string>
     <string name="tip_copy_logs_to_github">Your report is very useful. Please copy all the content to GitHub issues and explain how to reproduce it.</string>
-    <string name="tip_haptic_feedback_more_info">Before using this feature, you need to enable haptic feedback in the system settings (usually under the \"Sound &amp; Vibration\" section in the \"Haptic Feedback\" option)</string>
+    <string name="tip_haptic_feedback_more_info">Enable haptic feedback in system settings before using this feature (usually under "Sound &amp; Vibration")</string>
     <string name="tip_align_to_scan">Align the QR code for scanning</string>
-
-    <string name="time_today">Today</string>
-    <string name="time_tomorrow">Tomorrow</string>
-    <string name="time_in_days">in %d d</string>
-    <string name="time_in_weeks">in %d w</string>
-    <string name="time_in_months">in %d mo</string>
-    <string name="time_in_years">in %d y</string>
-    <string name="time_yesterday">Yesterday</string>
-    <string name="time_days_ago">%d d ago</string>
-    <string name="time_weeks_ago">%d w ago</string>
-    <string name="time_months_ago">%d mo ago</string>
-    <string name="time_years_ago">%d y ago</string>
 
     <string name="toast_press_again_to_exit">Press again to exit</string>
     <string name="toast_failed_to_initialize_camera">Failed to initialize camera</string>
     <string name="toast_qr_code_format_can_not_remove">QR code format cannot be removed</string>
-
+    <string name="toast_camera_permission_required">Allow camera access to scan QR codes.</string>
+    <string name="toast_go_to_settings">Open settings</string>
+    <string name="toast_no_data_detected">No data has been detected.</string>
 </resources>

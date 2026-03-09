@@ -7,7 +7,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 sealed class MomoScreen : NavKey {
     @Serializable
-    data object Home : MomoScreen(){
+    data object Home : MomoScreen() {
 
         @Serializable
         data object Scan : MomoScreen()
@@ -47,13 +47,14 @@ sealed class MomoScreen : NavKey {
 
         @Serializable
         data object AboutLicence : Settings()
-}
+    }
 
     @Serializable
     sealed class Result : MomoScreen() {
         @Serializable
-        data class EditResult(val toDo: StarEntity) : Result()
+        data class Add(val stars: StarEntity) : Result()
+
+        @Serializable
+        data class Edit(val stars: StarEntity) : Result()
     }
-
-
 }

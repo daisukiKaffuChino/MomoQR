@@ -1,6 +1,5 @@
 package github.daisukikaffuchino.momoqr.utils
 
-
 import android.view.HapticFeedbackConstants
 import android.view.View
 import github.daisukikaffuchino.momoqr.constants.Constants

@@ -5,14 +5,13 @@ import androidx.compose.animation.SharedTransitionLayout
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.ui.NavDisplay
 import github.daisukikaffuchino.momoqr.ui.pages.home.HomePage
+import github.daisukikaffuchino.momoqr.ui.pages.result.ResultAddPage
+import github.daisukikaffuchino.momoqr.ui.pages.result.ResultEditPage
 import github.daisukikaffuchino.momoqr.ui.pages.scan.ScanPage
 import github.daisukikaffuchino.momoqr.ui.pages.settings.SettingsAbout
 import github.daisukikaffuchino.momoqr.ui.pages.settings.SettingsAboutLicence
@@ -28,10 +27,6 @@ import github.daisukikaffuchino.momoqr.ui.theme.fadeScale
 import github.daisukikaffuchino.momoqr.ui.theme.materialSharedAxisX
 import github.daisukikaffuchino.momoqr.ui.theme.veilFade
 import github.daisukikaffuchino.momoqr.ui.viewmodels.MainViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.DelicateCoroutinesApi
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalAnimationApi::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable
@@ -42,6 +37,15 @@ fun TopNavigation(
 ) {
     fun onBack() {
         backStack.removeLast()
+    }
+
+    val veilColor = MaterialTheme.colorScheme.surfaceDim
+    fun resultTransition() = NavDisplay.transitionSpec {
+        veilFade(veilColor)
+    } + NavDisplay.popTransitionSpec {
+        veilFade(veilColor)
+    } + NavDisplay.predictivePopTransitionSpec {
+        veilFade(veilColor)
     }
 
     val initialOffestFactor = 0.10f
@@ -77,7 +81,8 @@ fun TopNavigation(
             entryProvider = entryProvider {
                 entry<MomoScreen.Home> {
                     HomePage(
-                        toScanPage = { backStack.add(MomoScreen.Home.Scan) }
+                        toScanPage = { backStack.add(MomoScreen.Home.Scan) },
+                        toResultAddPage = { backStack.add(MomoScreen.Result.Add(it)) }
                     )
                 }
 
@@ -88,7 +93,33 @@ fun TopNavigation(
                 entry<MomoScreen.Stars> {
                     StarsPage(
                         viewModel = viewModel,
-                        resultPage = { backStack.add(MomoScreen.Result.EditResult(it)) }
+                        toResultEditPage = { backStack.add(MomoScreen.Result.Edit(it)) }
+                    )
+                }
+
+                entry<MomoScreen.Result.Add>(metadata = settingsTransition()) { args ->
+                    ResultAddPage(
+                        stars = args.stars,
+                        onSave = {
+                            viewModel.addStar(it)
+                            onBack()
+                        },
+                        onNavigateUp = ::onBack
+                    )
+                }
+
+                entry<MomoScreen.Result.Edit>(metadata = resultTransition()) { args ->
+                    ResultEditPage(
+                        stars = args.stars,
+                        onSave = {
+                            viewModel.addStar(it)
+                            onBack()
+                        },
+                        onDelete = {
+                            viewModel.deleteStar(args.stars)
+                            onBack()
+                        },
+                        onNavigateUp = ::onBack
                     )
                 }
 

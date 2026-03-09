@@ -30,7 +30,6 @@ fun SettingsPlainBox(
             .fillMaxWidth()
             .wrapContentHeight()
             .padding(
-                vertical = Defaults.settingsItemVerticalPadding,
                 horizontal = Defaults.settingsItemHorizontalPadding / 2
             ),
     ) {
@@ -38,7 +37,7 @@ fun SettingsPlainBox(
             painter = painterResource(R.drawable.ic_info),
             contentDescription = null
         )
-        Spacer(Modifier.size(16.dp))
+        Spacer(Modifier.size(Defaults.settingsItemVerticalPadding / 2))
         Text(
             text = text,
             style = MaterialTheme.typography.bodyMedium.copy(

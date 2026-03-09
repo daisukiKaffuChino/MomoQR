@@ -46,15 +46,7 @@ fun LanguageItem(
     SettingsItem(
         leadingIcon = painterResource(R.drawable.ic_language),
         title = stringResource(R.string.pref_language),
-        description = stringResource(R.string.pref_language_desc),
-        trailingContent = {
-            Text(
-                currentLanguage.displayName(),
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-                modifier = Modifier.widthIn(max = 96.dp)
-            )
-        },
+        description = currentLanguage.displayName(),
         onClick = { showBottomSheet = true }
     )
 

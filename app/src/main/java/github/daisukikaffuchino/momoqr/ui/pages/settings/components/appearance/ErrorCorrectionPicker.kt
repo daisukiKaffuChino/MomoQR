@@ -14,7 +14,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -29,47 +29,61 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.unit.dp
 import github.daisukikaffuchino.momoqr.R
-import github.daisukikaffuchino.momoqr.logic.model.ContrastLevel
+import github.daisukikaffuchino.momoqr.logic.model.ErrorCorrectionLevel
 import github.daisukikaffuchino.momoqr.ui.pages.settings.components.MoreContentSettingsItem
 import github.daisukikaffuchino.momoqr.utils.VibrationUtils
+import kotlin.math.roundToInt
 
 @SuppressLint("LocalContextGetResourceValueCall")
 @Composable
-fun ContrastPicker(
+fun ErrorCorrectionPicker(
     modifier: Modifier = Modifier,
-    currentContrast: ContrastLevel,
-    onContrastChange: (ContrastLevel) -> Unit,
+    currentLevel: ErrorCorrectionLevel,
+    onLevelChanged: (ErrorCorrectionLevel) -> Unit,
 ) {
     val view = LocalView.current
     val context = LocalContext.current
     MoreContentSettingsItem(
-        title = stringResource(R.string.pref_contrast_level),
-        description = stringResource(R.string.pref_contrast_level_desc),
+        title = stringResource(R.string.pref_error_correction_level),
+        description = stringResource(R.string.pref_error_correction_level_desc),
         modifier = modifier
     ) {
-        val contrastLevelName = ContrastLevel.entries.map { stringResource(it.nameRes) }
-        var lastVibratedLevel by remember { mutableFloatStateOf(currentContrast.value) }
+        val levels = ErrorCorrectionLevel.entries
+        val levelNames = levels.map { it.nameString }
+
+        var lastVibratedIndex by remember { mutableIntStateOf(currentLevel.ordinal) }
 
         Slider(
             modifier = Modifier.semantics {
                 contentDescription =
-                    context.getString(R.string.pref_contrast_level) + contrastLevelName[currentContrast.ordinal]
-                stateDescription = contrastLevelName[currentContrast.ordinal]
+                    context.getString(R.string.pref_contrast_level) + levelNames[currentLevel.ordinal]
+                stateDescription = levelNames[currentLevel.ordinal]
                 liveRegion = LiveRegionMode.Polite
             },
-            value = currentContrast.value,
+
+            value = currentLevel.ordinal.toFloat(),
+
             onValueChange = { newValue ->
-                onContrastChange(ContrastLevel.fromFloat(newValue))
-                if (newValue != lastVibratedLevel) {
+                val index = newValue.roundToInt().coerceIn(0, levels.lastIndex)
+
+                if (index != currentLevel.ordinal) {
+                    onLevelChanged(levels[index])
+                }
+
+                if (index != lastVibratedIndex) {
                     VibrationUtils.performHapticFeedback(
                         view,
                         HapticFeedbackConstants.LONG_PRESS
                     )
-                    lastVibratedLevel = newValue
+                    lastVibratedIndex = index
                 }
             },
-            valueRange = -1f..1f,
-            steps = 3,
+
+            valueRange = 0f..levels.lastIndex.toFloat(),
+            steps = levels.size - 2
+//            onValueChangeFinished = {
+//                println("最终选中的值: $lastVibratedIndex")
+//            }
         )
 
         Spacer(Modifier.size(5.dp))
@@ -81,11 +95,10 @@ fun ContrastPicker(
                     .clearAndSetSemantics {},
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Text(stringResource(R.string.contrast_very_low))
-                Text(stringResource(R.string.contrast_low))
-                Text(stringResource(R.string.contrast_default))
-                Text(stringResource(R.string.contrast_high))
-                Text(stringResource(R.string.contrast_very_high))
+                Text("~7%")
+                Text("~15%")
+                Text("~25%")
+                Text("~30%")
             }
         }
     }

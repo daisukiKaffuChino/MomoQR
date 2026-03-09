@@ -1,7 +1,6 @@
 package github.daisukikaffuchino.momoqr.ui.pages.settings
 
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -16,16 +15,20 @@ import com.google.zxing.BarcodeFormat
 import github.daisukikaffuchino.momoqr.R
 import github.daisukikaffuchino.momoqr.constants.Constants
 import github.daisukikaffuchino.momoqr.logic.datastore.DataStoreManager
+import github.daisukikaffuchino.momoqr.logic.model.ContrastLevel
+import github.daisukikaffuchino.momoqr.logic.model.ErrorCorrectionLevel
 import github.daisukikaffuchino.momoqr.ui.components.CardListItemContainer
 import github.daisukikaffuchino.momoqr.ui.components.TopAppBarScaffold
 import github.daisukikaffuchino.momoqr.ui.components.segmentedGroup
 import github.daisukikaffuchino.momoqr.ui.components.segmentedSection
-import github.daisukikaffuchino.momoqr.ui.pages.settings.components.appearance.CodeFormatsSheet
 import github.daisukikaffuchino.momoqr.ui.pages.settings.components.SettingsItem
 import github.daisukikaffuchino.momoqr.ui.pages.settings.components.SwitchSettingsItem
+import github.daisukikaffuchino.momoqr.ui.pages.settings.components.appearance.CodeFormatsSheet
+import github.daisukikaffuchino.momoqr.ui.pages.settings.components.appearance.ContrastPicker
+import github.daisukikaffuchino.momoqr.ui.pages.settings.components.appearance.ErrorCorrectionPicker
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun SettingsCamera(
     onNavigateUp: () -> Unit,
@@ -36,6 +39,12 @@ fun SettingsCamera(
             BarcodeFormat.QR_CODE
         )
     )
+    val switchCamera by DataStoreManager.switchCameraFlow.collectAsState(initial = Constants.PREF_SWITCH_CAMERA_DEFAULT)
+    val beepSound by DataStoreManager.beepSoundFlow.collectAsState(initial = Constants.PREF_BEEP_SOUND_DEFAULT)
+    val enhancedPreprocess by DataStoreManager.enhancedPreprocessFlow.collectAsState(initial = Constants.PREF_ENHANCED_PREPROCESSING_DEFAULT)
+    val autoCopy by DataStoreManager.autoCopyFlow.collectAsState(initial = Constants.PREF_AUTO_COPY_DEFAULT)
+    val correctionLevel by DataStoreManager.correctionLevelFlow.collectAsState(initial = Constants.PREF_CORRECTION_LEVEL_DEFAULT)
+
     val scope = rememberCoroutineScope()
     var showFormatsSheet by remember { mutableStateOf(false) }
 
@@ -53,10 +62,6 @@ fun SettingsCamera(
         )
     }
 
-    val switchCamera by DataStoreManager.switchCameraFlow.collectAsState(initial = Constants.PREF_SWITCH_CAMERA_DEFAULT)
-    val beepSound by DataStoreManager.beepSoundFlow.collectAsState(initial = Constants.PREF_BEEP_SOUND_DEFAULT)
-    val enhancedPreprocess by DataStoreManager.enhancedPreprocessFlow.collectAsState(initial = Constants.PREF_ENHANCED_PREPROCESSING_DEFAULT)
-
     TopAppBarScaffold(
         title = stringResource(R.string.pref_camera),
         onBack = onNavigateUp,
@@ -69,8 +74,8 @@ fun SettingsCamera(
                     SwitchSettingsItem(
                         checked = switchCamera,
                         leadingIconRes = R.drawable.ic_cameraswitch,
-                        title = stringResource(R.string.pref_switch_camera),
-                        description = stringResource(R.string.pref_switch_camera_desc),
+                        title = stringResource(R.string.pref_front_camera),
+                        description = stringResource(R.string.pref_front_camera_desc),
                         onCheckedChange = { scope.launch { DataStoreManager.setSwitchCamera(it) } }
                     )
                 }
@@ -87,6 +92,13 @@ fun SettingsCamera(
                         }
                     )
                     SwitchSettingsItem(
+                        checked = autoCopy,
+                        leadingIconRes = R.drawable.ic_content_copy,
+                        title = stringResource(R.string.pref_auto_copy),
+                        description = stringResource(R.string.pref_auto_copy_desc),
+                        onCheckedChange = { scope.launch { DataStoreManager.setAutoCopy(it) } }
+                    )
+                    SwitchSettingsItem(
                         checked = beepSound,
                         leadingIconRes = R.drawable.ic_notification_sound,
                         title = stringResource(R.string.pref_beep),
@@ -99,6 +111,15 @@ fun SettingsCamera(
                         title = stringResource(R.string.pref_enhanced_preprocessing),
                         description = stringResource(R.string.pref_enhanced_preprocessing_desc),
                         onCheckedChange = { scope.launch { DataStoreManager.setEnhancedPreprocess(it) } }
+                    )
+                }
+            }
+
+            segmentedSection(R.string.pref_label_rendering) {
+                segmentedGroup {
+                    ErrorCorrectionPicker(
+                        currentLevel = ErrorCorrectionLevel.fromFloat(correctionLevel),
+                        onLevelChanged = { scope.launch { DataStoreManager.setCorrectionLevel(it.value) } }
                     )
                 }
             }

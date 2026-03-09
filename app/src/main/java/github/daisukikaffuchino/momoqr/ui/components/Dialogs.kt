@@ -39,7 +39,7 @@ fun ConfirmDialog(
         visible = visible,
         painter = painterResource(iconRes),
         title = title,
-        text = { Text(text) }, // 已经实现好滚动了
+        text = { Text(text) },
         confirmButton = confirmButtonText,
         dismissButton = if (showDismissButton) dismissButtonText else null,
         onConfirm = {

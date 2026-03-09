@@ -12,8 +12,7 @@ import github.daisukikaffuchino.momoqr.ui.viewmodels.MainViewModel
 fun SharedTransitionScope.StarsPage(
     modifier: Modifier = Modifier,
     viewModel: MainViewModel,
-    //toTodoAddPage: () -> Unit,
-    resultPage: (StarEntity) -> Unit,
+    toResultEditPage: (StarEntity) -> Unit,
 ) {
 
 }

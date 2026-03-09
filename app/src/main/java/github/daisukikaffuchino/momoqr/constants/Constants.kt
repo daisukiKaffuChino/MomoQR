@@ -12,6 +12,8 @@ object Constants {
     const val DB_TABLE_NAME = "momo_star"
     const val SP_NAME = "momo_shared_preference"
 
+    const val KEY_STARS_ITEM_TRANSITION = "stars_item_id"
+
 
     // pref
     const val PREF_DYNAMIC_COLOR = "dynamic_color"
@@ -46,7 +48,10 @@ object Constants {
     const val PREF_BEEP_SOUND_DEFAULT = true
     const val PREF_ENHANCED_PREPROCESSING = "enhanced_preprocessing"
     const val PREF_ENHANCED_PREPROCESSING_DEFAULT = true
-
+    const val PREF_AUTO_COPY = "auto_copy"
+    const val PREF_AUTO_COPY_DEFAULT = true
+    const val PREF_CORRECTION_LEVEL = "correction_level"
+    const val PREF_CORRECTION_LEVEL_DEFAULT = 15f
 
     const val PREF_CATEGORIES = "categories"
     const val PREF_CATEGORIES_DEFAULT = "[]"

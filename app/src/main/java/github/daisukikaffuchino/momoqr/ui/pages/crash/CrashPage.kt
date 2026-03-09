@@ -3,7 +3,6 @@ package github.daisukikaffuchino.momoqr.ui.pages.crash
 import android.os.Build
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
@@ -51,7 +50,6 @@ import github.daisukikaffuchino.momoqr.ui.activities.CrashActivity.Companion.DEV
 import github.daisukikaffuchino.momoqr.ui.activities.CrashActivity.Companion.MODEL_PREFIX
 import github.daisukikaffuchino.momoqr.ui.theme.Defaults
 import github.daisukikaffuchino.momoqr.ui.theme.animatedShape
-import github.daisukikaffuchino.momoqr.ui.theme.shapeByInteraction
 import java.text.SimpleDateFormat
 import java.util.Calendar
 

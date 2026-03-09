@@ -1,7 +1,5 @@
 package github.daisukikaffuchino.momoqr.utils
 
-
-import android.content.Context
 import androidx.annotation.FloatRange
 import androidx.compose.foundation.shape.CornerBasedShape
 import androidx.compose.material3.MaterialTheme
@@ -15,14 +13,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.ContentDrawScope
 import androidx.compose.ui.unit.Dp
 import androidx.core.graphics.ColorUtils
-import github.daisukikaffuchino.momoqr.R
 import github.daisukikaffuchino.momoqr.logic.model.Priority
-
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
-import kotlin.time.Duration.Companion.days
-import kotlin.time.Duration.Companion.milliseconds
 
 fun Int.blend(
     color: Int,
@@ -97,63 +91,6 @@ fun Long?.toLocalDateString(): String {
     val date = Date(this)
     val format = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
     return format.format(date)
-}
-
-/**
- * 将时间戳转换为相对时间字符串
- *
- * @receiver Long? 时间戳（单位为毫秒）或 null
- * @param context 上下文，用于获取字符串资源
- * @return String 格式化后的相对时间字符串。如果为传入参数为null则返回空字符串，反之根据时间差返回相应的字符串，如“今天”、“明天”、“3天后”、“2周后”、“1个月后”、“1年后”等
- */
-fun Long?.toRelativeTimeString(context: Context): String {
-    if (this == null) return ""
-    val today = SystemUtils.getTodayEightAM()
-    val diff = (this - today).milliseconds
-
-    return diff.toComponents { days, _, _, _, _ ->
-        when {
-            days.days == 1.days -> context.getString(R.string.time_tomorrow)
-            days.days > 1.days && days.days < 7.days -> context.getString(
-                R.string.time_in_days,
-                days.toInt()
-            )
-
-            days.days in 7.days..<30.days -> context.getString(
-                R.string.time_in_weeks,
-                (days / 7).toInt()
-            )
-
-            days.days in 30.days..<365.days -> context.getString(
-                R.string.time_in_months,
-                (days / 30).toInt()
-            )
-
-            days.days >= 365.days -> context.getString(R.string.time_in_years, (days / 365).toInt())
-            days.days == (-1).days -> context.getString(R.string.time_yesterday)
-            days.days < (-1).days && days.days > (-7).days -> context.getString(
-                R.string.time_days_ago,
-                -days.toInt()
-            )
-
-            days.days in (-7).days..<(-30).days -> context.getString(
-                R.string.time_weeks_ago,
-                -(days / 7).toInt()
-            )
-
-            days.days in (-30).days..<(-365).days -> context.getString(
-                R.string.time_months_ago,
-                -(days / 30).toInt()
-            )
-
-            days.days <= (-365).days -> context.getString(
-                R.string.time_years_ago,
-                -(days / 365).toInt()
-            )
-
-            else -> context.getString(R.string.time_today)
-        }
-    }
 }
 
 @Composable

@@ -13,7 +13,7 @@ import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
 
-const val RATIO = 0.75f
+const val RATIO = 0.7f
 
 @Composable
 fun ScanOverlay() {

@@ -13,17 +13,17 @@ enum class SortingMethod(
     // 按分类
     Category(id = 2, nameRes = R.string.sorting_category),
 
-    // 按优先级
-    Priority(id = 3, nameRes = R.string.sorting_priority),
+//    // 按优先级
+//    Priority(id = 3, nameRes = R.string.sorting_priority),
 
-    // 按重要标记
-    Completion(id = 4, nameRes = R.string.sorting_marked),
+//    // 按重要标记
+//    Marked(id = 3, nameRes = R.string.sorting_marked),
 
     // 按字母升序
-    AlphabeticalAscending(id = 5, nameRes = R.string.sorting_alphabetical_ascending),
+    AlphabeticalAscending(id = 3, nameRes = R.string.sorting_alphabetical_ascending),
 
     // 按字母降序
-    AlphabeticalDescending(id = 6, nameRes = R.string.sorting_alphabetical_descending);
+    AlphabeticalDescending(id = 4, nameRes = R.string.sorting_alphabetical_descending);
 
     companion object {
         fun fromId(id: Int) = entries.find { it.id == id } ?: Sequential

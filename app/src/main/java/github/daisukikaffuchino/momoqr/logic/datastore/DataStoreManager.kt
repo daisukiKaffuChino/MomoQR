@@ -46,7 +46,10 @@ object DataStoreManager {
     private val BARCODE_FORMATS = stringSetPreferencesKey(Constants.PREF_BARCODE_FORMATS)
     private val SWITCH_CAMERA = booleanPreferencesKey(Constants.PREF_SWITCH_CAMERA)
     private val BEEP_SOUND = booleanPreferencesKey(Constants.PREF_BEEP_SOUND)
-    private val ENHANCED_PREPROCESSING = booleanPreferencesKey(Constants.PREF_ENHANCED_PREPROCESSING)
+    private val ENHANCED_PREPROCESSING =
+        booleanPreferencesKey(Constants.PREF_ENHANCED_PREPROCESSING)
+    private val AUTO_COPY = booleanPreferencesKey(Constants.PREF_AUTO_COPY)
+    private val CORRECTION_LEVEL = floatPreferencesKey(Constants.PREF_CORRECTION_LEVEL)
 
     // Getters
     val dynamicColorFlow: Flow<Boolean> = dataStore.data.map { preferences ->
@@ -86,13 +89,13 @@ object DataStoreManager {
     }
 
     val barcodeFormatsFlow: Flow<Set<BarcodeFormat>> = dataStore.data.map { prefs ->
-            prefs[BARCODE_FORMATS]
-                ?.mapNotNull {
-                    runCatching { BarcodeFormat.valueOf(it) }.getOrNull()
-                }
-                ?.toSet()
-                ?: setOf(BarcodeFormat.QR_CODE) //默认值
-        }
+        prefs[BARCODE_FORMATS]
+            ?.mapNotNull {
+                runCatching { BarcodeFormat.valueOf(it) }.getOrNull()
+            }
+            ?.toSet()
+            ?: setOf(BarcodeFormat.QR_CODE) //默认值
+    }
 
     val switchCameraFlow: Flow<Boolean> = dataStore.data.map { preferences ->
         preferences[SWITCH_CAMERA] ?: Constants.PREF_SWITCH_CAMERA_DEFAULT
@@ -106,6 +109,13 @@ object DataStoreManager {
         preferences[ENHANCED_PREPROCESSING] ?: Constants.PREF_ENHANCED_PREPROCESSING_DEFAULT
     }
 
+    val autoCopyFlow: Flow<Boolean> = dataStore.data.map { preferences ->
+        preferences[AUTO_COPY] ?: Constants.PREF_AUTO_COPY_DEFAULT
+    }
+
+    val correctionLevelFlow = dataStore.data.map { preferences ->
+        preferences[CORRECTION_LEVEL] ?: Constants.PREF_CORRECTION_LEVEL_DEFAULT
+    }
 
 
     // Setters
@@ -187,6 +197,18 @@ object DataStoreManager {
     suspend fun setEnhancedPreprocess(value: Boolean) {
         dataStore.edit { preferences ->
             preferences[ENHANCED_PREPROCESSING] = value
+        }
+    }
+
+    suspend fun setAutoCopy(value: Boolean) {
+        dataStore.edit { preferences ->
+            preferences[AUTO_COPY] = value
+        }
+    }
+
+    suspend fun setCorrectionLevel(value: Float) {
+        dataStore.edit { preferences ->
+            preferences[CORRECTION_LEVEL] = value
         }
     }
 

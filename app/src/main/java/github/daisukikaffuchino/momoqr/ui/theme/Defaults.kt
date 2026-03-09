@@ -2,7 +2,7 @@ package github.daisukikaffuchino.momoqr.ui.theme
 
 import androidx.compose.animation.core.FiniteAnimationSpec
 import androidx.compose.foundation.shape.CornerBasedShape
-import androidx.compose.material3.ButtonShapes
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -90,13 +90,13 @@ object Defaults {
         get() = MaterialTheme.shapes.small
 
     @Composable
-    fun shapes() = ButtonShapes(
+    fun shapes() = ButtonDefaults.shapes(
         shape = defaultShape,
         pressedShape = pressedShape
     )
 
     @Composable
-    fun largerShapes() = ButtonShapes(
+    fun largerShapes() = ButtonDefaults.shapes(
         shape = largeCornerShape,
         pressedShape = pressedShape
     )
