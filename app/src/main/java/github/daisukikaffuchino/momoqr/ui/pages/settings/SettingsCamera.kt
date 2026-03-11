@@ -15,16 +15,15 @@ import com.google.zxing.BarcodeFormat
 import github.daisukikaffuchino.momoqr.R
 import github.daisukikaffuchino.momoqr.constants.Constants
 import github.daisukikaffuchino.momoqr.logic.datastore.DataStoreManager
-import github.daisukikaffuchino.momoqr.logic.model.ContrastLevel
-import github.daisukikaffuchino.momoqr.logic.model.ErrorCorrectionLevel
+import github.daisukikaffuchino.momoqr.logic.model.QRCodeECL
 import github.daisukikaffuchino.momoqr.ui.components.CardListItemContainer
 import github.daisukikaffuchino.momoqr.ui.components.TopAppBarScaffold
 import github.daisukikaffuchino.momoqr.ui.components.segmentedGroup
 import github.daisukikaffuchino.momoqr.ui.components.segmentedSection
 import github.daisukikaffuchino.momoqr.ui.pages.settings.components.SettingsItem
+import github.daisukikaffuchino.momoqr.ui.pages.settings.components.SettingsPlainBox
 import github.daisukikaffuchino.momoqr.ui.pages.settings.components.SwitchSettingsItem
 import github.daisukikaffuchino.momoqr.ui.pages.settings.components.appearance.CodeFormatsSheet
-import github.daisukikaffuchino.momoqr.ui.pages.settings.components.appearance.ContrastPicker
 import github.daisukikaffuchino.momoqr.ui.pages.settings.components.appearance.ErrorCorrectionPicker
 import kotlinx.coroutines.launch
 
@@ -118,10 +117,13 @@ fun SettingsCamera(
             segmentedSection(R.string.pref_label_rendering) {
                 segmentedGroup {
                     ErrorCorrectionPicker(
-                        currentLevel = ErrorCorrectionLevel.fromFloat(correctionLevel),
+                        currentLevel = QRCodeECL.fromFloat(correctionLevel),
                         onLevelChanged = { scope.launch { DataStoreManager.setCorrectionLevel(it.value) } }
                     )
                 }
+            }
+            item {
+                SettingsPlainBox(stringResource(R.string.tip_may_cause_rendering_issues))
             }
         }
 

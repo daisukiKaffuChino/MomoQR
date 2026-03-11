@@ -47,7 +47,7 @@ object Constants {
     const val PREF_BEEP_SOUND = "beep_sound"
     const val PREF_BEEP_SOUND_DEFAULT = true
     const val PREF_ENHANCED_PREPROCESSING = "enhanced_preprocessing"
-    const val PREF_ENHANCED_PREPROCESSING_DEFAULT = true
+    const val PREF_ENHANCED_PREPROCESSING_DEFAULT = false
     const val PREF_AUTO_COPY = "auto_copy"
     const val PREF_AUTO_COPY_DEFAULT = true
     const val PREF_CORRECTION_LEVEL = "correction_level"

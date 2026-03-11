@@ -7,6 +7,8 @@
     <string name="action_save">Save</string>
     <string name="action_confirm">Confirm</string>
     <string name="action_back">Back</string>
+    <string name="action_edit_result">Edit Result</string>
+    <string name="action_starred">Starred</string>
 
     <string name="page_home">Home</string>
     <string name="page_stars">Stars</string>
@@ -22,9 +24,13 @@
     <string name="label_generate_from_clip_board">From clipboard</string>
     <string name="label_generate_wifi_sharing">Wi-Fi sharing</string>
     <string name="label_generate_more_type">More types</string>
-
+    <string name="label_enter_category_name">Enter category name</string>
     <string name="label_category">Category</string>
-    <string name="label_priority">Priority</string>
+    <string name="label_unclassified">Unclassified</string>
+    <string name="label_customization">Customization</string>
+    <string name="label_image_preview">Image Preview</string>
+    <string name="label_modification_date">Modification date</string>
+    <string name="label_attributes">Attributes</string>
 
     <string name="title_warning">Warning</string>
 
@@ -72,9 +78,9 @@
     <string name="pref_beep">Beep Sound</string>
     <string name="pref_beep_desc">Provide a prompt after analysis</string>
     <string name="pref_enhanced_preprocessing">Enhanced Preprocessing</string>
-    <string name="pref_enhanced_preprocessing_desc">Attempts to improve recognition rate; effectiveness may vary</string>
+    <string name="pref_enhanced_preprocessing_desc">Attempts to improve recognition rate; effectiveness may worse</string>
     <string name="pref_error_correction_level">Error correction level</string>
-    <string name="pref_error_correction_level_desc">Adjust the QR code error correction level; higher levels better protect data if the code is dirty or damaged, but increase QR code size</string>
+    <string name="pref_error_correction_level_desc">Adjust the QR code error correction level; higher levels better protect data if the code is dirty or damaged, but increase QR code size. Usually, default suffice.</string>
     <string name="pref_auto_copy">Auto Copy</string>
     <string name="pref_auto_copy_desc">Automatically copy the original data after scanning</string>
 
@@ -124,6 +130,13 @@
     <string name="tip_copy_logs_to_github">Your report is very useful. Please copy all the content to GitHub issues and explain how to reproduce it.</string>
     <string name="tip_haptic_feedback_more_info">Enable haptic feedback in system settings before using this feature (usually under "Sound &amp; Vibration")</string>
     <string name="tip_align_to_scan">Align the QR code for scanning</string>
+    <string name="tip_toggle_flashlight">Toggle flashlight</string>
+    <string name="tip_short_category">Keep category names concise</string>
+    <string name="tip_selected">Selected</string>
+    <string name="tip_no_category_chip">You can add custom categories in the settings</string>
+    <string name="tip_no_category_page">No custom categories</string>
+    <string name="tip_checkbox_marked">Highlighted (to be displayed at the top)</string>
+    <string name="tip_may_cause_rendering_issues">Adjusting this item may cause rendering issues</string>
 
     <string name="toast_press_again_to_exit">Press again to exit</string>
     <string name="toast_failed_to_initialize_camera">Failed to initialize camera</string>
@@ -131,4 +144,9 @@
     <string name="toast_camera_permission_required">Allow camera access to scan QR codes.</string>
     <string name="toast_go_to_settings">Open settings</string>
     <string name="toast_no_data_detected">No data has been detected.</string>
+
+    <string name="error_no_content_entered">No content entered or too long</string>
+    <string name="error_category_too_long">Category cannot exceed 15 characters</string>
+    <string name="placeholder_edit_content">Edit content</string>
+    <string name="none">none</string>
 </resources>

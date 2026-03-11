@@ -19,8 +19,8 @@ import com.google.zxing.Result
 import com.google.zxing.common.GlobalHistogramBinarizer
 import com.google.zxing.common.HybridBinarizer
 
-object QRCodeUtil {
-    private const val TAG = "QRCodeUtil"
+object QRCodeReaderUtil {
+    private const val TAG = "QRCodeReaderUtil"
 
     fun scanImageFromGallery(context: Context, uri: Uri, formats: List<BarcodeFormat>): Result? {
         val hints = mapOf<DecodeHintType, Any>(

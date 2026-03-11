@@ -14,6 +14,7 @@ data class StarEntity(
     @ColumnInfo(name = "category") val category: String = "",
     @ColumnInfo(name = "marked") val marked: Boolean = false,
     @ColumnInfo(name = "imgPath") val imgPath: String = "",
+    @ColumnInfo(name = "errorCorrectionLevel") val errorCorrectionLevel: Float = 15f,
     @ColumnInfo(name = "date") val date: Long = 0,
     @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "id") val id: Int = 0,
 )
