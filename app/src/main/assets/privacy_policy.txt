@@ -1,0 +1,18 @@
+<p><b>Last updated:</b> 2026-03-12</p>
+
+<p>MomoQR respects your privacy. This application works entirely offline and does not collect, store, or transmit any personal information.</p>
+
+<p><b>1. Camera Permission</b><br/>
+MomoQR uses the camera permission only for scanning QR codes and barcodes. All camera data is processed locally on your device and is never uploaded or transmitted anywhere.</p>
+
+<p><b>2. Internet Access</b><br/>
+MomoQR does not request internet permission and cannot connect to the internet.</p>
+
+<p><b>3. Data Storage</b><br/>
+QR codes or related data generated or saved by the application are stored locally on your device for management purposes. This data is never uploaded or shared.</p>
+
+<p><b>4. Third-Party Services</b><br/>
+MomoQR does not use any third-party analytics, tracking, or advertising services.</p>
+
+<p><b>5. Changes to This Policy</b><br/>
+This privacy policy may be updated in future versions of the application. Any changes will be reflected on this page.</p>

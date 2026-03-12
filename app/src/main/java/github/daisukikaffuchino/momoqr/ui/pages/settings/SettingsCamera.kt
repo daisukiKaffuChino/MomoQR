@@ -16,7 +16,7 @@ import github.daisukikaffuchino.momoqr.R
 import github.daisukikaffuchino.momoqr.constants.Constants
 import github.daisukikaffuchino.momoqr.logic.datastore.DataStoreManager
 import github.daisukikaffuchino.momoqr.logic.model.QRCodeECL
-import github.daisukikaffuchino.momoqr.ui.components.CardListItemContainer
+import github.daisukikaffuchino.momoqr.ui.components.ListItemContainer
 import github.daisukikaffuchino.momoqr.ui.components.TopAppBarScaffold
 import github.daisukikaffuchino.momoqr.ui.components.segmentedGroup
 import github.daisukikaffuchino.momoqr.ui.components.segmentedSection
@@ -67,7 +67,7 @@ fun SettingsCamera(
         modifier = modifier,
     ) {
 
-        CardListItemContainer(Modifier.fillMaxWidth()) {
+        ListItemContainer(Modifier.fillMaxWidth()) {
             segmentedSection(R.string.pref_label_camera) {
                 segmentedGroup {
                     SwitchSettingsItem(

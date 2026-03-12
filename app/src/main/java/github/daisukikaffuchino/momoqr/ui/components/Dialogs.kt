@@ -19,7 +19,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.window.DialogProperties
 import github.daisukikaffuchino.momoqr.R
-import github.daisukikaffuchino.momoqr.utils.VibrationUtils
+import github.daisukikaffuchino.momoqr.utils.VibrationUtil
 
 @Composable
 fun ConfirmDialog(
@@ -84,7 +84,7 @@ fun BasicDialog(
         confirmButton = {
             FilledTonalButton(
                 onClick = {
-                    VibrationUtils.performHapticFeedback(view)
+                    VibrationUtil.performHapticFeedback(view)
                     onConfirm()
                 },
                 shapes = ButtonDefaults.shapes(
@@ -99,7 +99,7 @@ fun BasicDialog(
             dismissButton?.let {
                 TextButton(
                     onClick = {
-                        VibrationUtils.performHapticFeedback(view)
+                        VibrationUtil.performHapticFeedback(view)
                         onDismiss()
                     },
                     shapes = ButtonDefaults.shapes()

@@ -16,7 +16,7 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
-import github.daisukikaffuchino.momoqr.utils.VibrationUtils
+import github.daisukikaffuchino.momoqr.utils.VibrationUtil
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
@@ -48,7 +48,7 @@ fun ResultFloatingActionButton(
             )
         },
         onClick = {
-            VibrationUtils.performHapticFeedback(view)
+            VibrationUtil.performHapticFeedback(view)
             onClick()
         },
         elevation = elevation,

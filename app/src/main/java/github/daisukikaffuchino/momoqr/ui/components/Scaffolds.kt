@@ -26,7 +26,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import github.daisukikaffuchino.momoqr.R
 import github.daisukikaffuchino.momoqr.ui.theme.Defaults
-import github.daisukikaffuchino.momoqr.utils.VibrationUtils
+import github.daisukikaffuchino.momoqr.utils.VibrationUtil
 
 /**
  * 带有顶部大标题栏的通用脚手架
@@ -61,7 +61,7 @@ fun TopAppBarScaffold(
                 colors = IconButtonDefaults.filledIconButtonColors(containerColor = MaterialTheme.colorScheme.surfaceContainerHighest),
                 shapes = IconButtonDefaults.shapes(),
                 onClick = {
-                    VibrationUtils.performHapticFeedback(view)
+                    VibrationUtil.performHapticFeedback(view)
                     onBack()
                 }
             ) {

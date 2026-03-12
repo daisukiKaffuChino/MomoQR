@@ -31,7 +31,7 @@ fun ResultContentTextField(
                 enter = fadeIn() + expandVertically(),
                 exit = fadeOut() + shrinkVertically()
             ) {
-                Text(stringResource(R.string.error_no_content_entered))
+                Text(stringResource(R.string.error_no_content_entered_or_too_long))
             }
         },
         modifier = modifier

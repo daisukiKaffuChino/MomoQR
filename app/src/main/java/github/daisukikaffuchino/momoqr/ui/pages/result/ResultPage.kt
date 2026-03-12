@@ -65,6 +65,8 @@ import github.daisukikaffuchino.momoqr.ui.pages.result.components.StarCategoryCh
 import github.daisukikaffuchino.momoqr.ui.pages.result.state.rememberResultState
 import github.daisukikaffuchino.momoqr.ui.theme.Defaults
 import github.daisukikaffuchino.momoqr.utils.QRCodeGenerateUtil.generateQrBitmap
+import androidx.core.net.toUri
+import github.daisukikaffuchino.momoqr.ui.components.ConfirmDialog
 
 @SuppressLint("ComposableNaming")
 @Composable
@@ -272,7 +274,9 @@ fun ResultEditorPage(
                         onSearch = {},
                         onShareText = {},
                         onCopyContent = {},
-                        onSaveImage = {}
+                        onSaveImage = {},
+                        onOpenLink = {},
+                        isUrl = isValidUrl(uiState.qrContent)
                     )
                 }
 
@@ -329,6 +333,31 @@ fun ResultEditorPage(
 
     }
 
+    ConfirmDialog(
+        visible = uiState.showExitConfirmDialog,
+        iconRes = R.drawable.ic_undo,
+        text = stringResource(R.string.tip_discard_changes),
+        onConfirm = {
+            uiState.showExitConfirmDialog = false
+            onNavigateUp()
+        },
+        onDismiss = { uiState.showExitConfirmDialog = false }
+    )
 
+    ConfirmDialog(
+        visible = uiState.showDeleteConfirmDialog,
+        iconRes = R.drawable.ic_delete,
+        text = stringResource(R.string.tip_delete_item, 1),
+        onConfirm = onDelete,
+        onDismiss = { uiState.showDeleteConfirmDialog = false }
+    )
 }
 
+private fun isValidUrl(text: String): Boolean {
+    return try {
+        val uri = text.toUri()
+        uri.scheme == "http" || uri.scheme == "https"
+    } catch (_: Exception) {
+        false
+    }
+}

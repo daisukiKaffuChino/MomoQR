@@ -4,7 +4,7 @@ import android.view.HapticFeedbackConstants
 import android.view.View
 import github.daisukikaffuchino.momoqr.constants.Constants
 
-object VibrationUtils {
+object VibrationUtil {
     private var isEnabled: Boolean = Constants.PREF_HAPTIC_FEEDBACK_DEFAULT
 
     /**

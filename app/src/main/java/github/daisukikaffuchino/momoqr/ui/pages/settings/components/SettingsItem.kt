@@ -4,7 +4,6 @@ import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -12,13 +11,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.ButtonShapes
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
-import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -29,12 +25,10 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import github.daisukikaffuchino.momoqr.ui.theme.Defaults
 import github.daisukikaffuchino.momoqr.ui.theme.animatedShape
-import github.daisukikaffuchino.momoqr.ui.theme.shapeByInteraction
-import github.daisukikaffuchino.momoqr.utils.VibrationUtils
+import github.daisukikaffuchino.momoqr.utils.VibrationUtil
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
@@ -92,23 +86,12 @@ fun SettingsItem(
 ) = SettingsItem(
     leadingIcon = {
         leadingIcon?.let {
-            /*Box(
-                modifier = Modifier
-                    .padding(end = TodoDefaults.settingsItemHorizontalPadding)
-                    .background(
-                        color = MaterialTheme.colorScheme.secondaryContainer,
-                        shape = MaterialShapes.Cookie6Sided.toShape()
-                    )
-                    .size(35.dp),
-                contentAlignment = Alignment.Center
-            ) {*/
             Icon(
                 painter = leadingIcon,
                 contentDescription = null,
                 tint = MaterialTheme.colorScheme.onSurface,
                 modifier = Modifier.padding(end = Defaults.settingsItemHorizontalPadding)
             )
-            // }
         }
     },
     title = title,
@@ -245,7 +228,7 @@ fun SettingsItem(
                 interactionSource = userInteractionSource,
                 enabled = enableClick,
                 onClick = {
-                    VibrationUtils.performHapticFeedback(view)
+                    VibrationUtil.performHapticFeedback(view)
                     onClick()
                 }
             )

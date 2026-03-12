@@ -7,7 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import github.daisukikaffuchino.momoqr.R
-import github.daisukikaffuchino.momoqr.ui.components.CardListItemContainer
+import github.daisukikaffuchino.momoqr.ui.components.ListItemContainer
 import github.daisukikaffuchino.momoqr.ui.components.TopAppBarScaffold
 import github.daisukikaffuchino.momoqr.ui.pages.settings.components.SettingsItem
 import github.daisukikaffuchino.momoqr.ui.theme.Defaults
@@ -27,7 +27,7 @@ fun SettingsMain(
         title = stringResource(R.string.page_settings),
         modifier = modifier
     ) {
-        CardListItemContainer(Modifier.fillMaxSize()) {
+        ListItemContainer(Modifier.fillMaxSize()) {
             item {
                 SettingsItem(
                     leadingIconRes = R.drawable.ic_palette,

@@ -14,6 +14,7 @@ import androidx.compose.runtime.setValue
 import github.daisukikaffuchino.momoqr.MomoApplication
 import github.daisukikaffuchino.momoqr.R
 import github.daisukikaffuchino.momoqr.logic.database.StarEntity
+import github.daisukikaffuchino.momoqr.logic.model.QRCodeECL
 
 class ResultState(val initialStar: StarEntity? = null) {
     var qrContent by mutableStateOf(initialStar?.content ?: "")
@@ -31,14 +32,15 @@ class ResultState(val initialStar: StarEntity? = null) {
     var showDeleteConfirmDialog by mutableStateOf(false)
 
     fun setErrorIfNotValid(): Boolean {
-        val qrMaxLength = 20
-        val categoryMaxLength = 15
+        val categoryMaxLength = 20
         val qr = qrContent.trim()
+        val qrMaxBytes = QRCodeECL.fromFloat(ecl).getQrMaxBytes()
+        val qrBytesLength = qr.toByteArray(Charsets.UTF_8).size
         val category = categoryContent.trim()
 
         isErrorContent = when {
             qr.isEmpty() -> true
-            qr.length > qrMaxLength -> true
+            qrBytesLength > qrMaxBytes -> true
             else -> false
         }
 

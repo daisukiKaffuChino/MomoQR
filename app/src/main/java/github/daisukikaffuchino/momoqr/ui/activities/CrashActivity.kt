@@ -18,7 +18,7 @@ import github.daisukikaffuchino.momoqr.logic.model.DarkMode
 import github.daisukikaffuchino.momoqr.logic.model.PaletteStyle
 import github.daisukikaffuchino.momoqr.ui.pages.crash.CrashPage
 import github.daisukikaffuchino.momoqr.ui.theme.MomoQRTheme
-import github.daisukikaffuchino.momoqr.utils.VibrationUtils
+import github.daisukikaffuchino.momoqr.utils.VibrationUtil
 import github.daisukikaffuchino.momoqr.utils.configureEdgeToEdge
 import github.daisukikaffuchino.momoqr.constants.Constants
 
@@ -50,8 +50,7 @@ class CrashActivity : ComponentActivity(){
                 DarkMode.Light -> false
                 DarkMode.Dark -> true
             }
-            // 配置状态栏和底部导航栏的颜色（在用户切换深色模式时）
-            // https://github.com/dn0ne/lotus/blob/master/app/src/main/java/com/dn0ne/player/MainActivity.kt#L266
+
             LaunchedEffect(darkMode) {
                 WindowCompat.getInsetsController(window, window.decorView).apply {
                     isAppearanceLightStatusBars = !darkTheme
@@ -60,7 +59,7 @@ class CrashActivity : ComponentActivity(){
             }
 
             LaunchedEffect(hapticFeedback) {
-                VibrationUtils.setEnabled(hapticFeedback)
+                VibrationUtil.setEnabled(hapticFeedback)
             }
 
             MomoQRTheme(

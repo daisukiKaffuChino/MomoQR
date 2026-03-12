@@ -7,22 +7,9 @@ enum class SortingMethod(
     val id: Int,
     @param:StringRes val nameRes: Int
 ) {
-    // 按添加先后顺序
     Sequential(id = 1, nameRes = R.string.sorting_sequential),
-
-    // 按分类
     Category(id = 2, nameRes = R.string.sorting_category),
-
-//    // 按优先级
-//    Priority(id = 3, nameRes = R.string.sorting_priority),
-
-//    // 按重要标记
-//    Marked(id = 3, nameRes = R.string.sorting_marked),
-
-    // 按字母升序
     AlphabeticalAscending(id = 3, nameRes = R.string.sorting_alphabetical_ascending),
-
-    // 按字母降序
     AlphabeticalDescending(id = 4, nameRes = R.string.sorting_alphabetical_descending);
 
     companion object {

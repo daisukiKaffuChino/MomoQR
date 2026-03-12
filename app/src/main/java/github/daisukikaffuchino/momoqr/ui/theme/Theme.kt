@@ -8,6 +8,7 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.MaterialExpressiveTheme
+import androidx.compose.material3.Typography
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.graphics.Color
@@ -18,7 +19,6 @@ import com.kyant.m3color.scheme.SchemeContent
 import com.kyant.m3color.scheme.SchemeExpressive
 import com.kyant.m3color.scheme.SchemeFidelity
 import com.kyant.m3color.scheme.SchemeFruitSalad
-import com.kyant.m3color.scheme.SchemeMonochrome
 import com.kyant.m3color.scheme.SchemeNeutral
 import com.kyant.m3color.scheme.SchemeRainbow
 import com.kyant.m3color.scheme.SchemeTonalSpot
@@ -30,7 +30,6 @@ import github.daisukikaffuchino.momoqr.logic.model.PaletteStyle
 fun MomoQRTheme(
     color: Color? = null,
     darkTheme: Boolean = isSystemInDarkTheme(),
-    // Dynamic color is available on Android 12+
     style: PaletteStyle = PaletteStyle.TonalSpot,
     contrastLevel: Double = 0.0,
     dynamicColor: Boolean = false,
@@ -54,7 +53,7 @@ fun MomoQRTheme(
 
     MaterialExpressiveTheme(
         colorScheme = colorScheme,
-        typography = Typography,
+        typography = Typography(),
         content = content
     )
 }

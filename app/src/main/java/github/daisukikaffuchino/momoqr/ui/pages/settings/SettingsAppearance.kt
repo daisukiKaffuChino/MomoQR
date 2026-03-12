@@ -1,5 +1,6 @@
 package github.daisukikaffuchino.momoqr.ui.pages.settings
 
+import android.os.Build
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
@@ -16,7 +17,7 @@ import github.daisukikaffuchino.momoqr.logic.model.ContrastLevel
 import github.daisukikaffuchino.momoqr.logic.model.DarkMode
 import github.daisukikaffuchino.momoqr.logic.model.PaletteStyle
 import github.daisukikaffuchino.momoqr.ui.components.TopAppBarScaffold
-import github.daisukikaffuchino.momoqr.ui.components.CardListItemContainer
+import github.daisukikaffuchino.momoqr.ui.components.ListItemContainer
 import github.daisukikaffuchino.momoqr.ui.pages.settings.components.SettingsItem
 import github.daisukikaffuchino.momoqr.ui.pages.settings.components.SwitchSettingsItem
 import github.daisukikaffuchino.momoqr.ui.pages.settings.components.appearance.ContrastPicker
@@ -47,12 +48,13 @@ fun SettingsAppearance(
         onBack = onNavigateUp,
         modifier = modifier,
     ) {
-        CardListItemContainer(Modifier.fillMaxSize()) {
+        ListItemContainer(Modifier.fillMaxSize()) {
 
             segmentedSection(R.string.pref_label_theme) {
                 segmentedGroup {
                     SwitchSettingsItem(
                         checked = dynamicColor,
+                        enabled = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S,
                         leadingIconRes = R.drawable.ic_wand_stars,
                         title = stringResource(R.string.pref_appearance_dynamic_color),
                         description = stringResource(R.string.pref_appearance_dynamic_color_desc),

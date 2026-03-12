@@ -30,12 +30,13 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import github.daisukikaffuchino.momoqr.R
 import github.daisukikaffuchino.momoqr.ui.theme.Defaults
 import github.daisukikaffuchino.momoqr.ui.theme.animatedShape
-import github.daisukikaffuchino.momoqr.utils.VibrationUtils
+import github.daisukikaffuchino.momoqr.utils.VibrationUtil
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
@@ -174,7 +175,7 @@ fun GenerateActionCard(
             .clickable(
                 interactionSource = userInteractionSource,
                 onClick = {
-                    VibrationUtils.performHapticFeedback(view)
+                    VibrationUtil.performHapticFeedback(view)
                     onClick()
                 }
             )
@@ -195,8 +196,9 @@ fun GenerateActionCard(
         Column(modifier = Modifier.weight(1f)) {
             Text(
                 text = title,
-                style = MaterialTheme.typography.titleMedium.copy(
+                style = MaterialTheme.typography.bodyMedium.copy(
                     fontSize = 16.sp,
+                    fontWeight  = FontWeight.Normal,
                     color = MaterialTheme.colorScheme.onSurface
                 )
             )

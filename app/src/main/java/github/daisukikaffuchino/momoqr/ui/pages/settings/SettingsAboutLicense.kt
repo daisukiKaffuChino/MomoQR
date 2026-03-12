@@ -31,10 +31,10 @@ import com.mikepenz.aboutlibraries.ui.compose.util.htmlReadyLicenseContent
 import github.daisukikaffuchino.momoqr.R
 import github.daisukikaffuchino.momoqr.ui.components.BasicDialog
 import github.daisukikaffuchino.momoqr.ui.components.TopAppBarScaffold
-import github.daisukikaffuchino.momoqr.ui.components.CardListItemContainer
+import github.daisukikaffuchino.momoqr.ui.components.ListItemContainer
 import github.daisukikaffuchino.momoqr.ui.pages.settings.components.SettingsItem
 import github.daisukikaffuchino.momoqr.ui.theme.Defaults
-import github.daisukikaffuchino.momoqr.utils.VibrationUtils
+import github.daisukikaffuchino.momoqr.utils.VibrationUtil
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
@@ -51,7 +51,7 @@ fun SettingsAboutLicence(
         onBack = onNavigateUp,
         modifier = modifier
     ) {
-        CardListItemContainer(Modifier.fillMaxSize()) {
+        ListItemContainer(Modifier.fillMaxSize()) {
             items(
                 items = libraries?.libraries ?: listOf(),
                 key = { it.artifactId }
@@ -127,7 +127,7 @@ fun SettingsAboutLicence(
                         FilledTonalButton(
                             onClick = {
                                 openDialog = false
-                                VibrationUtils.performHapticFeedback(view)
+                                VibrationUtil.performHapticFeedback(view)
                             },
                             shapes = ButtonDefaults.shapes()
                         ) { Text(stringResource(R.string.action_confirm)) }

@@ -31,7 +31,7 @@ import androidx.compose.ui.unit.dp
 import github.daisukikaffuchino.momoqr.R
 import github.daisukikaffuchino.momoqr.logic.model.QRCodeECL
 import github.daisukikaffuchino.momoqr.ui.pages.settings.components.MoreContentSettingsItem
-import github.daisukikaffuchino.momoqr.utils.VibrationUtils
+import github.daisukikaffuchino.momoqr.utils.VibrationUtil
 import kotlin.math.roundToInt
 
 @SuppressLint("LocalContextGetResourceValueCall")
@@ -71,7 +71,7 @@ fun ErrorCorrectionPicker(
                 }
 
                 if (index != lastVibratedIndex) {
-                    VibrationUtils.performHapticFeedback(
+                    VibrationUtil.performHapticFeedback(
                         view,
                         HapticFeedbackConstants.LONG_PRESS
                     )

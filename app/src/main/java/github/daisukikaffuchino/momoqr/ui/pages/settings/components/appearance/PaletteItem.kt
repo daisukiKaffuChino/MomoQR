@@ -38,7 +38,7 @@ import github.daisukikaffuchino.momoqr.logic.model.PaletteStyle
 import github.daisukikaffuchino.momoqr.ui.theme.Defaults
 import github.daisukikaffuchino.momoqr.ui.theme.dynamicColorScheme
 import github.daisukikaffuchino.momoqr.ui.theme.shapeByInteraction
-import github.daisukikaffuchino.momoqr.utils.VibrationUtils
+import github.daisukikaffuchino.momoqr.utils.VibrationUtil
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
@@ -66,7 +66,7 @@ fun PaletteItem(
                 interactionSource = interactionSource,
                 role = Role.Button,
                 onClick = {
-                    VibrationUtils.performHapticFeedback(view)
+                    VibrationUtil.performHapticFeedback(view)
                     onSelect()
                 }
             )

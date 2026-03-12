@@ -24,11 +24,6 @@ object Defaults {
     val screenVerticalPadding = 8.dp
 
     /**
-     * 列表卡片默认高度
-     */
-    val starsCardHeight = 110.dp
-
-    /**
      * 设置项水平边距
      */
     val settingsItemHorizontalPadding = 24.dp
@@ -72,7 +67,6 @@ object Defaults {
                 0.085f
             )
 
-        //val Green = Color(0xFF349938)
     }
 
     val fadedEdgeWidth = 8.dp

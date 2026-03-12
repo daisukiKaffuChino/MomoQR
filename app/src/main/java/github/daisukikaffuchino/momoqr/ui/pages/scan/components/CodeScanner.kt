@@ -34,7 +34,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import github.daisukikaffuchino.momoqr.R
-import github.daisukikaffuchino.momoqr.utils.VibrationUtils
+import github.daisukikaffuchino.momoqr.utils.VibrationUtil
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
@@ -77,7 +77,7 @@ fun CodeScanner(
                 colors = IconButtonDefaults.filledIconButtonColors(containerColor = MaterialTheme.colorScheme.surfaceContainerHighest),
                 shapes = IconButtonDefaults.shapes(),
                 onClick = {
-                    VibrationUtils.performHapticFeedback(view)
+                    VibrationUtil.performHapticFeedback(view)
                     onCloseClicked()
                 }
             ) {
@@ -89,7 +89,7 @@ fun CodeScanner(
             FilledTonalIconToggleButton(
                 checked = isFlashEnabled,
                 onCheckedChange = {
-                    VibrationUtils.performHapticFeedback(view)
+                    VibrationUtil.performHapticFeedback(view)
                     onToggleFlash()
                 },
                 interactionSource = interactionSource,

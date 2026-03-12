@@ -20,7 +20,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import github.daisukikaffuchino.momoqr.R
-import github.daisukikaffuchino.momoqr.utils.VibrationUtils
+import github.daisukikaffuchino.momoqr.utils.VibrationUtil
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
@@ -44,7 +44,7 @@ fun FilterChipGroup(
                 selected = selected,
                 onClick = {
                     selectedItemIndex = item.id
-                    VibrationUtils.performHapticFeedback(view)
+                    VibrationUtil.performHapticFeedback(view)
                     onSelectedChanged(item.id)
                 },
                 label = {

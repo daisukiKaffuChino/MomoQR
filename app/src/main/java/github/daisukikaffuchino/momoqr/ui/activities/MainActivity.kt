@@ -27,7 +27,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation3.runtime.NavKey
 import dagger.hilt.android.AndroidEntryPoint
 import github.daisukikaffuchino.momoqr.R
@@ -38,11 +37,10 @@ import github.daisukikaffuchino.momoqr.logic.model.PaletteStyle
 import github.daisukikaffuchino.momoqr.ui.navigation.MomoDestination
 import github.daisukikaffuchino.momoqr.ui.navigation.TopLevelBackStack
 import github.daisukikaffuchino.momoqr.ui.navigation.TopNavigation
-import github.daisukikaffuchino.momoqr.ui.pages.scan.CodeScannerViewModel
 import github.daisukikaffuchino.momoqr.ui.theme.Defaults
 import github.daisukikaffuchino.momoqr.ui.theme.MomoQRTheme
 import github.daisukikaffuchino.momoqr.ui.viewmodels.MainViewModel
-import github.daisukikaffuchino.momoqr.utils.VibrationUtils
+import github.daisukikaffuchino.momoqr.utils.VibrationUtil
 import github.daisukikaffuchino.momoqr.utils.configureEdgeToEdge
 import github.daisukikaffuchino.momoqr.utils.setAppLanguage
 import kotlinx.coroutines.flow.first
@@ -122,7 +120,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             LaunchedEffect(hapticFeedback) {
-                VibrationUtils.setEnabled(hapticFeedback)
+                VibrationUtil.setEnabled(hapticFeedback)
             }
 
             // 当BackStack出现非顶层路由时，隐藏底部导航栏
@@ -179,7 +177,7 @@ class MainActivity : AppCompatActivity() {
                             label = { Text(stringResource(destination.label)) },
                             selected = selected,
                             onClick = {
-                                VibrationUtils.performHapticFeedback(view)
+                                VibrationUtil.performHapticFeedback(view)
                                 mainBackStack.addTopLevel(destination.route)
                             }
                         )

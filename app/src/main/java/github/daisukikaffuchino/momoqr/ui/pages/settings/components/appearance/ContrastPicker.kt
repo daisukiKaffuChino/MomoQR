@@ -31,7 +31,7 @@ import androidx.compose.ui.unit.dp
 import github.daisukikaffuchino.momoqr.R
 import github.daisukikaffuchino.momoqr.logic.model.ContrastLevel
 import github.daisukikaffuchino.momoqr.ui.pages.settings.components.MoreContentSettingsItem
-import github.daisukikaffuchino.momoqr.utils.VibrationUtils
+import github.daisukikaffuchino.momoqr.utils.VibrationUtil
 
 @SuppressLint("LocalContextGetResourceValueCall")
 @Composable
@@ -61,7 +61,7 @@ fun ContrastPicker(
             onValueChange = { newValue ->
                 onContrastChange(ContrastLevel.fromFloat(newValue))
                 if (newValue != lastVibratedLevel) {
-                    VibrationUtils.performHapticFeedback(
+                    VibrationUtil.performHapticFeedback(
                         view,
                         HapticFeedbackConstants.LONG_PRESS
                     )

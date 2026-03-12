@@ -8,7 +8,6 @@ import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.net.Uri
 import android.provider.Settings
-import android.util.Log
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
@@ -45,7 +44,6 @@ import androidx.core.content.ContextCompat
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.google.zxing.BarcodeFormat
 import github.daisukikaffuchino.momoqr.R
-import github.daisukikaffuchino.momoqr.constants.Constants
 import github.daisukikaffuchino.momoqr.logic.database.StarEntity
 import github.daisukikaffuchino.momoqr.logic.datastore.DataStoreManager
 import github.daisukikaffuchino.momoqr.ui.components.TopAppBarScaffold
@@ -138,8 +136,13 @@ fun HomePage(
             val result = QRCodeReaderUtil.scanImageFromGallery(context, uri, codeFormats.toList())
             withContext(Dispatchers.Main) {
                 if (result != null) {
-                    Toast.makeText(context, result.text, Toast.LENGTH_SHORT)
-                        .show()
+                    val correctionLevel = DataStoreManager.correctionLevelFlow.first()
+                    toResultAddPage(
+                        StarEntity(
+                            content = result.text,
+                            errorCorrectionLevel = correctionLevel
+                        )
+                    )
                 } else {
                     Toast.makeText(context, R.string.toast_no_data_detected, Toast.LENGTH_SHORT)
                         .show()

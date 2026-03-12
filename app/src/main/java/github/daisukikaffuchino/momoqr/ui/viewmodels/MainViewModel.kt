@@ -41,25 +41,24 @@ class MainViewModel @Inject constructor() : ViewModel() {
             starList.map { list ->
                 when (SortingMethod.fromId(sortingMethod)) {
                     SortingMethod.Sequential -> list.sortedWith(
-                        comparator = compareBy<StarEntity> { it.marked }
+                        compareByDescending<StarEntity> { it.marked }
                             .thenBy { it.id }
                     )
 
                     SortingMethod.Category -> list.sortedWith(
-                        comparator = compareBy<StarEntity> { it.marked }
+                        compareByDescending<StarEntity> { it.marked }
                             .thenBy { it.category }
                     )
 
                     SortingMethod.AlphabeticalAscending -> list.sortedWith(
-                        comparator = compareBy<StarEntity> { it.marked }
+                        compareByDescending<StarEntity> { it.marked }
                             .thenBy { it.content }
                     )
 
                     SortingMethod.AlphabeticalDescending -> list.sortedWith(
-                        comparator = compareBy<StarEntity> { it.marked }
+                        compareByDescending<StarEntity> { it.marked }
                             .thenByDescending { it.content }
                     )
-
                 }
             }
         }
@@ -83,11 +82,11 @@ class MainViewModel @Inject constructor() : ViewModel() {
         }
     }
 
-    fun updateStar(star: StarEntity) {
-        viewModelScope.launch {
-            Repository.updateStar(star)
-        }
-    }
+//    fun updateStar(star: StarEntity) {
+//        viewModelScope.launch {
+//            Repository.updateStar(star)
+//        }
+//    }
 
     fun deleteStar(star: StarEntity) {
         viewModelScope.launch {
@@ -99,7 +98,7 @@ class MainViewModel @Inject constructor() : ViewModel() {
         _selectedStarIds.update { idList ->
             if (idList.contains(star.id))
                 idList - star.id
-             else
+            else
                 idList + star.id
         }
     }
@@ -113,11 +112,16 @@ class MainViewModel @Inject constructor() : ViewModel() {
         }
     }
 
+    fun isAllSelected(): Boolean {
+        return sortedStarList.value.isNotEmpty() &&
+                selectedStarIds.value.size == sortedStarList.value.size
+    }
+
     fun clearAllStarsSelection() {
         _selectedStarIds.update { emptyList() }
     }
 
-    fun deleteSelectedTask() {
+    fun deleteSelectedStar() {
         viewModelScope.launch {
             Repository.deleteStarFromIds(selectedStarIds.value)
             clearAllStarsSelection()

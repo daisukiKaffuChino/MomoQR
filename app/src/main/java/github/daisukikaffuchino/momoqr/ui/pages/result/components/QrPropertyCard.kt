@@ -13,15 +13,12 @@ import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import github.daisukikaffuchino.momoqr.R
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
+import github.daisukikaffuchino.momoqr.utils.toLocalDateString
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
@@ -30,12 +27,10 @@ fun QrPropertyCard(
     errorCorrectionLevel: String,
     modifier: Modifier = Modifier
 ) {
-    val dateText = if (modifiedTime == 0L) {
+    val dateText = if (modifiedTime == 0L)
         stringResource(R.string.none)
-    } else {
-        val sdf = remember { SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault()) }
-        sdf.format(Date(modifiedTime))
-    }
+    else
+        modifiedTime.toLocalDateString()
 
     Card(
         modifier = modifier.fillMaxWidth(),

@@ -20,7 +20,7 @@ import androidx.compose.ui.res.stringResource
 import github.daisukikaffuchino.momoqr.ui.theme.Defaults
 
 @Composable
-fun CardListItemContainer(
+fun ListItemContainer(
     modifier: Modifier = Modifier,
     state: LazyListState = rememberLazyListState(),
     content: LazyListScope.() -> Unit,

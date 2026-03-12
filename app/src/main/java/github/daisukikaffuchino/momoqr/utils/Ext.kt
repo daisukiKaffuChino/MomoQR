@@ -1,10 +1,8 @@
 package github.daisukikaffuchino.momoqr.utils
 
-import androidx.annotation.FloatRange
 import androidx.compose.foundation.shape.CornerBasedShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Stable
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.BlendMode
@@ -12,27 +10,9 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.ContentDrawScope
 import androidx.compose.ui.unit.Dp
-import androidx.core.graphics.ColorUtils
-import github.daisukikaffuchino.momoqr.logic.model.Priority
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
-
-fun Int.blend(
-    color: Int,
-    @FloatRange(from = 0.0, to = 1.0) fraction: Float = 0.5f,
-): Int = ColorUtils.blendARGB(this, color, fraction)
-
-@Composable
-@Stable
-fun Priority.containerColor(): Color =
-    when (this) {
-        Priority.NotUrgent -> MaterialTheme.colorScheme.onSurfaceVariant
-        Priority.NotImportant -> MaterialTheme.colorScheme.onSurfaceVariant
-        Priority.Default -> MaterialTheme.colorScheme.secondary
-        Priority.Important -> MaterialTheme.colorScheme.tertiary
-        Priority.Urgent -> MaterialTheme.colorScheme.error
-    }
 
 /**
  * 获取部分圆角的形状
@@ -89,7 +69,7 @@ fun ContentDrawScope.drawFadedEdge(
 fun Long?.toLocalDateString(): String {
     if (this == null) return ""
     val date = Date(this)
-    val format = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+    val format = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault())
     return format.format(date)
 }
 

@@ -1,7 +1,7 @@
 package github.daisukikaffuchino.momoqr.ui.pages.result.components
 
 import github.daisukikaffuchino.momoqr.R
-import github.daisukikaffuchino.momoqr.utils.VibrationUtils
+import github.daisukikaffuchino.momoqr.utils.VibrationUtil
 import android.view.HapticFeedbackConstants
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
@@ -34,7 +34,7 @@ fun MarkedCheckbox(
             .toggleable(
                 value = checked,
                 onValueChange = {
-                    VibrationUtils.performHapticFeedback(view, HapticFeedbackConstants.LONG_PRESS)
+                    VibrationUtil.performHapticFeedback(view, HapticFeedbackConstants.LONG_PRESS)
                     onCheckedChange(it)
                 },
                 role = Role.Checkbox,
@@ -50,7 +50,7 @@ fun MarkedCheckbox(
         Checkbox(
             checked = checked,
             onCheckedChange = {
-                VibrationUtils.performHapticFeedback(view, HapticFeedbackConstants.LONG_PRESS)
+                VibrationUtil.performHapticFeedback(view, HapticFeedbackConstants.LONG_PRESS)
                 onCheckedChange(it)
             },
             interactionSource = interactionSource

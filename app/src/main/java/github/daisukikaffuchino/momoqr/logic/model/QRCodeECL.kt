@@ -28,4 +28,11 @@ enum class QRCodeECL(
         TWENTY_FIVE -> "Q (~25%)"
         THIRTY -> "H (~30%)"
     }
+
+    fun getQrMaxBytes(): Int = when (this) {
+        Seven -> 2900
+        Fifteen -> 2300
+        TWENTY_FIVE -> 1600
+        THIRTY -> 1200
+    }
 }
