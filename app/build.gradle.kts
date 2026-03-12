@@ -60,6 +60,11 @@ android {
         includeInBundle = false
     }
 
+    @Suppress("UnstableApiUsage")
+    androidResources {
+        generateLocaleConfig = true
+    }
+
     //noinspection WrongGradleMethod
     aboutLibraries {
         collect {
