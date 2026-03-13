@@ -3,11 +3,11 @@ package github.daisukikaffuchino.momoqr.logic.database
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import github.daisukikaffuchino.momoqr.constants.Constants
+import github.daisukikaffuchino.momoqr.constants.AppConstants
 import kotlinx.serialization.Serializable
 
 @Serializable
-@Entity(tableName = Constants.DB_TABLE_NAME)
+@Entity(tableName = AppConstants.DB_TABLE_NAME)
 data class StarEntity(
     @ColumnInfo(name = "title") val title: String = "",
     @ColumnInfo(name = "content") val content: String = "",

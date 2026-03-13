@@ -7,14 +7,14 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
-import github.daisukikaffuchino.momoqr.constants.Constants
+import github.daisukikaffuchino.momoqr.constants.AppConstants
 
 @Dao
 interface StarDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(starItem: StarEntity)
 
-    @Query("SELECT * FROM ${Constants.DB_TABLE_NAME}")
+    @Query("SELECT * FROM ${AppConstants.DB_TABLE_NAME}")
     fun getAll(): Flow<List<StarEntity>>
 
     @Update
@@ -23,9 +23,9 @@ interface StarDao {
     @Delete
     suspend fun delete(starItem: StarEntity)
 
-    @Query("DELETE FROM ${Constants.DB_TABLE_NAME} WHERE id in (:ids)")
+    @Query("DELETE FROM ${AppConstants.DB_TABLE_NAME} WHERE id in (:ids)")
     suspend fun deleteFromIds(ids: Set<Int>)
 
-    @Query("DELETE FROM ${Constants.DB_TABLE_NAME}")
+    @Query("DELETE FROM ${AppConstants.DB_TABLE_NAME}")
     suspend fun deleteAllStars()
 }

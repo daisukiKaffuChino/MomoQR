@@ -4,9 +4,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import github.daisukikaffuchino.momoqr.R
+import github.daisukikaffuchino.momoqr.constants.AppConstants
+import github.daisukikaffuchino.momoqr.logic.datastore.DataStoreManager
 import github.daisukikaffuchino.momoqr.ui.components.ListItemContainer
 import github.daisukikaffuchino.momoqr.ui.components.TopAppBarScaffold
 import github.daisukikaffuchino.momoqr.ui.pages.settings.components.SettingsItem
@@ -23,6 +27,8 @@ fun SettingsMain(
     toAboutPage: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val showLabItem by DataStoreManager.showLabFlow.collectAsState(initial = false)
+
     TopAppBarScaffold(
         title = stringResource(R.string.page_settings),
         modifier = modifier
@@ -68,14 +74,16 @@ fun SettingsMain(
                 )
             }
 
-            item {
-                SettingsItem(
-                    leadingIconRes = R.drawable.ic_experiment,
-                    title = stringResource(R.string.pref_lab),
-                    description = stringResource(R.string.pref_lab_desc),
-                    shapes = Defaults.largerShapes(),
-                    onClick = toLabPage
-                )
+            if (showLabItem) {
+                item {
+                    SettingsItem(
+                        leadingIconRes = R.drawable.ic_experiment,
+                        title = stringResource(R.string.pref_lab),
+                        description = stringResource(R.string.pref_lab_desc),
+                        shapes = Defaults.largerShapes(),
+                        onClick = toLabPage
+                    )
+                }
             }
 
             item {

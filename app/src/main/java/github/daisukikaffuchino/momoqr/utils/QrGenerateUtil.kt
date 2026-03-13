@@ -6,7 +6,7 @@ import com.github.sumimakito.awesomeqr.option.RenderOption
 import com.github.sumimakito.awesomeqr.option.color.Color
 import github.daisukikaffuchino.momoqr.logic.model.QRCodeECL
 
-object QRCodeGenerateUtil {
+object QrGenerateUtil {
 
     fun generateQrBitmap(
         content: String,

@@ -22,10 +22,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import github.daisukikaffuchino.momoqr.R
-import github.daisukikaffuchino.momoqr.constants.Constants
+import github.daisukikaffuchino.momoqr.constants.AppConstants
 import github.daisukikaffuchino.momoqr.logic.datastore.DataStoreManager
+import github.daisukikaffuchino.momoqr.logic.model.SearchEngine
 import github.daisukikaffuchino.momoqr.logic.model.SortingMethod
 import github.daisukikaffuchino.momoqr.ui.components.ListItemContainer
+import github.daisukikaffuchino.momoqr.ui.components.SingleChoiceBottomSheet
 import github.daisukikaffuchino.momoqr.ui.components.TopAppBarScaffold
 import github.daisukikaffuchino.momoqr.ui.components.segmentedGroup
 import github.daisukikaffuchino.momoqr.ui.components.segmentedSection
@@ -41,13 +43,15 @@ fun SettingsInteraction(
     onNavigateUp: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val secureMode by DataStoreManager.secureModeFlow.collectAsState(initial = Constants.PREF_SECURE_MODE_DEFAULT)
-    val sortingMethod by DataStoreManager.sortingMethodFlow.collectAsState(initial = Constants.PREF_SORTING_METHOD_DEFAULT)
-    val hapticFeedback by DataStoreManager.hapticFeedbackFlow.collectAsState(initial = Constants.PREF_HAPTIC_FEEDBACK_DEFAULT)
+    val secureMode by DataStoreManager.secureModeFlow.collectAsState(initial = AppConstants.PREF_SECURE_MODE_DEFAULT)
+    val sortingMethod by DataStoreManager.sortingMethodFlow.collectAsState(initial = AppConstants.PREF_SORTING_METHOD_DEFAULT)
+    val hapticFeedback by DataStoreManager.hapticFeedbackFlow.collectAsState(initial = AppConstants.PREF_HAPTIC_FEEDBACK_DEFAULT)
+    val searchEngine by DataStoreManager.searchEngineFlow.collectAsState(initial = SearchEngine.GOOGLE)
 
     val sheetState = rememberModalBottomSheetState()
     val scope = rememberCoroutineScope()
     var showSortingMethodDialog by rememberSaveable { mutableStateOf(false) }
+    var showSearchEngineDialog by rememberSaveable { mutableStateOf(false) }
 
     TopAppBarScaffold(
         title = stringResource(R.string.pref_interaction),
@@ -62,6 +66,16 @@ fun SettingsInteraction(
                         title = stringResource(R.string.pref_sorting_method),
                         description = stringResource(SortingMethod.fromId(sortingMethod).nameRes),
                         onClick = { showSortingMethodDialog = true }
+                    )
+                }
+            }
+            segmentedSection(R.string.pref_label_action) {
+                segmentedGroup {
+                    SettingsItem(
+                        leadingIconRes = R.drawable.ic_search,
+                        title = stringResource(R.string.pref_search_engine),
+                        description = searchEngine.label,
+                        onClick = { showSearchEngineDialog = true }
                     )
                 }
             }
@@ -88,50 +102,50 @@ fun SettingsInteraction(
             }
         }
 
-    }
-
-    val sortingList = SortingMethod.entries.map {
-        RadioOptions(
-            id = it.id,
-            text = stringResource(it.nameRes)
-        )
-    }
-
-    if (showSortingMethodDialog) {
-        ModalBottomSheet(
-            sheetState = sheetState,
-            onDismissRequest = {
-                scope.launch {
-                    sheetState.hide()
-                    showSortingMethodDialog = false
-                }
-            }
-        ) {
-            Column(
-                Modifier.padding(horizontal = Defaults.settingsItemVerticalPadding)
-            ) {
-                sortingList.forEach { option ->
-                    val selected = option.id == sortingMethod
-                    ListItem(
-                        onClick = {
-                            scope.launch {
-                                DataStoreManager.setSortingMethod(option.id)
-                                sheetState.hide()
-                                showSortingMethodDialog = false
-                            }
-                        },
-                        selected = selected,
-                        leadingContent = {
-                            RadioButton(selected = selected, onClick = null)
-                        },
-                        content = { Text(option.text) },
-                        colors = ListItemDefaults.colors(containerColor = BottomSheetDefaults.ContainerColor)
-                    )
-                }
-            }
+        val sortingList = SortingMethod.entries.map {
+            RadioOptions(
+                id = it.id,
+                text = stringResource(it.nameRes)
+            )
         }
-    }
+        SingleChoiceBottomSheet(
+            visible = showSortingMethodDialog,
+            sheetState = sheetState,
+            options = sortingList,
+            selectedOption = sortingList.first { it.id == sortingMethod },
+            onDismiss = {
+                sheetState.hide()
+                showSortingMethodDialog = false
+            },
+            onOptionClick = { option ->
+                DataStoreManager.setSortingMethod(option.id)
+                sheetState.hide()
+                showSortingMethodDialog = false
+            },
+            optionText = { option ->
+                Text(option.text)
+            }
+        )
+        SingleChoiceBottomSheet(
+            visible = showSearchEngineDialog,
+            sheetState = sheetState,
+            options = SearchEngine.entries,
+            selectedOption = searchEngine,
+            onDismiss = {
+                sheetState.hide()
+                showSearchEngineDialog = false
+            },
+            onOptionClick = { option ->
+                DataStoreManager.setSearchEngine(option)
+                sheetState.hide()
+                showSearchEngineDialog = false
+            },
+            optionText = { option ->
+                Text(option.label)
+            }
+        )
 
+    }
 }
 
 data class RadioOptions(

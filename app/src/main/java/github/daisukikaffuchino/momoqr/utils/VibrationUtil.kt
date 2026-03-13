@@ -2,10 +2,10 @@ package github.daisukikaffuchino.momoqr.utils
 
 import android.view.HapticFeedbackConstants
 import android.view.View
-import github.daisukikaffuchino.momoqr.constants.Constants
+import github.daisukikaffuchino.momoqr.constants.AppConstants
 
 object VibrationUtil {
-    private var isEnabled: Boolean = Constants.PREF_HAPTIC_FEEDBACK_DEFAULT
+    private var isEnabled: Boolean = AppConstants.PREF_HAPTIC_FEEDBACK_DEFAULT
 
     /**
      * 启用或禁用触感反馈

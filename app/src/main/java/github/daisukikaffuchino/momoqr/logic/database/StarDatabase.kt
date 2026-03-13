@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import github.daisukikaffuchino.momoqr.constants.Constants
+import github.daisukikaffuchino.momoqr.constants.AppConstants
 
 @Database(entities = [StarEntity::class], version = 1)
 abstract class StarDatabase : RoomDatabase() {
@@ -19,7 +19,7 @@ abstract class StarDatabase : RoomDatabase() {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     StarDatabase::class.java,
-                    Constants.DB_NAME
+                    AppConstants.DB_NAME
                 )
                     .build()
                 INSTANCE = instance

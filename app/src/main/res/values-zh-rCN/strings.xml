@@ -54,12 +54,13 @@
     <string name="pref_dark_mode_desc">开启或关闭深色模式</string>
     <string name="pref_interaction">界面交互</string>
     <string name="pref_interaction_desc">排序方式、触感反馈</string>
-    <string name="pref_camera">相机和扫描器</string>
+    <string name="pref_camera">相机和分析器</string>
     <string name="pref_camera_desc">识别格式、渲染</string>
     <string name="pref_data">数据和存储</string>
     <string name="pref_data_desc">保存选项、管理分类</string>
     <string name="pref_lab">实验室</string>
     <string name="pref_lab_desc">实验性功能</string>
+    <string name="pref_show_entry">展示入口</string>
     <string name="pref_about">关于</string>
     <string name="pref_about_desc">应用信息、许可证</string>
     <string name="pref_developer">开发者</string>
@@ -83,20 +84,25 @@
     <string name="pref_beep">蜂鸣声</string>
     <string name="pref_beep_desc">分析成功后提供反馈</string>
     <string name="pref_enhanced_preprocessing">增强预处理</string>
-    <string name="pref_enhanced_preprocessing_desc">试图提高识别率；但效果可能更差</string>
+    <string name="pref_enhanced_preprocessing_desc">（实验性）试图提高识别率；但效果可能更差</string>
     <string name="pref_error_correction_level">纠错等级</string>
     <string name="pref_error_correction_level_desc">调整二维码的纠错级别；级别越高，在二维码脏污或损坏时对数据的保护越好，但也会导致尺寸增大。通常，默认设置就足够了。</string>
     <string name="pref_auto_copy">自动复制</string>
     <string name="pref_auto_copy_desc">扫描后自动复制原始数据</string>
+    <string name="pref_search_engine">搜索引擎</string>
+    <string name="pref_save_image">直接保存图片</string>
+    <string name="pref_save_image_desc">图片直接保存到 /Pictures/MomoQR 目录下，不需要手动选择路径</string>
 
     <string name="pref_label_theme">主题</string>
     <string name="pref_label_info">信息</string>
     <string name="pref_label_others">其它</string>
     <string name="pref_label_camera">相机</string>
-    <string name="pref_label_scanner">扫描器</string>
+    <string name="pref_label_analyzer">分析器</string>
     <string name="pref_label_rendering">渲染</string>
     <string name="pref_label_star_list">星标列表</string>
     <string name="pref_label_global">全局</string>
+    <string name="pref_label_action">动作</string>
+    <string name="pref_label_storage">存储</string>
 
     <string name="palette_tonal_spot">基调</string>
     <string name="palette_neutral">中性</string>
@@ -148,6 +154,9 @@
     <string name="toast_camera_permission_required">允许相机权限以进行扫码</string>
     <string name="toast_go_to_settings">前往系统设置</string>
     <string name="toast_no_data_detected">没有识别到数据</string>
+    <string name="toast_copied">已复制到剪贴板</string>
+    <string name="toast_saved">已保存：</string>
+    <string name="toast_save_failed">保存失败</string>
 
     <string name="error_no_content_entered">没有文本输入</string>
     <string name="error_no_content_entered_or_too_long">没有文本输入或文本过长</string>

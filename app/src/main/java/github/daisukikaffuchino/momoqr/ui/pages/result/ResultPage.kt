@@ -2,9 +2,11 @@ package github.daisukikaffuchino.momoqr.ui.pages.result
 
 import android.annotation.SuppressLint
 import android.graphics.Bitmap
+import android.widget.Toast
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.SharedTransitionScope
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -30,8 +32,10 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedCard
+import androidx.compose.material3.SheetValue
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberBottomSheetScaffoldState
+import androidx.compose.material3.rememberStandardBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -40,16 +44,20 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation3.ui.LocalNavAnimatedContentScope
 import coil3.compose.AsyncImage
 import github.daisukikaffuchino.momoqr.R
-import github.daisukikaffuchino.momoqr.constants.Constants
+import github.daisukikaffuchino.momoqr.constants.AppConstants
 import github.daisukikaffuchino.momoqr.logic.database.StarEntity
 import github.daisukikaffuchino.momoqr.logic.datastore.DataStoreManager
 import github.daisukikaffuchino.momoqr.logic.model.QRCodeECL
@@ -62,11 +70,17 @@ import github.daisukikaffuchino.momoqr.ui.pages.result.components.ResultCategory
 import github.daisukikaffuchino.momoqr.ui.pages.result.components.ResultContentTextField
 import github.daisukikaffuchino.momoqr.ui.pages.result.components.ResultFloatingActionButton
 import github.daisukikaffuchino.momoqr.ui.pages.result.components.StarCategoryChip
-import github.daisukikaffuchino.momoqr.ui.pages.result.state.rememberResultState
 import github.daisukikaffuchino.momoqr.ui.theme.Defaults
-import github.daisukikaffuchino.momoqr.utils.QRCodeGenerateUtil.generateQrBitmap
+import github.daisukikaffuchino.momoqr.utils.QrGenerateUtil.generateQrBitmap
 import androidx.core.net.toUri
 import github.daisukikaffuchino.momoqr.ui.components.ConfirmDialog
+import github.daisukikaffuchino.momoqr.utils.buildSearchUrl
+import github.daisukikaffuchino.momoqr.utils.copyToClipboard
+import github.daisukikaffuchino.momoqr.utils.rememberBitmapSaver
+import github.daisukikaffuchino.momoqr.utils.shareText
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 
 @SuppressLint("ComposableNaming")
 @Composable
@@ -78,7 +92,8 @@ fun ResultAddPage(
     stars = stars,
     onSave = onSave,
     onDelete = {},
-    onNavigateUp = onNavigateUp
+    onNavigateUp = onNavigateUp,
+    skipTransition = true
 )
 
 @Composable
@@ -88,29 +103,60 @@ fun SharedTransitionScope.ResultEditPage(
     onSave: (StarEntity) -> Unit,
     onDelete: () -> Unit,
     onNavigateUp: () -> Unit
-) = ResultEditorPage(
-    stars = stars,
-    modifier = modifier.sharedBounds(
-        sharedContentState = rememberSharedContentState(key = "${Constants.KEY_STARS_ITEM_TRANSITION}_${stars.id}"),
-        animatedVisibilityScope = LocalNavAnimatedContentScope.current,
-        resizeMode = SharedTransitionScope.ResizeMode.RemeasureToBounds
-    ),
-    onSave = onSave,
-    onDelete = onDelete,
-    onNavigateUp = onNavigateUp
-)
+) {
+    val animatedScope = LocalNavAnimatedContentScope.current
+    ResultEditorPage(
+        transitionRunning = animatedScope.transition.isRunning,
+        stars = stars,
+        modifier = modifier.sharedBounds(
+            sharedContentState = rememberSharedContentState(key = "${AppConstants.KEY_STARS_ITEM_TRANSITION}_${stars.id}"),
+            animatedVisibilityScope = LocalNavAnimatedContentScope.current,
+            resizeMode = SharedTransitionScope.ResizeMode.RemeasureToBounds
+        ),
+        onSave = onSave,
+        onDelete = onDelete,
+        onNavigateUp = onNavigateUp
+    )
+}
 
+@SuppressLint("UseOfNonLambdaOffsetOverload", "LocalContextGetResourceValueCall")
 @OptIn(ExperimentalMaterial3ExpressiveApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun ResultEditorPage(
     modifier: Modifier = Modifier,
+    transitionRunning: Boolean = false,
+    skipTransition: Boolean = false,
     stars: StarEntity,
     onSave: (StarEntity) -> Unit,
     onDelete: () -> Unit,
     onNavigateUp: () -> Unit
 ) {
-    val scaffoldState = rememberBottomSheetScaffoldState()
+    val scope = rememberCoroutineScope()
     val uiState = rememberResultState(initialData = stars)
+    val uriHandler = LocalUriHandler.current
+    val context = LocalContext.current
+
+    val isStarEntityEmpty = stars.date == 0.toLong()
+
+    LaunchedEffect(Unit) {
+        val autoCopy = DataStoreManager.autoCopyFlow.first()
+        if (autoCopy && skipTransition) context.copyToClipboard(stars.content)
+    }
+
+    val saveDirectly by DataStoreManager.saveDirectlyFlow.collectAsState(initial = AppConstants.PREF_NOT_ASK_SAVE_PATH_DEFAULT)
+    val saveBitmap = context.rememberBitmapSaver(
+        notAskForSavePath = saveDirectly,
+        onSaveSuccess = { result ->
+            Toast.makeText(
+                context,
+                "${context.getString(R.string.toast_saved)} $result",
+                Toast.LENGTH_LONG
+            ).show()
+        },
+        onSaveFailed = {
+            Toast.makeText(context, R.string.toast_save_failed, Toast.LENGTH_SHORT).show()
+        }
+    )
 
     val originalCategories by DataStoreManager.categoriesFlow.collectAsState(initial = emptyList())
     val categories = originalCategories
@@ -125,7 +171,7 @@ fun ResultEditorPage(
     var defaultIndex by remember { mutableIntStateOf(-2) }
     LaunchedEffect(originalCategories, stars) {
         if (originalCategories.isEmpty()) return@LaunchedEffect
-        if (stars.date == 0.toLong()) {
+        if (isStarEntityEmpty) {
             val index = if (categories.size == 2) -2 else 0
             defaultIndex = index
             uiState.selectedCategoryIndex = index
@@ -163,15 +209,55 @@ fun ResultEditorPage(
         }
     }
 
-    BackHandler(onBack = ::checkModifiedBeforeBack)
+    val scaffoldState = rememberBottomSheetScaffoldState(
+        bottomSheetState = rememberStandardBottomSheetState(
+            initialValue = SheetValue.PartiallyExpanded
+        )
+    )
+
+    BackHandler {
+        when {
+            scaffoldState.bottomSheetState.currentValue == SheetValue.Expanded -> scope.launch {
+                scaffoldState.bottomSheetState.partialExpand()
+            }
+
+            else -> checkModifiedBeforeBack()
+        }
+    }
+
+    // 处理动画
+    var startSheetAnimation by rememberSaveable { mutableStateOf(false) }
+    var lastTransitionRunning by remember { mutableStateOf<Boolean?>(null) }
+
+    LaunchedEffect(transitionRunning, skipTransition) {
+        if (startSheetAnimation) return@LaunchedEffect
+
+        if (skipTransition) {
+            delay(200)
+            startSheetAnimation = true
+        } else {
+            if (lastTransitionRunning == true && !transitionRunning)
+                startSheetAnimation = true
+        }
+
+        lastTransitionRunning = transitionRunning
+    }
 
     val navBar = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
     @SuppressLint("ConfigurationScreenWidthHeight") val screenHeight =
         LocalConfiguration.current.screenHeightDp.dp
+    val animatedSheetPeekHeight by animateDpAsState(
+        targetValue = if (startSheetAnimation) navBar + 64.dp else 0.dp,
+        label = "sheet_peek_height"
+    )
+    val animatedFabPeekHeight by animateDpAsState(
+        targetValue = if (startSheetAnimation) 64.dp else 0.dp,
+        label = "fab_peek_height"
+    )
 
     BottomSheetScaffold(
         scaffoldState = scaffoldState,
-        sheetPeekHeight = navBar + 64.dp,
+        sheetPeekHeight = animatedSheetPeekHeight,
         sheetContent = {
             Box(
                 modifier = Modifier
@@ -221,9 +307,9 @@ fun ResultEditorPage(
                     horizontalArrangement = Arrangement.spacedBy(12.dp),
                     modifier = Modifier
                         .imePadding()
-                        .offset(y = (-64).dp)
+                        .offset(y = -animatedFabPeekHeight)
                 ) {
-                    if (stars.date != 0.toLong()) {
+                    if (!isStarEntityEmpty) {
                         ResultFloatingActionButton(
                             text = stringResource(R.string.action_delete),
                             iconRes = R.drawable.ic_delete,
@@ -233,8 +319,9 @@ fun ResultEditorPage(
                         )
                     }
                     ResultFloatingActionButton(
-                        text = stringResource(R.string.action_starred),
-                        iconRes = R.drawable.ic_starred,
+                        text = if (isStarEntityEmpty) stringResource(R.string.action_starred) else
+                            stringResource(R.string.action_save),
+                        iconRes = if (isStarEntityEmpty) R.drawable.ic_starred else R.drawable.ic_save,
                         expanded = true,
                         onClick = {
                             if (uiState.setErrorIfNotValid()) {
@@ -269,13 +356,21 @@ fun ResultEditorPage(
                 verticalArrangement = Arrangement.spacedBy(16.dp),
                 modifier = Modifier.fillMaxSize()
             ) {
-                item(key = 0){
+                item(key = 0) {
                     ActionButtonGroup(
-                        onSearch = {},
-                        onShareText = {},
-                        onCopyContent = {},
-                        onSaveImage = {},
-                        onOpenLink = {},
+                        onSearch = {
+                            scope.launch {
+                                val searchEngine = DataStoreManager.searchEngineFlow.first()
+                                val url = buildSearchUrl(uiState.qrContent, searchEngine)
+                                uriHandler.openUri(url)
+                            }
+                        },
+                        onOpenLink = { uriHandler.openUri(uiState.qrContent) },
+                        onShareText = { context.shareText(uiState.qrContent) },
+                        onCopyContent = { context.copyToClipboard(uiState.qrContent) },
+                        onSaveImage = {
+                            qrBitmap?.let { saveBitmap(it) }
+                        },
                         isUrl = isValidUrl(uiState.qrContent)
                     )
                 }

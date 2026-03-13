@@ -1,17 +1,13 @@
-package github.daisukikaffuchino.momoqr.ui.pages.result.state
+package github.daisukikaffuchino.momoqr.ui.pages.result
 
-import android.util.Log
-import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.SaverScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import github.daisukikaffuchino.momoqr.MomoApplication
 import github.daisukikaffuchino.momoqr.R
 import github.daisukikaffuchino.momoqr.logic.database.StarEntity
 import github.daisukikaffuchino.momoqr.logic.model.QRCodeECL
@@ -34,7 +30,7 @@ class ResultState(val initialStar: StarEntity? = null) {
     fun setErrorIfNotValid(): Boolean {
         val categoryMaxLength = 20
         val qr = qrContent.trim()
-        val qrMaxBytes = QRCodeECL.fromFloat(ecl).getQrMaxBytes()
+        val qrMaxBytes = QRCodeECL.Companion.fromFloat(ecl).getQrMaxBytes()
         val qrBytesLength = qr.toByteArray(Charsets.UTF_8).size
         val category = categoryContent.trim()
 

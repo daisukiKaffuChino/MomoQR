@@ -21,7 +21,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.zxing.BarcodeFormat
 import dagger.hilt.android.lifecycle.HiltViewModel
-import github.daisukikaffuchino.momoqr.constants.Constants
+import github.daisukikaffuchino.momoqr.constants.AppConstants
 import github.daisukikaffuchino.momoqr.logic.datastore.DataStoreManager
 import github.daisukikaffuchino.momoqr.ui.pages.scan.analyzer.CodeAnalyzer
 import github.daisukikaffuchino.momoqr.ui.pages.scan.analyzer.CodeDetector
@@ -40,9 +40,9 @@ import javax.inject.Inject
 @HiltViewModel
 class CodeScannerViewModel @Inject constructor() : ViewModel() {
     private var formats: List<BarcodeFormat> = listOf(BarcodeFormat.QR_CODE)
-    private var switchCamera = Constants.PREF_SWITCH_CAMERA_DEFAULT
-    private var beepSound = Constants.PREF_BEEP_SOUND_DEFAULT
-    private var enhancedProcessing = Constants.PREF_ENHANCED_PREPROCESSING_DEFAULT
+    private var switchCamera = AppConstants.PREF_SWITCH_CAMERA_DEFAULT
+    private var beepSound = AppConstants.PREF_BEEP_SOUND_DEFAULT
+    private var enhancedProcessing = AppConstants.PREF_ENHANCED_PREPROCESSING_DEFAULT
     private var _state = MutableStateFlow(CodeScannerScreenState())
     var state = _state.asStateFlow()
 

@@ -38,7 +38,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation3.ui.LocalNavAnimatedContentScope
 import github.daisukikaffuchino.momoqr.R
-import github.daisukikaffuchino.momoqr.constants.Constants
+import github.daisukikaffuchino.momoqr.constants.AppConstants
 import github.daisukikaffuchino.momoqr.logic.database.StarEntity
 import github.daisukikaffuchino.momoqr.ui.components.ConfirmDialog
 import github.daisukikaffuchino.momoqr.ui.components.EmptyListTip
@@ -169,7 +169,7 @@ fun SharedTransitionScope.StarsPage(
                                 onCardLongClick = { viewModel.toggleStarSelection(starEntity) },
                                 modifier = Modifier
                                     .sharedBounds(
-                                        sharedContentState = rememberSharedContentState(key = "${Constants.KEY_STARS_ITEM_TRANSITION}_${starEntity.id}"),
+                                        sharedContentState = rememberSharedContentState(key = "${AppConstants.KEY_STARS_ITEM_TRANSITION}_${starEntity.id}"),
                                         animatedVisibilityScope = LocalNavAnimatedContentScope.current,
                                         resizeMode = SharedTransitionScope.ResizeMode.RemeasureToBounds
                                     )

@@ -33,6 +33,7 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -53,7 +54,7 @@ import androidx.compose.ui.unit.dp
 import androidx.core.text.HtmlCompat
 import github.daisukikaffuchino.momoqr.BuildConfig
 import github.daisukikaffuchino.momoqr.R
-import github.daisukikaffuchino.momoqr.constants.Constants
+import github.daisukikaffuchino.momoqr.constants.AppConstants
 import github.daisukikaffuchino.momoqr.logic.datastore.DataStoreManager
 import github.daisukikaffuchino.momoqr.logic.model.Languages
 import github.daisukikaffuchino.momoqr.ui.components.BasicDialog
@@ -66,6 +67,7 @@ import github.daisukikaffuchino.momoqr.ui.theme.Defaults
 import github.daisukikaffuchino.momoqr.utils.VibrationUtil
 import github.daisukikaffuchino.momoqr.utils.appVersion
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @SuppressLint("LocalContextConfigurationRead")
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
@@ -78,7 +80,8 @@ fun SettingsAbout(
     val languageCode by DataStoreManager.languageFlow.collectAsState(initial = null)
     val context = LocalContext.current
     val view = LocalView.current
-    var openDialog by remember { mutableStateOf(false) }
+    val scope = rememberCoroutineScope()
+    var openPolicyDialog by remember { mutableStateOf(false) }
     val systemLanguage = if (!context.resources.configuration.locales.isEmpty) {
         context.resources.configuration.locales[0].language
     } else ""
@@ -116,6 +119,7 @@ fun SettingsAbout(
                     onClick = {
                         clickCount++
                         if (clickCount == 6) {
+                            scope.launch { DataStoreManager.setShowLab(true) }
                             Toast.makeText(context, "\uD83C\uDF51", Toast.LENGTH_SHORT).show()
                             clickCount = 0
                         }
@@ -139,13 +143,13 @@ fun SettingsAbout(
                         leadingIconRes = R.drawable.ic_person,
                         title = stringResource(R.string.pref_developer),
                         description = "GitHub@daisukiKaffuChino",
-                        onClick = { uriHandler.openUri(Constants.DEVELOPER_GITHUB) },
+                        onClick = { uriHandler.openUri(AppConstants.DEVELOPER_GITHUB) },
                     )
                     SettingsItem(
                         leadingIconRes = R.drawable.ic_policy,
                         title = stringResource(R.string.pref_policy),
                         description = stringResource(R.string.pref_policy_desc),
-                        onClick = { openDialog = true },
+                        onClick = { openPolicyDialog = true },
                     )
 
                     // 简中限定
@@ -154,7 +158,7 @@ fun SettingsAbout(
                             leadingIconRes = R.drawable.ic_license,
                             title = "ICP 备案号",
                             description = "沪ICP备xxxxxxxx号",
-                            onClick = { uriHandler.openUri(Constants.ICP_BEIAN) },
+                            onClick = { uriHandler.openUri(AppConstants.ICP_BEIAN) },
                         )
                     }
                 }
@@ -166,7 +170,7 @@ fun SettingsAbout(
                         leadingIconRes = R.drawable.ic_github,
                         title = stringResource(R.string.pref_view_on_github),
                         description = stringResource(R.string.pref_view_on_github_desc),
-                        onClick = { uriHandler.openUri(Constants.GITHUB_REPO) },
+                        onClick = { uriHandler.openUri(AppConstants.GITHUB_REPO) },
                     )
                     SettingsItem(
                         leadingIconRes = R.drawable.ic_gavel,
@@ -178,7 +182,7 @@ fun SettingsAbout(
             }
         }
         BasicDialog(
-            visible = openDialog,
+            visible = openPolicyDialog,
             title = { Text(stringResource(R.string.pref_policy)) },
             text = {
                 val policyText = privacyPolicyText(context, isChineseSimplified)
@@ -192,13 +196,13 @@ fun SettingsAbout(
             confirmButton = {
                 FilledTonalButton(
                     onClick = {
-                        openDialog = false
+                        openPolicyDialog = false
                         VibrationUtil.performHapticFeedback(view)
                     },
                     shapes = ButtonDefaults.shapes()
                 ) { Text(stringResource(R.string.action_confirm)) }
             },
-            onDismissRequest = { openDialog = false }
+            onDismissRequest = { openPolicyDialog = false }
         )
     }
 }

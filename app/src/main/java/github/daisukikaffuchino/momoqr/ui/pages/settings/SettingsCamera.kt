@@ -13,7 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.google.zxing.BarcodeFormat
 import github.daisukikaffuchino.momoqr.R
-import github.daisukikaffuchino.momoqr.constants.Constants
+import github.daisukikaffuchino.momoqr.constants.AppConstants
 import github.daisukikaffuchino.momoqr.logic.datastore.DataStoreManager
 import github.daisukikaffuchino.momoqr.logic.model.QRCodeECL
 import github.daisukikaffuchino.momoqr.ui.components.ListItemContainer
@@ -38,11 +38,11 @@ fun SettingsCamera(
             BarcodeFormat.QR_CODE
         )
     )
-    val switchCamera by DataStoreManager.switchCameraFlow.collectAsState(initial = Constants.PREF_SWITCH_CAMERA_DEFAULT)
-    val beepSound by DataStoreManager.beepSoundFlow.collectAsState(initial = Constants.PREF_BEEP_SOUND_DEFAULT)
-    val enhancedPreprocess by DataStoreManager.enhancedPreprocessFlow.collectAsState(initial = Constants.PREF_ENHANCED_PREPROCESSING_DEFAULT)
-    val autoCopy by DataStoreManager.autoCopyFlow.collectAsState(initial = Constants.PREF_AUTO_COPY_DEFAULT)
-    val correctionLevel by DataStoreManager.correctionLevelFlow.collectAsState(initial = Constants.PREF_CORRECTION_LEVEL_DEFAULT)
+    val switchCamera by DataStoreManager.switchCameraFlow.collectAsState(initial = AppConstants.PREF_SWITCH_CAMERA_DEFAULT)
+    val beepSound by DataStoreManager.beepSoundFlow.collectAsState(initial = AppConstants.PREF_BEEP_SOUND_DEFAULT)
+    val enhancedPreprocess by DataStoreManager.enhancedPreprocessFlow.collectAsState(initial = AppConstants.PREF_ENHANCED_PREPROCESSING_DEFAULT)
+    val autoCopy by DataStoreManager.autoCopyFlow.collectAsState(initial = AppConstants.PREF_AUTO_COPY_DEFAULT)
+    val correctionLevel by DataStoreManager.correctionLevelFlow.collectAsState(initial = AppConstants.PREF_CORRECTION_LEVEL_DEFAULT)
 
     val scope = rememberCoroutineScope()
     var showFormatsSheet by remember { mutableStateOf(false) }
@@ -80,7 +80,7 @@ fun SettingsCamera(
                 }
             }
 
-            segmentedSection(R.string.pref_label_scanner) {
+            segmentedSection(R.string.pref_label_analyzer) {
                 segmentedGroup {
                     SettingsItem(
                         leadingIconRes = R.drawable.ic_barcode_scanner,

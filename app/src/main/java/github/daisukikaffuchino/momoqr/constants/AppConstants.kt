@@ -1,6 +1,6 @@
 package github.daisukikaffuchino.momoqr.constants
 
-object Constants {
+object AppConstants {
 
 
     const val DEVELOPER_GITHUB = "https://github.com/daisukiKaffuChino/"
@@ -52,6 +52,11 @@ object Constants {
     const val PREF_AUTO_COPY_DEFAULT = false
     const val PREF_CORRECTION_LEVEL = "correction_level"
     const val PREF_CORRECTION_LEVEL_DEFAULT = 15f
+    const val PREF_SHOW_LAB = "show_lab"
+    const val PREF_SEARCH_ENGINE = "search_engine"
+
+    const val PREF_NOT_ASK_SAVE_PATH = "not_ask_save_path"
+    const val PREF_NOT_ASK_SAVE_PATH_DEFAULT = false
 
     const val PREF_CATEGORIES = "categories"
     const val PREF_CATEGORIES_DEFAULT = "[]"

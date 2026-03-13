@@ -54,7 +54,7 @@ import github.daisukikaffuchino.momoqr.ui.pages.home.components.ScanFromCameraCa
 import github.daisukikaffuchino.momoqr.ui.pages.home.components.ScanFromGalleryCard
 import github.daisukikaffuchino.momoqr.ui.theme.Defaults
 import github.daisukikaffuchino.momoqr.ui.viewmodels.SharedViewModel
-import github.daisukikaffuchino.momoqr.utils.QRCodeReaderUtil
+import github.daisukikaffuchino.momoqr.utils.QrReaderUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -133,7 +133,7 @@ fun HomePage(
     ) { uri ->
         uri ?: return@rememberLauncherForActivityResult
         scope.launch(Dispatchers.IO) {
-            val result = QRCodeReaderUtil.scanImageFromGallery(context, uri, codeFormats.toList())
+            val result = QrReaderUtil.scanImageFromGallery(context, uri, codeFormats.toList())
             withContext(Dispatchers.Main) {
                 if (result != null) {
                     val correctionLevel = DataStoreManager.correctionLevelFlow.first()
@@ -235,7 +235,7 @@ fun HomePage(
                     GenerateActionCard(
                         icon = painterResource(R.drawable.ic_edit_square),
                         title = stringResource(R.string.label_generate_text),
-                        //onClick = { uriHandler.openUri(Constants.GITHUB_REPO) },
+                        //onClick = { uriHandler.openUri(AppConstants.GITHUB_REPO) },
                     )
                     GenerateActionCard(
                         icon = painterResource(R.drawable.ic_content_paste),
