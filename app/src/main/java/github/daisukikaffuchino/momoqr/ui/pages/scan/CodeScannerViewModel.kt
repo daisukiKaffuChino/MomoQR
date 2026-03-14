@@ -51,6 +51,8 @@ class CodeScannerViewModel @Inject constructor() : ViewModel() {
 
     private var camera: Camera? = null
     private var imageAnalysis: ImageAnalysis? = null
+    private var lastResult: String? = null
+    private var sameResultCount = 0
 
     init {
         viewModelScope.launch {
@@ -174,14 +176,24 @@ class CodeScannerViewModel @Inject constructor() : ViewModel() {
     private fun getBarcodeDetector(): CodeDetector =
         object : CodeDetector {
             override fun onDetected(codeValue: String) {
-                viewModelScope.launch {
-                    imageAnalysis?.clearAnalyzer()
+                if (codeValue == lastResult) {
+                    sameResultCount++
+                } else {
+                    lastResult = codeValue
+                    sameResultCount = 1
+                }
+                if (sameResultCount >= 2) {
+                    viewModelScope.launch {
+                        imageAnalysis?.clearAnalyzer()
 
-                    if (beepSound) playBeep()
+                        if (beepSound) playBeep()
 
-                    backendEventsChannel.send(
-                        CodeScannerScreenBackendEvent.CodeScanComplete(codeValue)
-                    )
+                        backendEventsChannel.send(
+                            CodeScannerScreenBackendEvent.CodeScanComplete(codeValue)
+                        )
+                    }
+                    lastResult = null
+                    sameResultCount = 0
                 }
             }
 

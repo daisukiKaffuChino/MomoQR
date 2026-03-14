@@ -43,6 +43,8 @@ fun buildSearchUrl(text: String, engine: SearchEngine): String {
         SearchEngine.GOOGLE -> "https://www.google.com/search?q=$encoded"
         SearchEngine.BING -> "https://www.bing.com/search?q=$encoded"
         SearchEngine.YANDEX -> "https://yandex.com/search/?text=$encoded"
+        SearchEngine.STARTPAGE -> "https://www.startpage.com/search?q=$encoded"
+        SearchEngine.DUCKDUCKGO -> "https://duckduckgo.com/?q=$encoded"
         SearchEngine.BAIDU -> "https://www.baidu.com/s?wd=$encoded"
     }
 }

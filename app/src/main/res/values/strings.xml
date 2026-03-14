@@ -15,6 +15,7 @@
     <string name="action_share">Share</string>
     <string name="action_save_img">Save IMG</string>
     <string name="action_clear">Clear</string>
+    <string name="action_add_category">Add category</string>
 
     <string name="page_home">Home</string>
     <string name="page_stars">Stars</string>
@@ -31,12 +32,14 @@
     <string name="label_generate_wifi_sharing">Wi-Fi sharing</string>
     <string name="label_generate_more_type">More types</string>
     <string name="label_enter_category_name">Enter category name</string>
+    <string name="label_enter_content">Enter content</string>
     <string name="label_category">Category</string>
     <string name="label_unclassified">Unclassified</string>
     <string name="label_customization">Customization</string>
     <string name="label_image_preview">Image Preview</string>
     <string name="label_modification_date">Modification date</string>
     <string name="label_attributes">Attributes</string>
+    <string name="label_edit">Edit</string>
 
     <string name="title_warning">Warning</string>
     <string name="title_selected_count">%s selected</string>
@@ -93,6 +96,8 @@
     <string name="pref_search_engine">Search Engine</string>
     <string name="pref_save_image">Save Image Directly</string>
     <string name="pref_save_image_desc">Images automatically saved to /Pictures/MomoQR, no manual selection needed</string>
+    <string name="pref_category_management">Category Management</string>
+    <string name="pref_category_management_desc">Add custom category labels</string>
 
     <string name="pref_label_theme">Theme</string>
     <string name="pref_label_info">Information</string>
@@ -159,9 +164,16 @@
     <string name="toast_saved">Saved:</string>
     <string name="toast_save_failed">Save failed</string>
 
+    <string name="time_today">Today</string>
+    <string name="time_yesterday">Yesterday</string>
+    <string name="time_days_ago">%d d ago</string>
+    <string name="time_weeks_ago">%d w ago</string>
+    <string name="time_months_ago">%d mo ago</string>
+    <string name="time_years_ago">%d y ago</string>
+
     <string name="error_no_content_entered">No content entered</string>
     <string name="error_no_content_entered_or_too_long">No content entered or too long</string>
-    <string name="error_category_too_long">Category cannot exceed 20 characters</string>
+    <string name="error_category_too_long">Category cannot exceed 16 characters</string>
     <string name="placeholder_edit_content">Edit content</string>
     <string name="none">None</string>
 </resources>

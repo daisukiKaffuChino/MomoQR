@@ -20,6 +20,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.ButtonShapes
 import androidx.compose.material3.CardDefaults
@@ -39,6 +40,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -51,6 +53,7 @@ import github.daisukikaffuchino.momoqr.ui.theme.Defaults
 import github.daisukikaffuchino.momoqr.ui.theme.shapeByInteraction
 import github.daisukikaffuchino.momoqr.utils.VibrationUtil
 import github.daisukikaffuchino.momoqr.utils.toLocalDateString
+import github.daisukikaffuchino.momoqr.utils.toRelativeTimeString
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
@@ -135,9 +138,9 @@ fun StarCard(
                 Spacer(modifier = Modifier.height(16.dp))
 
                 Text(
-                    text = modDate.toLocalDateString(),
+                    text = if (category == "") stringResource(R.string.label_unclassified) else category,
                     style = MaterialTheme.typography.labelLarge.copy(
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                        color = MaterialTheme.colorScheme.primary
                     ),
                     fontWeight = FontWeight.Bold
                 )
@@ -153,16 +156,33 @@ fun StarCard(
 
                 Spacer(modifier = Modifier.height(4.dp))
 
-                Text(
-                    text = if (category == "") stringResource(R.string.label_unclassified) else category,
-                    style = MaterialTheme.typography.labelMedium.copy(
-                        color = MaterialTheme.colorScheme.primary
-                    ),
-                )
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = modDate.toLocalDateString(false),
+                        style = MaterialTheme.typography.labelMedium.copy(
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    )
+
+                    Spacer(modifier = Modifier.weight(1f))
+
+                    Text(
+                        text = modDate.toRelativeTimeString(LocalContext.current),
+                        style = MaterialTheme.typography.labelMedium.copy(
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    )
+                }
+
 
                 Spacer(modifier = Modifier.height(16.dp))
             }
         }
+
+        if(!marked && !selected) Spacer(modifier = Modifier.width(16.dp))
+
         AnimatedVisibility(
             visible = !selected && marked,
             enter = enterTransition,

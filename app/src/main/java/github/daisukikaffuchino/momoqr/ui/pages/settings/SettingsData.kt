@@ -16,6 +16,7 @@ import github.daisukikaffuchino.momoqr.ui.components.ListItemContainer
 import github.daisukikaffuchino.momoqr.ui.components.TopAppBarScaffold
 import github.daisukikaffuchino.momoqr.ui.components.segmentedGroup
 import github.daisukikaffuchino.momoqr.ui.components.segmentedSection
+import github.daisukikaffuchino.momoqr.ui.pages.settings.components.SettingsItem
 import github.daisukikaffuchino.momoqr.ui.pages.settings.components.SwitchSettingsItem
 import github.daisukikaffuchino.momoqr.ui.viewmodels.MainViewModel
 import kotlinx.coroutines.launch
@@ -46,6 +47,16 @@ fun SettingsData(
                         title = stringResource(R.string.pref_save_image),
                         description = stringResource(R.string.pref_save_image_desc),
                         onCheckedChange = { scope.launch { DataStoreManager.setSaveDirectly(it) } }
+                    )
+                }
+            }
+            segmentedSection(R.string.label_category) {
+                segmentedGroup {
+                    SettingsItem(
+                        leadingIconRes = R.drawable.ic_interests,
+                        title = stringResource(R.string.pref_category_management),
+                        description = stringResource(R.string.pref_category_management_desc),
+                        onClick = toCategoryManager
                     )
                 }
             }

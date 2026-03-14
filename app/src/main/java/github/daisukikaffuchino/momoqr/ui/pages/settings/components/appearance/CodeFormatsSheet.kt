@@ -14,10 +14,6 @@ import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -25,7 +21,6 @@ import androidx.compose.ui.unit.dp
 import com.google.zxing.BarcodeFormat
 import github.daisukikaffuchino.momoqr.R
 import github.daisukikaffuchino.momoqr.ui.theme.Defaults
-import kotlin.collections.plus
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -37,9 +32,9 @@ fun CodeFormatsSheet(
 
     val context = LocalContext.current
     val sheetState = rememberModalBottomSheetState()
-    var currentSelection by remember {
-        mutableStateOf(selectedFormats + BarcodeFormat.QR_CODE)
-    }
+//    var currentSelection by remember {
+//        mutableStateOf(selectedFormats + BarcodeFormat.QR_CODE)
+//    }
     val supportedFormats = listOf(
         BarcodeFormat.QR_CODE,
         BarcodeFormat.AZTEC,
@@ -60,14 +55,14 @@ fun CodeFormatsSheet(
         sheetState = sheetState
     ) {
 
-        Column(Modifier.Companion.padding(horizontal = Defaults.settingsItemVerticalPadding)) {
+        Column(Modifier.padding(horizontal = Defaults.settingsItemVerticalPadding)) {
 
             Text(
                 text = stringResource(R.string.pref_identification_type),
                 style = MaterialTheme.typography.titleLarge
             )
 
-            Spacer(Modifier.Companion.height(Defaults.settingsItemVerticalPadding))
+            Spacer(Modifier.height(Defaults.settingsItemVerticalPadding))
 
             FlowRow(
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -79,7 +74,7 @@ fun CodeFormatsSheet(
                     val isQr = format == BarcodeFormat.QR_CODE
 
                     FilterChip(
-                        selected = currentSelection.contains(format),
+                        selected = selectedFormats.contains(format),
 
                         onClick = {
 
@@ -93,11 +88,11 @@ fun CodeFormatsSheet(
                                 return@FilterChip
                             }
 
-                            currentSelection =
-                                if (currentSelection.contains(format))
-                                    currentSelection - format
+                            val currentSelection =
+                                if (selectedFormats.contains(format))
+                                    selectedFormats - format
                                 else
-                                    currentSelection + format
+                                    selectedFormats + format
 
                             onFormatsChange(currentSelection)
                         },

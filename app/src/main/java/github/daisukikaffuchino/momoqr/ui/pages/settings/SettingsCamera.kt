@@ -6,8 +6,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -34,9 +34,7 @@ fun SettingsCamera(
     modifier: Modifier = Modifier
 ) {
     val codeFormats by DataStoreManager.barcodeFormatsFlow.collectAsState(
-        initial = setOf(
-            BarcodeFormat.QR_CODE
-        )
+        initial = emptySet()
     )
     val switchCamera by DataStoreManager.switchCameraFlow.collectAsState(initial = AppConstants.PREF_SWITCH_CAMERA_DEFAULT)
     val beepSound by DataStoreManager.beepSoundFlow.collectAsState(initial = AppConstants.PREF_BEEP_SOUND_DEFAULT)
@@ -45,28 +43,13 @@ fun SettingsCamera(
     val correctionLevel by DataStoreManager.correctionLevelFlow.collectAsState(initial = AppConstants.PREF_CORRECTION_LEVEL_DEFAULT)
 
     val scope = rememberCoroutineScope()
-    var showFormatsSheet by remember { mutableStateOf(false) }
-
-    if (showFormatsSheet) {
-        CodeFormatsSheet(
-            selectedFormats = codeFormats,
-            onFormatsChange = { newFormats ->
-                scope.launch {
-                    DataStoreManager.setCodeFormats(newFormats)
-                }
-            },
-            onDismiss = {
-                showFormatsSheet = false
-            }
-        )
-    }
+    var showFormatsSheet by rememberSaveable { mutableStateOf(false) }
 
     TopAppBarScaffold(
         title = stringResource(R.string.pref_camera),
         onBack = onNavigateUp,
         modifier = modifier,
     ) {
-
         ListItemContainer(Modifier.fillMaxWidth()) {
             segmentedSection(R.string.pref_label_camera) {
                 segmentedGroup {
@@ -125,6 +108,20 @@ fun SettingsCamera(
             item {
                 SettingsPlainBox(stringResource(R.string.tip_may_cause_rendering_issues))
             }
+        }
+
+        if (showFormatsSheet) {
+            CodeFormatsSheet(
+                selectedFormats = codeFormats.ifEmpty { setOf(BarcodeFormat.QR_CODE) },
+                onFormatsChange = { newFormats ->
+                    scope.launch {
+                        DataStoreManager.setCodeFormats(newFormats)
+                    }
+                },
+                onDismiss = {
+                    showFormatsSheet = false
+                }
+            )
         }
 
     }

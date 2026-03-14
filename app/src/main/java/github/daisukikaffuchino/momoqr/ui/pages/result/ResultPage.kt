@@ -159,14 +159,16 @@ fun ResultEditorPage(
     )
 
     val originalCategories by DataStoreManager.categoriesFlow.collectAsState(initial = emptyList())
-    val categories = originalCategories
-        .mapIndexed { index, category ->
-            ChipItem(
-                id = index,
-                name = category
-            )
-        } + ChipItem(id = -2, name = stringResource(R.string.label_unclassified)) +
-            ChipItem(id = -1, name = stringResource(R.string.label_customization))
+    val unclassified = stringResource(R.string.label_unclassified)
+    val customization = stringResource(R.string.label_customization)
+
+    val categories = buildList {
+        add(ChipItem(-2, unclassified))
+        originalCategories.forEachIndexed { index, category ->
+            add(ChipItem(index, category))
+        }
+        add(ChipItem(-1, customization))
+    }
 
     var defaultIndex by remember { mutableIntStateOf(-2) }
     LaunchedEffect(originalCategories, stars) {
@@ -215,7 +217,11 @@ fun ResultEditorPage(
         )
     )
 
+    // 转场期间禁用返回，以防闪屏
+    val blockBackPress = transitionRunning && !skipTransition
+
     BackHandler {
+        if (blockBackPress) return@BackHandler
         when {
             scaffoldState.bottomSheetState.currentValue == SheetValue.Expanded -> scope.launch {
                 scaffoldState.bottomSheetState.partialExpand()

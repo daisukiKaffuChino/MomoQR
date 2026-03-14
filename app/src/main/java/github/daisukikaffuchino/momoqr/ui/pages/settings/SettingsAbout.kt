@@ -34,6 +34,7 @@ import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -81,7 +82,7 @@ fun SettingsAbout(
     val context = LocalContext.current
     val view = LocalView.current
     val scope = rememberCoroutineScope()
-    var openPolicyDialog by remember { mutableStateOf(false) }
+    var openPolicyDialog by rememberSaveable { mutableStateOf(false) }
     val systemLanguage = if (!context.resources.configuration.locales.isEmpty) {
         context.resources.configuration.locales[0].language
     } else ""

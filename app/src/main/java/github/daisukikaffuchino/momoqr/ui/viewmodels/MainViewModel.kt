@@ -1,6 +1,6 @@
 package github.daisukikaffuchino.momoqr.ui.viewmodels
 
-import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridState
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -68,7 +68,7 @@ class MainViewModel @Inject constructor() : ViewModel() {
             initialValue = emptyList()
         )
 
-    val starListState = LazyListState()
+    val starGridState = LazyStaggeredGridState()
     var searchMode by mutableStateOf(false)
         private set
     val searchFieldState = TextFieldState()

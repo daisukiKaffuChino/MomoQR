@@ -28,7 +28,7 @@ class ResultState(val initialStar: StarEntity? = null) {
     var showDeleteConfirmDialog by mutableStateOf(false)
 
     fun setErrorIfNotValid(): Boolean {
-        val categoryMaxLength = 20
+        val categoryMaxLength = 16
         val qr = qrContent.trim()
         val qrMaxBytes = QRCodeECL.Companion.fromFloat(ecl).getQrMaxBytes()
         val qrBytesLength = qr.toByteArray(Charsets.UTF_8).size

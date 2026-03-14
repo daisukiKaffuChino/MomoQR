@@ -1,5 +1,6 @@
 package github.daisukikaffuchino.momoqr.utils
 
+import android.content.Context
 import androidx.compose.foundation.shape.CornerBasedShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -10,9 +11,14 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.ContentDrawScope
 import androidx.compose.ui.unit.Dp
+import github.daisukikaffuchino.momoqr.R
 import java.text.SimpleDateFormat
+import java.util.Calendar
 import java.util.Date
 import java.util.Locale
+import kotlin.compareTo
+import kotlin.time.Duration.Companion.days
+import kotlin.time.Duration.Companion.milliseconds
 
 /**
  * 获取部分圆角的形状
@@ -66,17 +72,50 @@ fun ContentDrawScope.drawFadedEdge(
  * @receiver Long? 时间戳（单位为毫秒）或 null
  * @return String 格式化后的日期字符串。如果为传入参数为null则返回空字符串，反之格式为 “yyyy-MM-dd”
  */
-fun Long?.toLocalDateString(): String {
+fun Long?.toLocalDateString(displayYear: Boolean = true): String {
     if (this == null) return ""
-    val date = Date(this)
-    val format = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault())
-    return format.format(date)
+    val pattern = if (displayYear)
+        "yyyy-MM-dd HH:mm"
+    else
+        "MM-dd HH:mm"
+    val format = SimpleDateFormat(pattern, Locale.getDefault())
+    return format.format(Date(this))
 }
 
-@Composable
-fun disabledContentColor(alpha: Float = 0.38f): Color =
-    MaterialTheme.colorScheme.onSurface.copy(alpha = alpha)
+fun Long?.toRelativeTimeString(context: Context): String {
+    if (this == null) return ""
+    val today = Calendar.getInstance().apply {
+        set(Calendar.HOUR_OF_DAY, 8)
+        set(Calendar.MINUTE, 0)
+        set(Calendar.SECOND, 0)
+        set(Calendar.MILLISECOND, 0)
+    }.timeInMillis
+    val diff = (this - today).milliseconds
 
-@Composable
-fun disabledContainerColor(alpha: Float = 0.12f): Color =
-    MaterialTheme.colorScheme.onSurface.copy(alpha = alpha)
+    return diff.toComponents { days, _, _, _, _ ->
+        when {
+            days.days == (-1).days -> context.getString(R.string.time_yesterday)
+            days.days < (-1).days && days.days > (-7).days -> context.getString(
+                R.string.time_days_ago,
+                -days.toInt()
+            )
+
+            days.days in (-7).days..<(-30).days -> context.getString(
+                R.string.time_weeks_ago,
+                -(days / 7).toInt()
+            )
+
+            days.days in (-30).days..<(-365).days -> context.getString(
+                R.string.time_months_ago,
+                -(days / 30).toInt()
+            )
+
+            days.days <= (-365).days -> context.getString(
+                R.string.time_years_ago,
+                -(days / 365).toInt()
+            )
+
+            else -> context.getString(R.string.time_today)
+        }
+    }
+}

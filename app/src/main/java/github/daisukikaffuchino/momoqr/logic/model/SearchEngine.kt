@@ -7,6 +7,8 @@ enum class SearchEngine(
     GOOGLE("google", "Google"),
     BING("bing", "Bing"),
     YANDEX("yandex", "Yandex"),
+    STARTPAGE("startpage", "Startpage"),
+    DUCKDUCKGO("duckduckgo", "DuckDuckGo"),
     BAIDU("baidu", "Baidu");
 
     companion object {

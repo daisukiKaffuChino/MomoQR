@@ -1,5 +1,6 @@
 package github.daisukikaffuchino.momoqr.ui.pages.stars
 
+import android.content.res.Configuration
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
@@ -10,13 +11,12 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
+import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
@@ -33,6 +33,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -61,6 +62,9 @@ fun SharedTransitionScope.StarsPage(
 ) {
     val starLists by viewModel.sortedStarList.collectAsState(initial = emptyList())
     val selectedStars = viewModel.selectedStarIds.collectAsState()
+
+    val configuration = LocalConfiguration.current
+    val isLandscape = configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
 
     // 状态持久化
     val searchFieldState = viewModel.searchFieldState
@@ -141,14 +145,14 @@ fun SharedTransitionScope.StarsPage(
                         )
                     }
                 } else {
-                    LazyColumn(
-                        state = viewModel.starListState,
-                        verticalArrangement = Arrangement.spacedBy(Defaults.settingsItemPadding),
-                        modifier = Modifier.fillMaxSize()
+                    LazyVerticalStaggeredGrid(
+                        columns = StaggeredGridCells.Fixed(if (isLandscape) 2 else 1),
+                        state = viewModel.starGridState,
+                        verticalItemSpacing = Defaults.settingsItemPadding,
+                        horizontalArrangement = Arrangement.spacedBy(Defaults.settingsItemPadding),
+                        modifier = Modifier.fillMaxSize(),
+                       // contentPadding = PaddingValues(Defaults.screenVerticalPadding)
                     ) {
-                        item {
-                            Spacer(modifier = Modifier.size(Defaults.screenVerticalPadding))
-                        }
                         items(
                             items = filteredStarList,
                             key = { task -> task.id }
@@ -168,8 +172,11 @@ fun SharedTransitionScope.StarsPage(
                                 },
                                 onCardLongClick = { viewModel.toggleStarSelection(starEntity) },
                                 modifier = Modifier
+                                    .fillMaxWidth()
                                     .sharedBounds(
-                                        sharedContentState = rememberSharedContentState(key = "${AppConstants.KEY_STARS_ITEM_TRANSITION}_${starEntity.id}"),
+                                        sharedContentState = rememberSharedContentState(
+                                            key = "${AppConstants.KEY_STARS_ITEM_TRANSITION}_${starEntity.id}"
+                                        ),
                                         animatedVisibilityScope = LocalNavAnimatedContentScope.current,
                                         resizeMode = SharedTransitionScope.ResizeMode.RemeasureToBounds
                                     )
@@ -179,10 +186,6 @@ fun SharedTransitionScope.StarsPage(
                                         fadeOutSpec = MaterialTheme.motionScheme.fastEffectsSpec()
                                     )
                             )
-                        }
-
-                        item {
-                            Spacer(modifier = Modifier.size(Defaults.screenVerticalPadding))
                         }
                     }
                 }
