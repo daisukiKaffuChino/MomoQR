@@ -22,32 +22,34 @@ import com.google.zxing.common.HybridBinarizer
 object QrReaderUtil {
     private const val TAG = "QrReaderUtil"
 
-    fun scanImageFromGallery(context: Context, uri: Uri, formats: List<BarcodeFormat>): Result? {
-        val hints = mapOf<DecodeHintType, Any>(
-            DecodeHintType.CHARACTER_SET to "UTF-8",
-            DecodeHintType.TRY_HARDER to true
+    fun scanImageFromGallery(
+        context: Context,
+        uri: Uri,
+        formats: List<BarcodeFormat>
+    ): Result? {
+        val hints = mapOf(
+            DecodeHintType.TRY_HARDER to true,
+            DecodeHintType.POSSIBLE_FORMATS to formats,
+            DecodeHintType.CHARACTER_SET to "UTF-8"
         )
 
-        val mSizes = intArrayOf(1, 2, 4, 8)
-        //val reader = QRCodeReader()
         val reader = MultiFormatReader().apply {
-            setHints(
-                mapOf(
-                    DecodeHintType.POSSIBLE_FORMATS to formats,
-                    DecodeHintType.TRY_HARDER to true,
-                    DecodeHintType.CHARACTER_SET to "UTF-8"
-                )
-            )
+            setHints(hints)
         }
 
-        for (mSize in mSizes) {
-            val bitmap = decodeUri(context, uri, mSize) ?: continue
+        // 按“最大边长”逐步降采样重试
+        // 前面优先保留更多细节，后面优先保命和降低内存占用
+        val maxSides = intArrayOf(1600, 1200, 900, 640)
+
+        for (maxSide in maxSides) {
+            val bitmap = decodeSampledBitmapFromUri(context, uri, maxSide) ?: continue
 
             try {
                 decodeBitmap(bitmap, reader, hints)?.let { return it }
             } finally {
-                if (!bitmap.isRecycled)
+                if (!bitmap.isRecycled) {
                     bitmap.recycle()
+                }
             }
         }
 
@@ -61,52 +63,97 @@ object QrReaderUtil {
     ): Result? {
         val width = bitmap.width
         val height = bitmap.height
-        val pixels = IntArray(width * height)
-        bitmap.getPixels(pixels, 0, width, 0, 0, width, height)
 
-        val source = RGBLuminanceSource(width, height, pixels)
+        return try {
+            val pixels = IntArray(width * height)
+            bitmap.getPixels(pixels, 0, width, 0, 0, width, height)
 
-        val bitmapsToTry = listOf(
-            BinaryBitmap(HybridBinarizer(source)),
-            BinaryBitmap(GlobalHistogramBinarizer(source))
-        )
+            val source = RGBLuminanceSource(width, height, pixels)
 
-        for (binaryBitmap in bitmapsToTry) {
-            try {
-                return reader.decode(binaryBitmap, hints)
-            } catch (_: NotFoundException) {
-            } catch (_: ChecksumException) {
-            } catch (_: FormatException) {
-            } finally {
-                reader.reset()
+            val bitmapsToTry = listOf(
+                BinaryBitmap(HybridBinarizer(source)),
+                BinaryBitmap(GlobalHistogramBinarizer(source))
+            )
+
+            for (binaryBitmap in bitmapsToTry) {
+                try {
+                    return reader.decode(binaryBitmap, hints)
+                } catch (_: NotFoundException) {
+                } catch (_: ChecksumException) {
+                } catch (_: FormatException) {
+                } finally {
+                    reader.reset()
+                }
             }
-        }
 
-        return null
+            null
+        } catch (oom: OutOfMemoryError) {
+            Log.e(TAG, "decodeBitmap OOM: ${width}x$height", oom)
+            null
+        } catch (t: Throwable) {
+            Log.e(TAG, "decodeBitmap failed", t)
+            null
+        }
     }
 
-    private fun decodeUri(
+    private fun decodeSampledBitmapFromUri(
         context: Context,
         uri: Uri,
-        mSize: Int
+        maxSide: Int
     ): Bitmap? {
-        val bounds = BitmapFactory.Options().apply {
+        val boundsOptions = BitmapFactory.Options().apply {
             inJustDecodeBounds = true
         }
-        resolveUri(context, uri, bounds)
 
-        val options = BitmapFactory.Options().apply {
-            inSampleSize = mSize
+        resolveUri(context, uri, boundsOptions)
+
+        val srcWidth = boundsOptions.outWidth
+        val srcHeight = boundsOptions.outHeight
+
+        if (srcWidth <= 0 || srcHeight <= 0) {
+            Log.e(TAG, "decodeSampledBitmapFromUri: invalid bounds for $uri")
+            return null
+        }
+
+        val sampleSize = calculateInSampleSize(
+            width = srcWidth,
+            height = srcHeight,
+            maxSide = maxSide
+        )
+
+        val decodeOptions = BitmapFactory.Options().apply {
+            inSampleSize = sampleSize
             inJustDecodeBounds = false
             inPreferredConfig = Bitmap.Config.ARGB_8888
         }
 
         return try {
-            resolveUriForBitmap(context, uri, options)
-        } catch (e: Throwable) {
-            Log.e(TAG, "decodeUri failed: $uri, mSize=$mSize", e)
+            resolveUriForBitmap(context, uri, decodeOptions)
+        } catch (oom: OutOfMemoryError) {
+            Log.e(TAG, "decodeSampledBitmapFromUri OOM: $uri, maxSide=$maxSide, sampleSize=$sampleSize", oom)
+            null
+        } catch (t: Throwable) {
+            Log.e(TAG, "decodeSampledBitmapFromUri failed: $uri, maxSide=$maxSide, sampleSize=$sampleSize", t)
             null
         }
+    }
+
+    private fun calculateInSampleSize(
+        width: Int,
+        height: Int,
+        maxSide: Int
+    ): Int {
+        var sampleSize = 1
+        var currentWidth = width
+        var currentHeight = height
+
+        while (currentWidth > maxSide || currentHeight > maxSide) {
+            currentWidth /= 2
+            currentHeight /= 2
+            sampleSize *= 2
+        }
+
+        return sampleSize.coerceAtLeast(1)
     }
 
     private fun resolveUri(
@@ -127,7 +174,6 @@ object QrReaderUtil {
             }
 
             else -> Log.e(TAG, "Unsupported uri scheme: $uri")
-
         }
     }
 
@@ -155,5 +201,4 @@ object QrReaderUtil {
             }
         }
     }
-
 }

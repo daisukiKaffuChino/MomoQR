@@ -354,7 +354,7 @@ fun ResultEditorPage(
                                     ""
                                 else
                                     categories.firstOrNull { it.id == uiState.selectedCategoryIndex }?.name.orEmpty()
-                                
+
                                 val item = StarEntity(
                                     id = stars.id,
                                     content = uiState.qrContent,
@@ -422,7 +422,7 @@ fun ResultEditorPage(
                     )
                     StarCategoryChip(
                         items = categories,
-                        defaultSelectedItemIndex = uiState.selectedCategoryIndex,
+                        selectedItemIndex = uiState.selectedCategoryIndex,
                         isLoading = originalCategories.isEmpty(),
                         onCategorySelected = { uiState.selectedCategoryIndex = it },
                         modifier = Modifier.fillMaxWidth()

@@ -11,6 +11,7 @@ import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -20,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import github.daisukikaffuchino.momoqr.R
+import github.daisukikaffuchino.momoqr.constants.AppConstants
 import github.daisukikaffuchino.momoqr.logic.datastore.DataStoreManager
 import github.daisukikaffuchino.momoqr.ui.components.BasicDialog
 import github.daisukikaffuchino.momoqr.ui.components.ListItemContainer
@@ -41,6 +43,7 @@ fun SettingsLab(
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     var openSysInfoDialog by remember { mutableStateOf(false) }
+    val contrastLevel by DataStoreManager.hiddenOptionContrastLevelFlow.collectAsState(initial = false)
 
     TopAppBarScaffold(
         title = stringResource(R.string.pref_lab),
@@ -88,6 +91,18 @@ fun SettingsLab(
                         onClick = {
                             openSysInfoDialog = true
                         }
+                    )
+                }
+            }
+
+            segmentedSection(titleString = "Hidden Options") {
+                segmentedGroup {
+                    SwitchSettingsItem(
+                        checked = contrastLevel,
+                        leadingIconRes = R.drawable.ic_settings,
+                        title = "Theme -> Contrast Level",
+                        description = "Show hidden options",
+                        onCheckedChange = { scope.launch { DataStoreManager.setHiddenOptionContrastLevel(it) } }
                     )
                 }
             }

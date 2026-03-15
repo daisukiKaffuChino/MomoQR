@@ -55,6 +55,7 @@ object DataStoreManager {
     private val SEARCH_ENGINE = stringPreferencesKey(AppConstants.PREF_SEARCH_ENGINE)
     private val SAVE_DIRECTLY = booleanPreferencesKey(AppConstants.PREF_NOT_ASK_SAVE_PATH)
     private val QR_RENDER_QUALITY = stringPreferencesKey(AppConstants.PREF_IMAGE_QUALITY)
+    private val HIDDEN_OPTION_CONTRAST_LEVEL = booleanPreferencesKey(AppConstants.PREF_HIDDEN_OPTION_CONTRAST_LEVEL)
 
     // Getters
     val dynamicColorFlow: Flow<Boolean> = dataStore.data.map { preferences ->
@@ -140,6 +141,10 @@ object DataStoreManager {
         QrRenderQuality.fromValue(
             preferences[QR_RENDER_QUALITY] ?: QrRenderQuality.BALANCED.value
         )
+    }
+
+    val hiddenOptionContrastLevelFlow: Flow<Boolean> = dataStore.data.map { preferences ->
+        preferences[HIDDEN_OPTION_CONTRAST_LEVEL] ?: false
     }
 
 
@@ -261,5 +266,10 @@ object DataStoreManager {
         }
     }
 
+    suspend fun setHiddenOptionContrastLevel(value: Boolean) {
+        dataStore.edit { preferences ->
+            preferences[HIDDEN_OPTION_CONTRAST_LEVEL] = value
+        }
+    }
 
 }

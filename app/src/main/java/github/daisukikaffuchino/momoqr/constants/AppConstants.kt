@@ -43,22 +43,29 @@ object AppConstants {
 
     const val PREF_SWITCH_CAMERA = "switch_camera"
     const val PREF_SWITCH_CAMERA_DEFAULT = false
+
     const val PREF_BEEP_SOUND = "beep_sound"
     const val PREF_BEEP_SOUND_DEFAULT = true
+
     const val PREF_ENHANCED_PREPROCESSING = "enhanced_preprocessing"
     const val PREF_ENHANCED_PREPROCESSING_DEFAULT = false
+
     const val PREF_AUTO_COPY = "auto_copy"
     const val PREF_AUTO_COPY_DEFAULT = false
+
     const val PREF_CORRECTION_LEVEL = "correction_level"
     const val PREF_CORRECTION_LEVEL_DEFAULT = 15f
-    const val PREF_SHOW_LAB = "show_lab"
-    const val PREF_SEARCH_ENGINE = "search_engine"
 
     const val PREF_NOT_ASK_SAVE_PATH = "not_ask_save_path"
     const val PREF_NOT_ASK_SAVE_PATH_DEFAULT = false
 
     const val PREF_IMAGE_QUALITY = "image_quality"
+    const val PREF_SHOW_LAB = "show_lab"
+    const val PREF_SEARCH_ENGINE = "search_engine"
 
     const val PREF_CATEGORIES = "categories"
     const val PREF_CATEGORIES_DEFAULT = "[]"
+
+
+    const val PREF_HIDDEN_OPTION_CONTRAST_LEVEL = "hidden_option_contrast_level"
 }

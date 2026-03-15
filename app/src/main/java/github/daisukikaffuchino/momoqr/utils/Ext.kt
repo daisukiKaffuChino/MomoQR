@@ -1,9 +1,6 @@
 package github.daisukikaffuchino.momoqr.utils
 
 import android.content.Context
-import androidx.compose.foundation.shape.CornerBasedShape
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.BlendMode
@@ -16,29 +13,6 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
-import kotlin.compareTo
-import kotlin.time.Duration.Companion.days
-import kotlin.time.Duration.Companion.milliseconds
-
-/**
- * 获取部分圆角的形状
- *
- * @param topRounded 顶部是否圆角
- * @param bottomRounded 底部是否圆角
- * @param roundedShape 所需圆角形状
- */
-@Composable
-fun CornerBasedShape.getPartialRoundedShape(
-    topRounded: Boolean,
-    bottomRounded: Boolean,
-    roundedShape: CornerBasedShape
-): CornerBasedShape =
-    this.copy(
-        topStart = if (topRounded) roundedShape.topStart else this.topStart,
-        topEnd = if (topRounded) roundedShape.topEnd else this.topEnd,
-        bottomEnd = if (bottomRounded) roundedShape.bottomEnd else this.bottomEnd,
-        bottomStart = if (bottomRounded) roundedShape.bottomStart else this.bottomStart,
-    )
 
 /**
  * 绘制渐变边缘遮罩
@@ -66,12 +40,6 @@ fun ContentDrawScope.drawFadedEdge(
     )
 }
 
-/**
- * 将时间戳转换为本地日期字符串
- *
- * @receiver Long? 时间戳（单位为毫秒）或 null
- * @return String 格式化后的日期字符串。如果为传入参数为null则返回空字符串，反之格式为 “yyyy-MM-dd”
- */
 fun Long?.toLocalDateString(displayYear: Boolean = true): String {
     if (this == null) return ""
     val pattern = if (displayYear)
@@ -84,38 +52,23 @@ fun Long?.toLocalDateString(displayYear: Boolean = true): String {
 
 fun Long?.toRelativeTimeString(context: Context): String {
     if (this == null) return ""
+
     val today = Calendar.getInstance().apply {
-        set(Calendar.HOUR_OF_DAY, 8)
+        set(Calendar.HOUR_OF_DAY, 0)
         set(Calendar.MINUTE, 0)
         set(Calendar.SECOND, 0)
         set(Calendar.MILLISECOND, 0)
     }.timeInMillis
-    val diff = (this - today).milliseconds
 
-    return diff.toComponents { days, _, _, _, _ ->
-        when {
-            days.days == (-1).days -> context.getString(R.string.time_yesterday)
-            days.days < (-1).days && days.days > (-7).days -> context.getString(
-                R.string.time_days_ago,
-                -days.toInt()
-            )
+    val diffDays = ((this - today) / (24 * 60 * 60 * 1000)).toInt()
 
-            days.days in (-7).days..<(-30).days -> context.getString(
-                R.string.time_weeks_ago,
-                -(days / 7).toInt()
-            )
-
-            days.days in (-30).days..<(-365).days -> context.getString(
-                R.string.time_months_ago,
-                -(days / 30).toInt()
-            )
-
-            days.days <= (-365).days -> context.getString(
-                R.string.time_years_ago,
-                -(days / 365).toInt()
-            )
-
-            else -> context.getString(R.string.time_today)
-        }
+    return when {
+        diffDays == 0 -> context.getString(R.string.time_today)
+        diffDays == -1 -> context.getString(R.string.time_yesterday)
+        diffDays in -6..-2 -> context.getString(R.string.time_days_ago, -diffDays)
+        diffDays in -29..-7 -> context.getString(R.string.time_weeks_ago, (-diffDays + 6) / 7)
+        diffDays in -364..-30 -> context.getString(R.string.time_months_ago, (-diffDays + 29) / 30)
+        diffDays <= -365 -> context.getString(R.string.time_years_ago, (-diffDays + 364) / 365)
+        else -> context.getString(R.string.time_today)
     }
 }

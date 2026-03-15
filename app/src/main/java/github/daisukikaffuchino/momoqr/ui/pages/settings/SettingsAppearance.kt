@@ -39,6 +39,7 @@ fun SettingsAppearance(
     val darkMode by DataStoreManager.darkModeFlow.collectAsState(initial = AppConstants.PREF_DARK_MODE_DEFAULT)
     val paletteStyle by DataStoreManager.paletteStyleFlow.collectAsState(initial = AppConstants.PREF_PALETTE_STYLE_DEFAULT)
     val contrastLevel by DataStoreManager.contrastLevelFlow.collectAsState(initial = AppConstants.PREF_CONTRAST_LEVEL_DEFAULT)
+    val showHiddenContrastLevel by DataStoreManager.hiddenOptionContrastLevelFlow.collectAsState(initial = false)
 
     val uriHandler = LocalUriHandler.current
     val scope = rememberCoroutineScope()
@@ -71,10 +72,12 @@ fun SettingsAppearance(
                         isDarkMode = DarkMode.fromId(darkMode),
                         contrastLevel = ContrastLevel.fromFloat(contrastLevel)
                     )
-                    ContrastPicker(
-                        currentContrast = ContrastLevel.fromFloat(contrastLevel),
-                        onContrastChange = { scope.launch { DataStoreManager.setContrastLevel(it.value) } }
-                    )
+                    if (showHiddenContrastLevel) {
+                        ContrastPicker(
+                            currentContrast = ContrastLevel.fromFloat(contrastLevel),
+                            onContrastChange = { scope.launch { DataStoreManager.setContrastLevel(it.value) } }
+                        )
+                    }
                 }
             }
 

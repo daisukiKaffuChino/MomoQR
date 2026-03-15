@@ -16,7 +16,7 @@ import github.daisukikaffuchino.momoqr.ui.components.FilterChipGroup
 fun StarCategoryChip(
     modifier: Modifier = Modifier,
     items: List<ChipItem>,
-    defaultSelectedItemIndex: Int,
+    selectedItemIndex: Int,
     isLoading: Boolean = false,
     onCategorySelected: (Int) -> Unit
 ) {
@@ -35,7 +35,7 @@ fun StarCategoryChip(
         FilterChipGroup(
             modifier = Modifier,
             items = items,
-            defaultSelectedItemIndex = defaultSelectedItemIndex,
+            defaultSelectedItemIndex = selectedItemIndex,
             onSelectedChanged = onCategorySelected
         )
     }
