@@ -11,6 +11,8 @@ sealed class MomoScreen : NavKey {
 
         @Serializable
         data object Scan : MomoScreen()
+        @Serializable
+        data object Palette : MomoScreen()
     }
 
     @Serializable
@@ -42,9 +44,8 @@ sealed class MomoScreen : NavKey {
         @Serializable
         data object About : Settings()
 
-        // @Serializable
-        // data object AboutEasterEgg : Settings()
-
+        @Serializable
+        data object AboutDonate : Settings()
         @Serializable
         data object AboutLicence : Settings()
     }

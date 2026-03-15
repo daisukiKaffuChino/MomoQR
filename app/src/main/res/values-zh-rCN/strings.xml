@@ -26,6 +26,7 @@
     <string name="label_from_gallery">从图库</string>
     <string name="label_generate">生成</string>
     <string name="label_generate_color_palette">调色盘</string>
+    <string name="label_generate_color_palette_desc">自定义你的二维码风格</string>
     <string name="label_generate_text">纯文本</string>
     <string name="label_generate_from_clip_board">来自剪贴板</string>
     <string name="label_generate_wifi_sharing">Wi-Fi 共享</string>
@@ -78,8 +79,8 @@
     <string name="pref_sorting_method">排序方式</string>
     <string name="pref_haptic_feedback">触感反馈</string>
     <string name="pref_haptic_feedback_desc">为某些操作提供轻微的震动反馈</string>
-    <string name="pref_secure_mode">安全模式</string>
-    <string name="pref_secure_mode_desc">阻止截屏并保护后台预览图</string>
+    <string name="pref_use_in_app_browser">使用应用内浏览器</string>
+    <string name="pref_use_in_app_browser_desc">启用 Chrome 自定义标签页，可能需要先将支持的浏览器设为默认</string>
     <string name="pref_identification_type">识别类型</string>
     <string name="pref_identification_type_desc">通过移除不必要的条形码格式，分析速度将会更快</string>
     <string name="pref_front_camera">使用前置镜头</string>
@@ -97,6 +98,9 @@
     <string name="pref_save_image_desc">图片直接保存到 /Pictures/MomoQR 目录下，不需要手动选择路径</string>
     <string name="pref_category_management">分类管理</string>
     <string name="pref_category_management_desc">添加自定义分类标签</string>
+    <string name="pref_qr_render_quality">图像质量</string>
+    <string name="pref_donate">捐赠</string>
+    <string name="pref_donate_desc">遵循自愿原则。帮助 MomoQR 保持免费与无广告，并做得更好！</string>
 
     <string name="pref_label_theme">主题</string>
     <string name="pref_label_info">信息</string>
@@ -108,6 +112,7 @@
     <string name="pref_label_global">全局</string>
     <string name="pref_label_action">动作</string>
     <string name="pref_label_storage">存储</string>
+    <string name="pref_label_via_wechat">通过微信</string>
 
     <string name="palette_tonal_spot">基调</string>
     <string name="palette_neutral">中性</string>
@@ -152,6 +157,7 @@
     <string name="tip_select_all">全选</string>
     <string name="tip_no_item">没有可显示的项目</string>
     <string name="tip_search_not_found">未搜索到项目</string>
+    <string name="tip_donate_via_wechat">由于微信限制，请截屏后手动打开微信并前往“扫一扫”。</string>
 
     <string name="toast_press_again_to_exit">再次点击以退出</string>
     <string name="toast_failed_to_initialize_camera">初始化相机失败</string>
@@ -162,6 +168,7 @@
     <string name="toast_copied">已复制到剪贴板</string>
     <string name="toast_saved">已保存：</string>
     <string name="toast_save_failed">保存失败</string>
+    <string name="toast_not_installed_wechat">你还没有安装微信</string>
 
     <string name="time_today">一天内</string>
     <string name="time_yesterday">昨天</string>
@@ -169,6 +176,10 @@
     <string name="time_weeks_ago">%d 周前</string>
     <string name="time_months_ago">%d 个月前</string>
     <string name="time_years_ago">%d 年前</string>
+
+    <string name="qr_render_quality_high_quality">高质量</string>
+    <string name="qr_render_quality_balanced">平衡</string>
+    <string name="qr_render_quality_high_performance">高性能</string>
 
     <string name="error_no_content_entered">没有文本输入</string>
     <string name="error_no_content_entered_or_too_long">没有文本输入或文本过长</string>

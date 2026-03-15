@@ -30,15 +30,7 @@ fun ListItemContainer(
         state = state,
         modifier = modifier
     ) {
-        item {
-            Spacer(modifier = Modifier.size(Defaults.screenVerticalPadding))
-        }
-
         content()
-
-        item {
-            Spacer(modifier = Modifier.size(Defaults.screenVerticalPadding))
-        }
     }
 }
 

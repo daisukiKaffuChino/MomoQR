@@ -36,7 +36,7 @@ object Defaults {
     val settingsItemPadding = 4.dp
     val settingsSegmentedItemPadding = 2.dp
 
-    val homeScanCardHeight = 100.dp
+    val homeScanCardHeight = 110.dp
 
     val ScreenContainerShape: Shape
         @Composable
@@ -51,20 +51,20 @@ object Defaults {
             @Composable
             get() = MaterialTheme.colorScheme.surfaceContainer
 
-        val Primary: Color
+        val PrimaryMix: Color
             @Composable
             get() = lerp(
                 MaterialTheme.colorScheme.primary,
-                Color.White,
-                0.085f
+                MaterialTheme.colorScheme.surfaceDim,
+                0.25f
             )
 
-        val Secondary: Color
+        val SecondaryMix: Color
             @Composable
             get() = lerp(
                 MaterialTheme.colorScheme.secondary,
-                Color.White,
-                0.085f
+                MaterialTheme.colorScheme.surfaceDim,
+                0.25f
             )
 
     }

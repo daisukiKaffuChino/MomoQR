@@ -20,7 +20,7 @@ import github.daisukikaffuchino.momoqr.ui.theme.Defaults
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
-fun PalettePicker(
+fun AppPalettePicker(
     modifier: Modifier = Modifier,
     currentPalette: () -> PaletteStyle,
     onPaletteChange: (paletteStyle: PaletteStyle) -> Unit,
@@ -40,7 +40,7 @@ fun PalettePicker(
         items(items = paletteOptions, key = { it.id }) {
             val isSelected by remember { derivedStateOf { currentPalette() == it } }
 
-            PaletteItem(
+            AppPaletteItem(
                 isDynamicColor = isDynamicColor,
                 isDark = when (isDarkMode) {
                     DarkMode.FollowSystem -> isSystemInDarkTheme()

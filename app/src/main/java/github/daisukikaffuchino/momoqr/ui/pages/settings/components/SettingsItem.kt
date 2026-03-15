@@ -204,6 +204,57 @@ fun SettingsItem(
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
+fun TertiarySettingsItem(
+    modifier: Modifier = Modifier,
+    leadingIconRes: Int,
+    title: String,
+    description: String? = null,
+    trailingContent: (@Composable () -> Unit)? = null,
+    background: Color = MaterialTheme.colorScheme.tertiaryContainer.copy(alpha = 0.65f),
+    shapes: ButtonShapes = Defaults.largerShapes(),
+    enableClick: Boolean = true,
+    onClick: () -> Unit = {},
+) = SettingsItem(
+    modifier = modifier,
+    leadingIcon = {
+        Icon(
+            painter = painterResource(leadingIconRes),
+            contentDescription = null,
+            tint = MaterialTheme.colorScheme.onTertiaryContainer,
+            modifier = Modifier.padding(end = Defaults.settingsItemHorizontalPadding),
+        )
+    },
+    headlineContent = {
+        Text(
+            text = title,
+            maxLines = 2,
+            overflow = TextOverflow.Ellipsis,
+            style = MaterialTheme.typography.titleMedium.copy(
+                color = MaterialTheme.colorScheme.onTertiaryContainer,
+                fontSize = 18.sp
+            )
+        )
+    },
+    supportingContent = {
+        description?.let {
+            Text(
+                text = it,
+                overflow = TextOverflow.Ellipsis,
+                style = MaterialTheme.typography.bodyMedium.copy(
+                    color = MaterialTheme.colorScheme.onTertiaryContainer.copy(alpha = 0.85f)
+                )
+            )
+        }
+    },
+    trailingContent = trailingContent,
+    background = background,
+    shapes = shapes,
+    enableClick = enableClick,
+    onClick = onClick
+)
+
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@Composable
 fun SettingsItem(
     modifier: Modifier = Modifier,
     leadingIcon: (@Composable () -> Unit)? = null,

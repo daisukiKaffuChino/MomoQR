@@ -13,6 +13,7 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -50,6 +51,7 @@ import github.daisukikaffuchino.momoqr.ui.components.TopAppBarScaffold
 import github.daisukikaffuchino.momoqr.ui.components.segmentedGroup
 import github.daisukikaffuchino.momoqr.ui.components.segmentedSection
 import github.daisukikaffuchino.momoqr.ui.pages.home.components.GenerateActionCard
+import github.daisukikaffuchino.momoqr.ui.pages.home.components.PaletteCard
 import github.daisukikaffuchino.momoqr.ui.pages.home.components.ScanFromCameraCard
 import github.daisukikaffuchino.momoqr.ui.pages.home.components.ScanFromGalleryCard
 import github.daisukikaffuchino.momoqr.ui.theme.Defaults
@@ -65,6 +67,7 @@ import kotlinx.coroutines.withContext
 @Composable
 fun HomePage(
     toScanPage: () -> Unit,
+    toPalettePage: () -> Unit,
     toResultAddPage: (StarEntity) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -183,12 +186,12 @@ fun HomePage(
                         Configuration.ORIENTATION_LANDSCAPE ->
                             Modifier
                                 .fillMaxWidth()
-                                .height(112.dp)
+                                .height(122.dp)
 
                         else ->
                             Modifier
                                 .fillMaxWidth()
-                                .height(220.dp)
+                                .height(240.dp)
                     },
                     columns = when (configuration.orientation) {
                         Configuration.ORIENTATION_LANDSCAPE ->
@@ -249,6 +252,10 @@ fun HomePage(
                     )
                 }
             }
+
+            item { PaletteCard(onClick = { toPalettePage() }) }
+
+            item { Spacer(modifier = Modifier.height(16.dp)) }
 
         }
 

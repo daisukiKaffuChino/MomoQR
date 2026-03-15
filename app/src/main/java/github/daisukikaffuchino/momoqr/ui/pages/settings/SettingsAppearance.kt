@@ -23,7 +23,7 @@ import github.daisukikaffuchino.momoqr.ui.pages.settings.components.SwitchSettin
 import github.daisukikaffuchino.momoqr.ui.pages.settings.components.appearance.ContrastPicker
 import github.daisukikaffuchino.momoqr.ui.pages.settings.components.appearance.DarkModePicker
 import github.daisukikaffuchino.momoqr.ui.pages.settings.components.appearance.LanguageItem
-import github.daisukikaffuchino.momoqr.ui.pages.settings.components.appearance.PalettePicker
+import github.daisukikaffuchino.momoqr.ui.pages.settings.components.appearance.AppPalettePicker
 import github.daisukikaffuchino.momoqr.ui.components.segmentedGroup
 import github.daisukikaffuchino.momoqr.ui.components.segmentedSection
 import github.daisukikaffuchino.momoqr.utils.setAppLanguage
@@ -64,7 +64,7 @@ fun SettingsAppearance(
                         currentDarkMode = { DarkMode.fromId(darkMode) },
                         onDarkModeChange = { scope.launch { DataStoreManager.setDarkMode(it.id) } }
                     )
-                    PalettePicker(
+                    AppPalettePicker(
                         currentPalette = { PaletteStyle.fromId(paletteStyle) },
                         onPaletteChange = { scope.launch { DataStoreManager.setPaletteStyle(it.id) } },
                         isDynamicColor = dynamicColor,

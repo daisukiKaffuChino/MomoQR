@@ -1,21 +1,15 @@
 package github.daisukikaffuchino.momoqr.ui.pages.crash
 
 import android.os.Build
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.ButtonShapes
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.Icon
@@ -48,8 +42,8 @@ import github.daisukikaffuchino.momoqr.ui.activities.CrashActivity.Companion.BRA
 import github.daisukikaffuchino.momoqr.ui.activities.CrashActivity.Companion.CRASH_TIME_PREFIX
 import github.daisukikaffuchino.momoqr.ui.activities.CrashActivity.Companion.DEVICE_SDK_PREFIX
 import github.daisukikaffuchino.momoqr.ui.activities.CrashActivity.Companion.MODEL_PREFIX
+import github.daisukikaffuchino.momoqr.ui.pages.settings.components.TertiarySettingsItem
 import github.daisukikaffuchino.momoqr.ui.theme.Defaults
-import github.daisukikaffuchino.momoqr.ui.theme.animatedShape
 import java.text.SimpleDateFormat
 import java.util.Calendar
 
@@ -58,8 +52,7 @@ import java.util.Calendar
 fun CrashPage(
     crashLog: String,
     exitApp: () -> Unit,
-    modifier: Modifier = Modifier,
-    shapes: ButtonShapes = Defaults.largerShapes()
+    modifier: Modifier = Modifier
 ) {
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     val scrollState = rememberScrollState()
@@ -119,8 +112,6 @@ fun CrashPage(
             append(BEGINNING_CRASH).append("\n")
         }
 
-        val interactionSource = remember { MutableInteractionSource() }
-
         Column(
             modifier = Modifier
                 .padding(innerPadding)
@@ -128,29 +119,12 @@ fun CrashPage(
                 .fillMaxSize()
                 .verticalScroll(scrollState)
         ) {
-            Card(
-                modifier = Modifier.fillMaxWidth(),
-                shape = animatedShape(shapes, interactionSource),
-                colors = CardDefaults.cardColors(
-                    containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
-                )
-            ) {
-                Column(
-                    modifier = Modifier
-                        .clickable(
-                            enabled = true,
-                            onClick = {},
-                            interactionSource = interactionSource
-                        )
-                )
-                {
-                    Text(
-                        text = stringResource(R.string.tip_copy_logs_to_github),
-                        style = MaterialTheme.typography.bodyMedium,
-                        modifier = Modifier.padding(16.dp)
-                    )
-                }
-            }
+            TertiarySettingsItem(
+                leadingIconRes = R.drawable.ic_bug_report,
+                title = stringResource(R.string.tip_tips),
+                description = stringResource(R.string.tip_copy_logs_to_github),
+                onClick = {}
+            )
             Spacer(Modifier.height(16.dp))
             SelectionContainer {
                 Text(

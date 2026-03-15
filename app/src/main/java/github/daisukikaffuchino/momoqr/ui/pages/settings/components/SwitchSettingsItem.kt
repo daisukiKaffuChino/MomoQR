@@ -2,11 +2,15 @@ package github.daisukikaffuchino.momoqr.ui.pages.settings.components
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Switch
+import androidx.compose.material3.SwitchDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import github.daisukikaffuchino.momoqr.R
 import github.daisukikaffuchino.momoqr.ui.theme.Defaults
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
@@ -28,6 +32,23 @@ fun SwitchSettingsItem(
             Switch(
                 checked = checked,
                 enabled = enabled,
+                thumbContent = if (checked) {
+                    {
+                        Icon(
+                            painter = painterResource(R.drawable.ic_check),
+                            contentDescription = null,
+                            modifier = Modifier.size(SwitchDefaults.IconSize),
+                        )
+                    }
+                } else {
+                    {
+                        Icon(
+                            painter = painterResource(R.drawable.ic_close),
+                            contentDescription = null,
+                            modifier = Modifier.size(SwitchDefaults.IconSize),
+                        )
+                    }
+                },
                 onCheckedChange = null,
                 modifier = Modifier.padding(start = Defaults.settingsItemHorizontalPadding / 2)
             )

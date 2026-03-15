@@ -89,7 +89,6 @@ class MainActivity : AppCompatActivity() {
             val paletteStyle by DataStoreManager.paletteStyleFlow.collectAsState(initial = AppConstants.PREF_PALETTE_STYLE_DEFAULT)
             val contrastLevel by DataStoreManager.contrastLevelFlow.collectAsState(initial = AppConstants.PREF_CONTRAST_LEVEL_DEFAULT)
             val darkMode by DataStoreManager.darkModeFlow.collectAsState(initial = AppConstants.PREF_DARK_MODE_DEFAULT)
-            val secureMode by DataStoreManager.secureModeFlow.collectAsState(initial = AppConstants.PREF_SECURE_MODE_DEFAULT)
             val hapticFeedback by DataStoreManager.hapticFeedbackFlow.collectAsState(initial = AppConstants.PREF_HAPTIC_FEEDBACK_DEFAULT)
 
             // 深色模式
@@ -104,18 +103,6 @@ class MainActivity : AppCompatActivity() {
                 WindowCompat.getInsetsController(window, window.decorView).apply {
                     isAppearanceLightStatusBars = !darkTheme
                     isAppearanceLightNavigationBars = !darkTheme
-                }
-            }
-
-            // 阻止截屏相关配置
-            LaunchedEffect(secureMode) {
-                if (secureMode) {
-                    window.setFlags(
-                        WindowManager.LayoutParams.FLAG_SECURE,
-                        WindowManager.LayoutParams.FLAG_SECURE
-                    )
-                } else {
-                    window.clearFlags(WindowManager.LayoutParams.FLAG_SECURE)
                 }
             }
 
@@ -161,17 +148,14 @@ class MainActivity : AppCompatActivity() {
                         item(
                             icon = {
                                 Crossfade(selected) {
-                                    if (it) {
-                                        Icon(
-                                            painter = painterResource(destination.selectedIcon),
-                                            contentDescription = null
-                                        )
-                                    } else {
-                                        Icon(
-                                            painter = painterResource(destination.icon),
-                                            contentDescription = null
-                                        )
-                                    }
+                                    if (it) Icon(
+                                        painter = painterResource(destination.selectedIcon),
+                                        contentDescription = null
+                                    )
+                                    else Icon(
+                                        painter = painterResource(destination.icon),
+                                        contentDescription = null
+                                    )
                                 }
                             },
                             label = { Text(stringResource(destination.label)) },

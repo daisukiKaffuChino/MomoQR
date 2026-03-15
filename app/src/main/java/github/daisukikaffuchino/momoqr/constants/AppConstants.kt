@@ -30,9 +30,8 @@ object AppConstants {
 
     const val PREF_LANGUAGE = "language"
 
-
-    const val PREF_SECURE_MODE = "secure_mode"
-    const val PREF_SECURE_MODE_DEFAULT = false
+    const val PREF_OPEN_IN_APP_BROWSER = "open_in_app_browser"
+    const val PREF_OPEN_IN_APP_BROWSER_DEFAULT = false
 
     const val PREF_HAPTIC_FEEDBACK = "haptic_feedback"
     const val PREF_HAPTIC_FEEDBACK_DEFAULT = true
@@ -57,6 +56,8 @@ object AppConstants {
 
     const val PREF_NOT_ASK_SAVE_PATH = "not_ask_save_path"
     const val PREF_NOT_ASK_SAVE_PATH_DEFAULT = false
+
+    const val PREF_IMAGE_QUALITY = "image_quality"
 
     const val PREF_CATEGORIES = "categories"
     const val PREF_CATEGORIES_DEFAULT = "[]"

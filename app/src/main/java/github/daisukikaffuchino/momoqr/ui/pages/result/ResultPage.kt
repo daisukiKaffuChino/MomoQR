@@ -1,6 +1,7 @@
 package github.daisukikaffuchino.momoqr.ui.pages.result
 
 import android.annotation.SuppressLint
+import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.widget.Toast
 import androidx.activity.compose.BackHandler
@@ -17,6 +18,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -26,6 +28,8 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -41,7 +45,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -62,6 +65,7 @@ import github.daisukikaffuchino.momoqr.logic.database.StarEntity
 import github.daisukikaffuchino.momoqr.logic.datastore.DataStoreManager
 import github.daisukikaffuchino.momoqr.logic.model.QRCodeECL
 import github.daisukikaffuchino.momoqr.ui.components.ChipItem
+import github.daisukikaffuchino.momoqr.ui.components.ConfirmDialog
 import github.daisukikaffuchino.momoqr.ui.components.TopAppBarScaffold
 import github.daisukikaffuchino.momoqr.ui.pages.result.components.ActionButtonGroup
 import github.daisukikaffuchino.momoqr.ui.pages.result.components.MarkedCheckbox
@@ -71,9 +75,8 @@ import github.daisukikaffuchino.momoqr.ui.pages.result.components.ResultContentT
 import github.daisukikaffuchino.momoqr.ui.pages.result.components.ResultFloatingActionButton
 import github.daisukikaffuchino.momoqr.ui.pages.result.components.StarCategoryChip
 import github.daisukikaffuchino.momoqr.ui.theme.Defaults
+import github.daisukikaffuchino.momoqr.utils.LinkOpener
 import github.daisukikaffuchino.momoqr.utils.QrGenerateUtil.generateQrBitmap
-import androidx.core.net.toUri
-import github.daisukikaffuchino.momoqr.ui.components.ConfirmDialog
 import github.daisukikaffuchino.momoqr.utils.buildSearchUrl
 import github.daisukikaffuchino.momoqr.utils.copyToClipboard
 import github.daisukikaffuchino.momoqr.utils.rememberBitmapSaver
@@ -143,6 +146,8 @@ fun ResultEditorPage(
         if (autoCopy && skipTransition) context.copyToClipboard(stars.content)
     }
 
+    val openInAppBrowser by DataStoreManager.openInAppBrowserFlow.collectAsState(initial = AppConstants.PREF_OPEN_IN_APP_BROWSER_DEFAULT)
+
     val saveDirectly by DataStoreManager.saveDirectlyFlow.collectAsState(initial = AppConstants.PREF_NOT_ASK_SAVE_PATH_DEFAULT)
     val saveBitmap = context.rememberBitmapSaver(
         notAskForSavePath = saveDirectly,
@@ -170,18 +175,20 @@ fun ResultEditorPage(
         add(ChipItem(-1, customization))
     }
 
-    var defaultIndex by remember { mutableIntStateOf(-2) }
+    var categoryInitialized by rememberSaveable { mutableStateOf(false) }
     LaunchedEffect(originalCategories, stars) {
         if (originalCategories.isEmpty()) return@LaunchedEffect
-        if (isStarEntityEmpty) {
-            val index = if (categories.size == 2) -2 else 0
-            defaultIndex = index
-            uiState.selectedCategoryIndex = index
+        if (categoryInitialized) return@LaunchedEffect
+
+        val index = if (isStarEntityEmpty) {
+            -2
         } else {
-            val index = categories.firstOrNull { it.name == stars.category }?.id ?: -2
-            defaultIndex = index
-            uiState.selectedCategoryIndex = index
+            if (stars.category.isEmpty()) -2
+            else categories.firstOrNull { it.name == stars.category }?.id ?: -1
         }
+
+        uiState.selectedCategoryIndex = index
+        categoryInitialized = true
     }
 
     val isCustomCategory by remember { derivedStateOf { uiState.selectedCategoryIndex == -1 } }
@@ -189,10 +196,13 @@ fun ResultEditorPage(
 
     var qrBitmap by remember(stars.content) { mutableStateOf<Bitmap?>(null) }
 
+
     LaunchedEffect(stars.content) {
+        val qrRenderQuality = DataStoreManager.qrRenderQualityFlow.first()
         generateQrBitmap(
             content = stars.content,
             eclFloat = uiState.ecl,
+            qrSize = qrRenderQuality.getSize(),
             onSuccess = { bitmap ->
                 qrBitmap = bitmap
             },
@@ -261,6 +271,9 @@ fun ResultEditorPage(
         label = "fab_peek_height"
     )
 
+    val configuration = LocalConfiguration.current
+    val isLandscape = configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
+
     BottomSheetScaffold(
         scaffoldState = scaffoldState,
         sheetPeekHeight = animatedSheetPeekHeight,
@@ -270,8 +283,10 @@ fun ResultEditorPage(
                     .fillMaxWidth()
                     .height(screenHeight * 0.81f)
             ) {
-                LazyColumn(
-                    verticalArrangement = Arrangement.spacedBy(16.dp),
+                LazyVerticalStaggeredGrid(
+                    columns = StaggeredGridCells.Fixed(if (isLandscape) 2 else 1),
+                    verticalItemSpacing = 16.dp,
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(horizontal = Defaults.screenHorizontalPadding)
@@ -282,16 +297,14 @@ fun ResultEditorPage(
                                 shape = RoundedCornerShape(24.dp),
                                 modifier = Modifier.fillMaxWidth()
                             ) {
-                                Box(
-                                    modifier = Modifier.fillMaxWidth()
-                                ) {
-                                    AsyncImage(
-                                        model = it,
-                                        contentDescription = stringResource(R.string.label_image_preview),
-                                        modifier = Modifier.fillMaxSize(),
-                                        contentScale = ContentScale.Crop
-                                    )
-                                }
+                                AsyncImage(
+                                    model = it,
+                                    contentDescription = stringResource(R.string.label_image_preview),
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .aspectRatio(1f),
+                                    contentScale = ContentScale.Crop
+                                )
                             }
                         }
                     }
@@ -340,8 +353,8 @@ fun ResultEditorPage(
                                 else if (isUnclassifiedCategory)
                                     ""
                                 else
-                                    categories[uiState.selectedCategoryIndex].name
-
+                                    categories.firstOrNull { it.id == uiState.selectedCategoryIndex }?.name.orEmpty()
+                                
                                 val item = StarEntity(
                                     id = stars.id,
                                     content = uiState.qrContent,
@@ -368,16 +381,28 @@ fun ResultEditorPage(
                             scope.launch {
                                 val searchEngine = DataStoreManager.searchEngineFlow.first()
                                 val url = buildSearchUrl(uiState.qrContent, searchEngine)
-                                uriHandler.openUri(url)
+                                LinkOpener.open(
+                                    context = context,
+                                    uriHandler = uriHandler,
+                                    url = url,
+                                    useCustomTabs = openInAppBrowser
+                                )
                             }
                         },
-                        onOpenLink = { uriHandler.openUri(uiState.qrContent) },
+                        onOpenLink = {
+                            LinkOpener.open(
+                                context = context,
+                                uriHandler = uriHandler,
+                                url = uiState.qrContent,
+                                useCustomTabs = openInAppBrowser
+                            )
+                        },
                         onShareText = { context.shareText(uiState.qrContent) },
                         onCopyContent = { context.copyToClipboard(uiState.qrContent) },
                         onSaveImage = {
                             qrBitmap?.let { saveBitmap(it) }
                         },
-                        isUrl = isValidUrl(uiState.qrContent)
+                        isUrl = LinkOpener.isValidUrl(uiState.qrContent)
                     )
                 }
 
@@ -397,7 +422,7 @@ fun ResultEditorPage(
                     )
                     StarCategoryChip(
                         items = categories,
-                        defaultSelectedItemIndex = defaultIndex,
+                        defaultSelectedItemIndex = uiState.selectedCategoryIndex,
                         isLoading = originalCategories.isEmpty(),
                         onCategorySelected = { uiState.selectedCategoryIndex = it },
                         modifier = Modifier.fillMaxWidth()
@@ -429,6 +454,10 @@ fun ResultEditorPage(
                         modifier = Modifier.fillMaxWidth()
                     )
                 }
+
+                item(key = 4) {
+                    Spacer(modifier = Modifier.height(72.dp))
+                }
             }
         }
 
@@ -454,11 +483,3 @@ fun ResultEditorPage(
     )
 }
 
-private fun isValidUrl(text: String): Boolean {
-    return try {
-        val uri = text.toUri()
-        uri.scheme == "http" || uri.scheme == "https"
-    } catch (_: Exception) {
-        false
-    }
-}

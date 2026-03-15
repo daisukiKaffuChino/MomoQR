@@ -42,7 +42,7 @@ import github.daisukikaffuchino.momoqr.utils.VibrationUtil
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
-fun PaletteItem(
+fun AppPaletteItem(
     modifier: Modifier = Modifier,
     isDynamicColor: Boolean,
     isDark: Boolean,

@@ -35,7 +35,7 @@ fun SettingsInteraction(
     onNavigateUp: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val secureMode by DataStoreManager.secureModeFlow.collectAsState(initial = AppConstants.PREF_SECURE_MODE_DEFAULT)
+    val openInAppBrowser by DataStoreManager.openInAppBrowserFlow.collectAsState(initial = AppConstants.PREF_OPEN_IN_APP_BROWSER_DEFAULT)
     val sortingMethod by DataStoreManager.sortingMethodFlow.collectAsState(initial = AppConstants.PREF_SORTING_METHOD_DEFAULT)
     val hapticFeedback by DataStoreManager.hapticFeedbackFlow.collectAsState(initial = AppConstants.PREF_HAPTIC_FEEDBACK_DEFAULT)
     val searchEngine by DataStoreManager.searchEngineFlow.collectAsState(initial = SearchEngine.GOOGLE)
@@ -64,7 +64,7 @@ fun SettingsInteraction(
             segmentedSection(R.string.pref_label_action) {
                 segmentedGroup {
                     SettingsItem(
-                        leadingIconRes = R.drawable.ic_search,
+                        leadingIconRes = R.drawable.ic_travel_explore,
                         title = stringResource(R.string.pref_search_engine),
                         description = searchEngine.label,
                         onClick = { showSearchEngineDialog = true }
@@ -74,11 +74,11 @@ fun SettingsInteraction(
             segmentedSection(R.string.pref_label_global) {
                 segmentedGroup {
                     SwitchSettingsItem(
-                        checked = secureMode,
-                        leadingIconRes = R.drawable.ic_shield,
-                        title = stringResource(R.string.pref_secure_mode),
-                        description = stringResource(R.string.pref_secure_mode_desc),
-                        onCheckedChange = { scope.launch { DataStoreManager.setSecureMode(it) } }
+                        checked = openInAppBrowser,
+                        leadingIconRes = R.drawable.ic_open_in_browser,
+                        title = stringResource(R.string.pref_use_in_app_browser),
+                        description = stringResource(R.string.pref_use_in_app_browser_desc),
+                        onCheckedChange = { scope.launch { DataStoreManager.setOpenInAppBrowser(it) } }
                     )
                     SwitchSettingsItem(
                         checked = hapticFeedback,

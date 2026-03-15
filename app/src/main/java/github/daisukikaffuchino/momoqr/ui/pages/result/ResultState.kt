@@ -30,7 +30,7 @@ class ResultState(val initialStar: StarEntity? = null) {
     fun setErrorIfNotValid(): Boolean {
         val categoryMaxLength = 16
         val qr = qrContent.trim()
-        val qrMaxBytes = QRCodeECL.Companion.fromFloat(ecl).getQrMaxBytes()
+        val qrMaxBytes = QRCodeECL.fromFloat(ecl).getQrMaxBytes()
         val qrBytesLength = qr.toByteArray(Charsets.UTF_8).size
         val category = categoryContent.trim()
 

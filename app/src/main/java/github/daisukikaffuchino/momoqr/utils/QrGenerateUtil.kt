@@ -11,6 +11,7 @@ object QrGenerateUtil {
     fun generateQrBitmap(
         content: String,
         eclFloat: Float,
+        qrSize: Int,
         onSuccess: (Bitmap) -> Unit,
         onError: (Throwable) -> Unit = {}
     ) {
@@ -22,7 +23,7 @@ object QrGenerateUtil {
 
         val renderOption = RenderOption().apply {
             this.content = content
-            size = 900
+            size = qrSize
             borderWidth = 64
             ecl = QRCodeECL.fromFloat(eclFloat).toZXingLevel()
             color = codeColor

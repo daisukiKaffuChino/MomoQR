@@ -12,6 +12,7 @@ import androidx.datastore.preferences.preferencesDataStore
 import com.google.zxing.BarcodeFormat
 import github.daisukikaffuchino.momoqr.MomoApplication
 import github.daisukikaffuchino.momoqr.constants.AppConstants
+import github.daisukikaffuchino.momoqr.logic.model.QrRenderQuality
 import github.daisukikaffuchino.momoqr.logic.model.SearchEngine
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -39,7 +40,7 @@ object DataStoreManager {
     private val DARK_MODE = intPreferencesKey(AppConstants.PREF_DARK_MODE)
     private val CONTRAST_LEVEL = floatPreferencesKey(AppConstants.PREF_CONTRAST_LEVEL)
     private val LANGUAGE = stringPreferencesKey(AppConstants.PREF_LANGUAGE)
-    private val SECURE_MODE = booleanPreferencesKey(AppConstants.PREF_SECURE_MODE)
+    private val OPEN_IN_APP_BROWSER = booleanPreferencesKey(AppConstants.PREF_OPEN_IN_APP_BROWSER)
     private val HAPTIC_FEEDBACK = booleanPreferencesKey(AppConstants.PREF_HAPTIC_FEEDBACK)
     private val SORTING_METHOD = intPreferencesKey(AppConstants.PREF_SORTING_METHOD)
     private val CATEGORIES = stringPreferencesKey(AppConstants.PREF_CATEGORIES)
@@ -53,6 +54,7 @@ object DataStoreManager {
     private val SHOW_LAB = booleanPreferencesKey(AppConstants.PREF_SHOW_LAB)
     private val SEARCH_ENGINE = stringPreferencesKey(AppConstants.PREF_SEARCH_ENGINE)
     private val SAVE_DIRECTLY = booleanPreferencesKey(AppConstants.PREF_NOT_ASK_SAVE_PATH)
+    private val QR_RENDER_QUALITY = stringPreferencesKey(AppConstants.PREF_IMAGE_QUALITY)
 
     // Getters
     val dynamicColorFlow: Flow<Boolean> = dataStore.data.map { preferences ->
@@ -75,8 +77,8 @@ object DataStoreManager {
         preferences[LANGUAGE]
     }
 
-    val secureModeFlow: Flow<Boolean> = dataStore.data.map { preferences ->
-        preferences[SECURE_MODE] ?: AppConstants.PREF_SECURE_MODE_DEFAULT
+    val openInAppBrowserFlow: Flow<Boolean> = dataStore.data.map { preferences ->
+        preferences[OPEN_IN_APP_BROWSER] ?: AppConstants.PREF_OPEN_IN_APP_BROWSER_DEFAULT
     }
 
     val hapticFeedbackFlow: Flow<Boolean> = dataStore.data.map { preferences ->
@@ -134,7 +136,11 @@ object DataStoreManager {
         preferences[SAVE_DIRECTLY] ?: AppConstants.PREF_NOT_ASK_SAVE_PATH_DEFAULT
     }
 
-
+    val qrRenderQualityFlow: Flow<QrRenderQuality> = dataStore.data.map { preferences ->
+        QrRenderQuality.fromValue(
+            preferences[QR_RENDER_QUALITY] ?: QrRenderQuality.BALANCED.value
+        )
+    }
 
 
     // Setters
@@ -171,9 +177,9 @@ object DataStoreManager {
         }
     }
 
-    suspend fun setSecureMode(value: Boolean) {
+    suspend fun setOpenInAppBrowser(value: Boolean) {
         dataStore.edit { preferences ->
-            preferences[SECURE_MODE] = value
+            preferences[OPEN_IN_APP_BROWSER] = value
         }
     }
 
@@ -246,6 +252,12 @@ object DataStoreManager {
     suspend fun setSaveDirectly(value: Boolean) {
         dataStore.edit { preferences ->
             preferences[SAVE_DIRECTLY] = value
+        }
+    }
+
+    suspend fun setQrRenderQuality(quality: QrRenderQuality) {
+        dataStore.edit { preferences ->
+            preferences[QR_RENDER_QUALITY] = quality.value
         }
     }
 

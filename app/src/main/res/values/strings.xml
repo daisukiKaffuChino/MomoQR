@@ -26,7 +26,8 @@
     <string name="label_from_camera">From Camera</string>
     <string name="label_from_gallery">From Gallery</string>
     <string name="label_generate">Generate</string>
-    <string name="label_generate_color_palette">Color palette</string>
+    <string name="label_generate_color_palette">Color Palette</string>
+    <string name="label_generate_color_palette_desc">Customize your QR code style</string>
     <string name="label_generate_text">Plain text</string>
     <string name="label_generate_from_clip_board">From clipboard</string>
     <string name="label_generate_wifi_sharing">Wi-Fi sharing</string>
@@ -79,8 +80,8 @@
     <string name="pref_sorting_method">Sorting Method</string>
     <string name="pref_haptic_feedback">Haptic Feedback</string>
     <string name="pref_haptic_feedback_desc">Provide slight vibration feedback for some operations</string>
-    <string name="pref_secure_mode">Secure Mode</string>
-    <string name="pref_secure_mode_desc">Prevent screenshots and protect the background preview image</string>
+    <string name="pref_use_in_app_browser">Use In-app Browser</string>
+    <string name="pref_use_in_app_browser_desc">Enable Chrome Custom Tabs, and you may need to set a supported browser as the default</string>
     <string name="pref_identification_type">Identification Type</string>
     <string name="pref_identification_type_desc">By removing unnecessary barcode formats, the analysis speed will be faster</string>
     <string name="pref_front_camera">Use Front Camera</string>
@@ -98,6 +99,9 @@
     <string name="pref_save_image_desc">Images automatically saved to /Pictures/MomoQR, no manual selection needed</string>
     <string name="pref_category_management">Category Management</string>
     <string name="pref_category_management_desc">Add custom category labels</string>
+    <string name="pref_qr_render_quality">Image quality</string>
+    <string name="pref_donate">Donate</string>
+    <string name="pref_donate_desc">Help keep MomoQR free, ad-free, and even better. Participation is completely voluntary.</string>
 
     <string name="pref_label_theme">Theme</string>
     <string name="pref_label_info">Information</string>
@@ -109,6 +113,7 @@
     <string name="pref_label_global">Global</string>
     <string name="pref_label_action">Action</string>
     <string name="pref_label_storage">Storage</string>
+    <string name="pref_label_via_wechat">Via WeChat</string>
 
     <string name="palette_tonal_spot">Tonal Spot</string>
     <string name="palette_neutral">Neutral</string>
@@ -153,6 +158,7 @@
     <string name="tip_select_all">Select all</string>
     <string name="tip_no_item">No items to display</string>
     <string name="tip_search_not_found">No items found</string>
+    <string name="tip_donate_via_wechat">Due to WeChat restrictions, please take a screenshot, then manually open WeChat and go to "Scan".</string>
 
     <string name="toast_press_again_to_exit">Press again to exit</string>
     <string name="toast_failed_to_initialize_camera">Failed to initialize camera</string>
@@ -163,6 +169,7 @@
     <string name="toast_copied">Copied to clipboard</string>
     <string name="toast_saved">Saved:</string>
     <string name="toast_save_failed">Save failed</string>
+    <string name="toast_not_installed_wechat">You haven\'t installed WeChat yet</string>
 
     <string name="time_today">Today</string>
     <string name="time_yesterday">Yesterday</string>
@@ -170,6 +177,10 @@
     <string name="time_weeks_ago">%d w ago</string>
     <string name="time_months_ago">%d mo ago</string>
     <string name="time_years_ago">%d y ago</string>
+
+    <string name="qr_render_quality_high_quality">High Quality</string>
+    <string name="qr_render_quality_balanced">Balanced</string>
+    <string name="qr_render_quality_high_performance">High Performance</string>
 
     <string name="error_no_content_entered">No content entered</string>
     <string name="error_no_content_entered_or_too_long">No content entered or too long</string>

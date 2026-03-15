@@ -64,7 +64,9 @@ import github.daisukikaffuchino.momoqr.ui.components.TopAppBarScaffold
 import github.daisukikaffuchino.momoqr.ui.components.segmentedGroup
 import github.daisukikaffuchino.momoqr.ui.components.segmentedSection
 import github.daisukikaffuchino.momoqr.ui.pages.settings.components.SettingsItem
+import github.daisukikaffuchino.momoqr.ui.pages.settings.components.TertiarySettingsItem
 import github.daisukikaffuchino.momoqr.ui.theme.Defaults
+import github.daisukikaffuchino.momoqr.utils.LinkOpener
 import github.daisukikaffuchino.momoqr.utils.VibrationUtil
 import github.daisukikaffuchino.momoqr.utils.appVersion
 import kotlinx.coroutines.delay
@@ -75,10 +77,12 @@ import kotlinx.coroutines.launch
 @Composable
 fun SettingsAbout(
     toLicencePage: () -> Unit,
+    toDonatePage: () -> Unit,
     onNavigateUp: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val languageCode by DataStoreManager.languageFlow.collectAsState(initial = null)
+    val openInAppBrowser by DataStoreManager.openInAppBrowserFlow.collectAsState(initial = AppConstants.PREF_OPEN_IN_APP_BROWSER_DEFAULT)
     val context = LocalContext.current
     val view = LocalView.current
     val scope = rememberCoroutineScope()
@@ -132,6 +136,19 @@ fun SettingsAbout(
                 Spacer(modifier = Modifier.size(Defaults.settingsItemPadding))
             }
 
+            item {
+                TertiarySettingsItem(
+                    leadingIconRes = R.drawable.ic_redeem,
+                    title = stringResource(R.string.pref_donate),
+                    description = stringResource(R.string.pref_donate_desc),
+                    onClick = { toDonatePage() }
+                )
+            }
+
+            item {
+                Spacer(modifier = Modifier.size(Defaults.settingsItemPadding))
+            }
+
             segmentedSection(R.string.pref_label_info) {
                 segmentedGroup {
                     SettingsItem(
@@ -144,7 +161,14 @@ fun SettingsAbout(
                         leadingIconRes = R.drawable.ic_person,
                         title = stringResource(R.string.pref_developer),
                         description = "GitHub@daisukiKaffuChino",
-                        onClick = { uriHandler.openUri(AppConstants.DEVELOPER_GITHUB) },
+                        onClick = {
+                            LinkOpener.open(
+                                context = context,
+                                uriHandler = uriHandler,
+                                url = AppConstants.DEVELOPER_GITHUB,
+                                useCustomTabs = openInAppBrowser
+                            )
+                        },
                     )
                     SettingsItem(
                         leadingIconRes = R.drawable.ic_policy,
@@ -159,7 +183,14 @@ fun SettingsAbout(
                             leadingIconRes = R.drawable.ic_license,
                             title = "ICP 备案号",
                             description = "沪ICP备xxxxxxxx号",
-                            onClick = { uriHandler.openUri(AppConstants.ICP_BEIAN) },
+                            onClick = {
+                                LinkOpener.open(
+                                    context = context,
+                                    uriHandler = uriHandler,
+                                    url = AppConstants.ICP_BEIAN,
+                                    useCustomTabs = openInAppBrowser
+                                )
+                            },
                         )
                     }
                 }
@@ -171,7 +202,14 @@ fun SettingsAbout(
                         leadingIconRes = R.drawable.ic_github,
                         title = stringResource(R.string.pref_view_on_github),
                         description = stringResource(R.string.pref_view_on_github_desc),
-                        onClick = { uriHandler.openUri(AppConstants.GITHUB_REPO) },
+                        onClick = {
+                            LinkOpener.open(
+                                context = context,
+                                uriHandler = uriHandler,
+                                url = AppConstants.GITHUB_REPO,
+                                useCustomTabs = openInAppBrowser
+                            )
+                        },
                     )
                     SettingsItem(
                         leadingIconRes = R.drawable.ic_gavel,

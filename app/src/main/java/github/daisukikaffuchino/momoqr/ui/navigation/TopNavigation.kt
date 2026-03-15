@@ -10,10 +10,12 @@ import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.ui.NavDisplay
 import github.daisukikaffuchino.momoqr.ui.pages.home.HomePage
+import github.daisukikaffuchino.momoqr.ui.pages.palette.PalettePage
 import github.daisukikaffuchino.momoqr.ui.pages.result.ResultAddPage
 import github.daisukikaffuchino.momoqr.ui.pages.result.ResultEditPage
 import github.daisukikaffuchino.momoqr.ui.pages.scan.ScanPage
 import github.daisukikaffuchino.momoqr.ui.pages.settings.SettingsAbout
+import github.daisukikaffuchino.momoqr.ui.pages.settings.SettingsAboutDonate
 import github.daisukikaffuchino.momoqr.ui.pages.settings.SettingsAboutLicence
 import github.daisukikaffuchino.momoqr.ui.pages.settings.SettingsAppearance
 import github.daisukikaffuchino.momoqr.ui.pages.settings.SettingsCamera
@@ -49,7 +51,7 @@ fun TopNavigation(
     }
 
     val initialOffestFactor = 0.10f
-    fun settingsTransition() = NavDisplay.transitionSpec {
+    fun customPageTransition() = NavDisplay.transitionSpec {
         materialSharedAxisX(
             initialOffsetX = { (it * initialOffestFactor).toInt() },
             targetOffsetX = { -(it * initialOffestFactor).toInt() }
@@ -82,12 +84,17 @@ fun TopNavigation(
                 entry<MomoScreen.Home> {
                     HomePage(
                         toScanPage = { backStack.add(MomoScreen.Home.Scan) },
+                        toPalettePage = { backStack.add(MomoScreen.Home.Palette) },
                         toResultAddPage = { backStack.add(MomoScreen.Result.Add(it)) }
                     )
                 }
 
-                entry<MomoScreen.Home.Scan>(metadata = settingsTransition()) {
+                entry<MomoScreen.Home.Scan>(metadata = customPageTransition()) {
                     ScanPage(onNavigateUp = ::onBack)
+                }
+
+                entry<MomoScreen.Home.Palette>(metadata = customPageTransition()) {
+                    PalettePage(onNavigateUp = ::onBack)
                 }
 
                 entry<MomoScreen.Stars> {
@@ -97,7 +104,7 @@ fun TopNavigation(
                     )
                 }
 
-                entry<MomoScreen.Result.Add>(metadata = settingsTransition()) { args ->
+                entry<MomoScreen.Result.Add>(metadata = customPageTransition()) { args ->
                     ResultAddPage(
                         stars = args.stars,
                         onSave = {
@@ -134,19 +141,19 @@ fun TopNavigation(
                     )
                 }
 
-                entry<MomoScreen.Settings.Appearance>(metadata = settingsTransition()) {
+                entry<MomoScreen.Settings.Appearance>(metadata = customPageTransition()) {
                     SettingsAppearance(onNavigateUp = ::onBack)
                 }
 
-                entry<MomoScreen.Settings.Interaction>(metadata = settingsTransition()) {
+                entry<MomoScreen.Settings.Interaction>(metadata = customPageTransition()) {
                     SettingsInteraction(onNavigateUp = ::onBack)
                 }
 
-                entry<MomoScreen.Settings.Camera>(metadata = settingsTransition()) {
+                entry<MomoScreen.Settings.Camera>(metadata = customPageTransition()) {
                     SettingsCamera(onNavigateUp = ::onBack)
                 }
 
-                entry<MomoScreen.Settings.Data>(metadata = settingsTransition()) {
+                entry<MomoScreen.Settings.Data>(metadata = customPageTransition()) {
                     SettingsData(
                         viewModel = viewModel,
                         toCategoryManager = { backStack.add(MomoScreen.Settings.DataCategory) },
@@ -154,27 +161,27 @@ fun TopNavigation(
                     )
                 }
 
-                entry<MomoScreen.Settings.DataCategory>(metadata = settingsTransition()) {
+                entry<MomoScreen.Settings.DataCategory>(metadata = customPageTransition()) {
                     SettingsDataCategory(onNavigateUp = ::onBack)
                 }
 
-                entry<MomoScreen.Settings.Lab>(metadata = settingsTransition()) {
+                entry<MomoScreen.Settings.Lab>(metadata = customPageTransition()) {
                     SettingsLab(onNavigateUp = ::onBack)
                 }
 
-                entry<MomoScreen.Settings.About>(metadata = settingsTransition()) {
+                entry<MomoScreen.Settings.About>(metadata = customPageTransition()) {
                     SettingsAbout(
-                        //toSpecialPage = { backStack.add(TodoScreen.Settings.AboutSpecial) },
+                        toDonatePage = { backStack.add(MomoScreen.Settings.AboutDonate) },
                         toLicencePage = { backStack.add(MomoScreen.Settings.AboutLicence) },
                         onNavigateUp = ::onBack,
                     )
                 }
 
-                /*entry<TodoScreen.Settings.AboutSpecial>(metadata = settingsTransition()) {
-                    SettingsAboutSpecial(viewModel = viewModel)
-                }*/
+                entry<MomoScreen.Settings.AboutDonate>(metadata = customPageTransition()) {
+                    SettingsAboutDonate(onNavigateUp = ::onBack)
+                }
 
-                entry<MomoScreen.Settings.AboutLicence>(metadata = settingsTransition()) {
+                entry<MomoScreen.Settings.AboutLicence>(metadata = customPageTransition()) {
                     SettingsAboutLicence(onNavigateUp = ::onBack)
                 }
 
