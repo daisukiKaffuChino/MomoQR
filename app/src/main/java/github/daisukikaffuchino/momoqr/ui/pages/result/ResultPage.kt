@@ -373,7 +373,9 @@ fun ResultEditorPage(
         ) {
             LazyColumn(
                 verticalArrangement = Arrangement.spacedBy(16.dp),
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(top = Defaults.screenVerticalPadding)
             ) {
                 item(key = 0) {
                     ActionButtonGroup(
@@ -456,7 +458,7 @@ fun ResultEditorPage(
                 }
 
                 item(key = 4) {
-                    Spacer(modifier = Modifier.height(72.dp))
+                    Spacer(modifier = Modifier.height(128.dp))
                 }
             }
         }

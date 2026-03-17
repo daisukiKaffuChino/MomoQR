@@ -35,6 +35,7 @@ fun SettingsInteraction(
     onNavigateUp: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val exitConfirmation by DataStoreManager.exitConfirmationFlow.collectAsState(initial = AppConstants.PREF_EXIT_CONFIRMATION_DEFAULT)
     val openInAppBrowser by DataStoreManager.openInAppBrowserFlow.collectAsState(initial = AppConstants.PREF_OPEN_IN_APP_BROWSER_DEFAULT)
     val sortingMethod by DataStoreManager.sortingMethodFlow.collectAsState(initial = AppConstants.PREF_SORTING_METHOD_DEFAULT)
     val hapticFeedback by DataStoreManager.hapticFeedbackFlow.collectAsState(initial = AppConstants.PREF_HAPTIC_FEEDBACK_DEFAULT)
@@ -79,6 +80,13 @@ fun SettingsInteraction(
                         title = stringResource(R.string.pref_use_in_app_browser),
                         description = stringResource(R.string.pref_use_in_app_browser_desc),
                         onCheckedChange = { scope.launch { DataStoreManager.setOpenInAppBrowser(it) } }
+                    )
+                    SwitchSettingsItem(
+                        checked = exitConfirmation,
+                        leadingIconRes = R.drawable.ic_exit_to_app,
+                        title = stringResource(R.string.pref_exit_confirmation),
+                        description = stringResource(R.string.pref_exit_confirmation_desc),
+                        onCheckedChange = { scope.launch { DataStoreManager.setExitConfirmation(it) } }
                     )
                     SwitchSettingsItem(
                         checked = hapticFeedback,

@@ -164,7 +164,9 @@ fun HomePage(
         val configuration = LocalConfiguration.current
 
         LazyColumn(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(top = Defaults.screenVerticalPadding),
             verticalArrangement = Arrangement.spacedBy(Defaults.settingsItemPadding)
         ) {
 

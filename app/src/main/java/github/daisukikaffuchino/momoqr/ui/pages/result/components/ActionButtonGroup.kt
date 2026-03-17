@@ -74,7 +74,7 @@ fun ActionButtonGroup(
 
         ActionButton(
             icon = painterResource(R.drawable.ic_archive),
-            label = stringResource(R.string.action_save_img),
+            label = stringResource(R.string.action_export),
             onClick = onSaveImage,
             modifier = Modifier.weight(1f)
         )

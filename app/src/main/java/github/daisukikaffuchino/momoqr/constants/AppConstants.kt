@@ -66,6 +66,8 @@ object AppConstants {
     const val PREF_CATEGORIES = "categories"
     const val PREF_CATEGORIES_DEFAULT = "[]"
 
+    const val PREF_EXIT_CONFIRMATION = "exit_confirmation"
+    const val PREF_EXIT_CONFIRMATION_DEFAULT = true
 
     const val PREF_HIDDEN_OPTION_CONTRAST_LEVEL = "hidden_option_contrast_level"
 }

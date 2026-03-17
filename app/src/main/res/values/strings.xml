@@ -13,7 +13,7 @@
     <string name="action_open_link">Open link</string>
     <string name="action_copy">Copy</string>
     <string name="action_share">Share</string>
-    <string name="action_save_img">Save IMG</string>
+    <string name="action_export">Export</string>
     <string name="action_clear">Clear</string>
     <string name="action_add_category">Add category</string>
 
@@ -102,6 +102,8 @@
     <string name="pref_qr_render_quality">Image quality</string>
     <string name="pref_donate">Donate</string>
     <string name="pref_donate_desc">Help keep MomoQR free, ad-free, and even better. Participation is completely voluntary.</string>
+    <string name="pref_exit_confirmation">Exit Confirmation</string>
+    <string name="pref_exit_confirmation_desc">Double-click to exit the app</string>
 
     <string name="pref_label_theme">Theme</string>
     <string name="pref_label_info">Information</string>

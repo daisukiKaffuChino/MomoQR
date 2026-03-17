@@ -29,7 +29,6 @@ fun MarkedCheckbox(
 
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween,
         modifier = modifier
             .toggleable(
                 value = checked,
@@ -42,11 +41,6 @@ fun MarkedCheckbox(
                 interactionSource = interactionSource,
             )
     ) {
-        Text(
-            text = stringResource(R.string.tip_checkbox_marked),
-            style = MaterialTheme.typography.labelLarge
-        )
-
         Checkbox(
             checked = checked,
             onCheckedChange = {
@@ -54,6 +48,10 @@ fun MarkedCheckbox(
                 onCheckedChange(it)
             },
             interactionSource = interactionSource
+        )
+        Text(
+            text = stringResource(R.string.tip_checkbox_marked),
+            style = MaterialTheme.typography.labelLarge
         )
     }
 }

@@ -27,6 +27,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation3.runtime.NavKey
 import dagger.hilt.android.AndroidEntryPoint
 import github.daisukikaffuchino.momoqr.R
@@ -44,13 +47,16 @@ import github.daisukikaffuchino.momoqr.utils.VibrationUtil
 import github.daisukikaffuchino.momoqr.utils.configureEdgeToEdge
 import github.daisukikaffuchino.momoqr.utils.setAppLanguage
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import kotlin.properties.Delegates
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     lateinit var mainBackStack: TopLevelBackStack<NavKey>
     lateinit var mainViewModel: MainViewModel
     lateinit var navigationScaffoldState: NavigationSuiteScaffoldState
+    private var exitConfirmation = AppConstants.PREF_EXIT_CONFIRMATION_DEFAULT
     private var lastBackPressTime = 0L
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -65,16 +71,26 @@ class MainActivity : AppCompatActivity() {
 
         super.onCreate(savedInstanceState)
 
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                DataStoreManager.exitConfirmationFlow.collect { confirmation ->
+                    exitConfirmation = confirmation
+                }
+            }
+        }
+
         onBackPressedDispatcher.addCallback(this) {
             if (mainBackStack.backStack.size <= 1) {
-                val currentTime = System.currentTimeMillis()
-                if (currentTime - lastBackPressTime > 1500) {
-                    lastBackPressTime = currentTime
-                    Toast.makeText(
-                        this@MainActivity,
-                        R.string.toast_press_again_to_exit,
-                        Toast.LENGTH_SHORT
-                    ).show()
+                if (exitConfirmation) {
+                    val currentTime = System.currentTimeMillis()
+                    if (currentTime - lastBackPressTime > 1500) {
+                        lastBackPressTime = currentTime
+                        Toast.makeText(
+                            this@MainActivity,
+                            R.string.toast_press_again_to_exit,
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    } else finish()
                 } else finish()
             } else mainBackStack.removeLast()
         }

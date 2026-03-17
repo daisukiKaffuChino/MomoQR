@@ -12,7 +12,7 @@
     <string name="action_open_link">打开链接</string>
     <string name="action_copy">复制</string>
     <string name="action_share">分享</string>
-    <string name="action_save_img">保存图片</string>
+    <string name="action_export">导出</string>
     <string name="action_clear">清除</string>
     <string name="action_add_category">添加分类</string>
 
@@ -101,6 +101,8 @@
     <string name="pref_qr_render_quality">图像质量</string>
     <string name="pref_donate">捐赠</string>
     <string name="pref_donate_desc">遵循自愿原则。帮助 MomoQR 保持免费与无广告，并做得更好！</string>
+    <string name="pref_exit_confirmation">退出确认</string>
+    <string name="pref_exit_confirmation_desc">双击以退出应用</string>
 
     <string name="pref_label_theme">主题</string>
     <string name="pref_label_info">信息</string>

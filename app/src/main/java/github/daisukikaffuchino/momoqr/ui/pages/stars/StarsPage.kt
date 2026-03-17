@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.items
@@ -75,7 +76,10 @@ fun SharedTransitionScope.StarsPage(
 
     val filteredStarList = if (viewModel.searchMode) starLists.filter {
         it.content.contains(searchFieldState.text, ignoreCase = true) ||
-                it.category.contains(searchFieldState.text, ignoreCase = true) || it.date.toLocalDateString()
+                it.category.contains(
+                    searchFieldState.text,
+                    ignoreCase = true
+                ) || it.date.toLocalDateString()
             .contains(searchFieldState.text, ignoreCase = true)
     } else starLists
 
@@ -150,8 +154,9 @@ fun SharedTransitionScope.StarsPage(
                         state = viewModel.starGridState,
                         verticalItemSpacing = Defaults.settingsItemPadding,
                         horizontalArrangement = Arrangement.spacedBy(Defaults.settingsItemPadding),
-                        modifier = Modifier.fillMaxSize(),
-                       // contentPadding = PaddingValues(Defaults.screenVerticalPadding)
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(top = Defaults.screenVerticalPadding)
                     ) {
                         items(
                             items = filteredStarList,

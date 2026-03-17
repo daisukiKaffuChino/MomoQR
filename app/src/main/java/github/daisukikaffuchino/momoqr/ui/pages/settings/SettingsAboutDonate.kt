@@ -58,7 +58,9 @@ fun SettingsAboutDonate(
             columns = StaggeredGridCells.Fixed(if (isLandscape) 2 else 1),
             verticalItemSpacing = 16.dp,
             horizontalArrangement = Arrangement.spacedBy(8.dp),
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(top = Defaults.screenVerticalPadding)
         ) {
             item {
                 Column {
@@ -68,7 +70,6 @@ fun SettingsAboutDonate(
                         color = MaterialTheme.colorScheme.primary,
                         modifier = Modifier
                             .padding(horizontal = Defaults.screenVerticalPadding)
-                            .padding(top = Defaults.settingsItemPadding)
                     )
                     Spacer(modifier = Modifier.size(12.dp))
                     OutlinedCard(

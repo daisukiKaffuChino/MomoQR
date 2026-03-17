@@ -56,6 +56,7 @@ object DataStoreManager {
     private val SAVE_DIRECTLY = booleanPreferencesKey(AppConstants.PREF_NOT_ASK_SAVE_PATH)
     private val QR_RENDER_QUALITY = stringPreferencesKey(AppConstants.PREF_IMAGE_QUALITY)
     private val HIDDEN_OPTION_CONTRAST_LEVEL = booleanPreferencesKey(AppConstants.PREF_HIDDEN_OPTION_CONTRAST_LEVEL)
+    private val EXIT_CONFIRMATION = booleanPreferencesKey(AppConstants.PREF_EXIT_CONFIRMATION)
 
     // Getters
     val dynamicColorFlow: Flow<Boolean> = dataStore.data.map { preferences ->
@@ -145,6 +146,10 @@ object DataStoreManager {
 
     val hiddenOptionContrastLevelFlow: Flow<Boolean> = dataStore.data.map { preferences ->
         preferences[HIDDEN_OPTION_CONTRAST_LEVEL] ?: false
+    }
+
+    val exitConfirmationFlow: Flow<Boolean> = dataStore.data.map { preferences ->
+        preferences[EXIT_CONFIRMATION] ?: AppConstants.PREF_EXIT_CONFIRMATION_DEFAULT
     }
 
 
@@ -269,6 +274,12 @@ object DataStoreManager {
     suspend fun setHiddenOptionContrastLevel(value: Boolean) {
         dataStore.edit { preferences ->
             preferences[HIDDEN_OPTION_CONTRAST_LEVEL] = value
+        }
+    }
+
+    suspend fun setExitConfirmation(value: Boolean) {
+        dataStore.edit { preferences ->
+            preferences[EXIT_CONFIRMATION] = value
         }
     }
 
