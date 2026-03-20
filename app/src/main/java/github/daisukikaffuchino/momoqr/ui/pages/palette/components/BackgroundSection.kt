@@ -39,11 +39,15 @@ fun BackgroundSection(
     onPickBackground: () -> Unit,
     onRemoveLogo: () -> Unit,
     onRemoveBackground: () -> Unit,
-    onBackgroundAlphaChanged: (Float) -> Unit
+    onBackgroundAlphaChanged: (Float) -> Unit,
+    onBorderWidthChanged: (Int) -> Unit,
 ) {
     val view = LocalView.current
-    var lastVibratedStep by remember {
+    var lastAlphaVibratedStep by remember(state.backgroundAlpha) {
         mutableIntStateOf(((state.backgroundAlpha - 0.1f) / 0.1f).roundToInt())
+    }
+    var lastBorderWidthVibratedStep by remember(state.borderWidth) {
+        mutableIntStateOf(state.borderWidth / 5)
     }
 
     SectionCard(title = stringResource(R.string.label_palette_logo_background)) {
@@ -103,18 +107,45 @@ fun BackgroundSection(
                 val snapped = snapToStep(value, 0.1f)
                 val step = ((snapped - 0.1f) / 0.1f).roundToInt()
 
-                if (step != lastVibratedStep) {
+                if (step != lastAlphaVibratedStep) {
                     VibrationUtil.performHapticFeedback(
                         view,
                         HapticFeedbackConstants.LONG_PRESS
                     )
-                    lastVibratedStep = step
+                    lastAlphaVibratedStep = step
                 }
 
                 onBackgroundAlphaChanged(snapped)
             },
             valueRange = 0.1f..1.0f,
             steps = 8,
+            modifier = Modifier.fillMaxWidth(),
+        )
+
+        Text(
+            text = stringResource(R.string.label_palette_border_width, state.borderWidth),
+            style = MaterialTheme.typography.titleSmall,
+            modifier = Modifier.padding(top = 4.dp),
+        )
+
+        Slider(
+            value = state.borderWidth.toFloat(),
+            onValueChange = { value ->
+                val snapped = ((value / 5f).roundToInt() * 5).coerceIn(0, 80)
+                val step = snapped / 5
+
+                if (step != lastBorderWidthVibratedStep) {
+                    VibrationUtil.performHapticFeedback(
+                        view,
+                        HapticFeedbackConstants.LONG_PRESS
+                    )
+                    lastBorderWidthVibratedStep = step
+                }
+
+                onBorderWidthChanged(snapped)
+            },
+            valueRange = 0f..80f,
+            steps = 15,
             modifier = Modifier.fillMaxWidth(),
         )
     }

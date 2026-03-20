@@ -28,6 +28,7 @@ data class PalettePreset(
     val dotShape: PaletteDotShape,
     val dotScale: Float,
     val backgroundAlpha: Float,
+    val borderWidth: Int = 20,
     val logoFileName: String? = null,
     val backgroundFileName: String? = null,
     val createdAt: Long,

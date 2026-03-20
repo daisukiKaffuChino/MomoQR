@@ -43,6 +43,7 @@
     <string name="label_palette_logo_background">Logo / 背景</string>
     <string name="label_palette_editing">正在编辑：%1$s</string>
     <string name="label_palette_background_alpha">背景透明度：%1$.1f</string>
+    <string name="label_palette_border_width">边框宽度：%1$d</string>
     <string name="label_palette_module_scale">模块缩放：%1$.2f</string>
     <string name="label_palette_dark">深色</string>
     <string name="label_palette_light">浅色</string>
@@ -171,6 +172,7 @@
     <string name="tip_align_to_scan">对准二维码以扫描</string>
     <string name="tip_toggle_flashlight">切换手电筒</string>
     <string name="tip_short_category">尽量使用简短的分类名称</string>
+    <string name="tip_category_limit">最多只能保存 20 个分类。</string>
     <string name="tip_selected">已选中</string>
     <string name="tip_no_category_chip">当前暂无自定义分类，你可以在设置中添加</string>
     <string name="tip_no_category_page">暂无自定义分类</string>
@@ -191,6 +193,7 @@
     <string name="tip_palette_name_supporting">最多 24 个字符。</string>
     <string name="tip_palette_name_empty">名称不能为空。</string>
     <string name="tip_palette_name_too_long">名称太长了。</string>
+    <string name="tip_palette_preset_limit">最多只能保存 10 个预设。</string>
     <string name="tip_palette_preview_empty">暂无预览</string>
     <string name="tip_palette_has_logo">有 Logo</string>
     <string name="tip_palette_no_logo">无 Logo</string>

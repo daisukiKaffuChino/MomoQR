@@ -21,6 +21,7 @@ data class QrAppearanceOptions(
     val logoBitmap: Bitmap? = null,
     val backgroundBitmap: Bitmap? = null,
     val backgroundAlpha: Float = 1f,
+    val borderWidth: Int = 20,
 )
 
 object QrGenerateUtil {
@@ -50,7 +51,8 @@ object QrGenerateUtil {
         val renderOption = RenderOption().apply {
             this.content = content
             size = qrSize
-            borderWidth = 64
+            borderWidth = appearance.borderWidth
+            clearBorder = false
             ecl = QRCodeECL.fromFloat(eclFloat).toZXingLevel()
             color = codeColor
             roundedPatterns = appearance.roundedPatterns

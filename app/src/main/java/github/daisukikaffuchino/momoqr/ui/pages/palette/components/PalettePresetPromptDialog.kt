@@ -24,12 +24,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import github.daisukikaffuchino.momoqr.R
 import github.daisukikaffuchino.momoqr.ui.components.BasicDialog
+import github.daisukikaffuchino.momoqr.ui.pages.palette.PaletteViewModel
 
 @SuppressLint("LocalContextGetResourceValueCall")
 @Composable
 fun PalettePresetPromptDialog(
     visible: Boolean,
     initialName: String = "",
+    existingNames: Set<String>,
+    presetCount: Int,
     onSave: (String) -> Unit,
     onDismiss: () -> Unit,
 ) {
@@ -80,6 +83,11 @@ fun PalettePresetPromptDialog(
                 trimmed.length > 24 -> {
                     isError = true
                     supportingText = context.getString(R.string.tip_palette_name_too_long)
+                }
+
+                trimmed !in existingNames && presetCount >= PaletteViewModel.MAX_PRESET_COUNT -> {
+                    isError = true
+                    supportingText = context.getString(R.string.tip_palette_preset_limit)
                 }
 
                 else -> {

@@ -48,6 +48,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
@@ -106,6 +107,7 @@ fun PalettePage(
     val view = LocalView.current
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
+    var initialized by rememberSaveable { mutableStateOf(false) }
     var currentImageTarget by remember { mutableStateOf<PaletteImageTarget?>(null) }
     var showColorPickerSheet by remember { mutableStateOf(false) }
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
@@ -134,8 +136,11 @@ fun PalettePage(
         }
     }
 
-    LaunchedEffect(viewModel) {
-        viewModel.resetEditorState()
+    LaunchedEffect(initialized) {
+        if (!initialized) {
+            viewModel.resetEditorState()
+            initialized = true
+        }
     }
 
     val imagePickerLauncher = rememberLauncherForActivityResult(
@@ -201,6 +206,8 @@ fun PalettePage(
             }
             PalettePresetPromptDialog(
                 visible = showSavePresetDialog,
+                existingNames = state.presets.mapTo(mutableSetOf()) { it.name },
+                presetCount = state.presets.size,
                 onSave = { name ->
                     viewModel.savePreset(name)
                     scope.launch {
@@ -276,6 +283,7 @@ fun PalettePage(
                         onDotShapeChanged = viewModel::updateDotShape,
                         onDotScaleChanged = viewModel::updateDotScale,
                         onBackgroundAlphaChanged = viewModel::updateBackgroundAlpha,
+                        onBorderWidthChanged = viewModel::updateBorderWidth,
                         onPickLogo = {
                             launchImagePicker(
                                 target = PaletteImageTarget.Logo,
@@ -371,6 +379,7 @@ private fun PaletteEditorPage(
     onDotShapeChanged: (PaletteDotShape) -> Unit,
     onDotScaleChanged: (Float) -> Unit,
     onBackgroundAlphaChanged: (Float) -> Unit,
+    onBorderWidthChanged: (Int) -> Unit,
     onPickLogo: () -> Unit,
     onPickBackground: () -> Unit,
     onRemoveLogo: () -> Unit,
@@ -414,7 +423,8 @@ private fun PaletteEditorPage(
                 onPickBackground = onPickBackground,
                 onRemoveLogo = onRemoveLogo,
                 onRemoveBackground = onRemoveBackground,
-                onBackgroundAlphaChanged = onBackgroundAlphaChanged
+                onBackgroundAlphaChanged = onBackgroundAlphaChanged,
+                onBorderWidthChanged = onBorderWidthChanged,
             )
         }
 

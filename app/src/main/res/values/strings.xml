@@ -44,6 +44,7 @@
     <string name="label_palette_logo_background">Logo / Background</string>
     <string name="label_palette_editing">Editing: %1$s</string>
     <string name="label_palette_background_alpha">Background alpha: %1$.1f</string>
+    <string name="label_palette_border_width">Border width: %1$d</string>
     <string name="label_palette_module_scale">Module scale: %1$.2f</string>
     <string name="label_palette_dark">Dark</string>
     <string name="label_palette_light">Light</string>
@@ -172,6 +173,7 @@
     <string name="tip_align_to_scan">Align the QR code for scanning</string>
     <string name="tip_toggle_flashlight">Toggle flashlight</string>
     <string name="tip_short_category">Keep category names concise</string>
+    <string name="tip_category_limit">You can save up to 20 categories.</string>
     <string name="tip_selected">Selected</string>
     <string name="tip_no_category_chip">You can add custom categories in the settings</string>
     <string name="tip_no_category_page">No custom categories</string>
@@ -192,6 +194,7 @@
     <string name="tip_palette_name_supporting">Up to 24 characters.</string>
     <string name="tip_palette_name_empty">Name cannot be empty.</string>
     <string name="tip_palette_name_too_long">Name is too long.</string>
+    <string name="tip_palette_preset_limit">You can save up to 10 presets.</string>
     <string name="tip_palette_preview_empty">No preview available</string>
     <string name="tip_palette_has_logo">Has logo</string>
     <string name="tip_palette_no_logo">No logo</string>

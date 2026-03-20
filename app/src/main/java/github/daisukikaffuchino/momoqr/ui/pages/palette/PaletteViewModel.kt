@@ -9,6 +9,7 @@ import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
+import androidx.core.graphics.scale
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,9 +22,9 @@ import github.daisukikaffuchino.momoqr.logic.model.PalettePreset
 import github.daisukikaffuchino.momoqr.utils.QrAppearanceOptions
 import github.daisukikaffuchino.momoqr.utils.QrGenerateUtil
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
@@ -35,13 +36,15 @@ import java.io.FileOutputStream
 import java.util.UUID
 import javax.inject.Inject
 import kotlin.math.roundToInt
-import androidx.core.graphics.scale
-import kotlinx.coroutines.FlowPreview
 
 @HiltViewModel
 class PaletteViewModel @Inject constructor() : ViewModel() {
     private val _state = MutableStateFlow(PaletteUiState())
     val state = _state.asStateFlow()
+
+    companion object {
+        const val MAX_PRESET_COUNT = 10
+    }
 
     private var renderSequence = 0L
 
@@ -69,6 +72,10 @@ class PaletteViewModel @Inject constructor() : ViewModel() {
 
     fun updateBackgroundAlpha(alpha: Float) {
         _state.update { it.copy(backgroundAlpha = alpha) }
+    }
+
+    fun updateBorderWidth(width: Int) {
+        _state.update { it.copy(borderWidth = width) }
     }
 
     fun updatePickColorFromBackground(enabled: Boolean) {
@@ -142,6 +149,9 @@ class PaletteViewModel @Inject constructor() : ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             val currentState = state.value
             val existingPreset = currentState.presets.firstOrNull { it.name == name }
+            if (existingPreset == null && currentState.presets.size >= MAX_PRESET_COUNT) {
+                return@launch
+            }
             val now = System.currentTimeMillis()
             val presetId = existingPreset?.id ?: UUID.randomUUID().toString()
 
@@ -166,6 +176,7 @@ class PaletteViewModel @Inject constructor() : ViewModel() {
                 dotShape = currentState.dotShape,
                 dotScale = currentState.dotScale,
                 backgroundAlpha = currentState.backgroundAlpha,
+                borderWidth = currentState.borderWidth,
                 logoFileName = logoFileName,
                 backgroundFileName = backgroundFileName,
                 createdAt = existingPreset?.createdAt ?: now,
@@ -200,6 +211,7 @@ class PaletteViewModel @Inject constructor() : ViewModel() {
                         dotShape = preset.dotShape,
                         dotScale = preset.dotScale,
                         backgroundAlpha = preset.backgroundAlpha,
+                        borderWidth = preset.borderWidth,
                         logoBitmap = logoBitmap,
                         backgroundBitmap = backgroundBitmap,
                     )
@@ -242,6 +254,7 @@ class PaletteViewModel @Inject constructor() : ViewModel() {
                         dotShape = it.dotShape,
                         dotScale = it.dotScale,
                         backgroundAlpha = it.backgroundAlpha,
+                        borderWidth = it.borderWidth,
                         logoBitmap = it.logoBitmap,
                         backgroundBitmap = it.backgroundBitmap,
                     )
@@ -291,6 +304,7 @@ class PaletteViewModel @Inject constructor() : ViewModel() {
                     logoBitmap = input.logoBitmap,
                     backgroundBitmap = input.backgroundBitmap,
                     backgroundAlpha = input.backgroundAlpha,
+                    borderWidth = input.borderWidth,
                 ),
                 onSuccess = { bitmap ->
                     if (requestId != renderSequence) {
@@ -407,6 +421,7 @@ private fun PaletteUiState.toPreviewRenderInput(): PreviewRenderInput {
         dotShape = dotShape,
         dotScale = dotScale,
         backgroundAlpha = backgroundAlpha,
+        borderWidth = borderWidth,
         logoBitmap = logoBitmap,
         backgroundBitmap = backgroundBitmap,
     )
@@ -421,6 +436,7 @@ private data class PreviewRenderInput(
     val dotShape: PaletteDotShape,
     val dotScale: Float,
     val backgroundAlpha: Float,
+    val borderWidth: Int,
     val logoBitmap: Bitmap?,
     val backgroundBitmap: Bitmap?,
 )

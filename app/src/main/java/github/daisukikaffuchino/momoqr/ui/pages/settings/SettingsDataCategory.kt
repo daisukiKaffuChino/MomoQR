@@ -159,6 +159,8 @@ fun SettingsDataCategory(
         CategoryPromptDialog(
             visible = showDialog,
             initialCategory = initialCategory,
+            existingCategories = categories.toSet(),
+            categoryCount = categories.size,
             onSave = { oldCategory, newCategory ->
                 if (oldCategory.isEmpty()) {
                     if (!categories.contains(newCategory)) {

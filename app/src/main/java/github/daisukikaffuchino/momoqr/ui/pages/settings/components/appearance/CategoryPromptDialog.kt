@@ -22,6 +22,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import github.daisukikaffuchino.momoqr.R
+import github.daisukikaffuchino.momoqr.logic.datastore.DataStoreManager
 import github.daisukikaffuchino.momoqr.ui.components.BasicDialog
 
 @Composable
@@ -29,6 +30,8 @@ fun CategoryPromptDialog(
     modifier: Modifier = Modifier,
     visible: Boolean,
     initialCategory: String = "",
+    existingCategories: Set<String>,
+    categoryCount: Int,
     onSave: (oldValue: String, newValue: String) -> Unit,
     onDismiss: () -> Unit
 ) {
@@ -45,7 +48,8 @@ fun CategoryPromptDialog(
     val supportingText = listOf(
         stringResource(R.string.tip_short_category),
         stringResource(R.string.error_no_content_entered),
-        stringResource(R.string.error_category_too_long)
+        stringResource(R.string.error_category_too_long),
+        stringResource(R.string.tip_category_limit)
     )
 
     var currentSupportingText by remember { mutableStateOf(supportingText[0]) }
@@ -76,6 +80,13 @@ fun CategoryPromptDialog(
             } else if (trimmedText.length > 16) {
                 isError = true
                 currentSupportingText = supportingText[2]
+                return@BasicDialog
+            } else if (
+                trimmedText.toString() !in existingCategories &&
+                categoryCount >= DataStoreManager.MAX_CATEGORY_COUNT
+            ) {
+                isError = true
+                currentSupportingText = supportingText[3]
                 return@BasicDialog
             } else {
                 onSave(initialCategory, trimmedText.toString())

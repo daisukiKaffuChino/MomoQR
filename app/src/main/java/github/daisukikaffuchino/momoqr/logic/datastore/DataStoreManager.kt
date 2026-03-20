@@ -20,6 +20,8 @@ import kotlinx.coroutines.flow.map
 import kotlinx.serialization.json.Json
 
 object DataStoreManager {
+    const val MAX_CATEGORY_COUNT = 20
+
     private val Context.dataStore by preferencesDataStore(
         name = AppConstants.SP_NAME,
         produceMigrations = { context ->
@@ -216,6 +218,7 @@ object DataStoreManager {
     }
 
     suspend fun setCategories(value: List<String>) {
+        if (value.distinct().size > MAX_CATEGORY_COUNT) return
         dataStore.edit { preferences ->
             preferences[CATEGORIES] = Json.encodeToString(value)
         }

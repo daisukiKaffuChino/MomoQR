@@ -1,6 +1,7 @@
 # Gradle files
 .gradle/
 .gradle-user-home
+.gradle-local
 build/
 
 # Local configuration file (sdk path, etc)
@@ -32,3 +33,6 @@ google-services.json
 
 # Android Profiling
 *.hprof
+
+# macOS
+.DS_Store

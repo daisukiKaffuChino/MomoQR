@@ -40,6 +40,7 @@ data class PaletteUiState(
     val dotShape: PaletteDotShape = PaletteDotShape.Square,
     val dotScale: Float = 1.0f,
     val backgroundAlpha: Float = 1.0f,
+    val borderWidth: Int = 20,
     val logoBitmap: Bitmap? = null,
     val backgroundBitmap: Bitmap? = null,
     val presets: List<PalettePreset> = emptyList(),
