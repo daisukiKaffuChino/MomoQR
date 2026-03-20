@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -32,13 +33,13 @@ fun ListItemContainer(
         modifier = modifier
     ) {
         item {
-            Spacer(modifier = Modifier.width(Defaults.screenVerticalPadding))
+            Spacer(modifier = Modifier.size(Defaults.screenVerticalPadding))
         }
 
         content()
 
         item {
-            Spacer(modifier = Modifier.width(Defaults.screenVerticalPadding))
+            Spacer(modifier = Modifier.size(Defaults.screenVerticalPadding))
         }
     }
 }

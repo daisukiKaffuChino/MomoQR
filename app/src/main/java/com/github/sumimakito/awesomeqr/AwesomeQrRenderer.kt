@@ -200,7 +200,17 @@ class AwesomeQrRenderer {
                                 paintLight
                             )
                             continue
-                        } else paintLight
+                        } else {
+                            drawScaledSquare(
+                                canvas = unscaledCanvas,
+                                left = x.toFloat(),
+                                top = y.toFloat(),
+                                moduleSize = nSize.toFloat(),
+                                scale = renderOptions.patternScale,
+                                paint = paintLight,
+                            )
+                            continue
+                        }
                         BYTE_DTA -> if (renderOptions.roundedPatterns) {
                             unscaledCanvas.drawCircle(
                                 x + nSize / 2f,
@@ -209,7 +219,17 @@ class AwesomeQrRenderer {
                                 paintDark
                             )
                             continue
-                        } else paintDark
+                        } else {
+                            drawScaledSquare(
+                                canvas = unscaledCanvas,
+                                left = x.toFloat(),
+                                top = y.toFloat(),
+                                moduleSize = nSize.toFloat(),
+                                scale = renderOptions.patternScale,
+                                paint = paintDark,
+                            )
+                            continue
+                        }
                         else -> null
                     }
                     paintToUse?.let {
@@ -416,6 +436,25 @@ class AwesomeQrRenderer {
 
                 return 0xFF shl 24 or Color.HSVToColor(hsv) // (0xFF << 24) | (red << 16) | (green << 8) | blue;
             }
+        }
+
+        private fun drawScaledSquare(
+            canvas: Canvas,
+            left: Float,
+            top: Float,
+            moduleSize: Float,
+            scale: Float,
+            paint: Paint,
+        ) {
+            val scaledSize = moduleSize * scale
+            val inset = (moduleSize - scaledSize) / 2f
+            canvas.drawRect(
+                left + inset,
+                top + inset,
+                left + moduleSize - inset,
+                top + moduleSize - inset,
+                paint,
+            )
         }
 
         // returns [finalBoundingRect, newClippingRect]

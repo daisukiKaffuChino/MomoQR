@@ -1,291 +1,523 @@
-package github.daisukikaffuchino.momoqr.ui.pages.palette
+﻿package github.daisukikaffuchino.momoqr.ui.pages.palette
 
+import android.annotation.SuppressLint
+import android.content.res.Configuration
+import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.Button
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Checkbox
-import androidx.compose.material3.HorizontalDivider
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.SegmentedButton
-import androidx.compose.material3.SingleChoiceSegmentedButtonRow
-import androidx.compose.material3.Slider
+import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
-import androidx.compose.material3.rememberSliderState
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalView
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import github.daisukikaffuchino.momoqr.R
+import github.daisukikaffuchino.momoqr.logic.model.PaletteColorTarget
+import github.daisukikaffuchino.momoqr.logic.model.PaletteDotShape
+import github.daisukikaffuchino.momoqr.logic.model.PalettePreset
+import github.daisukikaffuchino.momoqr.ui.components.ConfirmDialog
+import github.daisukikaffuchino.momoqr.ui.components.EmptyListTip
+import github.daisukikaffuchino.momoqr.ui.components.EmptyTipType
+import github.daisukikaffuchino.momoqr.ui.components.ListItemContainer
 import github.daisukikaffuchino.momoqr.ui.components.TopAppBarScaffold
+import github.daisukikaffuchino.momoqr.ui.pages.palette.components.BackgroundSection
+import github.daisukikaffuchino.momoqr.ui.pages.palette.components.ColorEditor
+import github.daisukikaffuchino.momoqr.ui.pages.palette.components.ColorPickerSection
+import github.daisukikaffuchino.momoqr.ui.pages.palette.components.DotShapeSection
+import github.daisukikaffuchino.momoqr.ui.pages.palette.components.PalettePagerSwitcher
+import github.daisukikaffuchino.momoqr.ui.pages.palette.components.PalettePresetPromptDialog
+import github.daisukikaffuchino.momoqr.ui.pages.palette.components.PresetItem
+import github.daisukikaffuchino.momoqr.ui.pages.palette.components.PreviewSection
+import github.daisukikaffuchino.momoqr.ui.pages.result.components.ResultFloatingActionButton
 import github.daisukikaffuchino.momoqr.ui.theme.Defaults
-import kotlin.math.roundToInt
+import github.daisukikaffuchino.momoqr.utils.VibrationUtil
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-private enum class DotShape(val label: String) {
-    Square("方形"),
-    Circle("圆形")
+enum class PaletteImageTarget {
+    Logo,
+    Background,
 }
 
+@SuppressLint("LocalContextGetResourceValueCall")
+@OptIn(ExperimentalMaterial3ExpressiveApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun PalettePage(
     modifier: Modifier = Modifier,
     onNavigateUp: () -> Unit,
+    viewModel: PaletteViewModel = hiltViewModel(),
 ) {
-    // --- 临时本地状态，后续可替换为 ViewModel 状态 ---
-    var darkColor by remember { mutableStateOf(Color(0xFF111111)) }
-    var lightColor by remember { mutableStateOf(Color(0xFFFFFFFF)) }
-    var backgroundColor by remember { mutableStateOf(Color(0xFFF5F5F5)) }
-    var pickColorFromBackground by remember { mutableStateOf(false) }
+    val state by viewModel.state.collectAsState()
+    val context = LocalContext.current
+    val view = LocalView.current
+    val snackbarHostState = remember { SnackbarHostState() }
+    val scope = rememberCoroutineScope()
+    var currentImageTarget by remember { mutableStateOf<PaletteImageTarget?>(null) }
+    var showColorPickerSheet by remember { mutableStateOf(false) }
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+    var showSavePresetDialog by remember { mutableStateOf(false) }
+    var showRestoreDefaultDialog by remember { mutableStateOf(false) }
 
-    var dotShapeIndex by remember { mutableIntStateOf(0) } // 0: square, 1: circle
-    var dotScale by remember { mutableFloatStateOf(0.8f) } // 0.1..1.0, step 0.05
+    val configuration = LocalConfiguration.current
+    val isLandscape = configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
 
-    var backgroundAlpha by remember { mutableFloatStateOf(1.0f) } // 0.1..1.0, step 0.1
+    val pagerState = rememberPagerState(
+        initialPage = state.selectedPaneIndex,
+        pageCount = { 2 },
+    )
+
+    LaunchedEffect(state.selectedPaneIndex) {
+        if (pagerState.currentPage != state.selectedPaneIndex) {
+            pagerState.animateScrollToPage(state.selectedPaneIndex)
+        }
+    }
+
+    LaunchedEffect(pagerState) {
+        snapshotFlow { pagerState.currentPage }.collectLatest { page ->
+            if (page != state.selectedPaneIndex) {
+                viewModel.updateSelectedPaneIndex(page)
+            }
+        }
+    }
+
+    LaunchedEffect(viewModel) {
+        viewModel.resetEditorState()
+    }
+
+    val imagePickerLauncher = rememberLauncherForActivityResult(
+        ActivityResultContracts.PickVisualMedia(),
+    ) { uri ->
+        val target = currentImageTarget
+        currentImageTarget = null
+        if (uri == null || target == null) return@rememberLauncherForActivityResult
+
+        scope.launch {
+            val bitmap = withContext(Dispatchers.IO) {
+                decodeSampledBitmapFromUri(
+                    context = context,
+                    uri = uri
+                )
+            }
+
+            if (bitmap == null) {
+                snackbarHostState.showSnackbar(
+                    context.getString(R.string.toast_palette_image_load_failed)
+                )
+                return@launch
+            }
+
+            when (target) {
+                PaletteImageTarget.Logo -> viewModel.setLogoBitmap(bitmap)
+                PaletteImageTarget.Background -> viewModel.setBackgroundBitmap(bitmap)
+            }
+        }
+    }
 
     TopAppBarScaffold(
         title = stringResource(R.string.label_generate_color_palette),
         onBack = onNavigateUp,
-        modifier = modifier
-    ) {
-        LazyColumn(
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(horizontal = Defaults.screenHorizontalPadding)
-                .padding(top = Defaults.screenVerticalPadding, bottom = Defaults.screenVerticalPadding)
-        ) {
-            item {
-                SectionCard(title = "颜色设置") {
-                    ColorSettingRow(
-                        title = "深色",
-                        color = darkColor,
+        snackbarHost = { SnackbarHost(snackbarHostState) },
+        floatingActionButton = {
+            AnimatedVisibility(
+                visible = pagerState.currentPage == 0,
+                enter = fadeIn() + slideInVertically { it / 2 },
+                exit = fadeOut() + slideOutVertically { it / 2 }
+            ) {
+                Box(
+                    modifier = Modifier.padding(8.dp)
+                ) {
+                    ResultFloatingActionButton(
+                        text = stringResource(R.string.action_save),
+                        iconRes = R.drawable.ic_save,
+                        expanded = true,
                         onClick = {
-                            // TODO 打开取色器
-                            darkColor = randomPreviewColor()
+                            VibrationUtil.performHapticFeedback(view)
+                            if (state.previewErrorMessage != null) {
+                                Toast.makeText(
+                                    context,
+                                    R.string.toast_continue_after_eliminate_all_errors,
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                return@ResultFloatingActionButton
+                            } else
+                                showSavePresetDialog = true
                         }
                     )
-                    HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
-
-                    ColorSettingRow(
-                        title = "浅色",
-                        color = lightColor,
-                        onClick = {
-                            // TODO 打开取色器
-                            lightColor = randomPreviewColor()
-                        }
-                    )
-                    HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
-
-                    ColorSettingRow(
-                        title = "背景色",
-                        color = backgroundColor,
-                        onClick = {
-                            // TODO 打开取色器
-                            backgroundColor = randomPreviewColor()
-                        }
-                    )
-
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(top = 8.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Checkbox(
-                            checked = pickColorFromBackground,
-                            onCheckedChange = { pickColorFromBackground = it }
+                }
+            }
+            PalettePresetPromptDialog(
+                visible = showSavePresetDialog,
+                onSave = { name ->
+                    viewModel.savePreset(name)
+                    scope.launch {
+                        snackbarHostState.showSnackbar(
+                            context.getString(R.string.toast_palette_preset_saved)
                         )
-                        Text(text = "从背景图取色")
                     }
-                }
-            }
-
-            item {
-                SectionCard(title = "数据点样式") {
-                    Text(
-                        text = "形状",
-                        style = MaterialTheme.typography.titleSmall
-                    )
-
-                    val options = DotShape.entries
-                    SingleChoiceSegmentedButtonRow(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(top = 8.dp)
-                    ) {
-                        options.forEachIndexed { index, item ->
-                            SegmentedButton(
-                                selected = dotShapeIndex == index,
-                                onClick = { dotShapeIndex = index },
-                                shape = androidx.compose.material3.SegmentedButtonDefaults.itemShape(
-                                    index = index,
-                                    count = options.size
-                                )
-                            ) {
-                                Text(item.label)
-                            }
-                        }
+                },
+                onDismiss = { showSavePresetDialog = false },
+            )
+        },
+        actions = {
+            AnimatedVisibility(
+                visible = pagerState.currentPage == 0,
+                enter = fadeIn(),
+                exit = fadeOut()
+            ) {
+                IconButton(
+                    onClick = {
+                        VibrationUtil.performHapticFeedback(view)
+                        showRestoreDefaultDialog = true
                     }
-
-                    Text(
-                        text = "数据点比例：${"%.2f".format(dotScale)}",
-                        style = MaterialTheme.typography.titleSmall,
-                        modifier = Modifier.padding(top = 16.dp)
-                    )
-
-                    Slider(
-                        value = dotScale,
-                        onValueChange = { dotScale = snapToStep(it, 0.1f, 0.05f) },
-                        valueRange = 0.1f..1.0f,
-                        // (1.0 - 0.1) / 0.05 = 18 个区间 => steps = 17
-                        steps = 17,
-                        modifier = Modifier.fillMaxWidth()
+                ) {
+                    Icon(
+                        painterResource(R.drawable.ic_restart_alt),
+                        contentDescription = stringResource(R.string.action_restore_defaults)
                     )
                 }
             }
-
-            item {
-                SectionCard(title = "Logo / 背景图") {
-                    Row(
-                        horizontalArrangement = Arrangement.spacedBy(12.dp),
-                        modifier = Modifier.fillMaxWidth()
-                    ) {
-                        Button(
-                            onClick = {
-                                // TODO 选择 Logo
-                            },
-                            modifier = Modifier.weight(1f)
-                        ) {
-                            Text("设置 Logo")
-                        }
-
-                        Button(
-                            onClick = {
-                                // TODO 选择背景图
-                            },
-                            modifier = Modifier.weight(1f)
-                        ) {
-                            Text("设置背景图")
-                        }
+            ConfirmDialog(
+                visible = showRestoreDefaultDialog,
+                iconRes = R.drawable.ic_restart_alt,
+                title = stringResource(R.string.title_restore_defaults),
+                text = stringResource(R.string.tip_restore_palette_defaults),
+                confirmButtonText = stringResource(R.string.action_restore_defaults),
+                onConfirm = {
+                    viewModel.resetEditorState()
+                    scope.launch {
+                        snackbarHostState.showSnackbar(
+                            context.getString(R.string.toast_restored_defaults)
+                        )
                     }
-
-                    Text(
-                        text = "背景图透明度：${"%.1f".format(backgroundAlpha)}",
-                        style = MaterialTheme.typography.titleSmall,
-                        modifier = Modifier.padding(top = 16.dp)
-                    )
-
-                    Slider(
-                        value = backgroundAlpha,
-                        onValueChange = { backgroundAlpha = snapToStep(it, 0.1f, 0.1f) },
-                        valueRange = 0.1f..1.0f,
-                        // (1.0 - 0.1) / 0.1 = 9 个区间 => steps = 8
-                        steps = 8,
-                        modifier = Modifier.fillMaxWidth()
-                    )
-                }
-            }
-        }
-    }
-}
-
-@Composable
-private fun SectionCard(
-    title: String,
-    content: @Composable ColumnScope.() -> Unit
-) {
-    Card(
-        modifier = Modifier.fillMaxWidth(),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceContainerLow
-        )
+                },
+                onDismiss = { showRestoreDefaultDialog = false },
+            )
+        },
+        modifier = modifier,
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            Text(
-                text = title,
-                style = MaterialTheme.typography.titleMedium
+        Column(modifier = Modifier.fillMaxSize()) {
+            PalettePagerSwitcher(
+                currentPage = pagerState.currentPage,
+                onPageSelected = { page ->
+                    scope.launch {
+                        pagerState.animateScrollToPage(page)
+                    }
+                },
             )
 
-            content()
+            HorizontalPager(
+                state = pagerState,
+                modifier = Modifier.fillMaxSize(),
+            ) { page ->
+                when (page) {
+                    0 -> PaletteEditorPage(
+                        state = state,
+                        isLandscape = isLandscape,
+                        onContentChanged = viewModel::updatePreviewContent,
+                        onSelectColorTarget = {
+                            viewModel.selectColorTarget(it)
+                            showColorPickerSheet = true
+                        },
+                        onPickColorFromBackgroundChanged = viewModel::updatePickColorFromBackground,
+                        onDotShapeChanged = viewModel::updateDotShape,
+                        onDotScaleChanged = viewModel::updateDotScale,
+                        onBackgroundAlphaChanged = viewModel::updateBackgroundAlpha,
+                        onPickLogo = {
+                            launchImagePicker(
+                                target = PaletteImageTarget.Logo,
+                                onTargetSet = { currentImageTarget = it },
+                                launcher = imagePickerLauncher::launch,
+                            )
+                        },
+                        onPickBackground = {
+                            launchImagePicker(
+                                target = PaletteImageTarget.Background,
+                                onTargetSet = { currentImageTarget = it },
+                                launcher = imagePickerLauncher::launch,
+                            )
+                        },
+                        onRemoveLogo = viewModel::clearLogoBitmap,
+                        onRemoveBackground = {
+                            viewModel.clearBackgroundBitmap()
+                            viewModel.updatePickColorFromBackground(false)
+                        }
+                    )
+
+                    1 -> PalettePresetListPage(
+                        presets = state.presets,
+                        onApplyPreset = { preset ->
+                            viewModel.applyPreset(preset)
+                            scope.launch {
+                                pagerState.animateScrollToPage(0)
+                                snackbarHostState.showSnackbar(
+                                    context.getString(R.string.toast_palette_preset_applied)
+                                )
+                            }
+                        },
+                        onDeletePreset = { preset ->
+                            viewModel.deletePreset(preset)
+                            scope.launch {
+                                snackbarHostState.showSnackbar(
+                                    context.getString(R.string.toast_palette_preset_deleted)
+                                )
+                            }
+                        },
+                    )
+                }
+            }
+        }
+
+        if (showColorPickerSheet) {
+            ModalBottomSheet(
+                onDismissRequest = {
+                    scope.launch {
+                        sheetState.hide()
+                        showColorPickerSheet = false
+                    }
+                },
+                sheetState = sheetState,
+                dragHandle = null,
+                sheetGesturesEnabled = false,
+            ) {
+
+                ColorEditor(
+                    color = state.editingColor,
+                    targetLabel = state.selectedColorTarget.label(),
+                    onColorChanged = viewModel::updateSelectedColor,
+                    onClose = {
+                        scope.launch {
+                            sheetState.hide()
+                            showColorPickerSheet = false
+                        }
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .wrapContentHeight()
+                        .padding(
+                            start = Defaults.screenHorizontalPadding,
+                            end = Defaults.screenHorizontalPadding,
+                            bottom = 24.dp,
+                        ),
+                )
+
+            }
+        }
+
+    }
+}
+
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+private fun PaletteEditorPage(
+    state: PaletteUiState,
+    isLandscape: Boolean,
+    onContentChanged: (String) -> Unit,
+    onSelectColorTarget: (PaletteColorTarget) -> Unit,
+    onPickColorFromBackgroundChanged: (Boolean) -> Unit,
+    onDotShapeChanged: (PaletteDotShape) -> Unit,
+    onDotScaleChanged: (Float) -> Unit,
+    onBackgroundAlphaChanged: (Float) -> Unit,
+    onPickLogo: () -> Unit,
+    onPickBackground: () -> Unit,
+    onRemoveLogo: () -> Unit,
+    onRemoveBackground: () -> Unit
+) {
+    LazyVerticalStaggeredGrid(
+        columns = StaggeredGridCells.Fixed(if (isLandscape) 2 else 1),
+        state = state.editorGridState,
+        verticalItemSpacing = 16.dp,
+        horizontalArrangement = Arrangement.spacedBy(Defaults.settingsItemPadding),
+        modifier = Modifier
+            .fillMaxSize()
+    ) {
+        item(key = 0) {
+            PreviewSection(
+                state = state,
+                onContentChanged = onContentChanged,
+            )
+        }
+
+        item(key = 1) {
+            ColorPickerSection(
+                state = state,
+                onSelectColorTarget = onSelectColorTarget,
+                onPickColorFromBackgroundChanged = onPickColorFromBackgroundChanged,
+            )
+        }
+
+        item(key = 2) {
+            DotShapeSection(
+                state = state,
+                onDotShapeChanged = onDotShapeChanged,
+                onDotScaleChanged = onDotScaleChanged,
+            )
+        }
+
+        item(key = 3) {
+            BackgroundSection(
+                state = state,
+                onPickLogo = onPickLogo,
+                onPickBackground = onPickBackground,
+                onRemoveLogo = onRemoveLogo,
+                onRemoveBackground = onRemoveBackground,
+                onBackgroundAlphaChanged = onBackgroundAlphaChanged
+            )
+        }
+
+        item(key = 4) {
+            Spacer(modifier = Modifier.height(72.dp))
+        }
+    }
+}
+
+
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+private fun PalettePresetListPage(
+    presets: List<PalettePreset>,
+    onApplyPreset: (PalettePreset) -> Unit,
+    onDeletePreset: (PalettePreset) -> Unit,
+) {
+    val listState = rememberLazyListState()
+
+    AnimatedContent(
+        targetState = presets.isEmpty(),
+        modifier = Modifier.fillMaxSize(),
+    ) { isEmpty ->
+        if (isEmpty) {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState())
+                    .padding(horizontal = Defaults.screenHorizontalPadding),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+                EmptyListTip(
+                    type = EmptyTipType.List,
+                    size = 96.dp,
+                )
+                Text(
+                    text = stringResource(R.string.tip_palette_no_presets),
+                    style = MaterialTheme.typography.titleMedium,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.fillMaxWidth(),
+                )
+            }
+        } else {
+            ListItemContainer(
+                modifier = Modifier
+                    .fillMaxSize(),
+                state = listState,
+            ) {
+                items(
+                    items = presets,
+                    key = { preset -> preset.id },
+                ) { preset ->
+                    PresetItem(
+                        preset = preset,
+                        onApplyPreset = onApplyPreset,
+                        onDeletePreset = onDeletePreset,
+                    )
+                }
+            }
         }
     }
 }
 
 @Composable
-private fun ColorSettingRow(
+fun SectionCard(
     title: String,
-    color: Color,
-    onClick: () -> Unit
+    padding: Dp = 16.dp,
+    content: @Composable ColumnScope.() -> Unit,
 ) {
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically
+    Column(
+        modifier = Modifier.fillMaxWidth()
     ) {
         Text(
             text = title,
-            style = MaterialTheme.typography.bodyLarge,
-            modifier = Modifier.weight(1f)
-        )
-
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            androidx.compose.foundation.layout.Box(
-                modifier = Modifier
-                    .size(20.dp)
-                    .background(color, shape = MaterialTheme.shapes.small)
+            style = MaterialTheme.typography.labelLarge,
+            color = MaterialTheme.colorScheme.primary,
+            modifier = Modifier.padding(
+                horizontal = Defaults.screenVerticalPadding,
+                vertical = Defaults.settingsItemPadding
             )
-            TextButton(onClick = onClick) {
-                Text(color.toHexString())
+        )
+        Spacer(modifier = Modifier.height(Defaults.settingsItemPadding))
+        Surface(
+            modifier = Modifier
+                .fillMaxWidth()
+                .clip(MaterialTheme.shapes.large)
+                .background(Defaults.Colors.Container)
+        ) {
+            Column(
+                modifier = Modifier.padding(padding)
+            ) {
+                content()
             }
         }
     }
 }
 
-private fun Color.toHexString(): String {
-    return "#%08X".format(this.toArgb())
-}
-
-private fun snapToStep(value: Float, min: Float, step: Float): Float {
-    val steps = ((value - min) / step).roundToInt()
-    return min + steps * step
-}
-
-// 临时演示色，后续删掉
-private fun randomPreviewColor(): Color {
-    val colors = listOf(
-        Color(0xFF111111),
-        Color(0xFFFFFFFF),
-        Color(0xFF4CAF50),
-        Color(0xFF2196F3),
-        Color(0xFFFF9800),
-        Color(0xFFE91E63),
+@Preview
+@Composable
+private fun Preview() {
+    PalettePage(
+        modifier = Modifier,
+        onNavigateUp = {}
     )
-    return colors.random()
 }

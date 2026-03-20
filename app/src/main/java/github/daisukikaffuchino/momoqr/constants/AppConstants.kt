@@ -65,6 +65,8 @@ object AppConstants {
 
     const val PREF_CATEGORIES = "categories"
     const val PREF_CATEGORIES_DEFAULT = "[]"
+    const val PREF_PALETTE_PRESETS = "palette_presets"
+    const val PREF_PALETTE_PRESETS_DEFAULT = "[]"
 
     const val PREF_EXIT_CONFIRMATION = "exit_confirmation"
     const val PREF_EXIT_CONFIRMATION_DEFAULT = true

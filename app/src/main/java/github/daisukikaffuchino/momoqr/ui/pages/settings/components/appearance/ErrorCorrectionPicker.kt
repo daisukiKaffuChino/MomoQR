@@ -81,9 +81,6 @@ fun ErrorCorrectionPicker(
 
             valueRange = 0f..levels.lastIndex.toFloat(),
             steps = levels.size - 2
-//            onValueChangeFinished = {
-//                println("最终选中的值: $lastVibratedIndex")
-//            }
         )
 
         Spacer(Modifier.size(5.dp))

@@ -62,7 +62,7 @@ fun CodeFormatsSheet(
                 style = MaterialTheme.typography.titleLarge
             )
 
-            Spacer(Modifier.height(Defaults.settingsItemVerticalPadding))
+
 
             FlowRow(
                 horizontalArrangement = Arrangement.spacedBy(8.dp),

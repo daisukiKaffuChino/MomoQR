@@ -133,6 +133,9 @@ dependencies {
     // Coil
     implementation(libs.coil.compose)
 
+    // ColorPicker
+    implementation(libs.mhssn.compose.color.picker)
+
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
     implementation(libs.androidx.hilt.navigation.compose)

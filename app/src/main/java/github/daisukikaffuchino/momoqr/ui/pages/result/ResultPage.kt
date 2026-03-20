@@ -68,7 +68,7 @@ import github.daisukikaffuchino.momoqr.ui.components.ChipItem
 import github.daisukikaffuchino.momoqr.ui.components.ConfirmDialog
 import github.daisukikaffuchino.momoqr.ui.components.TopAppBarScaffold
 import github.daisukikaffuchino.momoqr.ui.pages.result.components.ActionButtonGroup
-import github.daisukikaffuchino.momoqr.ui.pages.result.components.MarkedCheckbox
+import github.daisukikaffuchino.momoqr.ui.components.TextCheckbox
 import github.daisukikaffuchino.momoqr.ui.pages.result.components.QrPropertyCard
 import github.daisukikaffuchino.momoqr.ui.pages.result.components.ResultCategoryTextField
 import github.daisukikaffuchino.momoqr.ui.pages.result.components.ResultContentTextField
@@ -450,9 +450,10 @@ fun ResultEditorPage(
 
                 item(key = 3) {
                     Spacer(modifier = Modifier.size(4.dp))
-                    MarkedCheckbox(
+                    TextCheckbox(
                         checked = uiState.isMarked,
                         onCheckedChange = { uiState.isMarked = it },
+                        stringRes = R.string.tip_checkbox_marked,
                         modifier = Modifier.fillMaxWidth()
                     )
                 }

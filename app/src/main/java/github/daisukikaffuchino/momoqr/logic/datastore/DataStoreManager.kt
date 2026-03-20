@@ -12,6 +12,7 @@ import androidx.datastore.preferences.preferencesDataStore
 import com.google.zxing.BarcodeFormat
 import github.daisukikaffuchino.momoqr.MomoApplication
 import github.daisukikaffuchino.momoqr.constants.AppConstants
+import github.daisukikaffuchino.momoqr.logic.model.PalettePreset
 import github.daisukikaffuchino.momoqr.logic.model.QrRenderQuality
 import github.daisukikaffuchino.momoqr.logic.model.SearchEngine
 import kotlinx.coroutines.flow.Flow
@@ -55,6 +56,7 @@ object DataStoreManager {
     private val SEARCH_ENGINE = stringPreferencesKey(AppConstants.PREF_SEARCH_ENGINE)
     private val SAVE_DIRECTLY = booleanPreferencesKey(AppConstants.PREF_NOT_ASK_SAVE_PATH)
     private val QR_RENDER_QUALITY = stringPreferencesKey(AppConstants.PREF_IMAGE_QUALITY)
+    private val PALETTE_PRESETS = stringPreferencesKey(AppConstants.PREF_PALETTE_PRESETS)
     private val HIDDEN_OPTION_CONTRAST_LEVEL = booleanPreferencesKey(AppConstants.PREF_HIDDEN_OPTION_CONTRAST_LEVEL)
     private val EXIT_CONFIRMATION = booleanPreferencesKey(AppConstants.PREF_EXIT_CONFIRMATION)
 
@@ -142,6 +144,14 @@ object DataStoreManager {
         QrRenderQuality.fromValue(
             preferences[QR_RENDER_QUALITY] ?: QrRenderQuality.BALANCED.value
         )
+    }
+
+    val palettePresetsFlow: Flow<List<PalettePreset>> = dataStore.data.map { preferences ->
+        runCatching {
+            Json.decodeFromString<List<PalettePreset>>(
+                preferences[PALETTE_PRESETS] ?: AppConstants.PREF_PALETTE_PRESETS_DEFAULT
+            )
+        }.getOrDefault(emptyList())
     }
 
     val hiddenOptionContrastLevelFlow: Flow<Boolean> = dataStore.data.map { preferences ->
@@ -268,6 +278,12 @@ object DataStoreManager {
     suspend fun setQrRenderQuality(quality: QrRenderQuality) {
         dataStore.edit { preferences ->
             preferences[QR_RENDER_QUALITY] = quality.value
+        }
+    }
+
+    suspend fun setPalettePresets(value: List<PalettePreset>) {
+        dataStore.edit { preferences ->
+            preferences[PALETTE_PRESETS] = Json.encodeToString(value)
         }
     }
 

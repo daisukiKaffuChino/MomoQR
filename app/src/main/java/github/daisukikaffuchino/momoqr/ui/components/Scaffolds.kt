@@ -41,6 +41,7 @@ fun TopAppBarScaffold(
     modifier: Modifier = Modifier,
     title: String,
     onBack: () -> Unit,
+    actions: @Composable RowScope.() -> Unit = {},
     snackbarHost: @Composable () -> Unit = {},
     floatingActionButton: @Composable () -> Unit = {},
     floatingActionButtonPosition: FabPosition = FabPosition.End,
@@ -71,6 +72,7 @@ fun TopAppBarScaffold(
                 )
             }
         },
+        actions = actions,
         snackbarHost = snackbarHost,
         floatingActionButton = floatingActionButton,
         floatingActionButtonPosition = floatingActionButtonPosition,

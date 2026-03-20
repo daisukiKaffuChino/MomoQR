@@ -1,5 +1,6 @@
 # Gradle files
 .gradle/
+.gradle-user-home
 build/
 
 # Local configuration file (sdk path, etc)

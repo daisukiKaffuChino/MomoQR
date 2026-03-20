@@ -7,6 +7,7 @@ import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.ContentDrawScope
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.unit.Dp
 import github.daisukikaffuchino.momoqr.R
 import java.text.SimpleDateFormat
@@ -72,3 +73,5 @@ fun Long?.toRelativeTimeString(context: Context): String {
         else -> context.getString(R.string.time_today)
     }
 }
+
+fun Color.toHexString(): String = "#%08X".format(toArgb())

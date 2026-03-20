@@ -7,6 +7,15 @@
     <string name="action_save">Save</string>
     <string name="action_confirm">Confirm</string>
     <string name="action_back">Back</string>
+    <string name="action_restore_defaults">Restore defaults</string>
+    <string name="action_palette_edit">Edit</string>
+    <string name="action_palette_presets">Presets</string>
+    <string name="action_choose_logo">Choose logo</string>
+    <string name="action_replace_logo">Replace logo</string>
+    <string name="action_remove_logo">Remove logo</string>
+    <string name="action_choose_background">Choose background</string>
+    <string name="action_replace_background">Replace background</string>
+    <string name="action_remove_background">Remove background</string>
     <string name="action_edit_result">Edit Result</string>
     <string name="action_starred">Starred</string>
     <string name="action_search">Search</string>
@@ -28,6 +37,19 @@
     <string name="label_generate">Generate</string>
     <string name="label_generate_color_palette">Color Palette</string>
     <string name="label_generate_color_palette_desc">Customize your QR code style</string>
+    <string name="label_palette_colors">Colors</string>
+    <string name="label_palette_preview">Preview</string>
+    <string name="label_palette_preview_content">Preview content</string>
+    <string name="label_palette_module_style">Module style</string>
+    <string name="label_palette_logo_background">Logo / Background</string>
+    <string name="label_palette_editing">Editing: %1$s</string>
+    <string name="label_palette_background_alpha">Background alpha: %1$.1f</string>
+    <string name="label_palette_module_scale">Module scale: %1$.2f</string>
+    <string name="label_palette_dark">Dark</string>
+    <string name="label_palette_light">Light</string>
+    <string name="label_palette_background">Background</string>
+    <string name="label_palette_shape_square">Square</string>
+    <string name="label_palette_shape_circle">Circle</string>
     <string name="label_generate_text">Plain text</string>
     <string name="label_generate_from_clip_board">From clipboard</string>
     <string name="label_generate_wifi_sharing">Wi-Fi sharing</string>
@@ -43,6 +65,8 @@
     <string name="label_edit">Edit</string>
 
     <string name="title_warning">Warning</string>
+    <string name="title_restore_defaults">Restore defaults</string>
+    <string name="title_save_preset">Save preset</string>
     <string name="title_selected_count">%s selected</string>
 
     <string name="pref_appearance">Appearance</string>
@@ -161,6 +185,20 @@
     <string name="tip_no_item">No items to display</string>
     <string name="tip_search_not_found">No items found</string>
     <string name="tip_donate_via_wechat">Due to WeChat restrictions, please take a screenshot, then manually open WeChat and go to "Scan".</string>
+    <string name="tip_extract_color_from_background_image">Extract color from background image</string>
+    <string name="tip_restore_palette_defaults">Restore the palette editor to its default state? This will clear the current unsaved edits.</string>
+    <string name="tip_palette_no_presets">No presets saved yet</string>
+    <string name="tip_palette_save_preset">Save current palette settings as a reusable preset.</string>
+    <string name="tip_palette_name_supporting">Up to 24 characters.</string>
+    <string name="tip_palette_name_empty">Name cannot be empty.</string>
+    <string name="tip_palette_name_too_long">Name is too long.</string>
+    <string name="tip_palette_preview_empty">No preview available</string>
+    <string name="tip_palette_has_logo">Has logo</string>
+    <string name="tip_palette_no_logo">No logo</string>
+    <string name="tip_palette_has_background">Has background</string>
+    <string name="tip_palette_no_background">No background</string>
+    <string name="tip_palette_preset_summary">%1$s · %2$.2f · %3$s · %4$s</string>
+    <string name="tip_palette_generate_preview_failed">Failed to generate preview.</string>
 
     <string name="toast_press_again_to_exit">Press again to exit</string>
     <string name="toast_failed_to_initialize_camera">Failed to initialize camera</string>
@@ -172,6 +210,12 @@
     <string name="toast_saved">Saved:</string>
     <string name="toast_save_failed">Save failed</string>
     <string name="toast_not_installed_wechat">You haven\'t installed WeChat yet</string>
+    <string name="toast_continue_after_eliminate_all_errors">Continue after all errors have been eliminated</string>
+    <string name="toast_restored_defaults">Restored defaults</string>
+    <string name="toast_palette_image_load_failed">Failed to load image, please try again.</string>
+    <string name="toast_palette_preset_applied">Preset applied</string>
+    <string name="toast_palette_preset_deleted">Preset deleted</string>
+    <string name="toast_palette_preset_saved">Preset saved</string>
 
     <string name="time_today">Today</string>
     <string name="time_yesterday">Yesterday</string>
@@ -186,7 +230,9 @@
 
     <string name="error_no_content_entered">No content entered</string>
     <string name="error_no_content_entered_or_too_long">No content entered or too long</string>
+    <string name="error_palette_preview_content_required">Please enter preview content.</string>
     <string name="error_category_too_long">Category cannot exceed 16 characters</string>
     <string name="placeholder_edit_content">Edit content</string>
+    <string name="placeholder_palette_preset_name">Preset name</string>
     <string name="none">None</string>
 </resources>

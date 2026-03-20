@@ -1,10 +1,7 @@
-package github.daisukikaffuchino.momoqr.ui.pages.result.components
+package github.daisukikaffuchino.momoqr.ui.components
 
-import github.daisukikaffuchino.momoqr.R
-import github.daisukikaffuchino.momoqr.utils.VibrationUtil
 import android.view.HapticFeedbackConstants
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.material3.Checkbox
@@ -17,12 +14,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
+import github.daisukikaffuchino.momoqr.utils.VibrationUtil
 
 @Composable
-fun MarkedCheckbox(
+fun TextCheckbox(
+    modifier: Modifier = Modifier,
     checked: Boolean,
+    enabled: Boolean = true,
     onCheckedChange: (Boolean) -> Unit,
-    modifier: Modifier = Modifier
+    stringRes: Int
 ) {
     val view = LocalView.current
     val interactionSource = remember { MutableInteractionSource() }
@@ -33,8 +33,13 @@ fun MarkedCheckbox(
             .toggleable(
                 value = checked,
                 onValueChange = {
-                    VibrationUtil.performHapticFeedback(view, HapticFeedbackConstants.LONG_PRESS)
-                    onCheckedChange(it)
+                    if (enabled) {
+                        VibrationUtil.performHapticFeedback(
+                            view,
+                            HapticFeedbackConstants.LONG_PRESS
+                        )
+                        onCheckedChange(it)
+                    }
                 },
                 role = Role.Checkbox,
                 indication = null,
@@ -43,6 +48,7 @@ fun MarkedCheckbox(
     ) {
         Checkbox(
             checked = checked,
+            enabled = enabled,
             onCheckedChange = {
                 VibrationUtil.performHapticFeedback(view, HapticFeedbackConstants.LONG_PRESS)
                 onCheckedChange(it)
@@ -50,8 +56,13 @@ fun MarkedCheckbox(
             interactionSource = interactionSource
         )
         Text(
-            text = stringResource(R.string.tip_checkbox_marked),
-            style = MaterialTheme.typography.labelLarge
+            text = stringResource(stringRes),
+            style = if (enabled)
+                MaterialTheme.typography.labelLarge
+            else
+                MaterialTheme.typography.labelLarge.copy(
+                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.66f)
+                )
         )
     }
 }
