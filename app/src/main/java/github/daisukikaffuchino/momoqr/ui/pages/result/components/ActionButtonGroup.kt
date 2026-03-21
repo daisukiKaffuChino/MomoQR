@@ -20,13 +20,16 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import github.daisukikaffuchino.momoqr.R
 import github.daisukikaffuchino.momoqr.ui.theme.Defaults
 import github.daisukikaffuchino.momoqr.ui.theme.animatedShape
+import github.daisukikaffuchino.momoqr.utils.VibrationUtil
 
 @Composable
 fun ActionButtonGroup(
@@ -89,11 +92,15 @@ fun ActionButton(
     label: String,
     onClick: () -> Unit
 ) {
+    val view = LocalView.current
     val interactionSource = remember { MutableInteractionSource() }
 
     FilledTonalButton(
         modifier = modifier.height(64.dp),
-        onClick = onClick,
+        onClick = {
+            VibrationUtil.performHapticFeedback(view)
+            onClick()
+        },
         interactionSource = interactionSource,
         shape = animatedShape(Defaults.largerShapes(), interactionSource),
         contentPadding = PaddingValues(8.dp),
@@ -117,7 +124,8 @@ fun ActionButton(
             Text(
                 text = label,
                 style = MaterialTheme.typography.labelSmall,
-                maxLines = 1
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
             )
         }
     }

@@ -65,6 +65,7 @@ import github.daisukikaffuchino.momoqr.ui.components.segmentedGroup
 import github.daisukikaffuchino.momoqr.ui.components.segmentedSection
 import github.daisukikaffuchino.momoqr.ui.pages.settings.components.SettingsItem
 import github.daisukikaffuchino.momoqr.ui.pages.settings.components.TertiarySettingsItem
+import github.daisukikaffuchino.momoqr.ui.pages.settings.components.appearance.ExpressiveShapesCard
 import github.daisukikaffuchino.momoqr.ui.theme.Defaults
 import github.daisukikaffuchino.momoqr.utils.LinkOpener
 import github.daisukikaffuchino.momoqr.utils.VibrationUtil
@@ -117,10 +118,8 @@ fun SettingsAbout(
         }
 
         ListItemContainer(Modifier.fillMaxWidth()) {
-
             item {
-                LogoCard(
-                    painter = painterResource(R.drawable.momo_logo),
+                ExpressiveShapesCard(
                     onClick = {
                         clickCount++
                         if (clickCount == 6) {
@@ -133,7 +132,7 @@ fun SettingsAbout(
             }
 
             item {
-                Spacer(modifier = Modifier.size(Defaults.settingsItemPadding))
+                Spacer(modifier = Modifier.size(8.dp))
             }
 
             item {
@@ -146,7 +145,7 @@ fun SettingsAbout(
             }
 
             item {
-                Spacer(modifier = Modifier.size(Defaults.settingsItemPadding))
+                Spacer(modifier = Modifier.size(8.dp))
             }
 
             segmentedSection(R.string.pref_label_info) {
@@ -243,40 +242,6 @@ fun SettingsAbout(
             },
             onDismissRequest = { openPolicyDialog = false }
         )
-    }
-}
-
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
-@Composable
-private fun LogoCard(
-    painter: Painter,
-    modifier: Modifier = Modifier,
-    onClick: () -> Unit = {},
-    maxImageHeight: Dp = 120.dp,
-) {
-    Card(
-        modifier = modifier.fillMaxWidth(),
-        shape = Defaults.largeCornerShape,
-        onClick = onClick,
-        colors = CardDefaults.cardColors(
-            containerColor = Color.Transparent
-        )
-    ) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = Defaults.screenVerticalPadding),
-            contentAlignment = Alignment.Center
-        ) {
-            Image(
-                painter = painter,
-                contentDescription = null,
-                contentScale = ContentScale.Fit,
-                modifier = Modifier
-                    .heightIn(max = maxImageHeight)
-                    .fillMaxWidth(0.6f)
-            )
-        }
     }
 }
 

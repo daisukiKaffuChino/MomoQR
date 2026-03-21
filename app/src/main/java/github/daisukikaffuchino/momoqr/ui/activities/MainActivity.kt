@@ -1,7 +1,6 @@
 package github.daisukikaffuchino.momoqr.ui.activities
 
 import android.os.Bundle
-import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.activity.compose.setContent
@@ -49,7 +48,6 @@ import github.daisukikaffuchino.momoqr.utils.setAppLanguage
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import kotlin.properties.Delegates
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {

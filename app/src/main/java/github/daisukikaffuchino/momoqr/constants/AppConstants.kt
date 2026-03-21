@@ -6,7 +6,7 @@ object AppConstants {
     const val DEVELOPER_GITHUB = "https://github.com/daisukiKaffuChino/"
     const val GITHUB_REPO = "https://github.com/daisukiKaffuChino/MomoQR/"
     const val CROWDIN = "https://crowdin.com/project/momoqr/"
-    const val ICP_BEIAN = "https://beian.miit.gov.cn/#/Integrated/index"
+    const val ICP_BEIAN = "https://beian.miit.gov.cn/#/home"
 
     const val DB_NAME = "momo_star"
     const val DB_TABLE_NAME = "momo_star"

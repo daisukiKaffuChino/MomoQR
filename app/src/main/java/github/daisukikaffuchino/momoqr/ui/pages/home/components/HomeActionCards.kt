@@ -51,6 +51,7 @@ fun ScanFromCameraCard(
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {}
 ) {
+    val view = LocalView.current
     val interactionSource = remember { MutableInteractionSource() }
     val animatedShape = animatedShape(Defaults.largerShapes(), interactionSource)
     val cardColors = CardDefaults.cardColors(containerColor = Defaults.Colors.PrimaryMix)
@@ -64,7 +65,10 @@ fun ScanFromCameraCard(
                 .fillMaxSize()
                 .clickable(
                     enabled = true,
-                    onClick = onClick,
+                    onClick = {
+                        VibrationUtil.performHapticFeedback(view)
+                        onClick()
+                    },
                     interactionSource = interactionSource
                 )
         ) {
@@ -129,6 +133,7 @@ fun ScanFromGalleryCard(
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {}
 ) {
+    val view = LocalView.current
     val interactionSource = remember { MutableInteractionSource() }
     val animatedShape = animatedShape(Defaults.largerShapes(), interactionSource)
     val cardColors = CardDefaults.cardColors(containerColor = Defaults.Colors.SecondaryMix)
@@ -142,7 +147,10 @@ fun ScanFromGalleryCard(
                 .fillMaxSize()
                 .clickable(
                     enabled = true,
-                    onClick = onClick,
+                    onClick = {
+                        VibrationUtil.performHapticFeedback(view)
+                        onClick()
+                    },
                     interactionSource = interactionSource
                 )
         ) {
@@ -259,6 +267,7 @@ fun PaletteCard(
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {}
 ) {
+    val view = LocalView.current
     val interactionSource = remember { MutableInteractionSource() }
     val animatedShape = animatedShape(Defaults.largerShapes(), interactionSource)
 
@@ -273,7 +282,10 @@ fun PaletteCard(
             modifier = Modifier
                 .fillMaxSize()
                 .clickable(
-                    onClick = onClick,
+                    onClick = {
+                        VibrationUtil.performHapticFeedback(view)
+                        onClick()
+                    },
                     interactionSource = interactionSource
                 )
                 .padding(20.dp)
