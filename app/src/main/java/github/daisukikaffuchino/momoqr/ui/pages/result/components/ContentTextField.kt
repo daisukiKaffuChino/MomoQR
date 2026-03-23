@@ -5,6 +5,7 @@ import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -19,10 +20,11 @@ fun ResultContentTextField(
     isError: Boolean,
     modifier: Modifier = Modifier
 ) {
-    TextField(
+    OutlinedTextField(
         value = value,
         onValueChange = onValueChange,
         label = { Text(stringResource(R.string.placeholder_edit_content)) },
+        minLines = 4,
         maxLines = 8,
         isError = isError,
         supportingText = {

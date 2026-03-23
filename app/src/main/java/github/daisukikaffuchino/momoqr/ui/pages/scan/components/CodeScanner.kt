@@ -3,7 +3,6 @@ package github.daisukikaffuchino.momoqr.ui.pages.scan.components
 import androidx.camera.compose.CameraXViewfinder
 import androidx.camera.core.SurfaceRequest
 import androidx.camera.viewfinder.core.ImplementationMode
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -13,17 +12,14 @@ import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.FilledTonalIconToggleButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButtonDefaults
-import androidx.compose.material3.IconToggleButtonShapes
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -47,7 +43,6 @@ fun CodeScanner(
     modifier: Modifier = Modifier
 ) {
     val view = LocalView.current
-    val interactionSource = remember { MutableInteractionSource() }
 
     Box(modifier = modifier) {
         surfaceRequest?.let { request ->
@@ -92,12 +87,7 @@ fun CodeScanner(
                     VibrationUtil.performHapticFeedback(view)
                     onToggleFlash()
                 },
-                interactionSource = interactionSource,
-                shapes = IconToggleButtonShapes(
-                    shape = RoundedCornerShape(28.dp),
-                    pressedShape = RoundedCornerShape(8.dp),
-                    checkedShape = RoundedCornerShape(12.dp)
-                )
+                shapes = IconButtonDefaults.toggleableShapes()
             ) {
                 Icon(
                     painter =

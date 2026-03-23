@@ -23,11 +23,11 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import github.daisukikaffuchino.momoqr.R
-import github.daisukikaffuchino.momoqr.ui.theme.Defaults
 import github.daisukikaffuchino.momoqr.ui.theme.animatedShape
 import github.daisukikaffuchino.momoqr.utils.VibrationUtil
 
@@ -95,39 +95,43 @@ fun ActionButton(
     val view = LocalView.current
     val interactionSource = remember { MutableInteractionSource() }
 
-    FilledTonalButton(
-        modifier = modifier.height(64.dp),
-        onClick = {
-            VibrationUtil.performHapticFeedback(view)
-            onClick()
-        },
-        interactionSource = interactionSource,
-        shape = animatedShape(Defaults.largerShapes(), interactionSource),
-        contentPadding = PaddingValues(8.dp),
-        colors = ButtonDefaults.filledTonalButtonColors(
-            containerColor = Defaults.Colors.Container
-        )
+    Column(
+        modifier = modifier,
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Top
     ) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+        FilledTonalButton(
+            modifier = Modifier.size(52.dp),
+            onClick = {
+                VibrationUtil.performHapticFeedback(view)
+                onClick()
+            },
+            contentPadding = PaddingValues(0.dp),
+            colors = ButtonDefaults.filledTonalButtonColors(
+                containerColor = MaterialTheme.colorScheme.secondaryContainer
+            ),
+            interactionSource = interactionSource,
+            shape = animatedShape(
+                ButtonDefaults.shapes(),
+                interactionSource
+            )
         ) {
-
             Icon(
                 painter = icon,
                 contentDescription = label,
                 modifier = Modifier.size(24.dp)
             )
-
-            Spacer(Modifier.height(4.dp))
-
-            Text(
-                text = label,
-                style = MaterialTheme.typography.labelSmall,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
-            )
         }
+
+        Spacer(Modifier.height(8.dp))
+
+        Text(
+            text = label,
+            style = MaterialTheme.typography.labelSmall,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+            textAlign = TextAlign.Center
+        )
     }
 }
 

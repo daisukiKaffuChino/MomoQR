@@ -36,7 +36,7 @@ fun SettingsMain(
         ListItemContainer(Modifier.fillMaxSize()) {
             item {
                 SettingsItem(
-                    leadingIconRes = R.drawable.ic_palette,
+                    leadingIconRes = R.drawable.ic_format_paint,
                     title = stringResource(R.string.pref_appearance),
                     description = stringResource(R.string.pref_appearance_desc),
                     shapes = Defaults.largerShapes(),

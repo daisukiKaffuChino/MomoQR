@@ -54,6 +54,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -79,6 +80,7 @@ import github.daisukikaffuchino.momoqr.utils.LinkOpener
 import github.daisukikaffuchino.momoqr.utils.QrGenerateUtil.generateQrBitmap
 import github.daisukikaffuchino.momoqr.utils.buildSearchUrl
 import github.daisukikaffuchino.momoqr.utils.copyToClipboard
+import github.daisukikaffuchino.momoqr.utils.keyboardAsState
 import github.daisukikaffuchino.momoqr.utils.rememberBitmapSaver
 import github.daisukikaffuchino.momoqr.utils.shareText
 import kotlinx.coroutines.delay
@@ -140,6 +142,14 @@ fun ResultEditorPage(
     val context = LocalContext.current
 
     val isStarEntityEmpty = stars.date == 0.toLong()
+
+    val focusManager = LocalFocusManager.current
+    val keyboardVisible by keyboardAsState()
+
+    LaunchedEffect(keyboardVisible) {
+        if (!keyboardVisible)
+            focusManager.clearFocus()
+    }
 
     LaunchedEffect(Unit) {
         val autoCopy = DataStoreManager.autoCopyFlow.first()
@@ -413,7 +423,9 @@ fun ResultEditorPage(
                         value = uiState.qrContent,
                         onValueChange = { uiState.qrContent = it },
                         isError = uiState.isErrorContent,
-                        modifier = Modifier.fillMaxWidth()
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 12.dp)
                     )
                 }
 

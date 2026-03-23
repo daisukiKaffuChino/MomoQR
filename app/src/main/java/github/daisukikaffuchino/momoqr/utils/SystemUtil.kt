@@ -7,6 +7,12 @@ import android.util.DisplayMetrics
 import androidx.activity.ComponentActivity
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.ime
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.ui.platform.LocalDensity
 import androidx.core.os.LocaleListCompat
 import github.daisukikaffuchino.momoqr.ui.activities.MainActivity
 import java.text.DateFormat
@@ -109,5 +115,17 @@ fun getSystemInfo(context: Context): String {
 
         appendLine("Fingerprint:")
         appendLine(Build.FINGERPRINT)
+    }
+}
+
+@Composable
+fun keyboardAsState(): androidx.compose.runtime.State<Boolean> {
+    val ime = WindowInsets.ime
+    val density = LocalDensity.current
+
+    return remember {
+        derivedStateOf {
+            ime.getBottom(density) > 0
+        }
     }
 }
