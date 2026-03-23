@@ -36,6 +36,7 @@ import github.daisukikaffuchino.momoqr.constants.AppConstants
 import github.daisukikaffuchino.momoqr.logic.datastore.DataStoreManager
 import github.daisukikaffuchino.momoqr.logic.model.DarkMode
 import github.daisukikaffuchino.momoqr.logic.model.PaletteStyle
+import github.daisukikaffuchino.momoqr.logic.model.ThemeAccentColor
 import github.daisukikaffuchino.momoqr.ui.navigation.MomoDestination
 import github.daisukikaffuchino.momoqr.ui.navigation.TopLevelBackStack
 import github.daisukikaffuchino.momoqr.ui.navigation.TopNavigation
@@ -100,6 +101,7 @@ class MainActivity : AppCompatActivity() {
 
             // 主题
             val dynamicColor by DataStoreManager.dynamicColorFlow.collectAsState(initial = AppConstants.PREF_DYNAMIC_COLOR_DEFAULT)
+            val accentColor by DataStoreManager.accentColorFlow.collectAsState(initial = ThemeAccentColor.PINK)
             val paletteStyle by DataStoreManager.paletteStyleFlow.collectAsState(initial = AppConstants.PREF_PALETTE_STYLE_DEFAULT)
             val contrastLevel by DataStoreManager.contrastLevelFlow.collectAsState(initial = AppConstants.PREF_CONTRAST_LEVEL_DEFAULT)
             val darkMode by DataStoreManager.darkModeFlow.collectAsState(initial = AppConstants.PREF_DARK_MODE_DEFAULT)
@@ -136,6 +138,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             MomoQRTheme(
+                customKeyColor = accentColor.colors[0],
                 darkTheme = darkTheme,
                 style = PaletteStyle.fromId(paletteStyle),
                 contrastLevel = contrastLevel.toDouble(),

@@ -39,6 +39,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Velocity
+import androidx.compose.ui.unit.dp
 import github.daisukikaffuchino.momoqr.R
 import github.daisukikaffuchino.momoqr.ui.theme.Defaults
 import github.daisukikaffuchino.momoqr.utils.VibrationUtil
@@ -76,6 +77,7 @@ fun TopAppBarScaffold(
         },
         navigationIcon = {
             FilledIconButton(
+                modifier = Modifier.padding(start = 12.dp, end = 8.dp),
                 colors = IconButtonDefaults.filledIconButtonColors(containerColor = MaterialTheme.colorScheme.surfaceContainerHighest),
                 shapes = IconButtonDefaults.shapes(),
                 onClick = {

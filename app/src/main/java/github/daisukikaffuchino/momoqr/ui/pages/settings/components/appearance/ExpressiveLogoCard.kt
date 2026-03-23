@@ -37,7 +37,7 @@ import androidx.graphics.shapes.toPath
 @Preview
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
-fun ExpressiveShapesCard(
+fun ExpressiveLogoCard(
     onClick: () -> Unit = {}
 ) {
     val configuration = LocalConfiguration.current

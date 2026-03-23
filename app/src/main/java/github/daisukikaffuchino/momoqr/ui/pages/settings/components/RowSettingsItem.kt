@@ -97,7 +97,9 @@ fun MoreContentSettingsItem(
                 vertical = Defaults.settingsItemVerticalPadding
             )
     ) {
-        Row {
+        Row(
+            verticalAlignment = Alignment.CenterVertically
+        ) {
             leadingIcon?.let {
                 it()
             }

@@ -1,6 +1,12 @@
 package github.daisukikaffuchino.momoqr.ui.pages.settings
 
 import android.os.Build
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
@@ -16,17 +22,19 @@ import github.daisukikaffuchino.momoqr.logic.datastore.DataStoreManager
 import github.daisukikaffuchino.momoqr.logic.model.ContrastLevel
 import github.daisukikaffuchino.momoqr.logic.model.DarkMode
 import github.daisukikaffuchino.momoqr.logic.model.PaletteStyle
-import github.daisukikaffuchino.momoqr.ui.components.TopAppBarScaffold
 import github.daisukikaffuchino.momoqr.ui.components.ListItemContainer
+import github.daisukikaffuchino.momoqr.ui.components.TopAppBarScaffold
+import github.daisukikaffuchino.momoqr.ui.components.segmentedGroup
+import github.daisukikaffuchino.momoqr.ui.components.segmentedSection
 import github.daisukikaffuchino.momoqr.ui.pages.settings.components.SettingsItem
 import github.daisukikaffuchino.momoqr.ui.pages.settings.components.SwitchSettingsItem
+import github.daisukikaffuchino.momoqr.ui.pages.settings.components.appearance.AppPalettePicker
 import github.daisukikaffuchino.momoqr.ui.pages.settings.components.appearance.ContrastPicker
 import github.daisukikaffuchino.momoqr.ui.pages.settings.components.appearance.DarkModePicker
 import github.daisukikaffuchino.momoqr.ui.pages.settings.components.appearance.LanguageItem
-import github.daisukikaffuchino.momoqr.ui.pages.settings.components.appearance.AppPalettePicker
-import github.daisukikaffuchino.momoqr.ui.components.segmentedGroup
-import github.daisukikaffuchino.momoqr.ui.components.segmentedSection
+import github.daisukikaffuchino.momoqr.ui.pages.settings.components.appearance.ThemeAccentColorPicker
 import github.daisukikaffuchino.momoqr.utils.setAppLanguage
+import github.daisukikaffuchino.momoqr.logic.model.ThemeAccentColor
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -36,10 +44,14 @@ fun SettingsAppearance(
     modifier: Modifier = Modifier
 ) {
     val dynamicColor by DataStoreManager.dynamicColorFlow.collectAsState(initial = AppConstants.PREF_DYNAMIC_COLOR_DEFAULT)
+    val accentColor by DataStoreManager.accentColorFlow.collectAsState(initial = ThemeAccentColor.PINK)
     val darkMode by DataStoreManager.darkModeFlow.collectAsState(initial = AppConstants.PREF_DARK_MODE_DEFAULT)
     val paletteStyle by DataStoreManager.paletteStyleFlow.collectAsState(initial = AppConstants.PREF_PALETTE_STYLE_DEFAULT)
     val contrastLevel by DataStoreManager.contrastLevelFlow.collectAsState(initial = AppConstants.PREF_CONTRAST_LEVEL_DEFAULT)
-    val showHiddenContrastLevel by DataStoreManager.hiddenOptionContrastLevelFlow.collectAsState(initial = false)
+    val homeClassicCard by DataStoreManager.homeClassicCardFlow.collectAsState(initial = AppConstants.PREF_HOME_CLASSIC_CARD_DEFAULT)
+    val showHiddenContrastLevel by DataStoreManager.hiddenOptionContrastLevelFlow.collectAsState(
+        initial = false
+    )
 
     val uriHandler = LocalUriHandler.current
     val scope = rememberCoroutineScope()
@@ -49,10 +61,13 @@ fun SettingsAppearance(
         onBack = onNavigateUp,
         modifier = modifier,
     ) {
-        ListItemContainer(Modifier.fillMaxSize()) {
-
-            segmentedSection(R.string.pref_label_theme) {
-                segmentedGroup {
+        ListItemContainer(Modifier
+            .fillMaxSize()
+            .animateContentSize()) {
+            segmentedSection(R.string.pref_label_accent_color) {
+                segmentedGroup(
+                    modifier = Modifier.animateContentSize()
+                ) {
                     SwitchSettingsItem(
                         checked = dynamicColor,
                         enabled = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S,
@@ -61,6 +76,25 @@ fun SettingsAppearance(
                         description = stringResource(R.string.pref_appearance_dynamic_color_desc),
                         onCheckedChange = { scope.launch { DataStoreManager.setDynamicColor(it) } }
                     )
+                    AnimatedVisibility(
+                        visible = !dynamicColor,
+                        enter = fadeIn() + slideInVertically { it / 2 },
+                        exit = fadeOut() + slideOutVertically { it / 2 }
+                    ) {
+                        ThemeAccentColorPicker(
+                            colorSelected = accentColor,
+                            onColorSelect = { color ->
+                                scope.launch {
+                                    DataStoreManager.setAccentColor(color)
+                                }
+                            }
+                        )
+                    }
+                }
+            }
+
+            segmentedSection(R.string.pref_label_display) {
+                segmentedGroup {
                     DarkModePicker(
                         currentDarkMode = { DarkMode.fromId(darkMode) },
                         onDarkModeChange = { scope.launch { DataStoreManager.setDarkMode(it.id) } }
@@ -78,6 +112,13 @@ fun SettingsAppearance(
                             onContrastChange = { scope.launch { DataStoreManager.setContrastLevel(it.value) } }
                         )
                     }
+                    SwitchSettingsItem(
+                        checked = homeClassicCard,
+                        leadingIconRes = R.drawable.ic_view_agenda,
+                        title = stringResource(R.string.pref_classic_home_card),
+                        description = stringResource(R.string.pref_classic_home_card_desc),
+                        onCheckedChange = { scope.launch { DataStoreManager.setHomeClassicCard(it) } }
+                    )
                 }
             }
 
@@ -85,8 +126,7 @@ fun SettingsAppearance(
                 segmentedGroup {
                     LanguageItem(DataStoreManager) {
                         scope.launch {
-                            val dataStoreManager = DataStoreManager
-                            dataStoreManager.setLanguage(it.code)
+                            DataStoreManager.setLanguage(it.code)
                             setAppLanguage(it.code)
                         }
                     }

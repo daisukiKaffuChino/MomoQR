@@ -46,12 +46,13 @@ fun ListItemContainer(
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 fun LazyListScope.segmentedGroup(
+    modifier: Modifier = Modifier,
     content: @Composable ColumnScope.() -> Unit
 ) {
     item {
         Column(
             verticalArrangement = Arrangement.spacedBy(Defaults.settingsSegmentedItemPadding),
-            modifier = Modifier.clip(MaterialTheme.shapes.largeIncreased)
+            modifier = modifier.clip(MaterialTheme.shapes.largeIncreased)
         ) {
             content()
         }

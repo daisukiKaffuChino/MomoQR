@@ -2,7 +2,6 @@ package github.daisukikaffuchino.momoqr.constants
 
 object AppConstants {
 
-
     const val DEVELOPER_GITHUB = "https://github.com/daisukiKaffuChino/"
     const val GITHUB_REPO = "https://github.com/daisukiKaffuChino/MomoQR/"
     const val CROWDIN = "https://crowdin.com/project/momoqr/"
@@ -18,6 +17,9 @@ object AppConstants {
     // pref
     const val PREF_DYNAMIC_COLOR = "dynamic_color"
     const val PREF_DYNAMIC_COLOR_DEFAULT = false
+
+    const val PREF_ACCENT_COLOR = "accent_color"
+    const val PREF_ACCENT_COLOR_DEFAULT = 0
 
     const val PREF_PALETTE_STYLE = "palette_style"
     const val PREF_PALETTE_STYLE_DEFAULT = 1 // TonalSpot
@@ -35,6 +37,9 @@ object AppConstants {
 
     const val PREF_HAPTIC_FEEDBACK = "haptic_feedback"
     const val PREF_HAPTIC_FEEDBACK_DEFAULT = true
+
+    const val PREF_HOME_CLASSIC_CARD= "home_classic_card"
+    const val PREF_HOME_CLASSIC_CARD_DEFAULT= false
 
     const val PREF_SORTING_METHOD = "sorting_method"
     const val PREF_SORTING_METHOD_DEFAULT = 1

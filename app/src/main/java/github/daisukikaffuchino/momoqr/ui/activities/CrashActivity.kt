@@ -21,6 +21,7 @@ import github.daisukikaffuchino.momoqr.ui.theme.MomoQRTheme
 import github.daisukikaffuchino.momoqr.utils.VibrationUtil
 import github.daisukikaffuchino.momoqr.utils.configureEdgeToEdge
 import github.daisukikaffuchino.momoqr.constants.AppConstants
+import github.daisukikaffuchino.momoqr.logic.model.ThemeAccentColor
 
 class CrashActivity : ComponentActivity(){
     companion object {
@@ -40,6 +41,7 @@ class CrashActivity : ComponentActivity(){
 
         setContent {
             val dynamicColor by DataStoreManager.dynamicColorFlow.collectAsState(initial = AppConstants.PREF_DYNAMIC_COLOR_DEFAULT)
+            val accentColor by DataStoreManager.accentColorFlow.collectAsState(initial = ThemeAccentColor.PINK)
             val paletteStyle by DataStoreManager.paletteStyleFlow.collectAsState(initial = AppConstants.PREF_PALETTE_STYLE_DEFAULT)
             val contrastLevel by DataStoreManager.contrastLevelFlow.collectAsState(initial = AppConstants.PREF_CONTRAST_LEVEL_DEFAULT)
             val darkMode by DataStoreManager.darkModeFlow.collectAsState(initial = AppConstants.PREF_DARK_MODE_DEFAULT)
@@ -63,6 +65,7 @@ class CrashActivity : ComponentActivity(){
             }
 
             MomoQRTheme(
+                customKeyColor = accentColor.colors[0],
                 darkTheme = darkTheme,
                 style = PaletteStyle.fromId(paletteStyle),
                 contrastLevel = contrastLevel.toDouble(),

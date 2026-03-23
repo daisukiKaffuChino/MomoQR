@@ -28,7 +28,7 @@ import github.daisukikaffuchino.momoqr.logic.model.PaletteStyle
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun MomoQRTheme(
-    color: Color? = null,
+    customKeyColor: Color,
     darkTheme: Boolean = isSystemInDarkTheme(),
     style: PaletteStyle = PaletteStyle.TonalSpot,
     contrastLevel: Double = 0.0,
@@ -38,14 +38,11 @@ fun MomoQRTheme(
     val baseColor = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && dynamicColor) {
         colorResource(id = android.R.color.system_accent1_500)
     } else {
-        Color(0xFFF596AA)
+        customKeyColor
     }
 
-    // 关键色，如果指定就使用
-    val keyColor = color ?: baseColor
-
     val colorScheme = dynamicColorScheme(
-        keyColor = keyColor,
+        keyColor = baseColor,
         isDark = darkTheme,
         style = style,
         contrastLevel = contrastLevel

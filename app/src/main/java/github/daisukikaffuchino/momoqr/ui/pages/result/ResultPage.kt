@@ -263,11 +263,11 @@ fun ResultEditorPage(
     @SuppressLint("ConfigurationScreenWidthHeight") val screenHeight =
         LocalConfiguration.current.screenHeightDp.dp
     val animatedSheetPeekHeight by animateDpAsState(
-        targetValue = if (startSheetAnimation) navBar + 64.dp else 0.dp,
+        targetValue = if (startSheetAnimation) navBar + 52.dp else 0.dp,
         label = "sheet_peek_height"
     )
     val animatedFabPeekHeight by animateDpAsState(
-        targetValue = if (startSheetAnimation) 64.dp else 0.dp,
+        targetValue = if (startSheetAnimation) 52.dp else 0.dp,
         label = "fab_peek_height"
     )
 
@@ -281,7 +281,7 @@ fun ResultEditorPage(
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(screenHeight * 0.81f)
+                    .height(screenHeight * 0.75f)
             ) {
                 LazyVerticalStaggeredGrid(
                     columns = StaggeredGridCells.Fixed(if (isLandscape) 2 else 1),

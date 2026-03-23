@@ -15,6 +15,7 @@ import github.daisukikaffuchino.momoqr.constants.AppConstants
 import github.daisukikaffuchino.momoqr.logic.model.PalettePreset
 import github.daisukikaffuchino.momoqr.logic.model.QrRenderQuality
 import github.daisukikaffuchino.momoqr.logic.model.SearchEngine
+import github.daisukikaffuchino.momoqr.logic.model.ThemeAccentColor
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.serialization.json.Json
@@ -39,12 +40,15 @@ object DataStoreManager {
     // Keys
     // 外观与个性化
     private val DYNAMIC_COLOR = booleanPreferencesKey(AppConstants.PREF_DYNAMIC_COLOR)
+    private val ACCENT_COLOR = intPreferencesKey(AppConstants.PREF_ACCENT_COLOR)
     private val PALETTE_STYLE = intPreferencesKey(AppConstants.PREF_PALETTE_STYLE)
     private val DARK_MODE = intPreferencesKey(AppConstants.PREF_DARK_MODE)
     private val CONTRAST_LEVEL = floatPreferencesKey(AppConstants.PREF_CONTRAST_LEVEL)
     private val LANGUAGE = stringPreferencesKey(AppConstants.PREF_LANGUAGE)
     private val OPEN_IN_APP_BROWSER = booleanPreferencesKey(AppConstants.PREF_OPEN_IN_APP_BROWSER)
     private val HAPTIC_FEEDBACK = booleanPreferencesKey(AppConstants.PREF_HAPTIC_FEEDBACK)
+    private val HOME_CLASSIC_CARD = booleanPreferencesKey(AppConstants.PREF_HOME_CLASSIC_CARD)
+
     private val SORTING_METHOD = intPreferencesKey(AppConstants.PREF_SORTING_METHOD)
     private val CATEGORIES = stringPreferencesKey(AppConstants.PREF_CATEGORIES)
     private val BARCODE_FORMATS = stringSetPreferencesKey(AppConstants.PREF_BARCODE_FORMATS)
@@ -59,12 +63,19 @@ object DataStoreManager {
     private val SAVE_DIRECTLY = booleanPreferencesKey(AppConstants.PREF_NOT_ASK_SAVE_PATH)
     private val QR_RENDER_QUALITY = stringPreferencesKey(AppConstants.PREF_IMAGE_QUALITY)
     private val PALETTE_PRESETS = stringPreferencesKey(AppConstants.PREF_PALETTE_PRESETS)
-    private val HIDDEN_OPTION_CONTRAST_LEVEL = booleanPreferencesKey(AppConstants.PREF_HIDDEN_OPTION_CONTRAST_LEVEL)
+    private val HIDDEN_OPTION_CONTRAST_LEVEL =
+        booleanPreferencesKey(AppConstants.PREF_HIDDEN_OPTION_CONTRAST_LEVEL)
     private val EXIT_CONFIRMATION = booleanPreferencesKey(AppConstants.PREF_EXIT_CONFIRMATION)
 
     // Getters
     val dynamicColorFlow: Flow<Boolean> = dataStore.data.map { preferences ->
         preferences[DYNAMIC_COLOR] ?: AppConstants.PREF_DYNAMIC_COLOR_DEFAULT
+    }
+
+    val accentColorFlow: Flow<ThemeAccentColor> = dataStore.data.map { preferences ->
+        ThemeAccentColor.fromId(
+            preferences[ACCENT_COLOR] ?: AppConstants.PREF_ACCENT_COLOR_DEFAULT
+        )
     }
 
     val paletteStyleFlow = dataStore.data.map { preferences ->
@@ -89,6 +100,10 @@ object DataStoreManager {
 
     val hapticFeedbackFlow: Flow<Boolean> = dataStore.data.map { preferences ->
         preferences[HAPTIC_FEEDBACK] ?: AppConstants.PREF_HAPTIC_FEEDBACK_DEFAULT
+    }
+
+    val homeClassicCardFlow: Flow<Boolean> = dataStore.data.map { preferences ->
+        preferences[HOME_CLASSIC_CARD] ?: AppConstants.PREF_HOME_CLASSIC_CARD_DEFAULT
     }
 
     val sortingMethodFlow: Flow<Int> = dataStore.data.map { preferences ->
@@ -172,6 +187,12 @@ object DataStoreManager {
         }
     }
 
+    suspend fun setAccentColor(color: ThemeAccentColor) {
+        dataStore.edit { preferences ->
+            preferences[ACCENT_COLOR] = color.id
+        }
+    }
+
     suspend fun setPaletteStyle(value: Int) {
         dataStore.edit { preferences ->
             preferences[PALETTE_STYLE] = value
@@ -208,6 +229,12 @@ object DataStoreManager {
     suspend fun setHapticFeedback(value: Boolean) {
         dataStore.edit { preferences ->
             preferences[HAPTIC_FEEDBACK] = value
+        }
+    }
+
+    suspend fun setHomeClassicCard(value: Boolean) {
+        dataStore.edit { preferences ->
+            preferences[HOME_CLASSIC_CARD] = value
         }
     }
 

@@ -32,8 +32,8 @@
     <string name="page_crash">Oops!\nApp went wrong</string>
 
     <string name="label_scan">Scan</string>
-    <string name="label_from_camera">From Camera</string>
-    <string name="label_from_gallery">From Gallery</string>
+    <string name="label_from_camera">Capture From Camera</string>
+    <string name="label_from_gallery">Pick From Gallery</string>
     <string name="label_generate">Generate</string>
     <string name="label_generate_color_palette">Color Palette</string>
     <string name="label_generate_color_palette_desc">Customize your QR code style</string>
@@ -70,10 +70,12 @@
     <string name="title_save_preset">Save preset</string>
     <string name="title_selected_count">%s selected</string>
 
-    <string name="pref_appearance">Appearance</string>
+    <string name="pref_appearance">Theme &amp; Appearance</string>
     <string name="pref_appearance_desc">Theme Style, Language</string>
     <string name="pref_appearance_dynamic_color">Dynamic Color</string>
     <string name="pref_appearance_dynamic_color_desc">Use the system wallpaper\'s theme color, available on Android 12+</string>
+    <string name="pref_preset_scheme">Preset Scheme</string>
+    <string name="pref_preset_scheme_desc">Magnificent adventure</string>
     <string name="pref_palette_style">Palette Style</string>
     <string name="pref_palette_style_desc">Choose the color scheme method for applying the theme color</string>
     <string name="pref_contrast_level">Contrast Level</string>
@@ -105,6 +107,8 @@
     <string name="pref_sorting_method">Sorting Method</string>
     <string name="pref_haptic_feedback">Haptic Feedback</string>
     <string name="pref_haptic_feedback_desc">Provide slight vibration feedback for some operations</string>
+    <string name="pref_classic_home_card">Classic Home Cards</string>
+    <string name="pref_classic_home_card_desc">Use classic card UI instead of expressive shapes</string>
     <string name="pref_use_in_app_browser">Use In-app Browser</string>
     <string name="pref_use_in_app_browser_desc">Enable Chrome Custom Tabs, and you may need to set a supported browser as the default</string>
     <string name="pref_identification_type">Identification Type</string>
@@ -130,7 +134,8 @@
     <string name="pref_exit_confirmation">Exit Confirmation</string>
     <string name="pref_exit_confirmation_desc">Double-click to exit the app</string>
 
-    <string name="pref_label_theme">Theme</string>
+    <string name="pref_label_display">Display</string>
+    <string name="pref_label_accent_color">Accent Color</string>
     <string name="pref_label_info">Information</string>
     <string name="pref_label_others">Others</string>
     <string name="pref_label_camera">Camera</string>

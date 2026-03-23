@@ -2,28 +2,17 @@ package github.daisukikaffuchino.momoqr.ui.pages.settings
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.Typeface
-import android.text.Spanned
-import android.text.style.RelativeSizeSpan
-import android.text.style.StyleSpan
 import android.widget.Toast
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.heightIn
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.FilledTonalButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -36,23 +25,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.platform.LocalView
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.text.fromHtml
 import androidx.compose.ui.unit.dp
-import androidx.core.text.HtmlCompat
 import github.daisukikaffuchino.momoqr.BuildConfig
 import github.daisukikaffuchino.momoqr.R
 import github.daisukikaffuchino.momoqr.constants.AppConstants
@@ -65,8 +45,7 @@ import github.daisukikaffuchino.momoqr.ui.components.segmentedGroup
 import github.daisukikaffuchino.momoqr.ui.components.segmentedSection
 import github.daisukikaffuchino.momoqr.ui.pages.settings.components.SettingsItem
 import github.daisukikaffuchino.momoqr.ui.pages.settings.components.TertiarySettingsItem
-import github.daisukikaffuchino.momoqr.ui.pages.settings.components.appearance.ExpressiveShapesCard
-import github.daisukikaffuchino.momoqr.ui.theme.Defaults
+import github.daisukikaffuchino.momoqr.ui.pages.settings.components.appearance.ExpressiveLogoCard
 import github.daisukikaffuchino.momoqr.utils.LinkOpener
 import github.daisukikaffuchino.momoqr.utils.VibrationUtil
 import github.daisukikaffuchino.momoqr.utils.appVersion
@@ -119,7 +98,7 @@ fun SettingsAbout(
 
         ListItemContainer(Modifier.fillMaxWidth()) {
             item {
-                ExpressiveShapesCard(
+                ExpressiveLogoCard(
                     onClick = {
                         clickCount++
                         if (clickCount == 6) {
@@ -224,10 +203,11 @@ fun SettingsAbout(
             title = { Text(stringResource(R.string.pref_policy)) },
             text = {
                 val policyText = privacyPolicyText(context, isChineseSimplified)
-                val htmlText = HtmlCompat.fromHtml(policyText, HtmlCompat.FROM_HTML_MODE_LEGACY)
+                //val htmlText = HtmlCompat.fromHtml(policyText, HtmlCompat.FROM_HTML_MODE_LEGACY)
+                val htmlText= AnnotatedString.fromHtml(policyText)
                 Column(Modifier.verticalScroll(rememberScrollState())) {
                     SelectionContainer {
-                        Text(text = spannedToAnnotatedString(htmlText))
+                        Text(text = htmlText)
                     }
                 }
             },
@@ -257,32 +237,4 @@ private fun privacyPolicyText(context: Context, isChineseSimplified: Boolean): S
             .use { it.readText() }
     }
     return text
-}
-
-@Composable
-private fun spannedToAnnotatedString(spanned: Spanned): AnnotatedString {
-    return buildAnnotatedString {
-        val text = spanned.toString()
-        append(text)
-        val spans = spanned.getSpans(0, text.length, Any::class.java)
-        for (span in spans) {
-            val start = spanned.getSpanStart(span)
-            val end = spanned.getSpanEnd(span)
-            val base = MaterialTheme.typography.bodyMedium.fontSize
-            if (start !in 0..<end || end > text.length) continue
-            when (span) {
-                is StyleSpan -> if (span.style == Typeface.BOLD) addStyle(
-                    SpanStyle(fontWeight = FontWeight.Bold),
-                    start,
-                    end
-                )
-
-                is RelativeSizeSpan -> addStyle(
-                    SpanStyle(fontSize = base * span.sizeChange),
-                    start,
-                    end
-                )
-            }
-        }
-    }
 }

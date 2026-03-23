@@ -3,6 +3,7 @@ package github.daisukikaffuchino.momoqr.ui.pages.home
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.Configuration
@@ -10,9 +11,11 @@ import android.net.Uri
 import android.provider.Settings
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -34,6 +37,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
@@ -45,11 +49,13 @@ import androidx.core.content.ContextCompat
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.google.zxing.BarcodeFormat
 import github.daisukikaffuchino.momoqr.R
+import github.daisukikaffuchino.momoqr.constants.AppConstants
 import github.daisukikaffuchino.momoqr.logic.database.StarEntity
 import github.daisukikaffuchino.momoqr.logic.datastore.DataStoreManager
 import github.daisukikaffuchino.momoqr.ui.components.TopAppBarScaffold
 import github.daisukikaffuchino.momoqr.ui.components.segmentedGroup
 import github.daisukikaffuchino.momoqr.ui.components.segmentedSection
+import github.daisukikaffuchino.momoqr.ui.pages.home.components.ExpressiveActionCard
 import github.daisukikaffuchino.momoqr.ui.pages.home.components.GenerateActionCard
 import github.daisukikaffuchino.momoqr.ui.pages.home.components.PaletteCard
 import github.daisukikaffuchino.momoqr.ui.pages.home.components.ScanFromCameraCard
@@ -77,6 +83,7 @@ fun HomePage(
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
+    val homeClassicCard by DataStoreManager.homeClassicCardFlow.collectAsState(initial = AppConstants.PREF_HOME_CLASSIC_CARD_DEFAULT)
     val codeFormats by DataStoreManager.barcodeFormatsFlow.collectAsState(
         initial = setOf(
             BarcodeFormat.QR_CODE
@@ -182,48 +189,69 @@ fun HomePage(
                 )
             }
 
-            item {
-                LazyVerticalStaggeredGrid(
-                    modifier = when (configuration.orientation) {
-                        Configuration.ORIENTATION_LANDSCAPE ->
-                            Modifier
-                                .fillMaxWidth()
-                                .height(122.dp)
+            if (homeClassicCard) {
+                item {
+                    LazyVerticalStaggeredGrid(
+                        modifier = when (configuration.orientation) {
+                            Configuration.ORIENTATION_LANDSCAPE ->
+                                Modifier
+                                    .fillMaxWidth()
+                                    .height(122.dp)
 
-                        else ->
-                            Modifier
-                                .fillMaxWidth()
-                                .height(240.dp)
-                    },
-                    columns = when (configuration.orientation) {
-                        Configuration.ORIENTATION_LANDSCAPE ->
-                            StaggeredGridCells.Fixed(2)
+                            else ->
+                                Modifier
+                                    .fillMaxWidth()
+                                    .height(240.dp)
+                        },
+                        columns = when (configuration.orientation) {
+                            Configuration.ORIENTATION_LANDSCAPE ->
+                                StaggeredGridCells.Fixed(2)
 
-                        else ->
-                            StaggeredGridCells.Fixed(1)
-                    },
-                    horizontalArrangement = Arrangement.spacedBy(16.dp),
-                    verticalItemSpacing = 8.dp
-                ) {
-                    item {
-                        ScanFromCameraCard(
-                            onClick = {
-                                val granted =
-                                    ContextCompat.checkSelfPermission(
-                                        context,
-                                        Manifest.permission.CAMERA
-                                    ) == PackageManager.PERMISSION_GRANTED
-
-                                if (granted)
-                                    toScanPage()
-                                else
-                                    permissionLauncher.launch(Manifest.permission.CAMERA)
-                            }
-                        )
+                            else ->
+                                StaggeredGridCells.Fixed(1)
+                        },
+                        horizontalArrangement = Arrangement.spacedBy(16.dp),
+                        verticalItemSpacing = 8.dp
+                    ) {
+                        item {
+                            ScanFromCameraCard(
+                                onClick = {
+                                    requestCameraPermissionIfNeeded(
+                                        context = context,
+                                        permissionLauncher = permissionLauncher,
+                                        onGranted = { toScanPage() }
+                                    )
+                                }
+                            )
+                        }
+                        item {
+                            ScanFromGalleryCard(
+                                onClick = {
+                                    openGalleryLauncher.launch(
+                                        PickVisualMediaRequest(
+                                            ActivityResultContracts.PickVisualMedia.ImageOnly
+                                        )
+                                    )
+                                }
+                            )
+                        }
                     }
-                    item {
-                        ScanFromGalleryCard(
-                            onClick = {
+                }
+            } else {
+                item {
+                    Box(
+                        modifier = Modifier.fillMaxWidth(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        ExpressiveActionCard(
+                            onCookieClick = {
+                                requestCameraPermissionIfNeeded(
+                                    context = context,
+                                    permissionLauncher = permissionLauncher,
+                                    onGranted = { toScanPage() }
+                                )
+                            },
+                            onPillClick = {
                                 openGalleryLauncher.launch(
                                     PickVisualMediaRequest(
                                         ActivityResultContracts.PickVisualMedia.ImageOnly
@@ -261,5 +289,22 @@ fun HomePage(
 
         }
 
+    }
+}
+
+private fun requestCameraPermissionIfNeeded(
+    context: Context,
+    permissionLauncher: ActivityResultLauncher<String>,
+    onGranted: () -> Unit
+) {
+    val granted = ContextCompat.checkSelfPermission(
+        context,
+        Manifest.permission.CAMERA
+    ) == PackageManager.PERMISSION_GRANTED
+
+    if (granted) {
+        onGranted()
+    } else {
+        permissionLauncher.launch(Manifest.permission.CAMERA)
     }
 }

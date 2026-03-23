@@ -21,6 +21,7 @@ import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -33,8 +34,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastForEach
+import github.daisukikaffuchino.momoqr.logic.datastore.DataStoreManager
 import github.daisukikaffuchino.momoqr.logic.model.ContrastLevel
 import github.daisukikaffuchino.momoqr.logic.model.PaletteStyle
+import github.daisukikaffuchino.momoqr.logic.model.ThemeAccentColor
 import github.daisukikaffuchino.momoqr.ui.theme.Defaults
 import github.daisukikaffuchino.momoqr.ui.theme.dynamicColorScheme
 import github.daisukikaffuchino.momoqr.ui.theme.shapeByInteraction
@@ -58,6 +61,8 @@ fun AppPaletteItem(
     val animatedShape =
         shapeByInteraction(shapes, pressed, Defaults.shapesDefaultAnimationSpec)
 
+    val accentColor by DataStoreManager.accentColorFlow.collectAsState(initial = ThemeAccentColor.PINK)
+
     Column(
         modifier = modifier
             .width(90.dp)
@@ -79,7 +84,7 @@ fun AppPaletteItem(
                 keyColor = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && isDynamicColor) {
                     colorResource(id = android.R.color.system_accent1_500)
                 } else {
-                    Color(0xFFF596AA)
+                    accentColor.colors[0]
                 },
                 isDark = isDark,
                 contrastLevel = contrastLevel.value.toDouble(),
