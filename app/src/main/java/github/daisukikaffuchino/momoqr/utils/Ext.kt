@@ -1,14 +1,21 @@
 package github.daisukikaffuchino.momoqr.utils
 
 import android.content.Context
+import android.graphics.Matrix
+import androidx.compose.foundation.shape.GenericShape
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.asComposePath
 import androidx.compose.ui.graphics.drawscope.ContentDrawScope
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.unit.Dp
+import androidx.graphics.shapes.RoundedPolygon
+import androidx.graphics.shapes.toPath
+import androidx.graphics.shapes.transformed
 import github.daisukikaffuchino.momoqr.R
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -75,3 +82,19 @@ fun Long?.toRelativeTimeString(context: Context): String {
 }
 
 fun Color.toHexString(): String = "#%08X".format(toArgb())
+
+fun RoundedPolygon.toComposeShape(): Shape {
+    return GenericShape { size, _ ->
+        val matrix = Matrix().apply {
+            setScale(size.width, size.height)
+        }
+
+        val path = this@toComposeShape
+            .normalized()
+            .transformed(matrix)
+            .toPath()
+            .asComposePath()
+
+        addPath(path)
+    }
+}

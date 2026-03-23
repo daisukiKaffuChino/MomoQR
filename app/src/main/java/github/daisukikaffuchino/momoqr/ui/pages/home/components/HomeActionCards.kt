@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -21,6 +22,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialShapes
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -44,6 +46,7 @@ import github.daisukikaffuchino.momoqr.R
 import github.daisukikaffuchino.momoqr.ui.theme.Defaults
 import github.daisukikaffuchino.momoqr.ui.theme.animatedShape
 import github.daisukikaffuchino.momoqr.utils.VibrationUtil
+import github.daisukikaffuchino.momoqr.utils.toComposeShape
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
@@ -81,16 +84,6 @@ fun ScanFromCameraCard(
                     .offset(x = (-40).dp, y = 30.dp)
                     .rotate(-15f)
                     .size(180.dp)
-            )
-            Image(
-                painter = painterResource(R.drawable.ic_ac_unit),
-                contentDescription = null,
-                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.04f)),
-                modifier = Modifier
-                    .align(Alignment.TopStart)
-                    .offset(x = 140.dp, y = (-50).dp)
-                    .rotate(10f)
-                    .size(140.dp)
             )
             Image(
                 painter = painterResource(R.drawable.ic_momoi),
@@ -162,16 +155,6 @@ fun ScanFromGalleryCard(
                     .align(Alignment.TopEnd)
                     .offset(x = 30.dp, y = (-20).dp)
                     .rotate(15f)
-                    .size(140.dp)
-            )
-            Image(
-                painter = painterResource(R.drawable.ic_explosion),
-                contentDescription = null,
-                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.04f)),
-                modifier = Modifier
-                    .align(Alignment.BottomEnd)
-                    .offset(x = (-120).dp, y = 55.dp)
-                    .rotate(-10f)
                     .size(140.dp)
             )
             Image(
@@ -270,6 +253,13 @@ fun PaletteCard(
     val view = LocalView.current
     val interactionSource = remember { MutableInteractionSource() }
     val animatedShape = animatedShape(Defaults.largerShapes(), interactionSource)
+    val sunnyShape = remember {
+        MaterialShapes.Sunny.toComposeShape()
+    }
+    val triangleShape = remember {
+        MaterialShapes.PixelTriangle.toComposeShape()
+    }
+
 
     Card(
         modifier = modifier.height(Defaults.homeScanCardHeight),
@@ -288,87 +278,68 @@ fun PaletteCard(
                     },
                     interactionSource = interactionSource
                 )
-                .padding(20.dp)
         ) {
             Box(
                 modifier = Modifier
-                    .align(Alignment.TopStart)
-                    .offset(x = 8.dp, y = 4.dp)
-                    .size(56.dp)
+                    .offset(x = (-12).dp, y = 0.dp)
+                    .size(110.dp)
                     .background(
-                        color = MaterialTheme.colorScheme.primary.copy(alpha = 0.1f),
-                        shape = CircleShape
+                        color = MaterialTheme.colorScheme.primary.copy(alpha = 0.05f),
+                        shape = triangleShape
                     )
             )
-
             Box(
                 modifier = Modifier
-                    .align(Alignment.TopStart)
-                    .offset(x = 42.dp, y = 20.dp)
-                    .size(32.dp)
-                    .background(
-                        color = MaterialTheme.colorScheme.secondary.copy(alpha = 0.12f),
-                        shape = CircleShape
-                    )
-            )
-
-            Box(
-                modifier = Modifier
-                    .align(Alignment.TopStart)
-                    .offset(x = 20.dp, y = 50.dp)
-                    .size(20.dp)
-                    .background(
-                        color = MaterialTheme.colorScheme.tertiary.copy(alpha = 0.08f),
-                        shape = CircleShape
-                    )
-            )
-
-            Box(
-                contentAlignment = Alignment.Center,
-                modifier = Modifier
-                    .align(Alignment.TopEnd)
-                    .size(72.dp)
-                    .background(
-                        color = MaterialTheme.colorScheme.primary.copy(alpha = 0.12f),
-                        shape = CircleShape
-                    )
+                    .fillMaxSize()
+                    .padding(20.dp)
             ) {
-                Icon(
-                    painter = painterResource(R.drawable.ic_palette),
-                    contentDescription = null,
-                    tint = MaterialTheme.colorScheme.onPrimaryContainer,
-                    modifier = Modifier.size(34.dp)
-                )
-            }
+                Box(
+                    contentAlignment = Alignment.Center,
+                    modifier = Modifier
+                        .align(Alignment.TopEnd)
+                        .size(72.dp)
+                        .background(
+                            color = MaterialTheme.colorScheme.primary.copy(alpha = 0.12f),
+                            shape = sunnyShape
+                        )
+                ) {
+                    Icon(
+                        painter = painterResource(R.drawable.ic_palette),
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.onPrimaryContainer,
+                        modifier = Modifier.size(34.dp)
+                    )
+                }
 
-            Column(
-                modifier = Modifier
-                    .align(Alignment.BottomStart)
-                    .padding(end = 88.dp)
-            ) {
-                Text(
-                    text = stringResource(R.string.label_generate_color_palette),
-                    style = MaterialTheme.typography.titleLarge,
-                    color = MaterialTheme.colorScheme.onPrimaryContainer
-                )
+                Column(
+                    modifier = Modifier
+                        .align(Alignment.BottomStart)
+                        .padding(end = 88.dp)
+                ) {
+                    Text(
+                        text = stringResource(R.string.label_generate_color_palette),
+                        style = MaterialTheme.typography.titleLarge,
+                        color = MaterialTheme.colorScheme.onPrimaryContainer
+                    )
 
-                Text(
-                    text = stringResource(R.string.label_generate_color_palette_desc),
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.76f),
-                    modifier = Modifier.padding(top = 6.dp)
-                )
-            }
+                    Text(
+                        text = stringResource(R.string.label_generate_color_palette_desc),
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.76f),
+                        modifier = Modifier.padding(top = 6.dp)
+                    )
+                }
 
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(6.dp),
-                modifier = Modifier
-                    .align(Alignment.BottomEnd)
-                    .padding(bottom = 4.dp, end = 4.dp)
-            ) {
-                PaletteMiniChip(MaterialTheme.colorScheme.primary)
-                PaletteMiniChip(MaterialTheme.colorScheme.secondary)
-                PaletteMiniChip(MaterialTheme.colorScheme.tertiary)
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(6.dp),
+                    modifier = Modifier
+                        .align(Alignment.BottomEnd)
+                        .padding(bottom = 4.dp, end = 4.dp)
+                ) {
+                    PaletteMiniChip(MaterialTheme.colorScheme.primary)
+                    PaletteMiniChip(MaterialTheme.colorScheme.secondary)
+                    PaletteMiniChip(MaterialTheme.colorScheme.tertiary)
+                }
             }
         }
     }

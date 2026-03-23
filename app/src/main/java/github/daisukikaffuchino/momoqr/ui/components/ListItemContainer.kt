@@ -19,6 +19,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import github.daisukikaffuchino.momoqr.ui.theme.Defaults
 
 @Composable
@@ -33,13 +34,13 @@ fun ListItemContainer(
         modifier = modifier
     ) {
         item {
-            Spacer(modifier = Modifier.size(Defaults.screenVerticalPadding))
+            Spacer(modifier = Modifier.size(4.dp))
         }
 
         content()
 
         item {
-            Spacer(modifier = Modifier.size(Defaults.screenVerticalPadding))
+            Spacer(modifier = Modifier.size(4.dp))
         }
     }
 }
@@ -71,17 +72,7 @@ fun LazyListScope.segmentedSection(
 ) {
     if (titleRes != null || titleString != null) {
         item {
-            val titleText = titleRes?.let { stringResource(it) } ?: titleString.orEmpty()
-
-            Text(
-                text = titleText,
-                style = MaterialTheme.typography.labelLarge,
-                color = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.padding(
-                    horizontal = Defaults.screenVerticalPadding,
-                    vertical = Defaults.settingsItemPadding
-                )
-            )
+            ItemTitleText(titleRes, titleString)
         }
     }
 
@@ -90,4 +81,18 @@ fun LazyListScope.segmentedSection(
     item {
         Spacer(modifier = Modifier.size(Defaults.settingsItemPadding))
     }
+}
+
+@Composable
+fun ItemTitleText(titleRes: Int? = null, titleString: String? = null) {
+    val titleText = titleRes?.let { stringResource(it) } ?: titleString.orEmpty()
+    Text(
+        text = titleText,
+        style = MaterialTheme.typography.labelLarge,
+        color = MaterialTheme.colorScheme.primary,
+        modifier = Modifier.padding(
+            horizontal = Defaults.screenVerticalPadding,
+            vertical = Defaults.settingsItemPadding
+        )
+    )
 }

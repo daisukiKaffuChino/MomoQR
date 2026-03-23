@@ -1,6 +1,5 @@
 package github.daisukikaffuchino.momoqr.ui.pages.home.components
 
-import android.graphics.Matrix
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
@@ -15,7 +14,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.GenericShape
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialShapes
@@ -32,7 +31,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.TransformOrigin
-import androidx.compose.ui.graphics.asComposePath
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.painterResource
@@ -41,11 +39,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.graphics.shapes.RoundedPolygon
-import androidx.graphics.shapes.toPath
-import androidx.graphics.shapes.transformed
 import github.daisukikaffuchino.momoqr.R
 import github.daisukikaffuchino.momoqr.ui.theme.Defaults
+import github.daisukikaffuchino.momoqr.utils.toComposeShape
 
 @Preview
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
@@ -59,12 +55,12 @@ fun ExpressiveActionCard(
     val pillShape = remember { MaterialShapes.Pill.toComposeShape() }
 
     Box(
-        modifier = modifier.size(280.dp)
+        modifier = modifier.width(285.dp).height(220.dp)
     ) {
         PressableShapeCard(
             modifier = Modifier
                 .align(Alignment.BottomEnd)
-                .size(160.dp),
+                .size(150.dp),
             shape = pillShape,
             containerColor = MaterialTheme.colorScheme.secondaryContainer,
             onClick = onPillClick
@@ -101,7 +97,7 @@ fun ExpressiveActionCard(
         PressableShapeCard(
             modifier = Modifier
                 .align(Alignment.TopStart)
-                .size(190.dp),
+                .size(180.dp),
             shape = cookieShape,
             containerColor = MaterialTheme.colorScheme.secondary,
             onClick = onCookieClick
@@ -199,21 +195,5 @@ private fun PressableShapeCard(
                 )
             }
         }
-    }
-}
-
-private fun RoundedPolygon.toComposeShape(): Shape {
-    return GenericShape { size, _ ->
-        val matrix = Matrix().apply {
-            setScale(size.width, size.height)
-        }
-
-        val path = this@toComposeShape
-            .normalized()
-            .transformed(matrix)
-            .toPath()
-            .asComposePath()
-
-        addPath(path)
     }
 }

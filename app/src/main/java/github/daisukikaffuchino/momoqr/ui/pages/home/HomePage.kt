@@ -16,6 +16,7 @@ import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -39,6 +40,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -52,6 +54,7 @@ import github.daisukikaffuchino.momoqr.R
 import github.daisukikaffuchino.momoqr.constants.AppConstants
 import github.daisukikaffuchino.momoqr.logic.database.StarEntity
 import github.daisukikaffuchino.momoqr.logic.datastore.DataStoreManager
+import github.daisukikaffuchino.momoqr.ui.components.ItemTitleText
 import github.daisukikaffuchino.momoqr.ui.components.TopAppBarScaffold
 import github.daisukikaffuchino.momoqr.ui.components.segmentedGroup
 import github.daisukikaffuchino.momoqr.ui.components.segmentedSection
@@ -170,63 +173,61 @@ fun HomePage(
     ) {
         val configuration = LocalConfiguration.current
 
-        LazyColumn(
+        LazyVerticalStaggeredGrid(
             modifier = Modifier
-                .fillMaxSize()
-                .padding(top = Defaults.screenVerticalPadding),
-            verticalArrangement = Arrangement.spacedBy(Defaults.settingsItemPadding)
+                .fillMaxSize(),
+            columns = when (configuration.orientation) {
+                Configuration.ORIENTATION_LANDSCAPE ->
+                    StaggeredGridCells.Fixed(2)
+
+                else ->
+                    StaggeredGridCells.Fixed(1)
+            },
+            horizontalArrangement = Arrangement.spacedBy(16.dp),
+            verticalItemSpacing = 8.dp
         ) {
 
             item {
-                Text(
-                    text = stringResource(R.string.label_scan),
-                    style = MaterialTheme.typography.labelLarge,
-                    color = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.padding(
-                        horizontal = Defaults.screenVerticalPadding,
-                        vertical = Defaults.settingsItemPadding
-                    )
-                )
-            }
-
-            if (homeClassicCard) {
-                item {
-                    LazyVerticalStaggeredGrid(
-                        modifier = when (configuration.orientation) {
-                            Configuration.ORIENTATION_LANDSCAPE ->
-                                Modifier
-                                    .fillMaxWidth()
-                                    .height(122.dp)
-
-                            else ->
-                                Modifier
-                                    .fillMaxWidth()
-                                    .height(240.dp)
-                        },
-                        columns = when (configuration.orientation) {
-                            Configuration.ORIENTATION_LANDSCAPE ->
-                                StaggeredGridCells.Fixed(2)
-
-                            else ->
-                                StaggeredGridCells.Fixed(1)
-                        },
-                        horizontalArrangement = Arrangement.spacedBy(16.dp),
-                        verticalItemSpacing = 8.dp
-                    ) {
-                        item {
-                            ScanFromCameraCard(
-                                onClick = {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 8.dp),
+                    verticalArrangement = Arrangement.spacedBy(4.dp)
+                ) {
+                    ItemTitleText(R.string.label_scan)
+                    if (homeClassicCard) {
+                        ScanFromCameraCard(
+                            onClick = {
+                                requestCameraPermissionIfNeeded(
+                                    context = context,
+                                    permissionLauncher = permissionLauncher,
+                                    onGranted = { toScanPage() }
+                                )
+                            }
+                        )
+                        ScanFromGalleryCard(
+                            onClick = {
+                                openGalleryLauncher.launch(
+                                    PickVisualMediaRequest(
+                                        ActivityResultContracts.PickVisualMedia.ImageOnly
+                                    )
+                                )
+                            }
+                        )
+                    } else {
+                        Box(
+                            modifier = Modifier.fillMaxWidth(),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            ExpressiveActionCard(
+                                onCookieClick = {
                                     requestCameraPermissionIfNeeded(
                                         context = context,
                                         permissionLauncher = permissionLauncher,
                                         onGranted = { toScanPage() }
                                     )
-                                }
-                            )
-                        }
-                        item {
-                            ScanFromGalleryCard(
-                                onClick = {
+                                },
+                                onPillClick = {
                                     openGalleryLauncher.launch(
                                         PickVisualMediaRequest(
                                             ActivityResultContracts.PickVisualMedia.ImageOnly
@@ -237,58 +238,47 @@ fun HomePage(
                         }
                     }
                 }
-            } else {
-                item {
-                    Box(
-                        modifier = Modifier.fillMaxWidth(),
-                        contentAlignment = Alignment.Center
+            }
+
+            item {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 8.dp),
+                    verticalArrangement = Arrangement.spacedBy(4.dp)
+                ) {
+                    ItemTitleText(R.string.label_generate)
+                    Column(
+                        verticalArrangement = Arrangement.spacedBy(Defaults.settingsSegmentedItemPadding),
+                        modifier = modifier.clip(MaterialTheme.shapes.largeIncreased)
                     ) {
-                        ExpressiveActionCard(
-                            onCookieClick = {
-                                requestCameraPermissionIfNeeded(
-                                    context = context,
-                                    permissionLauncher = permissionLauncher,
-                                    onGranted = { toScanPage() }
-                                )
-                            },
-                            onPillClick = {
-                                openGalleryLauncher.launch(
-                                    PickVisualMediaRequest(
-                                        ActivityResultContracts.PickVisualMedia.ImageOnly
-                                    )
-                                )
-                            }
+                        GenerateActionCard(
+                            icon = painterResource(R.drawable.ic_edit_square),
+                            title = stringResource(R.string.label_generate_text),
+                            //onClick = { uriHandler.openUri(AppConstants.GITHUB_REPO) },
+                        )
+                        GenerateActionCard(
+                            icon = painterResource(R.drawable.ic_content_paste),
+                            title = stringResource(R.string.label_generate_from_clip_board),
+                            //onClick = toLicencePage
+                        )
+                        GenerateActionCard(
+                            icon = painterResource(R.drawable.ic_more),
+                            title = stringResource(R.string.label_generate_more_type),
+                            //onClick = toLicencePage
                         )
                     }
-                }
-            }
-
-            segmentedSection(R.string.label_generate) {
-                segmentedGroup {
-                    GenerateActionCard(
-                        icon = painterResource(R.drawable.ic_edit_square),
-                        title = stringResource(R.string.label_generate_text),
-                        //onClick = { uriHandler.openUri(AppConstants.GITHUB_REPO) },
-                    )
-                    GenerateActionCard(
-                        icon = painterResource(R.drawable.ic_content_paste),
-                        title = stringResource(R.string.label_generate_from_clip_board),
-                        //onClick = toLicencePage
-                    )
-                    GenerateActionCard(
-                        icon = painterResource(R.drawable.ic_more),
-                        title = stringResource(R.string.label_generate_more_type),
-                        //onClick = toLicencePage
+                    PaletteCard(
+                        modifier = Modifier.padding(top = 8.dp),
+                        onClick = { toPalettePage() }
                     )
                 }
             }
 
-            item { PaletteCard(onClick = { toPalettePage() }) }
-
-            item { Spacer(modifier = Modifier.height(16.dp)) }
-
+            item {
+                Spacer(modifier = Modifier.height(16.dp))
+            }
         }
-
     }
 }
 
