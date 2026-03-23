@@ -79,7 +79,7 @@ fun SharedTransitionScope.StarsPage(
                 it.category.contains(
                     searchFieldState.text,
                     ignoreCase = true
-                ) || it.date.toLocalDateString()
+                ) || it.modifiedDate.toLocalDateString()
             .contains(searchFieldState.text, ignoreCase = true)
     } else starLists
 
@@ -166,7 +166,7 @@ fun SharedTransitionScope.StarsPage(
                                 content = starEntity.content,
                                 category = starEntity.category,
                                 marked = starEntity.marked,
-                                modDate = starEntity.date,
+                                modDate = starEntity.modifiedDate,
                                 selected = selectedStarIds.contains(starEntity.id),
                                 onCardClick = {
                                     if (inSelectedMode) {

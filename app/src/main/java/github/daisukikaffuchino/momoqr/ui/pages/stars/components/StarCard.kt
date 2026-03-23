@@ -13,14 +13,13 @@ import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.ButtonShapes
 import androidx.compose.material3.CardDefaults
@@ -87,11 +86,15 @@ fun StarCard(
         MaterialTheme.motionScheme.fastSpatialSpec()
     )
 
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
+    val trailingPadding = when {
+        !selected && marked -> 52.dp
+        !selected -> 16.dp
+        else -> 0.dp
+    }
+
+    Box(
         modifier = modifier
             .fillMaxWidth()
-            .height(IntrinsicSize.Min)
             .clip(animatedShape)
             .combinedClickable(
                 interactionSource = interactionSource,
@@ -104,109 +107,122 @@ fun StarCard(
             .drawBehind {
                 drawRect(animatedContainerColor)
             }
-            .padding(start = Defaults.screenHorizontalPadding)
     ) {
-        AnimatedVisibility(
-            visible = selected,
-            enter = enterTransition,
-            exit = exitTransition
-        ) {
-            Box(
-                Modifier
-                    .padding(end = 12.dp)
-                    .clip(CircleShape)
-                    .background(MaterialTheme.colorScheme.secondary)
-                    .padding(6.dp)
-            ) {
-                Icon(
-                    painter = painterResource(R.drawable.ic_check),
-                    tint = contentColorFor(MaterialTheme.colorScheme.secondary),
-                    contentDescription = stringResource(R.string.tip_selected)
-                )
-            }
-        }
-
-        Column(
-            verticalArrangement = Arrangement.Center,
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
-                .weight(1f)
                 .fillMaxWidth()
+                .padding(
+                    start = Defaults.screenHorizontalPadding,
+                    end = trailingPadding
+                )
         ) {
-            CompositionLocalProvider(
-                LocalContentColor provides cardColors.contentColor,
+            AnimatedVisibility(
+                visible = selected,
+                enter = enterTransition,
+                exit = exitTransition
             ) {
-                Spacer(modifier = Modifier.height(16.dp))
-
-                Text(
-                    text = if (category == "") stringResource(R.string.label_unclassified) else category,
-                    style = MaterialTheme.typography.labelLarge.copy(
-                        color = MaterialTheme.colorScheme.primary
-                    ),
-                    fontWeight = FontWeight.Bold
-                )
-
-                Spacer(modifier = Modifier.height(4.dp))
-
-                Text(
-                    text = content,
-                    style = MaterialTheme.typography.bodyLarge,
-                    maxLines = 2,
-                    overflow = TextOverflow.Ellipsis,
-                )
-
-                Spacer(modifier = Modifier.height(4.dp))
-
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
+                Box(
+                    Modifier
+                        .padding(end = 12.dp)
+                        .clip(CircleShape)
+                        .background(MaterialTheme.colorScheme.secondary)
+                        .padding(6.dp)
                 ) {
-                    Text(
-                        text = modDate.toLocalDateString(false),
-                        style = MaterialTheme.typography.labelMedium.copy(
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                    )
-
-                    Spacer(modifier = Modifier.weight(1f))
-
-                    Text(
-                        text = modDate.toRelativeTimeString(LocalContext.current),
-                        style = MaterialTheme.typography.labelMedium.copy(
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
+                    Icon(
+                        painter = painterResource(R.drawable.ic_check),
+                        tint = contentColorFor(MaterialTheme.colorScheme.secondary),
+                        contentDescription = stringResource(R.string.tip_selected)
                     )
                 }
+            }
+
+            Column(
+                verticalArrangement = Arrangement.Center,
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxWidth()
+            ) {
+                CompositionLocalProvider(
+                    LocalContentColor provides cardColors.contentColor,
+                ) {
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    Text(
+                        text = if (category == "") stringResource(R.string.label_unclassified) else category,
+                        style = MaterialTheme.typography.labelLarge.copy(
+                            color = MaterialTheme.colorScheme.primary
+                        ),
+                        fontWeight = FontWeight.Bold
+                    )
+
+                    Spacer(modifier = Modifier.height(4.dp))
+
+                    Text(
+                        text = content,
+                        style = MaterialTheme.typography.bodyLarge,
+                        maxLines = 2,
+                        overflow = TextOverflow.Ellipsis,
+                    )
+
+                    Spacer(modifier = Modifier.height(4.dp))
+
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            text = modDate.toLocalDateString(false),
+                            style = MaterialTheme.typography.labelMedium.copy(
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                        )
+
+                        Spacer(modifier = Modifier.weight(1f))
+
+                        Text(
+                            text = modDate.toRelativeTimeString(LocalContext.current),
+                            style = MaterialTheme.typography.labelMedium.copy(
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                        )
+                    }
 
 
-                Spacer(modifier = Modifier.height(16.dp))
+                    Spacer(modifier = Modifier.height(16.dp))
+                }
             }
         }
-
-        if(!marked && !selected) Spacer(modifier = Modifier.width(16.dp))
 
         AnimatedVisibility(
             visible = !selected && marked,
             enter = enterTransition,
-            exit = exitTransition
+            exit = exitTransition,
+            modifier = Modifier.matchParentSize()
         ) {
             Box(
-                contentAlignment = Alignment.Center,
-                modifier = Modifier
-                    .fillMaxHeight()
-                    .background(
-                        brush = Brush.horizontalGradient(
-                            colors = listOf(
-                                Color.Transparent,
-                                MaterialTheme.colorScheme.secondaryContainer
+                contentAlignment = Alignment.CenterEnd,
+                modifier = Modifier.fillMaxSize()
+            ) {
+                Box(
+                    contentAlignment = Alignment.Center,
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .background(
+                            brush = Brush.horizontalGradient(
+                                colors = listOf(
+                                    Color.Transparent,
+                                    MaterialTheme.colorScheme.secondaryContainer
+                                )
                             )
                         )
+                ) {
+                    Icon(
+                        painter = painterResource(R.drawable.ic_loyalty),
+                        tint = MaterialTheme.colorScheme.onSecondaryContainer,
+                        contentDescription = null,
+                        modifier = Modifier.padding(start = 12.dp, end = 16.dp)
                     )
-            ) {
-                Icon(
-                    painter = painterResource(R.drawable.ic_loyalty),
-                    tint = MaterialTheme.colorScheme.onSecondaryContainer,
-                    contentDescription = null,
-                    modifier = Modifier.padding(start = 12.dp, end = 16.dp)
-                )
+                }
             }
         }
     }

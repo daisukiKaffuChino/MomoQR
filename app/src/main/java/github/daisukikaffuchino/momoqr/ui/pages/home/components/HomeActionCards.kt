@@ -282,7 +282,7 @@ fun PaletteCard(
                     .offset(x = (-12).dp, y = 0.dp)
                     .size(110.dp)
                     .background(
-                        color = MaterialTheme.colorScheme.primary.copy(alpha = 0.05f),
+                        color = MaterialTheme.colorScheme.primary.copy(alpha = 0.08f),
                         shape = triangleShape
                     )
             )

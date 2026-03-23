@@ -77,4 +77,7 @@ object AppConstants {
     const val PREF_EXIT_CONFIRMATION_DEFAULT = true
 
     const val PREF_HIDDEN_OPTION_CONTRAST_LEVEL = "hidden_option_contrast_level"
+
+    const val PREF_RESULT_PAGE_TIP_DISMISSED = "result_page_tip_dismiss"
+    const val PREF_RESULT_PAGE_TIP_DISMISSED_DEFAULT = false
 }

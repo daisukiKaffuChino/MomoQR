@@ -24,6 +24,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -67,14 +68,15 @@ import github.daisukikaffuchino.momoqr.logic.datastore.DataStoreManager
 import github.daisukikaffuchino.momoqr.logic.model.QRCodeECL
 import github.daisukikaffuchino.momoqr.ui.components.ChipItem
 import github.daisukikaffuchino.momoqr.ui.components.ConfirmDialog
+import github.daisukikaffuchino.momoqr.ui.components.TextCheckbox
 import github.daisukikaffuchino.momoqr.ui.components.TopAppBarScaffold
 import github.daisukikaffuchino.momoqr.ui.pages.result.components.ActionButtonGroup
-import github.daisukikaffuchino.momoqr.ui.components.TextCheckbox
 import github.daisukikaffuchino.momoqr.ui.pages.result.components.QrPropertyCard
 import github.daisukikaffuchino.momoqr.ui.pages.result.components.ResultCategoryTextField
 import github.daisukikaffuchino.momoqr.ui.pages.result.components.ResultContentTextField
 import github.daisukikaffuchino.momoqr.ui.pages.result.components.ResultFloatingActionButton
 import github.daisukikaffuchino.momoqr.ui.pages.result.components.StarCategoryChip
+import github.daisukikaffuchino.momoqr.ui.pages.settings.components.TertiarySettingsItem
 import github.daisukikaffuchino.momoqr.ui.theme.Defaults
 import github.daisukikaffuchino.momoqr.utils.LinkOpener
 import github.daisukikaffuchino.momoqr.utils.QrGenerateUtil.generateQrBitmap
@@ -141,10 +143,13 @@ fun ResultEditorPage(
     val uriHandler = LocalUriHandler.current
     val context = LocalContext.current
 
-    val isStarEntityEmpty = stars.date == 0.toLong()
+    val isStarEntityEmpty = stars.modifiedDate == 0.toLong()
 
     val focusManager = LocalFocusManager.current
     val keyboardVisible by keyboardAsState()
+    var resultPageTipDismissed by rememberSaveable {
+        mutableStateOf(AppConstants.PREF_RESULT_PAGE_TIP_DISMISSED_DEFAULT)
+    }
 
     LaunchedEffect(keyboardVisible) {
         if (!keyboardVisible)
@@ -154,6 +159,7 @@ fun ResultEditorPage(
     LaunchedEffect(Unit) {
         val autoCopy = DataStoreManager.autoCopyFlow.first()
         if (autoCopy && skipTransition) context.copyToClipboard(stars.content)
+        resultPageTipDismissed = DataStoreManager.resultPageTipDismissedFlow.first()
     }
 
     val openInAppBrowser by DataStoreManager.openInAppBrowserFlow.collectAsState(initial = AppConstants.PREF_OPEN_IN_APP_BROWSER_DEFAULT)
@@ -205,7 +211,6 @@ fun ResultEditorPage(
     val isUnclassifiedCategory by remember { derivedStateOf { uiState.selectedCategoryIndex == -2 } }
 
     var qrBitmap by remember(stars.content) { mutableStateOf<Bitmap?>(null) }
-
 
     LaunchedEffect(stars.content) {
         val qrRenderQuality = DataStoreManager.qrRenderQualityFlow.first()
@@ -292,6 +297,7 @@ fun ResultEditorPage(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(screenHeight * 0.75f)
+                    .navigationBarsPadding()
             ) {
                 LazyVerticalStaggeredGrid(
                     columns = StaggeredGridCells.Fixed(if (isLandscape) 2 else 1),
@@ -320,7 +326,8 @@ fun ResultEditorPage(
                     }
                     item {
                         QrPropertyCard(
-                            modifiedTime = stars.date,
+                            createdTime = stars.createdDate,
+                            modifiedTime = stars.modifiedDate,
                             errorCorrectionLevel = QRCodeECL.fromFloat(stars.errorCorrectionLevel)
                                 .toDisplayString()
                         )
@@ -365,11 +372,14 @@ fun ResultEditorPage(
                                 else
                                     categories.firstOrNull { it.id == uiState.selectedCategoryIndex }?.name.orEmpty()
 
+                                val now = System.currentTimeMillis()
+
                                 val item = StarEntity(
                                     id = stars.id,
                                     content = uiState.qrContent,
                                     category = categoryText,
-                                    date = System.currentTimeMillis(),
+                                    createdDate = if (isStarEntityEmpty) now else stars.createdDate,
+                                    modifiedDate = now,
                                     marked = uiState.isMarked
                                 )
                                 onSave(item)
@@ -388,6 +398,22 @@ fun ResultEditorPage(
                     .padding(top = Defaults.screenVerticalPadding)
             ) {
                 item(key = 0) {
+                    if(!resultPageTipDismissed) {
+                        TertiarySettingsItem(
+                            leadingIconRes = R.drawable.ic_auto_awesome,
+                            title = stringResource(R.string.tip_tips),
+                            description = stringResource(R.string.tip_result_page_sheet_detail),
+                            onClick = {
+                                resultPageTipDismissed = true
+                                scope.launch {
+                                    DataStoreManager.setResultPageTipDismissed(true)
+                                }
+                            }
+                        )
+                    }
+                }
+
+                item(key = 1) {
                     ActionButtonGroup(
                         onSearch = {
                             scope.launch {
@@ -418,7 +444,7 @@ fun ResultEditorPage(
                     )
                 }
 
-                item(key = 1) {
+                item(key = 2) {
                     ResultContentTextField(
                         value = uiState.qrContent,
                         onValueChange = { uiState.qrContent = it },
@@ -429,7 +455,7 @@ fun ResultEditorPage(
                     )
                 }
 
-                item(key = 2) {
+                item(key = 3) {
                     Text(
                         text = stringResource(R.string.label_category),
                         style = MaterialTheme.typography.titleMedium
@@ -460,7 +486,7 @@ fun ResultEditorPage(
                     }
                 }
 
-                item(key = 3) {
+                item(key = 4) {
                     Spacer(modifier = Modifier.size(4.dp))
                     TextCheckbox(
                         checked = uiState.isMarked,
@@ -470,7 +496,7 @@ fun ResultEditorPage(
                     )
                 }
 
-                item(key = 4) {
+                item(key = 5) {
                     Spacer(modifier = Modifier.height(128.dp))
                 }
             }

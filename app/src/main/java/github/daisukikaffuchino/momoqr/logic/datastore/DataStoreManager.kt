@@ -66,6 +66,8 @@ object DataStoreManager {
     private val HIDDEN_OPTION_CONTRAST_LEVEL =
         booleanPreferencesKey(AppConstants.PREF_HIDDEN_OPTION_CONTRAST_LEVEL)
     private val EXIT_CONFIRMATION = booleanPreferencesKey(AppConstants.PREF_EXIT_CONFIRMATION)
+    private val RESULT_PAGE_TIP_DISMISSED =
+        booleanPreferencesKey(AppConstants.PREF_RESULT_PAGE_TIP_DISMISSED)
 
     // Getters
     val dynamicColorFlow: Flow<Boolean> = dataStore.data.map { preferences ->
@@ -177,6 +179,11 @@ object DataStoreManager {
 
     val exitConfirmationFlow: Flow<Boolean> = dataStore.data.map { preferences ->
         preferences[EXIT_CONFIRMATION] ?: AppConstants.PREF_EXIT_CONFIRMATION_DEFAULT
+    }
+
+    val resultPageTipDismissedFlow: Flow<Boolean> = dataStore.data.map { preferences ->
+        preferences[RESULT_PAGE_TIP_DISMISSED]
+            ?: AppConstants.PREF_RESULT_PAGE_TIP_DISMISSED_DEFAULT
     }
 
 
@@ -326,6 +333,12 @@ object DataStoreManager {
     suspend fun setExitConfirmation(value: Boolean) {
         dataStore.edit { preferences ->
             preferences[EXIT_CONFIRMATION] = value
+        }
+    }
+
+    suspend fun setResultPageTipDismissed(value: Boolean) {
+        dataStore.edit { preferences ->
+            preferences[RESULT_PAGE_TIP_DISMISSED] = value
         }
     }
 

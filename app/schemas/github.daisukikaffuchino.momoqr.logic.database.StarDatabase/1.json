@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "e2755ce0720752aea1db7fcb75f0c618",
+    "identityHash": "f89e465a3825f297e11f45394f4446f9",
     "entities": [
       {
         "tableName": "momo_star",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`title` TEXT NOT NULL, `content` TEXT NOT NULL, `category` TEXT NOT NULL, `marked` INTEGER NOT NULL, `imgPath` TEXT NOT NULL, `errorCorrectionLevel` REAL NOT NULL, `date` INTEGER NOT NULL, `createdDate` INTEGER NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`title` TEXT NOT NULL, `content` TEXT NOT NULL, `category` TEXT NOT NULL, `marked` INTEGER NOT NULL, `imgPath` TEXT NOT NULL, `errorCorrectionLevel` REAL NOT NULL, `modifiedDate` INTEGER NOT NULL, `createdDate` INTEGER NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL)",
         "fields": [
           {
             "fieldPath": "title",
@@ -45,8 +45,8 @@
             "notNull": true
           },
           {
-            "fieldPath": "date",
-            "columnName": "date",
+            "fieldPath": "modifiedDate",
+            "columnName": "modifiedDate",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -73,7 +73,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'e2755ce0720752aea1db7fcb75f0c618')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'f89e465a3825f297e11f45394f4446f9')"
     ]
   }
 }

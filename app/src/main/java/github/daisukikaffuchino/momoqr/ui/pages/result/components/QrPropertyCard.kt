@@ -24,6 +24,7 @@ import github.daisukikaffuchino.momoqr.utils.toLocalDateString
 @Composable
 fun QrPropertyCard(
     modifiedTime: Long,
+    createdTime: Long,
     errorCorrectionLevel: String,
     modifier: Modifier = Modifier
 ) {
@@ -35,7 +36,7 @@ fun QrPropertyCard(
     Card(
         modifier = modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
+            containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.6f)
         )
     ) {
         Column(
@@ -49,6 +50,13 @@ fun QrPropertyCard(
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.SemiBold
             )
+
+            if (createdTime != 0L) {
+                PropertyItem(
+                    label = stringResource(R.string.label_creation_date),
+                    value = createdTime.toLocalDateString()
+                )
+            }
 
             PropertyItem(
                 label = stringResource(R.string.label_modification_date),

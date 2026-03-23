@@ -84,7 +84,7 @@ class ResultState(val initialStar: StarEntity? = null) {
                         it.marked,
                         it.imgPath,
                         it.errorCorrectionLevel,
-                        it.date,
+                        it.modifiedDate,
                         it.id
                     )
                 },
@@ -111,7 +111,7 @@ class ResultState(val initialStar: StarEntity? = null) {
                     marked = it[3] as Boolean,
                     imgPath = it[4] as String,
                     errorCorrectionLevel = it[5] as Float,
-                    date = it[6] as Long,
+                    modifiedDate = it[6] as Long,
                     id = it[7] as Int
                 )
             }
