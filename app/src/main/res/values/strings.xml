@@ -213,7 +213,6 @@
     <string name="tip_haptic_feedback_more_info">Enable haptic feedback in system settings before using this feature (usually under "Sound &amp; Vibration")</string>
     <string name="tip_align_to_scan">Align the QR code for scanning</string>
     <string name="tip_toggle_flashlight">Toggle flashlight</string>
-    <string name="tip_factory_page_desc">Choose a template, fill the fields below, and continue to the result page.</string>
     <string name="tip_factory_wifi_desc">Create a QR code for Wi-Fi credentials.</string>
     <string name="tip_factory_wifi_password_requirement">Password must be at least 8 characters.</string>
     <string name="tip_factory_email_desc">Generate a QR code that opens a prefilled email draft.</string>
