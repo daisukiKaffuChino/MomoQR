@@ -44,6 +44,9 @@ object AppConstants {
     const val PREF_SORTING_METHOD = "sorting_method"
     const val PREF_SORTING_METHOD_DEFAULT = 1
 
+    const val PREF_STAR_LIST_RELATIVE_TIME = "star_list_relative_time"
+    const val PREF_STAR_LIST_RELATIVE_TIME_DEFAULT = true
+
     const val PREF_BARCODE_FORMATS = "barcode_formats"
 
     const val PREF_SWITCH_CAMERA = "switch_camera"

@@ -35,12 +35,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation3.ui.LocalNavAnimatedContentScope
 import github.daisukikaffuchino.momoqr.R
 import github.daisukikaffuchino.momoqr.constants.AppConstants
+import github.daisukikaffuchino.momoqr.logic.datastore.DataStoreManager
 import github.daisukikaffuchino.momoqr.logic.database.StarEntity
 import github.daisukikaffuchino.momoqr.ui.components.ConfirmDialog
 import github.daisukikaffuchino.momoqr.ui.components.EmptyListTip
@@ -53,6 +55,7 @@ import github.daisukikaffuchino.momoqr.ui.theme.Defaults
 import github.daisukikaffuchino.momoqr.ui.theme.fadeScale
 import github.daisukikaffuchino.momoqr.ui.viewmodels.MainViewModel
 import github.daisukikaffuchino.momoqr.utils.toLocalDateString
+import github.daisukikaffuchino.momoqr.utils.toRelativeTimeString
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
@@ -62,9 +65,13 @@ fun SharedTransitionScope.StarsPage(
     toResultEditPage: (StarEntity) -> Unit,
 ) {
     val starLists by viewModel.sortedStarList.collectAsState(initial = emptyList())
+    val showRelativeTime by DataStoreManager.starListRelativeTimeFlow.collectAsState(
+        initial = AppConstants.PREF_STAR_LIST_RELATIVE_TIME_DEFAULT
+    )
     val selectedStars = viewModel.selectedStarIds.collectAsState()
 
     val configuration = LocalConfiguration.current
+    val context = LocalContext.current
     val isLandscape = configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
 
     // 状态持久化
@@ -79,8 +86,16 @@ fun SharedTransitionScope.StarsPage(
                 it.category.contains(
                     searchFieldState.text,
                     ignoreCase = true
-                ) || it.modifiedDate.toLocalDateString()
-            .contains(searchFieldState.text, ignoreCase = true)
+                ) || it.modifiedDate.toLocalDateString().contains(
+                    searchFieldState.text,
+                    ignoreCase = true
+                ) || (
+                showRelativeTime &&
+                    it.modifiedDate.toRelativeTimeString(context).contains(
+                        searchFieldState.text,
+                        ignoreCase = true
+                    )
+                )
     } else starLists
 
     val transitionSpec = fadeScale()
@@ -167,6 +182,7 @@ fun SharedTransitionScope.StarsPage(
                                 category = starEntity.category,
                                 marked = starEntity.marked,
                                 modDate = starEntity.modifiedDate,
+                                showRelativeTime = showRelativeTime,
                                 selected = selectedStarIds.contains(starEntity.id),
                                 onCardClick = {
                                     if (inSelectedMode) {

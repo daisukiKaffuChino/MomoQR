@@ -6,7 +6,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Text
@@ -21,7 +20,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import github.daisukikaffuchino.momoqr.R
-import github.daisukikaffuchino.momoqr.constants.AppConstants
 import github.daisukikaffuchino.momoqr.logic.datastore.DataStoreManager
 import github.daisukikaffuchino.momoqr.ui.components.BasicDialog
 import github.daisukikaffuchino.momoqr.ui.components.ListItemContainer
@@ -34,7 +32,7 @@ import github.daisukikaffuchino.momoqr.utils.getSystemInfo
 import github.daisukikaffuchino.momoqr.utils.restartApp
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun SettingsLab(
     onNavigateUp: () -> Unit,
@@ -51,7 +49,7 @@ fun SettingsLab(
         modifier = modifier,
     ) {
         ListItemContainer(Modifier.fillMaxWidth()) {
-            segmentedSection(titleString = "Visibility") {
+            segmentedSection(titleRes = R.string.pref_label_visibility) {
                 segmentedGroup {
                     SwitchSettingsItem(
                         checked = true,
@@ -102,7 +100,13 @@ fun SettingsLab(
                         leadingIconRes = R.drawable.ic_settings,
                         title = "Theme -> Contrast Level",
                         description = "Show hidden options",
-                        onCheckedChange = { scope.launch { DataStoreManager.setHiddenOptionContrastLevel(it) } }
+                        onCheckedChange = {
+                            scope.launch {
+                                DataStoreManager.setHiddenOptionContrastLevel(
+                                    it
+                                )
+                            }
+                        }
                     )
                 }
             }

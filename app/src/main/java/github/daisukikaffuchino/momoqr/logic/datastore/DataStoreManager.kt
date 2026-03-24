@@ -50,6 +50,8 @@ object DataStoreManager {
     private val HOME_CLASSIC_CARD = booleanPreferencesKey(AppConstants.PREF_HOME_CLASSIC_CARD)
 
     private val SORTING_METHOD = intPreferencesKey(AppConstants.PREF_SORTING_METHOD)
+    private val STAR_LIST_RELATIVE_TIME =
+        booleanPreferencesKey(AppConstants.PREF_STAR_LIST_RELATIVE_TIME)
     private val CATEGORIES = stringPreferencesKey(AppConstants.PREF_CATEGORIES)
     private val BARCODE_FORMATS = stringSetPreferencesKey(AppConstants.PREF_BARCODE_FORMATS)
     private val SWITCH_CAMERA = booleanPreferencesKey(AppConstants.PREF_SWITCH_CAMERA)
@@ -110,6 +112,10 @@ object DataStoreManager {
 
     val sortingMethodFlow: Flow<Int> = dataStore.data.map { preferences ->
         preferences[SORTING_METHOD] ?: AppConstants.PREF_SORTING_METHOD_DEFAULT
+    }
+
+    val starListRelativeTimeFlow: Flow<Boolean> = dataStore.data.map { preferences ->
+        preferences[STAR_LIST_RELATIVE_TIME] ?: AppConstants.PREF_STAR_LIST_RELATIVE_TIME_DEFAULT
     }
 
     val categoriesFlow: Flow<List<String>> = dataStore.data.map { preferences ->
@@ -248,6 +254,12 @@ object DataStoreManager {
     suspend fun setSortingMethod(value: Int) {
         dataStore.edit { preferences ->
             preferences[SORTING_METHOD] = value
+        }
+    }
+
+    suspend fun setStarListRelativeTime(value: Boolean) {
+        dataStore.edit { preferences ->
+            preferences[STAR_LIST_RELATIVE_TIME] = value
         }
     }
 

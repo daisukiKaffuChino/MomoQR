@@ -105,6 +105,8 @@
     <string name="pref_licence">开放源代码许可</string>
     <string name="pref_licence_desc">查看使用的开源库及其许可</string>
     <string name="pref_sorting_method">排序方式</string>
+    <string name="pref_star_list_relative_time">相对时间</string>
+    <string name="pref_star_list_relative_time_desc">显示最后修改时间距离当前已过去多久</string>
     <string name="pref_haptic_feedback">触感反馈</string>
     <string name="pref_haptic_feedback_desc">为某些操作提供轻微的震动反馈</string>
     <string name="pref_classic_home_card">经典主页卡片</string>
@@ -145,6 +147,7 @@
     <string name="pref_label_global">全局</string>
     <string name="pref_label_action">动作</string>
     <string name="pref_label_storage">存储</string>
+    <string name="pref_label_visibility">可见性</string>
     <string name="pref_label_via_wechat">通过微信</string>
 
     <string name="palette_tonal_spot">基调</string>
@@ -170,6 +173,7 @@
     <string name="sorting_category">分类</string>
     <string name="sorting_alphabetical_ascending">首字母（升序）</string>
     <string name="sorting_alphabetical_descending">首字母（降序）</string>
+    <string name="sorting_modified_date">最后修改日期</string>
 
     <string name="tip_tips">提示</string>
     <string name="tip_no_crash_logs">无崩溃日志</string>

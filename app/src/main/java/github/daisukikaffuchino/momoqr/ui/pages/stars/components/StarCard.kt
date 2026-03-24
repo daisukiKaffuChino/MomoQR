@@ -62,6 +62,7 @@ fun StarCard(
     category: String,
     marked: Boolean,
     modDate: Long?,
+    showRelativeTime: Boolean,
     selected: Boolean,
     onCardClick: () -> Unit = {},
     onCardLongClick: () -> Unit = {},
@@ -179,12 +180,14 @@ fun StarCard(
 
                         Spacer(modifier = Modifier.weight(1f))
 
-                        Text(
-                            text = modDate.toRelativeTimeString(LocalContext.current),
-                            style = MaterialTheme.typography.labelMedium.copy(
-                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                        if (showRelativeTime) {
+                            Text(
+                                text = modDate.toRelativeTimeString(LocalContext.current),
+                                style = MaterialTheme.typography.labelMedium.copy(
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                                )
                             )
-                        )
+                        }
                     }
 
 
@@ -238,6 +241,7 @@ private fun Preview() {
         category = "分类",
         marked = true,
         modDate = 0,
+        showRelativeTime = true,
         selected = false,
         onCardClick = {},
         onCardLongClick = {}

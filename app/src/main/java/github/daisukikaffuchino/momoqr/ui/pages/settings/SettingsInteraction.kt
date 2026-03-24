@@ -38,6 +38,7 @@ fun SettingsInteraction(
     val exitConfirmation by DataStoreManager.exitConfirmationFlow.collectAsState(initial = AppConstants.PREF_EXIT_CONFIRMATION_DEFAULT)
     val openInAppBrowser by DataStoreManager.openInAppBrowserFlow.collectAsState(initial = AppConstants.PREF_OPEN_IN_APP_BROWSER_DEFAULT)
     val sortingMethod by DataStoreManager.sortingMethodFlow.collectAsState(initial = AppConstants.PREF_SORTING_METHOD_DEFAULT)
+    val starListRelativeTime by DataStoreManager.starListRelativeTimeFlow.collectAsState(initial = AppConstants.PREF_STAR_LIST_RELATIVE_TIME_DEFAULT)
     val hapticFeedback by DataStoreManager.hapticFeedbackFlow.collectAsState(initial = AppConstants.PREF_HAPTIC_FEEDBACK_DEFAULT)
     val searchEngine by DataStoreManager.searchEngineFlow.collectAsState(initial = SearchEngine.GOOGLE)
 
@@ -59,6 +60,13 @@ fun SettingsInteraction(
                         title = stringResource(R.string.pref_sorting_method),
                         description = stringResource(SortingMethod.fromId(sortingMethod).nameRes),
                         onClick = { showSortingMethodDialog = true }
+                    )
+                    SwitchSettingsItem(
+                        checked = starListRelativeTime,
+                        leadingIconRes = R.drawable.ic_search_activity,
+                        title = stringResource(R.string.pref_star_list_relative_time),
+                        description = stringResource(R.string.pref_star_list_relative_time_desc),
+                        onCheckedChange = { scope.launch { DataStoreManager.setStarListRelativeTime(it) } }
                     )
                 }
             }

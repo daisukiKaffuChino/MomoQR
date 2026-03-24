@@ -59,6 +59,12 @@ class MainViewModel @Inject constructor() : ViewModel() {
                         compareByDescending<StarEntity> { it.marked }
                             .thenByDescending { it.content }
                     )
+
+                    SortingMethod.ModifiedDate -> list.sortedWith(
+                        compareByDescending<StarEntity> { it.marked }
+                            .thenByDescending { it.modifiedDate }
+                            .thenByDescending { it.id }
+                    )
                 }
             }
         }

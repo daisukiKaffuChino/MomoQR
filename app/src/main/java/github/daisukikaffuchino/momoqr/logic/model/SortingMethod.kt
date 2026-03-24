@@ -8,9 +8,10 @@ enum class SortingMethod(
     @param:StringRes val nameRes: Int
 ) {
     Sequential(id = 1, nameRes = R.string.sorting_sequential),
-    Category(id = 2, nameRes = R.string.sorting_category),
-    AlphabeticalAscending(id = 3, nameRes = R.string.sorting_alphabetical_ascending),
-    AlphabeticalDescending(id = 4, nameRes = R.string.sorting_alphabetical_descending);
+    ModifiedDate(id = 2, nameRes = R.string.sorting_modified_date),
+    Category(id = 3, nameRes = R.string.sorting_category),
+    AlphabeticalAscending(id = 4, nameRes = R.string.sorting_alphabetical_ascending),
+    AlphabeticalDescending(id = 5, nameRes = R.string.sorting_alphabetical_descending);
 
     companion object {
         fun fromId(id: Int) = entries.find { it.id == id } ?: Sequential
