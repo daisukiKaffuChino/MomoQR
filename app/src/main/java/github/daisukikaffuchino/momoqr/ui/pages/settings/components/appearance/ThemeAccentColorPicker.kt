@@ -64,7 +64,7 @@ fun ThemeAccentColorPicker(
                 contentDescription = null,
                 colorFilter = ColorFilter.tint(
                     MaterialTheme.colorScheme.primary.copy(
-                        alpha = 0.2f
+                        alpha = 0.15f
                     )
                 ),
                 modifier = Modifier.size(48.dp)
@@ -101,7 +101,7 @@ fun ColorPaletteCircle(
     val borderColor = if (selected) {
         MaterialTheme.colorScheme.primary
     } else {
-        MaterialTheme.colorScheme.outlineVariant
+        Color.Transparent
     }
 
     Column(

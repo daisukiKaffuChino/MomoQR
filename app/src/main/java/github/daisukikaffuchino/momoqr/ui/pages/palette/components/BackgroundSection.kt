@@ -8,10 +8,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ButtonGroupDefaults
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
+import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
@@ -166,7 +166,7 @@ private fun PaletteDualActionRow(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy((-6).dp)
     ) {
-        Button(
+       FilledTonalButton(
             modifier = Modifier.fillMaxWidth(),
             shapes = ButtonDefaults.shapes(
                 (ButtonGroupDefaults.connectedMiddleButtonShapes().shape
@@ -181,7 +181,7 @@ private fun PaletteDualActionRow(
                 overflow = TextOverflow.Ellipsis
             )
         }
-        Button(
+        FilledTonalButton(
             modifier = Modifier.fillMaxWidth(),
             shapes = ButtonDefaults.shapes(
                 (ButtonGroupDefaults.connectedMiddleButtonShapes().shape

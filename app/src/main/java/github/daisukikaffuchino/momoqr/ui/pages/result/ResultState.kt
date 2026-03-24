@@ -1,5 +1,8 @@
 package github.daisukikaffuchino.momoqr.ui.pages.result
 
+import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
@@ -10,7 +13,11 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import github.daisukikaffuchino.momoqr.R
 import github.daisukikaffuchino.momoqr.logic.database.StarEntity
+import github.daisukikaffuchino.momoqr.logic.model.PaletteDotShape
+import github.daisukikaffuchino.momoqr.logic.model.PalettePreset
 import github.daisukikaffuchino.momoqr.logic.model.QRCodeECL
+import github.daisukikaffuchino.momoqr.utils.QrAppearanceOptions
+import java.io.File
 
 class ResultState(val initialStar: StarEntity? = null) {
     var qrContent by mutableStateOf(initialStar?.content ?: "")
@@ -133,3 +140,39 @@ class ResultState(val initialStar: StarEntity? = null) {
 @Composable
 fun rememberResultState(initialData: StarEntity? = null): ResultState =
     rememberSaveable(saver = ResultState.Saver) { ResultState(initialData) }
+
+fun loadAppearanceFromPreset(
+    context: Context,
+    preset: PalettePreset,
+): QrAppearanceOptions {
+    return QrAppearanceOptions(
+        darkArgb = preset.darkColorArgb,
+        lightArgb = preset.lightColorArgb,
+        backgroundArgb = preset.backgroundColorArgb,
+        autoColor = preset.pickColorFromBackground,
+        roundedPatterns = preset.dotShape == PaletteDotShape.Circle,
+        patternScale = preset.dotScale,
+        logoBitmap = preset.logoFileName?.let { loadPresetBitmap(context, it) },
+        backgroundBitmap = preset.backgroundFileName?.let { loadPresetBitmap(context, it) },
+        backgroundAlpha = preset.backgroundAlpha,
+        borderWidth = preset.borderWidth,
+    )
+}
+
+private fun loadPresetBitmap(
+    context: Context,
+    fileName: String,
+): Bitmap? {
+    val file = File(File(context.filesDir, "palette_presets"), fileName)
+    if (!file.exists()) return null
+    return BitmapFactory.decodeFile(file.absolutePath)
+}
+
+fun recycleAppearanceBitmaps(appearance: QrAppearanceOptions) {
+    appearance.logoBitmap?.let { bitmap ->
+        if (!bitmap.isRecycled) bitmap.recycle()
+    }
+    appearance.backgroundBitmap?.let { bitmap ->
+        if (!bitmap.isRecycled) bitmap.recycle()
+    }
+}

@@ -18,25 +18,21 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBars
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
-import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.BottomSheetDefaults
 import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.SheetValue
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberBottomSheetScaffoldState
@@ -46,13 +42,13 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
@@ -60,34 +56,35 @@ import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation3.ui.LocalNavAnimatedContentScope
-import coil3.compose.AsyncImage
 import github.daisukikaffuchino.momoqr.R
 import github.daisukikaffuchino.momoqr.constants.AppConstants
 import github.daisukikaffuchino.momoqr.logic.database.StarEntity
 import github.daisukikaffuchino.momoqr.logic.datastore.DataStoreManager
-import github.daisukikaffuchino.momoqr.logic.model.QRCodeECL
 import github.daisukikaffuchino.momoqr.ui.components.ChipItem
 import github.daisukikaffuchino.momoqr.ui.components.ConfirmDialog
 import github.daisukikaffuchino.momoqr.ui.components.TextCheckbox
 import github.daisukikaffuchino.momoqr.ui.components.TopAppBarScaffold
 import github.daisukikaffuchino.momoqr.ui.pages.result.components.ActionButtonGroup
-import github.daisukikaffuchino.momoqr.ui.pages.result.components.QrPropertyCard
 import github.daisukikaffuchino.momoqr.ui.pages.result.components.ResultCategoryTextField
 import github.daisukikaffuchino.momoqr.ui.pages.result.components.ResultContentTextField
 import github.daisukikaffuchino.momoqr.ui.pages.result.components.ResultFloatingActionButton
+import github.daisukikaffuchino.momoqr.ui.pages.result.components.ResultSheetContent
 import github.daisukikaffuchino.momoqr.ui.pages.result.components.StarCategoryChip
 import github.daisukikaffuchino.momoqr.ui.pages.settings.components.TertiarySettingsItem
 import github.daisukikaffuchino.momoqr.ui.theme.Defaults
 import github.daisukikaffuchino.momoqr.utils.LinkOpener
+import github.daisukikaffuchino.momoqr.utils.QrAppearanceOptions
 import github.daisukikaffuchino.momoqr.utils.QrGenerateUtil.generateQrBitmap
 import github.daisukikaffuchino.momoqr.utils.buildSearchUrl
 import github.daisukikaffuchino.momoqr.utils.copyToClipboard
 import github.daisukikaffuchino.momoqr.utils.keyboardAsState
 import github.daisukikaffuchino.momoqr.utils.rememberBitmapSaver
 import github.daisukikaffuchino.momoqr.utils.shareText
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 @SuppressLint("ComposableNaming")
 @Composable
@@ -144,6 +141,13 @@ fun ResultEditorPage(
     val context = LocalContext.current
 
     val isStarEntityEmpty = stars.modifiedDate == 0.toLong()
+    val palettePresets by DataStoreManager.palettePresetsFlow.collectAsState(initial = emptyList())
+    var showPresetDialog by rememberSaveable { mutableStateOf(false) }
+    var selectedPresetId by rememberSaveable { mutableStateOf<String?>(null) }
+    var renderSequence by remember { mutableLongStateOf(0L) }
+    val selectedPreset by remember(palettePresets, selectedPresetId) {
+        derivedStateOf { palettePresets.firstOrNull { it.id == selectedPresetId } }
+    }
 
     val focusManager = LocalFocusManager.current
     val keyboardVisible by keyboardAsState()
@@ -212,16 +216,29 @@ fun ResultEditorPage(
 
     var qrBitmap by remember(stars.content) { mutableStateOf<Bitmap?>(null) }
 
-    LaunchedEffect(stars.content) {
+    LaunchedEffect(uiState.qrContent, uiState.ecl, selectedPreset) {
         val qrRenderQuality = DataStoreManager.qrRenderQualityFlow.first()
+        val requestId = renderSequence + 1
+        renderSequence = requestId
+        val appearance = selectedPreset?.let {
+            withContext(Dispatchers.IO) { loadAppearanceFromPreset(context, it) }
+        } ?: QrAppearanceOptions()
         generateQrBitmap(
-            content = stars.content,
+            content = uiState.qrContent,
             eclFloat = uiState.ecl,
             qrSize = qrRenderQuality.getSize(),
+            appearance = appearance,
             onSuccess = { bitmap ->
+                recycleAppearanceBitmaps(appearance)
+                if (requestId != renderSequence) {
+                    if (!bitmap.isRecycled) bitmap.recycle()
+                    return@generateQrBitmap
+                }
                 qrBitmap = bitmap
             },
             onError = {
+                recycleAppearanceBitmaps(appearance)
+                if (requestId != renderSequence) return@generateQrBitmap
                 it.printStackTrace()
                 qrBitmap = null
             }
@@ -241,6 +258,7 @@ fun ResultEditorPage(
             initialValue = SheetValue.PartiallyExpanded
         )
     )
+    val sheetState = scaffoldState.bottomSheetState
 
     // 转场期间禁用返回，以防闪屏
     val blockBackPress = transitionRunning && !skipTransition
@@ -275,8 +293,6 @@ fun ResultEditorPage(
     }
 
     val navBar = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
-    @SuppressLint("ConfigurationScreenWidthHeight") val screenHeight =
-        LocalConfiguration.current.screenHeightDp.dp
     val animatedSheetPeekHeight by animateDpAsState(
         targetValue = if (startSheetAnimation) navBar + 52.dp else 0.dp,
         label = "sheet_peek_height"
@@ -292,48 +308,30 @@ fun ResultEditorPage(
     BottomSheetScaffold(
         scaffoldState = scaffoldState,
         sheetPeekHeight = animatedSheetPeekHeight,
-        sheetContent = {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(screenHeight * 0.75f)
-                    .navigationBarsPadding()
-            ) {
-                LazyVerticalStaggeredGrid(
-                    columns = StaggeredGridCells.Fixed(if (isLandscape) 2 else 1),
-                    verticalItemSpacing = 16.dp,
-                    horizontalArrangement = Arrangement.spacedBy(8.dp),
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(horizontal = Defaults.screenHorizontalPadding)
-                ) {
-                    item {
-                        qrBitmap?.let {
-                            OutlinedCard(
-                                shape = RoundedCornerShape(24.dp),
-                                modifier = Modifier.fillMaxWidth()
-                            ) {
-                                AsyncImage(
-                                    model = it,
-                                    contentDescription = stringResource(R.string.label_image_preview),
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .aspectRatio(1f),
-                                    contentScale = ContentScale.Crop
-                                )
-                            }
-                        }
-                    }
-                    item {
-                        QrPropertyCard(
-                            createdTime = stars.createdDate,
-                            modifiedTime = stars.modifiedDate,
-                            errorCorrectionLevel = QRCodeECL.fromFloat(stars.errorCorrectionLevel)
-                                .toDisplayString()
-                        )
-                    }
-                }
+        sheetDragHandle = {
+            val topPadding by animateDpAsState(
+                targetValue = if (sheetState.targetValue == SheetValue.Expanded) {
+                    WindowInsets.statusBars.asPaddingValues().calculateTopPadding()
+                } else 0.dp,
+                label = "sheet_drag_handle"
+            )
+
+            Box(Modifier.padding(top = topPadding)) {
+                BottomSheetDefaults.DragHandle()
             }
+        },
+        sheetContent = {
+            ResultSheetContent(
+                qrBitmap = qrBitmap,
+                isLandscape = isLandscape,
+                selectedPreset = selectedPreset,
+                showPresetDialog = showPresetDialog,
+                palettePresets = palettePresets,
+                selectedPresetId = selectedPresetId,
+                stars = stars,
+                onShowPresetDialogChange = { showPresetDialog = it },
+                onSelectedPresetIdChange = { selectedPresetId = it }
+            )
         }
     ) {
         TopAppBarScaffold(
@@ -398,7 +396,7 @@ fun ResultEditorPage(
                     .padding(top = Defaults.screenVerticalPadding)
             ) {
                 item(key = 0) {
-                    if(!resultPageTipDismissed) {
+                    if (!resultPageTipDismissed) {
                         TertiarySettingsItem(
                             leadingIconRes = R.drawable.ic_auto_awesome,
                             title = stringResource(R.string.tip_tips),

@@ -244,4 +244,5 @@
     <string name="placeholder_palette_preset_name">预设名称</string>
     <string name="none">无</string>
     <string name="tip_result_page_sheet_detail">从屏幕底部展开卡片可查看二维码详情，并应用调色板中保存的预设。点击此提示卡片后将不再显示。</string>
+    <string name="tip_result_palette_preset_desc">选择已保存的调色板预设，并重新渲染当前二维码预览。</string>
 </resources>

@@ -245,4 +245,5 @@
     <string name="placeholder_palette_preset_name">Preset name</string>
     <string name="none">None</string>
     <string name="tip_result_page_sheet_detail">Expand the bottom card to view QR code details and apply saved presets from the palette. Tap this tip card to dismiss it.</string>
+    <string name="tip_result_palette_preset_desc">Choose a saved palette preset and re-render this QR code preview.</string>
 </resources>
