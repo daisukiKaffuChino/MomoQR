@@ -13,6 +13,8 @@ sealed class MomoScreen : NavKey {
         data object Scan : MomoScreen()
         @Serializable
         data object Palette : MomoScreen()
+        @Serializable
+        data object Factory : MomoScreen()
     }
 
     @Serializable

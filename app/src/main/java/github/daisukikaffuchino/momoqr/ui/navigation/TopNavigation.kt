@@ -9,6 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.ui.NavDisplay
+import github.daisukikaffuchino.momoqr.ui.pages.factory.FactoryPage
 import github.daisukikaffuchino.momoqr.ui.pages.home.HomePage
 import github.daisukikaffuchino.momoqr.ui.pages.palette.PalettePage
 import github.daisukikaffuchino.momoqr.ui.pages.result.ResultAddPage
@@ -85,7 +86,8 @@ fun TopNavigation(
                     HomePage(
                         toScanPage = { backStack.add(MomoScreen.Home.Scan) },
                         toPalettePage = { backStack.add(MomoScreen.Home.Palette) },
-                        toResultAddPage = { backStack.add(MomoScreen.Result.Add(it)) }
+                        toResultAddPage = { backStack.add(MomoScreen.Result.Add(it)) },
+                        toFactoryPage = { backStack.add(MomoScreen.Home.Factory) }
                     )
                 }
 
@@ -95,6 +97,12 @@ fun TopNavigation(
 
                 entry<MomoScreen.Home.Palette>(metadata = customPageTransition()) {
                     PalettePage(onNavigateUp = ::onBack)
+                }
+
+                entry<MomoScreen.Home.Factory>(metadata = customPageTransition()) {
+                    FactoryPage(
+                        onNavigateUp = ::onBack,
+                        toResultAddPage = { backStack.add(MomoScreen.Result.Add(it)) })
                 }
 
                 entry<MomoScreen.Stars> {

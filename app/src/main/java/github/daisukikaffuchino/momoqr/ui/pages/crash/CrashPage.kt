@@ -1,5 +1,6 @@
 package github.daisukikaffuchino.momoqr.ui.pages.crash
 
+import android.annotation.SuppressLint
 import android.os.Build
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -26,7 +27,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalLocale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
@@ -46,6 +46,7 @@ import github.daisukikaffuchino.momoqr.ui.pages.settings.components.TertiarySett
 import github.daisukikaffuchino.momoqr.ui.theme.Defaults
 import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable
@@ -101,7 +102,8 @@ fun CrashPage(
         val deviceModel = Build.MODEL
         val sdkLevel = Build.VERSION.SDK_INT
         val currentDateTime = Calendar.getInstance().time
-        val formatter = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", LocalLocale.current.platformLocale)
+        @SuppressLint("NonObservableLocale") val formatter =
+            SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
         val formattedDateTime = formatter.format(currentDateTime)
 
         val deviceInfo = StringBuilder().apply {

@@ -1,0 +1,15 @@
+package github.daisukikaffuchino.momoqr.ui.pages.factory
+
+internal const val FIELD_WIFI_SSID = "wifi_ssid"
+internal const val FIELD_WIFI_PASSWORD = "wifi_password"
+internal const val FIELD_EMAIL_ADDRESS = "email_address"
+internal const val FIELD_EVENT_TITLE = "event_title"
+internal const val FIELD_EVENT_START = "event_start"
+internal const val FIELD_EVENT_END = "event_end"
+internal const val FIELD_PHONE_NUMBER = "phone_number"
+internal const val FIELD_MESSAGE_PHONE = "message_phone"
+internal const val FIELD_MESSAGE_BODY = "message_body"
+internal const val FIELD_APP_PACKAGE = "app_package"
+internal const val FIELD_GEO_LATITUDE = "geo_latitude"
+internal const val FIELD_GEO_LONGITUDE = "geo_longitude"
+internal const val FIELD_GEO_ALTITUDE = "geo_altitude"

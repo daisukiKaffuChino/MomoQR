@@ -64,6 +64,7 @@ fun TopAppBarScaffold(
     floatingActionButton: @Composable () -> Unit = {},
     floatingActionButtonPosition: FabPosition = FabPosition.End,
     contentWindowInsets: WindowInsets = ScaffoldDefaults.contentWindowInsets,
+    enableVerticalBounce: Boolean = true,
     content: @Composable () -> Unit
 ) {
     val view = LocalView.current
@@ -96,6 +97,7 @@ fun TopAppBarScaffold(
         floatingActionButton = floatingActionButton,
         floatingActionButtonPosition = floatingActionButtonPosition,
         contentWindowInsets = contentWindowInsets,
+        enableVerticalBounce = enableVerticalBounce,
         modifier = modifier,
         content = content
     )
@@ -110,6 +112,7 @@ fun TopAppBarScaffold(
     floatingActionButton: @Composable () -> Unit = {},
     floatingActionButtonPosition: FabPosition = FabPosition.End,
     contentWindowInsets: WindowInsets = ScaffoldDefaults.contentWindowInsets,
+    enableVerticalBounce: Boolean = true,
     content: @Composable () -> Unit
 ) {
     TopAppBarScaffold(
@@ -125,6 +128,7 @@ fun TopAppBarScaffold(
         floatingActionButton = floatingActionButton,
         floatingActionButtonPosition = floatingActionButtonPosition,
         contentWindowInsets = contentWindowInsets,
+        enableVerticalBounce = enableVerticalBounce,
         modifier = modifier,
         content = content
     )
@@ -141,6 +145,7 @@ fun TopAppBarScaffold(
     floatingActionButton: @Composable () -> Unit = {},
     floatingActionButtonPosition: FabPosition = FabPosition.End,
     contentWindowInsets: WindowInsets = ScaffoldDefaults.contentWindowInsets,
+    enableVerticalBounce: Boolean = true,
     content: @Composable () -> Unit
 ) {
     TopAppBarScaffold(
@@ -159,6 +164,7 @@ fun TopAppBarScaffold(
         floatingActionButton = floatingActionButton,
         floatingActionButtonPosition = floatingActionButtonPosition,
         contentWindowInsets = contentWindowInsets,
+        enableVerticalBounce = enableVerticalBounce,
         content = content,
     )
 }
@@ -174,6 +180,7 @@ fun TopAppBarScaffold(
     contentWindowInsets: WindowInsets = ScaffoldDefaults.contentWindowInsets,
     containerColor: Color = Defaults.Colors.Background,
     screenShape: Shape = Defaults.ScreenContainerShape,
+    enableVerticalBounce: Boolean = true,
     content: @Composable () -> Unit
 ) {
     Scaffold(
@@ -188,7 +195,7 @@ fun TopAppBarScaffold(
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .verticalBounce()
+                .verticalBounce(enabled = enableVerticalBounce)
         ) {
             Surface(
                 modifier = Modifier

@@ -74,6 +74,7 @@ fun HomePage(
     toScanPage: () -> Unit,
     toPalettePage: () -> Unit,
     toResultAddPage: (StarEntity) -> Unit,
+    toFactoryPage: () -> Unit,
     modifier: Modifier = Modifier
 ) {
 
@@ -261,7 +262,7 @@ fun HomePage(
                         GenerateActionCard(
                             icon = painterResource(R.drawable.ic_more),
                             title = stringResource(R.string.label_generate_more_type),
-                            //onClick = toLicencePage
+                            onClick = toFactoryPage
                         )
                     }
                     PaletteCard(
