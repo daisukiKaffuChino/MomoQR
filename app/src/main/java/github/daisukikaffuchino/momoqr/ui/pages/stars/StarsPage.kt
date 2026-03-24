@@ -49,8 +49,8 @@ import github.daisukikaffuchino.momoqr.ui.components.EmptyListTip
 import github.daisukikaffuchino.momoqr.ui.components.EmptyTipType
 import github.daisukikaffuchino.momoqr.ui.components.TopAppBarScaffold
 import github.daisukikaffuchino.momoqr.ui.pages.stars.components.StarCard
-import github.daisukikaffuchino.momoqr.ui.pages.stars.components.StarSearchTextField
-import github.daisukikaffuchino.momoqr.ui.pages.stars.components.StarTopAppBar
+import github.daisukikaffuchino.momoqr.ui.components.SearchTextField
+import github.daisukikaffuchino.momoqr.ui.components.SearchTopAppBar
 import github.daisukikaffuchino.momoqr.ui.theme.Defaults
 import github.daisukikaffuchino.momoqr.ui.theme.fadeScale
 import github.daisukikaffuchino.momoqr.ui.viewmodels.MainViewModel
@@ -108,7 +108,8 @@ fun SharedTransitionScope.StarsPage(
 
     TopAppBarScaffold(
         topBar = {
-            StarTopAppBar(
+            SearchTopAppBar(
+                title = stringResource(R.string.page_stars),
                 selectedIds = selectedStarIds,
                 selectedMode = inSelectedMode,
                 onCancelSelect = { viewModel.clearAllStarsSelection() },
@@ -117,6 +118,13 @@ fun SharedTransitionScope.StarsPage(
                 onDeleteSelected = { showDeleteConfirmDialog = true },
                 onSearchModeChange = { viewModel.setSearchModeEnabled(it) },
                 searchMode = viewModel.searchMode,
+            )
+            ConfirmDialog(
+                visible = showDeleteConfirmDialog,
+                iconRes = R.drawable.ic_delete,
+                text = stringResource(R.string.tip_delete_item, selectedStarIds.size),
+                onConfirm = { viewModel.deleteSelectedStar() },
+                onDismiss = { showDeleteConfirmDialog = false }
             )
         },
         contentWindowInsets = WindowInsets(0, 0, 0, 0),
@@ -132,7 +140,7 @@ fun SharedTransitionScope.StarsPage(
                     MaterialTheme.motionScheme.fastSpatialSpec()
                 ),
             ) {
-                StarSearchTextField(
+                SearchTextField(
                     searchMode = viewModel.searchMode,
                     onSearchModeChange = { viewModel.setSearchModeEnabled(it) },
                     textFieldState = searchFieldState
@@ -212,12 +220,5 @@ fun SharedTransitionScope.StarsPage(
                 }
             }
         }
-        ConfirmDialog(
-            visible = showDeleteConfirmDialog,
-            iconRes = R.drawable.ic_delete,
-            text = stringResource(R.string.tip_delete_item, selectedStarIds.size),
-            onConfirm = { viewModel.deleteSelectedStar() },
-            onDismiss = { showDeleteConfirmDialog = false }
-        )
     }
 }

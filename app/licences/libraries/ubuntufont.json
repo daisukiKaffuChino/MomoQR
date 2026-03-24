@@ -1,0 +1,20 @@
+{
+  "uniqueId": "com.canonical:ubuntu-font-family",
+  "artifactVersion": "0.83",
+  "name": "Ubuntu Font Family",
+  "developers": [
+    {
+      "name": "Canonical Ltd",
+      "website": "https://ubuntu.com"
+    },
+    {
+      "name": "Dalton Maag"
+    }
+  ],
+  "description": "The Ubuntu Font Family are a set of matching new libre/open fonts in development. The font is sans-serif, uses OpenType features and is manually hinted for clarity on desktop and mobile computing screens.",
+  "website": "https://design.ubuntu.com/font/",
+  "tag": "font",
+  "licenses": [
+    "UFL-1.0"
+  ]
+}

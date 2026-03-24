@@ -26,12 +26,12 @@ import androidx.compose.ui.graphics.asComposePath
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.withTransform
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.graphics.shapes.toPath
+import github.daisukikaffuchino.momoqr.ui.theme.MomoLogoFontFamily
 
 @SuppressLint("ConfigurationScreenWidthHeight")
 @Preview
@@ -133,15 +133,14 @@ fun ExpressiveLogoCard(
                         )
                     }
                 }
-                // 文字层：居中、粗体、Roboto
                 Text(
                     text = "MomoQR",
                     modifier = Modifier.align(Alignment.Center),
                     style = MaterialTheme.typography.displaySmall.copy(
-                        fontFamily = FontFamily.SansSerif, // 系统默认 Roboto
-                        fontWeight = FontWeight.Black,      // 使用 Black 比 Bold 更厚重，更有视觉张力
+                        fontFamily = MomoLogoFontFamily,
+                        fontWeight = FontWeight.Medium,
                         color = MaterialTheme.colorScheme.secondary,
-                        letterSpacing = 0.sp               // 恢复默认间距，或者用 -0.5.sp 显得更紧凑
+                        letterSpacing = (-0.5).sp
                     )
                 )
             }

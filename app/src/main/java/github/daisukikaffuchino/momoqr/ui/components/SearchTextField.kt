@@ -1,4 +1,4 @@
-package github.daisukikaffuchino.momoqr.ui.pages.stars.components
+package github.daisukikaffuchino.momoqr.ui.components
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
@@ -10,8 +10,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.input.TextFieldLineLimits
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.foundation.text.input.setTextAndPlaceCursorAtEnd
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -26,9 +24,8 @@ import androidx.compose.ui.res.stringResource
 import github.daisukikaffuchino.momoqr.R
 import github.daisukikaffuchino.momoqr.utils.VibrationUtil
 
-@OptIn(ExperimentalMaterial3ExpressiveApi::class, ExperimentalMaterial3Api::class)
 @Composable
-fun StarSearchTextField(
+fun SearchTextField(
     searchMode: Boolean,
     onSearchModeChange: (Boolean) -> Unit,
     modifier: Modifier = Modifier,

@@ -1,4 +1,4 @@
-package github.daisukikaffuchino.momoqr.ui.pages.stars.components
+package github.daisukikaffuchino.momoqr.ui.components
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
@@ -11,8 +11,10 @@ import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
 import androidx.compose.animation.shrinkOut
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
+import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
@@ -30,6 +32,7 @@ import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.dp
 import github.daisukikaffuchino.momoqr.R
 import github.daisukikaffuchino.momoqr.ui.theme.Defaults
 import github.daisukikaffuchino.momoqr.ui.theme.fadeScale
@@ -37,16 +40,18 @@ import github.daisukikaffuchino.momoqr.utils.VibrationUtil
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable
-fun StarTopAppBar(
+fun SearchTopAppBar(
+    modifier: Modifier = Modifier,
+    title: String,
     searchMode: Boolean,
     selectedMode: Boolean,
     selectedAll: Boolean,
     selectedIds: List<Int>,
     onSearchModeChange: (Boolean) -> Unit,
+    onNavigateUp: (() -> Unit)? = null,
     onCancelSelect: () -> Unit,
     onSelectAll: () -> Unit,
-    onDeleteSelected: () -> Unit,
-    modifier: Modifier = Modifier
+    onDeleteSelected: () -> Unit
 ) {
     val navIconEnterTransition = fadeIn(
         animationSpec = MaterialTheme.motionScheme.fastEffectsSpec()
@@ -76,21 +81,38 @@ fun StarTopAppBar(
 
     TopAppBar(
         navigationIcon = {
-            AnimatedVisibility(
-                visible = selectedMode,
-                enter = navIconEnterTransition,
-                exit = navIconExitTransition
-            ) {
-                IconButton(
+            if (selectedMode) {
+                AnimatedVisibility(
+                    visible = selectedMode,
+                    enter = navIconEnterTransition,
+                    exit = navIconExitTransition
+                ) {
+                    IconButton(
+                        shapes = IconButtonDefaults.shapes(),
+                        onClick = {
+                            VibrationUtil.performHapticFeedback(view)
+                            onCancelSelect()
+                        }
+                    ) {
+                        Icon(
+                            painter = painterResource(R.drawable.ic_close),
+                            contentDescription = stringResource(R.string.tip_clear_selected_items)
+                        )
+                    }
+                }
+            } else if (onNavigateUp != null) {
+                FilledIconButton(
+                    modifier = Modifier.padding(start = 12.dp, end = 8.dp),
+                    colors = IconButtonDefaults.filledIconButtonColors(containerColor = MaterialTheme.colorScheme.surfaceContainerHighest),
                     shapes = IconButtonDefaults.shapes(),
                     onClick = {
                         VibrationUtil.performHapticFeedback(view)
-                        onCancelSelect()
+                        onNavigateUp()
                     }
                 ) {
                     Icon(
-                        painter = painterResource(R.drawable.ic_close),
-                        contentDescription = stringResource(R.string.tip_clear_selected_items)
+                        painter = painterResource(R.drawable.ic_arrow_back),
+                        contentDescription = stringResource(R.string.action_back)
                     )
                 }
             }
@@ -102,7 +124,7 @@ fun StarTopAppBar(
             ) {
                 if (it) {
                     Text(
-                        text = stringResource(R.string.page_stars),
+                        text = title,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
                     )
@@ -138,7 +160,8 @@ fun StarTopAppBar(
                 }
             }
         },
-        colors = TopAppBarDefaults.topAppBarColors().copy(containerColor = Color.Transparent),
+        colors = TopAppBarDefaults.topAppBarColors()
+            .copy(containerColor = Color.Transparent),
         modifier = modifier.drawBehind {
             drawRect(animatedContainerColor)
         }
@@ -179,7 +202,7 @@ private fun ActionSearch(
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
-fun ActionMultipleSelection(
+private fun ActionMultipleSelection(
     selectedMode: Boolean,
     onSelectAll: () -> Unit,
     onCancelSelect: () -> Unit,
