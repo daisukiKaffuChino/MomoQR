@@ -8,7 +8,7 @@ import com.github.sumimakito.awesomeqr.option.RenderOption
 import com.github.sumimakito.awesomeqr.option.background.StillBackground
 import com.github.sumimakito.awesomeqr.option.color.Color
 import com.github.sumimakito.awesomeqr.option.logo.Logo
-import github.daisukikaffuchino.momoqr.logic.model.QRCodeECL
+import github.daisukikaffuchino.momoqr.logic.model.QrCodeECL
 import androidx.core.graphics.createBitmap
 
 data class QrAppearanceOptions(
@@ -53,7 +53,7 @@ object QrGenerateUtil {
             size = qrSize
             borderWidth = appearance.borderWidth
             clearBorder = false
-            ecl = QRCodeECL.fromFloat(eclFloat).toZXingLevel()
+            ecl = QrCodeECL.fromFloat(eclFloat).toZXingLevel()
             color = codeColor
             roundedPatterns = appearance.roundedPatterns
             patternScale = appearance.patternScale

@@ -5,12 +5,14 @@ import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import github.daisukikaffuchino.momoqr.R
 
 @Composable
@@ -26,6 +28,7 @@ fun ResultContentTextField(
         label = { Text(stringResource(R.string.placeholder_edit_content)) },
         minLines = 4,
         maxLines = 8,
+        shape = RoundedCornerShape(12.dp),
         isError = isError,
         supportingText = {
             AnimatedVisibility(

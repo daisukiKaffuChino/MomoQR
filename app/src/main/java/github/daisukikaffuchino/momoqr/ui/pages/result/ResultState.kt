@@ -15,7 +15,7 @@ import github.daisukikaffuchino.momoqr.R
 import github.daisukikaffuchino.momoqr.logic.database.StarEntity
 import github.daisukikaffuchino.momoqr.logic.model.PaletteDotShape
 import github.daisukikaffuchino.momoqr.logic.model.PalettePreset
-import github.daisukikaffuchino.momoqr.logic.model.QRCodeECL
+import github.daisukikaffuchino.momoqr.logic.model.QrCodeECL
 import github.daisukikaffuchino.momoqr.utils.QrAppearanceOptions
 import java.io.File
 
@@ -37,7 +37,7 @@ class ResultState(val initialStar: StarEntity? = null) {
     fun setErrorIfNotValid(): Boolean {
         val categoryMaxLength = 16
         val qr = qrContent.trim()
-        val qrMaxBytes = QRCodeECL.fromFloat(ecl).getQrMaxBytes()
+        val qrMaxBytes = QrCodeECL.fromFloat(ecl).getQrMaxBytes()
         val qrBytesLength = qr.toByteArray(Charsets.UTF_8).size
         val category = categoryContent.trim()
 

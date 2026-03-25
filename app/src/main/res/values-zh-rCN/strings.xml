@@ -41,7 +41,7 @@
     <string name="label_palette_preview_content">预览内容</string>
     <string name="label_palette_module_style">模块样式</string>
     <string name="label_palette_logo_background">Logo / 背景</string>
-    <string name="label_palette_editing">正在编辑：%1$s</string>
+    <string name="label_palette_editing">编辑中：%1$s</string>
     <string name="label_palette_background_alpha">背景透明度：%1$.1f</string>
     <string name="label_palette_border_width">边框宽度：%1$d</string>
     <string name="label_palette_module_scale">模块缩放：%1$.2f</string>
@@ -52,22 +52,18 @@
     <string name="label_palette_shape_circle">圆形</string>
     <string name="label_generate_text">纯文本</string>
     <string name="label_generate_from_clip_board">来自剪贴板</string>
-    <string name="label_generate_wifi_sharing">Wi-Fi 共享</string>
     <string name="label_generate_more_type">更多类型</string>
     <string name="label_generate_new">新建二维码</string>
     <string name="label_factory_type_email">电子邮件</string>
     <string name="label_factory_type_event">日程</string>
     <string name="label_factory_type_phone">电话</string>
-    <string name="label_factory_type_message">短信</string>
+    <string name="label_factory_type_sms">短信</string>
     <string name="label_factory_type_geo">地理坐标</string>
     <string name="label_factory_type_application">应用程序</string>
     <string name="label_factory_wifi_name">网络名称（SSID）</string>
-    <string name="label_factory_wifi_security">加密方式</string>
+    <string name="label_factory_wifi_security">安全性</string>
     <string name="label_factory_wifi_password">密码</string>
     <string name="label_factory_wifi_hidden">隐藏的网络</string>
-    <string name="label_factory_wifi_security_wpa">WPA/WPA2</string>
-    <string name="label_factory_wifi_security_wpa3">WPA3</string>
-    <string name="label_factory_wifi_security_wep">WEP</string>
     <string name="label_factory_email_address">邮箱地址</string>
     <string name="label_factory_email_subject">主题</string>
     <string name="label_factory_email_body">正文</string>
@@ -80,7 +76,7 @@
     <string name="label_factory_event_description">说明</string>
     <string name="label_factory_phone_number">电话号码</string>
     <string name="label_factory_message_phone">手机号</string>
-    <string name="label_factory_message_body">正文</string>
+    <string name="label_factory_message_body">信息正文</string>
     <string name="label_factory_geo_latitude">纬度</string>
     <string name="label_factory_geo_longitude">经度</string>
     <string name="label_factory_geo_altitude">海拔（可选）</string>
@@ -96,7 +92,7 @@
     <string name="label_attributes">属性</string>
     <string name="label_edit">编辑</string>
 
-    <string name="title_warning">注意</string>
+    <string name="title_warning">警告</string>
     <string name="title_restore_defaults">恢复默认</string>
     <string name="title_save_preset">保存预设</string>
     <string name="title_selected_count">已选择 %s 项</string>
@@ -137,7 +133,7 @@
     <string name="pref_licence_desc">查看使用的开源库及其许可</string>
     <string name="pref_sorting_method">排序方式</string>
     <string name="pref_star_list_relative_time">相对时间</string>
-    <string name="pref_star_list_relative_time_desc">显示最后修改时间距离当前已过去多久</string>
+    <string name="pref_star_list_relative_time_desc">显示距离上次修改已过多久</string>
     <string name="pref_haptic_feedback">触感反馈</string>
     <string name="pref_haptic_feedback_desc">为某些操作提供轻微的震动反馈</string>
     <string name="pref_classic_home_card">经典主页卡片</string>
@@ -151,7 +147,7 @@
     <string name="pref_beep">蜂鸣声</string>
     <string name="pref_beep_desc">分析成功后提供反馈</string>
     <string name="pref_enhanced_preprocessing">增强预处理</string>
-    <string name="pref_enhanced_preprocessing_desc">（实验性）试图提高识别率；但效果可能更差</string>
+    <string name="pref_enhanced_preprocessing_desc">（实验性）试图提高识别率；但效果可能反而更差</string>
     <string name="pref_error_correction_level">纠错等级</string>
     <string name="pref_error_correction_level_desc">调整二维码的纠错级别；级别越高，在二维码脏污或损坏时对数据的保护越好，但也会导致尺寸增大。通常，默认设置就足够了。</string>
     <string name="pref_auto_copy">自动复制</string>
@@ -187,7 +183,7 @@
     <string name="palette_expressive">表现力</string>
     <string name="palette_rainbow">彩虹</string>
     <string name="palette_fruit_salad">水果沙拉</string>
-    <string name="palette_fidelity">高保真</string>
+    <string name="palette_fidelity">忠实</string>
     <string name="palette_content">内容</string>
 
     <string name="dark_mode_system">跟随系统</string>
@@ -232,12 +228,12 @@
     <string name="tip_short_category">尽量使用简短的分类名称</string>
     <string name="tip_category_limit">最多只能保存 20 个分类。</string>
     <string name="tip_selected">已选中</string>
-    <string name="tip_no_category_chip">当前暂无自定义分类，你可以在设置中添加</string>
+    <string name="tip_no_category_chip">你可以在设置中添加自定义分类</string>
     <string name="tip_no_category_page">暂无自定义分类</string>
     <string name="tip_checkbox_marked">在列表中置顶显示</string>
     <string name="tip_may_cause_rendering_issues">调整此项可能会导致渲染问题</string>
-    <string name="tip_delete_item">你即将删除 %s 个项目，删除后无法恢复。确定继续吗？</string>
-    <string name="tip_discard_changes">退出编辑后将无法恢复你已修改的数据。确定退出吗？</string>
+    <string name="tip_delete_item">你即将删除 %s 个项目，删除后无法恢复。确定要继续吗？</string>
+    <string name="tip_discard_changes">退出编辑后将无法恢复你已修改的数据。确定要退出吗？</string>
     <string name="tip_select_this">选择此项</string>
     <string name="tip_clear_selected_items">清除已选项目</string>
     <string name="tip_select_all">全选</string>
@@ -252,12 +248,11 @@
     <string name="tip_palette_name_empty">名称不能为空。</string>
     <string name="tip_palette_name_too_long">名称太长了。</string>
     <string name="tip_palette_preset_limit">最多只能保存 10 个预设。</string>
-    <string name="tip_palette_preview_empty">暂无预览</string>
+    <string name="tip_palette_preview_empty">没有可用的预览</string>
     <string name="tip_palette_has_logo">有 Logo</string>
     <string name="tip_palette_no_logo">无 Logo</string>
     <string name="tip_palette_has_background">有背景</string>
     <string name="tip_palette_no_background">无背景</string>
-    <string name="tip_palette_preset_summary">%1$s · %2$.2f · %3$s · %4$s</string>
     <string name="tip_palette_generate_preview_failed">预览生成失败。</string>
 
     <string name="toast_press_again_to_exit">再次点击以退出</string>
@@ -288,7 +283,7 @@
     <string name="qr_render_quality_balanced">平衡</string>
     <string name="qr_render_quality_high_performance">高性能</string>
 
-    <string name="error_no_content_entered">没有文本输入</string>
+    <string name="error_no_content_entered">未输入内容</string>
     <string name="error_no_content_entered_or_too_long">没有文本输入或文本过长</string>
     <string name="error_palette_preview_content_required">请输入预览内容。</string>
     <string name="error_category_too_long">分类名称不能超过 16 个字符</string>

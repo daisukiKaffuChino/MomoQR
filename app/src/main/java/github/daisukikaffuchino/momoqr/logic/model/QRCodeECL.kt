@@ -2,7 +2,7 @@ package github.daisukikaffuchino.momoqr.logic.model
 
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel
 
-enum class QRCodeECL(
+enum class QrCodeECL(
     val value: Float,
     val nameString: String
 ) {

@@ -16,7 +16,7 @@
     <string name="action_replace_background">更換背景圖片</string>
     <string name="action_remove_background">移除背景圖片</string>
     <string name="action_edit_result">編輯結果</string>
-    <string name="action_starred">已加星號</string>
+    <string name="action_starred">標星</string>
     <string name="action_search">搜尋</string>
     <string name="action_open_link">開啟連結</string>
     <string name="action_copy">複製</string>
@@ -26,7 +26,7 @@
     <string name="action_add_category">新增分類</string>
 
     <string name="page_home">首頁</string>
-    <string name="page_stars">星號</string>
+    <string name="page_stars">星標</string>
     <string name="page_settings">設定</string>
     <string name="page_crash">哎呀！\n應用程式出錯了</string>
 
@@ -52,22 +52,18 @@
     <string name="label_palette_shape_circle">圓形</string>
     <string name="label_generate_text">純文字</string>
     <string name="label_generate_from_clip_board">來自剪貼簿</string>
-    <string name="label_generate_wifi_sharing">Wi-Fi 分享</string>
     <string name="label_generate_more_type">更多類型</string>
     <string name="label_generate_new">新增 QR Code</string>
     <string name="label_factory_type_email">電子郵件</string>
     <string name="label_factory_type_event">活動</string>
     <string name="label_factory_type_phone">電話</string>
-    <string name="label_factory_type_message">簡訊</string>
-    <string name="label_factory_type_geo">座標</string>
+    <string name="label_factory_type_sms">簡訊</string>
+    <string name="label_factory_type_geo">地理座標</string>
     <string name="label_factory_type_application">應用程式</string>
     <string name="label_factory_wifi_name">網路名稱（SSID）</string>
     <string name="label_factory_wifi_security">安全性</string>
     <string name="label_factory_wifi_password">密碼</string>
-    <string name="label_factory_wifi_hidden">隱藏網路</string>
-    <string name="label_factory_wifi_security_wpa">WPA/WPA2</string>
-    <string name="label_factory_wifi_security_wpa3">WPA3</string>
-    <string name="label_factory_wifi_security_wep">WEP</string>
+    <string name="label_factory_wifi_hidden">隱藏的網路</string>
     <string name="label_factory_email_address">電子郵件地址</string>
     <string name="label_factory_email_subject">主旨</string>
     <string name="label_factory_email_body">內文</string>
@@ -130,7 +126,7 @@
     <string name="pref_view_on_github">在 GitHub 上查看</string>
     <string name="pref_view_on_github_desc">查看原始碼、回報問題並提出改進建議</string>
     <string name="pref_translate">參與翻譯</string>
-    <string name="pref_translate_desc">協助我們把 MomoQR 翻譯成你的語言</string>
+    <string name="pref_translate_desc">協助我們將 MomoQR 翻譯至您的語言</string>
     <string name="pref_policy">隱私權政策</string>
     <string name="pref_policy_desc">了解我們如何保護隱私</string>
     <string name="pref_licence">開源授權</string>
@@ -163,7 +159,7 @@
     <string name="pref_category_management_desc">新增自訂分類標籤</string>
     <string name="pref_qr_render_quality">圖片品質</string>
     <string name="pref_donate">贊助</string>
-    <string name="pref_donate_desc">協助 MomoQR 維持免費、無廣告並持續進步。完全自由參與。</string>
+    <string name="pref_donate_desc">遵循自願原則。協助 MomoQR 維持免費、無廣告並持續進步！</string>
     <string name="pref_exit_confirmation">退出確認</string>
     <string name="pref_exit_confirmation_desc">連按兩下退出應用程式</string>
 
@@ -174,17 +170,17 @@
     <string name="pref_label_camera">相機</string>
     <string name="pref_label_analyzer">分析器</string>
     <string name="pref_label_rendering">渲染</string>
-    <string name="pref_label_star_list">星號清單</string>
+    <string name="pref_label_star_list">星標清單</string>
     <string name="pref_label_global">全域</string>
     <string name="pref_label_action">操作</string>
     <string name="pref_label_storage">儲存</string>
     <string name="pref_label_visibility">可見性</string>
     <string name="pref_label_via_wechat">透過微信</string>
 
-    <string name="palette_tonal_spot">色調焦點</string>
+    <string name="palette_tonal_spot">基調</string>
     <string name="palette_neutral">中性</string>
     <string name="palette_vibrant">鮮明</string>
-    <string name="palette_expressive">表現</string>
+    <string name="palette_expressive">表現力</string>
     <string name="palette_rainbow">彩虹</string>
     <string name="palette_fruit_salad">水果沙拉</string>
     <string name="palette_fidelity">忠實</string>
@@ -200,11 +196,11 @@
     <string name="contrast_high">高</string>
     <string name="contrast_very_high">極高</string>
 
-    <string name="sorting_sequential">新增順序</string>
+    <string name="sorting_sequential">新增先後順序</string>
     <string name="sorting_category">分類</string>
     <string name="sorting_alphabetical_ascending">字母順序（A→Z）</string>
     <string name="sorting_alphabetical_descending">字母順序（Z→A）</string>
-    <string name="sorting_modified_date">上次修改</string>
+    <string name="sorting_modified_date">上次修改日期</string>
 
     <string name="tip_tips">提示</string>
     <string name="tip_no_crash_logs">沒有崩潰記錄</string>
@@ -225,8 +221,8 @@
     <string name="tip_factory_pick_date">點一下以選擇日期</string>
     <string name="tip_factory_pick_datetime">點一下以選擇日期與時間</string>
     <string name="tip_factory_datetime_format">格式：yyyy-MM-dd HH:mm</string>
-    <string name="tip_factory_geo_latitude">必填，範圍需介於 -90 到 90 之間。</string>
-    <string name="tip_factory_geo_longitude">必填，範圍需介於 -180 到 180 之間。</string>
+    <string name="tip_factory_geo_latitude">必填，範圍介於 -90 到 90。</string>
+    <string name="tip_factory_geo_longitude">必填，範圍介於 -180 到 180。</string>
     <string name="tip_factory_geo_altitude">選填，單位為公尺。</string>
     <string name="tip_factory_app_package">例如：com.example.app</string>
     <string name="tip_short_category">分類名稱請保持簡潔</string>
@@ -257,7 +253,6 @@
     <string name="tip_palette_no_logo">無 Logo</string>
     <string name="tip_palette_has_background">有背景</string>
     <string name="tip_palette_no_background">無背景</string>
-    <string name="tip_palette_preset_summary">%1$s · %2$.2f · %3$s · %4$s</string>
     <string name="tip_palette_generate_preview_failed">預覽產生失敗。</string>
 
     <string name="toast_press_again_to_exit">再按一次即可退出</string>
@@ -295,6 +290,6 @@
     <string name="placeholder_edit_content">編輯內容</string>
     <string name="placeholder_palette_preset_name">預設集名稱</string>
     <string name="none">無</string>
-    <string name="tip_result_page_sheet_detail">展開底部卡片即可查看 QR Code 詳細資訊，並套用調色盤中已儲存的預設集。點一下這張提示卡即可關閉。</string>
-    <string name="tip_result_palette_preset_desc">選擇已儲存的調色盤預設集，重新渲染目前的 QR Code 預覽。</string>
+    <string name="tip_result_page_sheet_detail">展開底部卡片即可查看 QR Code 詳細資訊，並套用調色盤中已儲存的預設集。點擊這張提示卡即可關閉。</string>
+    <string name="tip_result_palette_preset_desc">選擇已儲存的調色盤預設集，並重新渲染目前的 QR Code。</string>
 </resources>

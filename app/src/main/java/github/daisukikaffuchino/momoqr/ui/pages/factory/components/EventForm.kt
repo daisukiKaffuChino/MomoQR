@@ -1,5 +1,6 @@
 package github.daisukikaffuchino.momoqr.ui.pages.factory.components
 
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -30,7 +31,10 @@ fun EventForm(
     invalidFields: Set<String>,
     shouldShowErrors: Boolean,
 ) {
-    Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+    Column(
+        modifier = Modifier.animateContentSize(),
+        verticalArrangement = Arrangement.spacedBy(12.dp)
+    ) {
         FactoryTextField(
             value = title,
             onValueChange = onTitleChange,

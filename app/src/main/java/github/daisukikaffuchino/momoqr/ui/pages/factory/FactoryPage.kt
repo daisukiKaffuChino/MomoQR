@@ -22,17 +22,26 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import github.daisukikaffuchino.momoqr.R
+import github.daisukikaffuchino.momoqr.constants.AppConstants
 import github.daisukikaffuchino.momoqr.logic.database.StarEntity
+import github.daisukikaffuchino.momoqr.logic.datastore.DataStoreManager
 import github.daisukikaffuchino.momoqr.logic.model.FactoryType
+import github.daisukikaffuchino.momoqr.logic.model.WifiSecurity
 import github.daisukikaffuchino.momoqr.ui.components.TopAppBarScaffold
 import github.daisukikaffuchino.momoqr.ui.pages.factory.components.ApplicationForm
 import github.daisukikaffuchino.momoqr.ui.pages.factory.components.EmailForm
@@ -45,6 +54,9 @@ import github.daisukikaffuchino.momoqr.ui.pages.factory.components.TypeChipsCard
 import github.daisukikaffuchino.momoqr.ui.pages.factory.components.WifiForm
 import github.daisukikaffuchino.momoqr.ui.pages.result.components.ResultFloatingActionButton
 import github.daisukikaffuchino.momoqr.ui.theme.Defaults
+import github.daisukikaffuchino.momoqr.utils.keyboardAsState
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -59,14 +71,30 @@ fun FactoryPage(
     viewModel: FactoryViewModel = hiltViewModel(),
 ) {
     val context = LocalContext.current
+    val scope = rememberCoroutineScope()
+    var hasResetForCurrentEntry by rememberSaveable { mutableStateOf(false) }
     val state by viewModel.state.collectAsState()
     val selectedType = FactoryType.valueOf(state.selectedTypeName)
     val validation = state.validation
 
+    val focusManager = LocalFocusManager.current
+    val keyboardVisible by keyboardAsState()
+
+    LaunchedEffect(Unit) {
+        if (!hasResetForCurrentEntry) {
+            viewModel.resetState()
+            hasResetForCurrentEntry = true
+        }
+    }
+
+    LaunchedEffect(keyboardVisible) {
+        if (!keyboardVisible)
+            focusManager.clearFocus()
+    }
+
     TopAppBarScaffold(
         title = stringResource(R.string.label_generate_new),
         onBack = onNavigateUp,
-        enableVerticalBounce = false,
         floatingActionButton = {
             ResultFloatingActionButton(
                 text = stringResource(R.string.action_edit_result),
@@ -76,12 +104,17 @@ fun FactoryPage(
                         viewModel.showErrors()
                         return@ResultFloatingActionButton
                     }
-                    toResultAddPage(
-                        StarEntity(
-                            title = context.getString(selectedType.labelRes),
-                            content = validation.content
+                    scope.launch {
+                        val correctionLevel = DataStoreManager.correctionLevelFlow.first()
+                        toResultAddPage(
+                            StarEntity(
+                                category = context.getString(selectedType.labelRes),
+                                content = validation.content,
+                                errorCorrectionLevel = correctionLevel
+                            )
                         )
-                    )
+                    }
+
                 }
             )
         },
@@ -239,7 +272,6 @@ fun FactoryPage(
 }
 
 
-
 fun parseEventDate(value: String) =
     value.takeIf { it.isNotEmpty() }?.let {
         SimpleDateFormat(EVENT_INPUT_PATTERN, Locale.getDefault()).apply {
@@ -261,24 +293,14 @@ fun formatEventAllDayDate(value: Date): String =
     SimpleDateFormat(EVENT_ALL_DAY_INPUT_PATTERN, Locale.getDefault()).format(value)
 
 
-
 data class FactoryValidation(
     val content: String? = null,
     val invalidFields: Set<String> = emptySet()
 )
 
 
-enum class WifiSecurity(
-    val labelRes: Int,
-    val protocol: String,
-) {
-    WPA(labelRes = R.string.label_factory_wifi_security_wpa, protocol = "WPA"),
-    WPA3(labelRes = R.string.label_factory_wifi_security_wpa3, protocol = "SAE"),
-    WEP(labelRes = R.string.label_factory_wifi_security_wep, protocol = "WEP"),
-    None(labelRes = R.string.none, protocol = "nopass"),
-}
+
 
 private const val EVENT_INPUT_PATTERN = "yyyy-MM-dd HH:mm"
 
 private const val EVENT_ALL_DAY_INPUT_PATTERN = "yyyy-MM-dd"
-

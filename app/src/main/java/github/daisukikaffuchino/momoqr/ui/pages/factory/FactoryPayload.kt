@@ -3,7 +3,9 @@ package github.daisukikaffuchino.momoqr.ui.pages.factory
 import android.net.Uri
 import android.telephony.PhoneNumberUtils
 import android.util.Patterns
+import github.daisukikaffuchino.momoqr.logic.model.WifiSecurity
 import java.text.SimpleDateFormat
+import java.util.Calendar
 import java.util.Locale
 
 private val PACKAGE_NAME_REGEX = Regex("^[A-Za-z][A-Za-z0-9_]*(\\.[A-Za-z][A-Za-z0-9_]*)+$")
@@ -84,45 +86,57 @@ fun buildEventPayload(
     description: String,
 ): FactoryValidation {
     val invalidFields = mutableSetOf<String>()
+
     val normalizedTitle = title.trim()
     val normalizedStart = start.trim()
     val normalizedEnd = end.trim()
+    val normalizedLocation = location.trim()
+    val normalizedDescription = description.trim()
 
-    if (normalizedTitle.isEmpty()) invalidFields += FIELD_EVENT_TITLE
+    if (normalizedTitle.isEmpty()) {
+        invalidFields += FIELD_EVENT_TITLE
+    }
 
     val content = if (allDay) {
         val startDate = parseEventAllDayDate(normalizedStart)
-        if (startDate == null) invalidFields += FIELD_EVENT_START
+        if (startDate == null) {
+            invalidFields += FIELD_EVENT_START
+        }
 
         if (invalidFields.isNotEmpty()) {
             return FactoryValidation(invalidFields = invalidFields)
         }
 
+        val validStartDate = startDate ?: return FactoryValidation(invalidFields = setOf(FIELD_EVENT_START))
         val formatter = SimpleDateFormat(EVENT_ALL_DAY_OUTPUT_PATTERN, Locale.getDefault())
-        val endCalendar = java.util.Calendar.getInstance().apply {
-            time = startDate!!
-            add(java.util.Calendar.DAY_OF_YEAR, 1)
+        val endCalendar = Calendar.getInstance().apply {
+            time = validStartDate
+            add(Calendar.DAY_OF_YEAR, 1)
         }
 
         buildString {
             appendLine("BEGIN:VEVENT")
             appendLine("SUMMARY:${escapeIcsText(normalizedTitle)}")
-            appendLine("DTSTART;VALUE=DATE:${formatter.format(startDate)}")
+            appendLine("DTSTART;VALUE=DATE:${formatter.format(validStartDate)}")
             appendLine("DTEND;VALUE=DATE:${formatter.format(endCalendar.time)}")
-            location.trim().takeIf { it.isNotEmpty() }?.let {
+            normalizedLocation.takeIf { it.isNotEmpty() }?.let {
                 appendLine("LOCATION:${escapeIcsText(it)}")
             }
-            description.trim().takeIf { it.isNotEmpty() }?.let {
+            normalizedDescription.takeIf { it.isNotEmpty() }?.let {
                 appendLine("DESCRIPTION:${escapeIcsText(it)}")
             }
             append("END:VEVENT")
         }
     } else {
         val startDate = parseEventDate(normalizedStart)
-        if (startDate == null) invalidFields += FIELD_EVENT_START
+        if (startDate == null) {
+            invalidFields += FIELD_EVENT_START
+        }
 
         val endDate = parseEventDate(normalizedEnd)
-        if (endDate == null) invalidFields += FIELD_EVENT_END
+        if (endDate == null) {
+            invalidFields += FIELD_EVENT_END
+        }
 
         if (startDate != null && endDate != null && endDate.before(startDate)) {
             invalidFields += FIELD_EVENT_END
@@ -132,29 +146,32 @@ fun buildEventPayload(
             return FactoryValidation(invalidFields = invalidFields)
         }
 
-        val formatter = SimpleDateFormat(EVENT_OUTPUT_PATTERN, Locale.US)
+        val validStartDate = startDate ?: return FactoryValidation(invalidFields = setOf(FIELD_EVENT_START))
+        val validEndDate = endDate ?: return FactoryValidation(invalidFields = setOf(FIELD_EVENT_END))
+        val formatter = SimpleDateFormat(EVENT_OUTPUT_PATTERN, Locale.getDefault())
+
         buildString {
             appendLine("BEGIN:VEVENT")
             appendLine("SUMMARY:${escapeIcsText(normalizedTitle)}")
-            appendLine("DTSTART:${formatter.format(startDate!!)}")
-            appendLine("DTEND:${formatter.format(endDate!!)}")
-            location.trim().takeIf { it.isNotEmpty() }?.let {
+            appendLine("DTSTART:${formatter.format(validStartDate)}")
+            appendLine("DTEND:${formatter.format(validEndDate)}")
+            normalizedLocation.takeIf { it.isNotEmpty() }?.let {
                 appendLine("LOCATION:${escapeIcsText(it)}")
             }
-            description.trim().takeIf { it.isNotEmpty() }?.let {
+            normalizedDescription.takeIf { it.isNotEmpty() }?.let {
                 appendLine("DESCRIPTION:${escapeIcsText(it)}")
             }
             append("END:VEVENT")
         }
     }
+
     return FactoryValidation(content = content)
 }
 
 fun buildPhonePayload(phoneNumber: String): FactoryValidation {
-    val normalizedPhone = normalizeValidPhoneNumber(phoneNumber)
-    if (normalizedPhone == null) {
-        return FactoryValidation(invalidFields = setOf(FIELD_PHONE_NUMBER))
-    }
+    val normalizedPhone = normalizeValidPhoneNumber(phoneNumber) ?: return FactoryValidation(
+        invalidFields = setOf(FIELD_PHONE_NUMBER)
+    )
     return FactoryValidation(content = "tel:$normalizedPhone")
 }
 
@@ -227,7 +244,7 @@ fun buildGeoPayload(
     val altitudeValue = if (normalizedAltitude.isEmpty()) {
         null
     } else {
-        normalizedAltitude.toDoubleOrNull()?.also { _ -> }
+        normalizedAltitude.toDoubleOrNull()
             ?: run {
                 invalidFields += FIELD_GEO_ALTITUDE
                 null

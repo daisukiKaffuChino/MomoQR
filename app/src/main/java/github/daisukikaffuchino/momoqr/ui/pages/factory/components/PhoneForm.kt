@@ -17,7 +17,7 @@ fun PhoneForm(
         value = phoneNumber,
         onValueChange = onPhoneNumberChange,
         label = stringResource(R.string.label_factory_phone_number),
-        supportingText = stringResource(R.string.tip_factory_phone_desc),
+        supportingText = stringResource(R.string.tip_factory_message_phone),
         isError = shouldShowErrors && FIELD_PHONE_NUMBER in invalidFields,
         keyboardType = KeyboardType.Phone
     )

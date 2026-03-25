@@ -18,7 +18,7 @@ import com.google.zxing.BarcodeFormat
 import github.daisukikaffuchino.momoqr.R
 import github.daisukikaffuchino.momoqr.constants.AppConstants
 import github.daisukikaffuchino.momoqr.logic.datastore.DataStoreManager
-import github.daisukikaffuchino.momoqr.logic.model.QRCodeECL
+import github.daisukikaffuchino.momoqr.logic.model.QrCodeECL
 import github.daisukikaffuchino.momoqr.logic.model.QrRenderQuality
 import github.daisukikaffuchino.momoqr.ui.components.ListItemContainer
 import github.daisukikaffuchino.momoqr.ui.components.SingleChoiceBottomSheet
@@ -114,7 +114,7 @@ fun SettingsCamera(
                         onClick = { showQualityDialog = true }
                     )
                     ErrorCorrectionPicker(
-                        currentLevel = QRCodeECL.fromFloat(correctionLevel),
+                        currentLevel = QrCodeECL.fromFloat(correctionLevel),
                         onLevelChanged = { scope.launch { DataStoreManager.setCorrectionLevel(it.value) } }
                     )
                 }

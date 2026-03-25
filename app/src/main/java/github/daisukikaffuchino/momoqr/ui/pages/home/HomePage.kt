@@ -198,7 +198,7 @@ fun HomePage(
                                 requestCameraPermissionIfNeeded(
                                     context = context,
                                     permissionLauncher = permissionLauncher,
-                                    onGranted = { toScanPage() }
+                                    onGranted = toScanPage
                                 )
                             }
                         )
@@ -221,7 +221,7 @@ fun HomePage(
                                     requestCameraPermissionIfNeeded(
                                         context = context,
                                         permissionLauncher = permissionLauncher,
-                                        onGranted = { toScanPage() }
+                                        onGranted = toScanPage
                                     )
                                 },
                                 onPillClick = {
@@ -267,7 +267,7 @@ fun HomePage(
                     }
                     PaletteCard(
                         modifier = Modifier.padding(top = 8.dp),
-                        onClick = { toPalettePage() }
+                        onClick = toPalettePage
                     )
                 }
             }

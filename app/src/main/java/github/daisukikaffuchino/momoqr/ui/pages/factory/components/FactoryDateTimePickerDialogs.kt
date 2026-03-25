@@ -1,33 +1,42 @@
 package github.daisukikaffuchino.momoqr.ui.pages.factory.components
 
 import android.text.format.DateFormat
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
+import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TimePicker
+import androidx.compose.material3.rememberDatePickerState
+import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
 import github.daisukikaffuchino.momoqr.R
 import github.daisukikaffuchino.momoqr.ui.pages.factory.FactoryUiState
+import github.daisukikaffuchino.momoqr.utils.VibrationUtil
 import java.util.Calendar
 
 @Composable
@@ -47,7 +56,10 @@ fun EventDateTimeField(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(
+    ExperimentalMaterial3Api::class,
+    ExperimentalMaterial3ExpressiveApi::class
+)
 @Composable
 fun FactoryDateTimePickerDialogs(
     state: FactoryUiState,
@@ -57,28 +69,55 @@ fun FactoryDateTimePickerDialogs(
     onConfirmTimePicker: (Int, Int) -> Unit,
 ) {
     val context = LocalContext.current
+    val view = LocalView.current
 
     if (state.showEventDatePicker) {
-        val datePickerState = androidx.compose.material3.rememberDatePickerState(
+        val datePickerState = rememberDatePickerState(
             initialSelectedDateMillis = state.pendingDateMillis ?: System.currentTimeMillis()
         )
 
         DatePickerDialog(
-            onDismissRequest = onDismissDatePicker,
+            onDismissRequest = {
+                onConfirmDatePicker(null)
+            },
             confirmButton = {
-                TextButton(
-                    onClick = { onConfirmDatePicker(datePickerState.selectedDateMillis) }
+                FilledTonalButton(
+                    onClick = {
+                        VibrationUtil.performHapticFeedback(view)
+                        onConfirmDatePicker(datePickerState.selectedDateMillis)
+                    },
+                    shapes = ButtonDefaults.shapes(),
                 ) {
                     Text(text = stringResource(R.string.action_confirm))
                 }
             },
             dismissButton = {
-                TextButton(onClick = onDismissDatePicker) {
-                    Text(text = stringResource(R.string.action_cancel))
+                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    TextButton(
+                        onClick = {
+                            VibrationUtil.performHapticFeedback(view)
+                            datePickerState.selectedDateMillis = null
+                        },
+                        shapes = ButtonDefaults.shapes()
+                    ) {
+                        Text(text = stringResource(R.string.action_clear))
+                    }
+                    TextButton(
+                        onClick = {
+                            VibrationUtil.performHapticFeedback(view)
+                            onDismissDatePicker()
+                        },
+                        shapes = ButtonDefaults.shapes()
+                    ) {
+                        Text(text = stringResource(R.string.action_cancel))
+                    }
                 }
             }
         ) {
-            DatePicker(state = datePickerState)
+            DatePicker(
+                state = datePickerState,
+                modifier = Modifier.verticalScroll(rememberScrollState())
+            )
         }
     }
 
@@ -88,54 +127,61 @@ fun FactoryDateTimePickerDialogs(
                 timeInMillis = state.pendingDateMillis ?: System.currentTimeMillis()
             }
         }
-        val timePickerState = androidx.compose.material3.rememberTimePickerState(
+        val timePickerState = rememberTimePickerState(
             initialHour = calendar.get(Calendar.HOUR_OF_DAY),
             initialMinute = calendar.get(Calendar.MINUTE),
             is24Hour = DateFormat.is24HourFormat(context)
         )
 
-        Dialog(onDismissRequest = onDismissTimePicker) {
-            Surface(
-                shape = MaterialTheme.shapes.extraLarge,
-                color = MaterialTheme.colorScheme.surface
-            ) {
-                Column(
-                    modifier = Modifier.padding(24.dp),
-                    verticalArrangement = Arrangement.spacedBy(20.dp)
+        DatePickerDialog(
+            onDismissRequest = onDismissTimePicker,
+            confirmButton = {
+                FilledTonalButton(
+                    onClick = {
+                        VibrationUtil.performHapticFeedback(view)
+                        onConfirmTimePicker(
+                            timePickerState.hour,
+                            timePickerState.minute
+                        )
+                    },
+                    shapes = ButtonDefaults.shapes()
                 ) {
-                    Text(
-                        text = stringResource(
-                            if (state.eventAllDay) {
-                                R.string.tip_factory_pick_date
-                            } else {
-                                R.string.tip_factory_pick_datetime
-                            }
-                        ),
-                        style = MaterialTheme.typography.titleLarge
-                    )
-                    TimePicker(
-                        state = timePickerState,
-                        modifier = Modifier.align(Alignment.CenterHorizontally)
-                    )
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.End
-                    ) {
-                        TextButton(onClick = onDismissTimePicker) {
-                            Text(text = stringResource(R.string.action_cancel))
-                        }
-                        TextButton(
-                            onClick = {
-                                onConfirmTimePicker(
-                                    timePickerState.hour,
-                                    timePickerState.minute
-                                )
-                            }
-                        ) {
-                            Text(text = stringResource(R.string.action_confirm))
-                        }
-                    }
+                    Text(text = stringResource(R.string.action_confirm))
                 }
+            },
+            dismissButton = {
+                TextButton(
+                    onClick = {
+                        VibrationUtil.performHapticFeedback(view)
+                        onDismissTimePicker()
+                    },
+                    shapes = ButtonDefaults.shapes()
+                ) {
+                    Text(text = stringResource(R.string.action_cancel))
+                }
+            }
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 16.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    text = stringResource(
+                        if (state.eventAllDay) {
+                            R.string.tip_factory_pick_date
+                        } else {
+                            R.string.tip_factory_pick_datetime
+                        }
+                    ),
+                    style = MaterialTheme.typography.titleSmall
+                )
+                TimePicker(
+                    state = timePickerState,
+                    modifier = Modifier.align(Alignment.CenterHorizontally)
+                )
             }
         }
     }
@@ -150,25 +196,29 @@ private fun FactoryPickerField(
     isError: Boolean = false,
     onClick: () -> Unit,
 ) {
-    Box(
-        modifier = modifier.fillMaxWidth()
-    ) {
-        OutlinedTextField(
-            value = value,
-            onValueChange = {},
-            label = { Text(text = label) },
-            supportingText = supportingText?.let {
-                { Text(text = it) }
-            },
-            modifier = Modifier.fillMaxWidth(),
-            isError = isError,
-            readOnly = true,
-            singleLine = true
-        )
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .clickable(onClick = onClick)
-        )
+    val view = LocalView.current
+    val interactionSource = remember { MutableInteractionSource() }
+    val pressed by interactionSource.collectIsPressedAsState()
+
+    LaunchedEffect(pressed) {
+        if (pressed) {
+            VibrationUtil.performHapticFeedback(view)
+            onClick()
+        }
     }
+
+    OutlinedTextField(
+        value = value,
+        onValueChange = {},
+        label = { Text(text = label) },
+        supportingText = supportingText?.let {
+            { Text(text = it) }
+        },
+        modifier = modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(12.dp),
+        isError = isError,
+        readOnly = true,
+        singleLine = true,
+        interactionSource = interactionSource
+    )
 }

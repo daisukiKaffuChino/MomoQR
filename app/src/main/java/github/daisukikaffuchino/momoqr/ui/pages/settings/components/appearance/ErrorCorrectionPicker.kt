@@ -29,7 +29,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.unit.dp
 import github.daisukikaffuchino.momoqr.R
-import github.daisukikaffuchino.momoqr.logic.model.QRCodeECL
+import github.daisukikaffuchino.momoqr.logic.model.QrCodeECL
 import github.daisukikaffuchino.momoqr.ui.pages.settings.components.MoreContentSettingsItem
 import github.daisukikaffuchino.momoqr.utils.VibrationUtil
 import kotlin.math.roundToInt
@@ -38,8 +38,8 @@ import kotlin.math.roundToInt
 @Composable
 fun ErrorCorrectionPicker(
     modifier: Modifier = Modifier,
-    currentLevel: QRCodeECL,
-    onLevelChanged: (QRCodeECL) -> Unit,
+    currentLevel: QrCodeECL,
+    onLevelChanged: (QrCodeECL) -> Unit,
 ) {
     val view = LocalView.current
     val context = LocalContext.current
@@ -48,7 +48,7 @@ fun ErrorCorrectionPicker(
         description = stringResource(R.string.pref_error_correction_level_desc),
         modifier = modifier
     ) {
-        val levels = QRCodeECL.entries
+        val levels = QrCodeECL.entries
         val levelNames = levels.map { it.nameString }
 
         var lastVibratedIndex by remember { mutableIntStateOf(currentLevel.ordinal) }

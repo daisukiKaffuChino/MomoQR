@@ -187,28 +187,29 @@ fun ResultEditorPage(
     val unclassified = stringResource(R.string.label_unclassified)
     val customization = stringResource(R.string.label_customization)
 
-    val categories = buildList {
-        add(ChipItem(-2, unclassified))
-        originalCategories.forEachIndexed { index, category ->
-            add(ChipItem(index, category))
+    val categories = remember(originalCategories, unclassified, customization) {
+        buildList {
+            add(ChipItem(-2, unclassified))
+            originalCategories.forEachIndexed { index, category ->
+                add(ChipItem(index, category))
+            }
+            add(ChipItem(-1, customization))
         }
-        add(ChipItem(-1, customization))
     }
 
-    var categoryInitialized by rememberSaveable { mutableStateOf(false) }
-    LaunchedEffect(originalCategories, stars) {
-        if (originalCategories.isEmpty()) return@LaunchedEffect
-        if (categoryInitialized) return@LaunchedEffect
+    /**
+     * stars.category 为空 → -2
+    stars.category 和 originalCategories 里某一项同名 → 选中那个预设项的 index
+    否则 → -1
+     **/
 
-        val index = if (isStarEntityEmpty) {
-            -2
-        } else {
-            if (stars.category.isEmpty()) -2
-            else categories.firstOrNull { it.name == stars.category }?.id ?: -1
+    LaunchedEffect(originalCategories, stars.category) {
+        val categoryText = stars.category.trim()
+        uiState.selectedCategoryIndex = when {
+            categoryText.isEmpty() -> -2
+            else -> originalCategories.indexOfFirst { it.trim() == categoryText }
+                .takeIf { it >= 0 } ?: -1
         }
-
-        uiState.selectedCategoryIndex = index
-        categoryInitialized = true
     }
 
     val isCustomCategory by remember { derivedStateOf { uiState.selectedCategoryIndex == -1 } }

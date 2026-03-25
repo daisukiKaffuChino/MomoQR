@@ -4,10 +4,12 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import github.daisukikaffuchino.momoqr.logic.model.FactoryType
+import github.daisukikaffuchino.momoqr.logic.model.WifiSecurity
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import java.util.Calendar
+import java.util.Date
 import javax.inject.Inject
 
 @HiltViewModel
@@ -15,38 +17,14 @@ class FactoryViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
     private val _state = MutableStateFlow(
-        FactoryUiState(
-            selectedTypeName = savedStateHandle[KEY_SELECTED_TYPE] ?: FactoryType.Wifi.name,
-            shouldShowErrors = savedStateHandle[KEY_SHOULD_SHOW_ERRORS] ?: false,
-            wifiSsid = savedStateHandle[KEY_WIFI_SSID] ?: "",
-            wifiPassword = savedStateHandle[KEY_WIFI_PASSWORD] ?: "",
-            wifiSecurityName = savedStateHandle[KEY_WIFI_SECURITY] ?: WifiSecurity.WPA.name,
-            wifiHidden = savedStateHandle[KEY_WIFI_HIDDEN] ?: false,
-            emailAddress = savedStateHandle[KEY_EMAIL_ADDRESS] ?: "",
-            emailSubject = savedStateHandle[KEY_EMAIL_SUBJECT] ?: "",
-            emailBody = savedStateHandle[KEY_EMAIL_BODY] ?: "",
-            eventTitle = savedStateHandle[KEY_EVENT_TITLE] ?: "",
-            eventAllDay = savedStateHandle[KEY_EVENT_ALL_DAY] ?: false,
-            eventStart = savedStateHandle[KEY_EVENT_START] ?: "",
-            eventEnd = savedStateHandle[KEY_EVENT_END] ?: "",
-            eventLocation = savedStateHandle[KEY_EVENT_LOCATION] ?: "",
-            eventDescription = savedStateHandle[KEY_EVENT_DESCRIPTION] ?: "",
-            phoneNumber = savedStateHandle[KEY_PHONE_NUMBER] ?: "",
-            messagePhone = savedStateHandle[KEY_MESSAGE_PHONE] ?: "",
-            messageBody = savedStateHandle[KEY_MESSAGE_BODY] ?: "",
-            appPackageName = savedStateHandle[KEY_APP_PACKAGE] ?: "",
-            geoLatitude = savedStateHandle[KEY_GEO_LATITUDE] ?: "",
-            geoLongitude = savedStateHandle[KEY_GEO_LONGITUDE] ?: "",
-            geoAltitude = savedStateHandle[KEY_GEO_ALTITUDE] ?: "",
-            showEventDatePicker = savedStateHandle[KEY_SHOW_EVENT_DATE_PICKER] ?: false,
-            showEventTimePicker = savedStateHandle[KEY_SHOW_EVENT_TIME_PICKER] ?: false,
-            pendingDateMillis = savedStateHandle[KEY_PENDING_DATE_MILLIS],
-            activeEventField = savedStateHandle.get<String>(KEY_ACTIVE_EVENT_FIELD)
-                ?.let(EventDateTimeTarget::valueOf),
-        )
-            .withValidation()
+        restoreState(savedStateHandle)
     )
     val state = _state.asStateFlow()
+
+    fun resetState() {
+        _state.value = FactoryUiState().withValidation()
+        persistState(_state.value)
+    }
 
     fun updateSelectedType(type: FactoryType) {
         updateState {
@@ -152,9 +130,38 @@ class FactoryViewModel @Inject constructor(
 
     fun confirmEventDateSelection(selectedDateMillis: Long?) {
         val currentState = state.value
-        val pickedMillis = selectedDateMillis ?: currentState.pendingDateMillis ?: System.currentTimeMillis()
+        if (selectedDateMillis == null) {
+            updateState {
+                when (currentState.activeEventField) {
+                    EventDateTimeTarget.Start -> it.copy(
+                        eventStart = "",
+                        showEventDatePicker = false,
+                        showEventTimePicker = false,
+                        activeEventField = null,
+                        pendingDateMillis = null,
+                    )
+
+                    EventDateTimeTarget.End -> it.copy(
+                        eventEnd = "",
+                        showEventDatePicker = false,
+                        showEventTimePicker = false,
+                        activeEventField = null,
+                        pendingDateMillis = null,
+                    )
+
+                    null -> it.copy(
+                        showEventDatePicker = false,
+                        showEventTimePicker = false,
+                        activeEventField = null,
+                        pendingDateMillis = null,
+                    )
+                }
+            }
+            return
+        }
+
         if (currentState.eventAllDay) {
-            val pickedValue = formatEventAllDayDate(java.util.Date(pickedMillis))
+            val pickedValue = formatEventAllDayDate(Date(selectedDateMillis))
             updateState {
                 when (currentState.activeEventField) {
                     EventDateTimeTarget.Start, null -> it.copy(
@@ -178,7 +185,7 @@ class FactoryViewModel @Inject constructor(
                 it.copy(
                     showEventDatePicker = false,
                     showEventTimePicker = true,
-                    pendingDateMillis = pickedMillis,
+                    pendingDateMillis = selectedDateMillis,
                 )
             }
         }
@@ -264,6 +271,36 @@ class FactoryViewModel @Inject constructor(
         savedStateHandle[KEY_ACTIVE_EVENT_FIELD] = state.activeEventField?.name
     }
 }
+
+private fun restoreState(savedStateHandle: SavedStateHandle) = FactoryUiState(
+    selectedTypeName = savedStateHandle[KEY_SELECTED_TYPE] ?: FactoryType.Wifi.name,
+    shouldShowErrors = savedStateHandle[KEY_SHOULD_SHOW_ERRORS] ?: false,
+    wifiSsid = savedStateHandle[KEY_WIFI_SSID] ?: "",
+    wifiPassword = savedStateHandle[KEY_WIFI_PASSWORD] ?: "",
+    wifiSecurityName = savedStateHandle[KEY_WIFI_SECURITY] ?: WifiSecurity.WPA.name,
+    wifiHidden = savedStateHandle[KEY_WIFI_HIDDEN] ?: false,
+    emailAddress = savedStateHandle[KEY_EMAIL_ADDRESS] ?: "",
+    emailSubject = savedStateHandle[KEY_EMAIL_SUBJECT] ?: "",
+    emailBody = savedStateHandle[KEY_EMAIL_BODY] ?: "",
+    eventTitle = savedStateHandle[KEY_EVENT_TITLE] ?: "",
+    eventAllDay = savedStateHandle[KEY_EVENT_ALL_DAY] ?: false,
+    eventStart = savedStateHandle[KEY_EVENT_START] ?: "",
+    eventEnd = savedStateHandle[KEY_EVENT_END] ?: "",
+    eventLocation = savedStateHandle[KEY_EVENT_LOCATION] ?: "",
+    eventDescription = savedStateHandle[KEY_EVENT_DESCRIPTION] ?: "",
+    phoneNumber = savedStateHandle[KEY_PHONE_NUMBER] ?: "",
+    messagePhone = savedStateHandle[KEY_MESSAGE_PHONE] ?: "",
+    messageBody = savedStateHandle[KEY_MESSAGE_BODY] ?: "",
+    appPackageName = savedStateHandle[KEY_APP_PACKAGE] ?: "",
+    geoLatitude = savedStateHandle[KEY_GEO_LATITUDE] ?: "",
+    geoLongitude = savedStateHandle[KEY_GEO_LONGITUDE] ?: "",
+    geoAltitude = savedStateHandle[KEY_GEO_ALTITUDE] ?: "",
+    showEventDatePicker = savedStateHandle[KEY_SHOW_EVENT_DATE_PICKER] ?: false,
+    showEventTimePicker = savedStateHandle[KEY_SHOW_EVENT_TIME_PICKER] ?: false,
+    pendingDateMillis = savedStateHandle[KEY_PENDING_DATE_MILLIS],
+    activeEventField = savedStateHandle.get<String>(KEY_ACTIVE_EVENT_FIELD)
+        ?.let(EventDateTimeTarget::valueOf),
+).withValidation()
 
 data class FactoryUiState(
     val selectedTypeName: String = FactoryType.Wifi.name,

@@ -22,7 +22,7 @@ import coil3.compose.AsyncImage
 import github.daisukikaffuchino.momoqr.R
 import github.daisukikaffuchino.momoqr.logic.database.StarEntity
 import github.daisukikaffuchino.momoqr.logic.model.PalettePreset
-import github.daisukikaffuchino.momoqr.logic.model.QRCodeECL
+import github.daisukikaffuchino.momoqr.logic.model.QrCodeECL
 import github.daisukikaffuchino.momoqr.ui.pages.settings.components.TertiarySettingsItem
 import github.daisukikaffuchino.momoqr.ui.theme.Defaults
 
@@ -82,7 +82,7 @@ fun ResultSheetContent(
                 QrPropertyCard(
                     createdTime = stars.createdDate,
                     modifiedTime = stars.modifiedDate,
-                    errorCorrectionLevel = QRCodeECL.fromFloat(stars.errorCorrectionLevel)
+                    errorCorrectionLevel = QrCodeECL.fromFloat(stars.errorCorrectionLevel)
                         .toDisplayString()
                 )
             }

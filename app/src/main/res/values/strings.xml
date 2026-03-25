@@ -53,22 +53,22 @@
     <string name="label_palette_shape_circle">Circle</string>
     <string name="label_generate_text">Plain text</string>
     <string name="label_generate_from_clip_board">From clipboard</string>
-    <string name="label_generate_wifi_sharing">Wi-Fi sharing</string>
+    <string name="label_generate_wifi" translatable="false">Wi-Fi</string>
     <string name="label_generate_more_type">More types</string>
     <string name="label_generate_new">New QR Code</string>
     <string name="label_factory_type_email">Email</string>
     <string name="label_factory_type_event">Event</string>
     <string name="label_factory_type_phone">Phone</string>
-    <string name="label_factory_type_message">Message</string>
+    <string name="label_factory_type_sms">SMS</string>
     <string name="label_factory_type_geo">Coordinates</string>
     <string name="label_factory_type_application">Application</string>
     <string name="label_factory_wifi_name">Network name (SSID)</string>
     <string name="label_factory_wifi_security">Security</string>
     <string name="label_factory_wifi_password">Password</string>
     <string name="label_factory_wifi_hidden">Hidden network</string>
-    <string name="label_factory_wifi_security_wpa">WPA/WPA2</string>
-    <string name="label_factory_wifi_security_wpa3">WPA3</string>
-    <string name="label_factory_wifi_security_wep">WEP</string>
+    <string name="label_factory_wifi_security_wpa" translatable="false">WPA/WPA2</string>
+    <string name="label_factory_wifi_security_wpa3" translatable="false">WPA3</string>
+    <string name="label_factory_wifi_security_wep" translatable="false">WEP</string>
     <string name="label_factory_email_address">Email address</string>
     <string name="label_factory_email_subject">Subject</string>
     <string name="label_factory_email_body">Body</string>
@@ -258,7 +258,7 @@
     <string name="tip_palette_no_logo">No logo</string>
     <string name="tip_palette_has_background">Has background</string>
     <string name="tip_palette_no_background">No background</string>
-    <string name="tip_palette_preset_summary">%1$s · %2$.2f · %3$s · %4$s</string>
+    <string name="tip_palette_preset_summary" translatable="false">%1$s · %2$.2f · %3$s · %4$s</string>
     <string name="tip_palette_generate_preview_failed">Failed to generate preview.</string>
 
     <string name="toast_press_again_to_exit">Press again to exit</string>
