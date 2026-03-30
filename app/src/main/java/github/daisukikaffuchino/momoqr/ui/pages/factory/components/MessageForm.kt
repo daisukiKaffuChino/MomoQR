@@ -7,6 +7,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import github.daisukikaffuchino.momoqr.R
+import github.daisukikaffuchino.momoqr.ui.components.CustomTextField
 import github.daisukikaffuchino.momoqr.ui.pages.factory.FIELD_MESSAGE_BODY
 import github.daisukikaffuchino.momoqr.ui.pages.factory.FIELD_MESSAGE_PHONE
 
@@ -20,7 +21,7 @@ fun MessageForm(
     shouldShowErrors: Boolean,
 ) {
     Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-        FactoryTextField(
+        CustomTextField(
             value = phoneNumber,
             onValueChange = onPhoneNumberChange,
             label = stringResource(R.string.label_factory_message_phone),
@@ -29,7 +30,7 @@ fun MessageForm(
             keyboardType = KeyboardType.Phone
         )
 
-        FactoryTextField(
+        CustomTextField(
             value = body,
             onValueChange = onBodyChange,
             label = stringResource(R.string.label_factory_message_body),

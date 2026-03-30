@@ -213,16 +213,9 @@
     <string name="tip_haptic_feedback_more_info">Enable haptic feedback in system settings before using this feature (usually under "Sound &amp; Vibration")</string>
     <string name="tip_align_to_scan">Align the QR code for scanning</string>
     <string name="tip_toggle_flashlight">Toggle flashlight</string>
-    <string name="tip_factory_wifi_desc">Create a QR code for Wi-Fi credentials.</string>
     <string name="tip_factory_wifi_password_requirement">Password must be at least 8 characters.</string>
-    <string name="tip_factory_email_desc">Generate a QR code that opens a prefilled email draft.</string>
-    <string name="tip_factory_event_desc">Generate a QR code for a calendar event.</string>
-    <string name="tip_factory_phone_desc">Generate a QR code that dials a phone number.</string>
-    <string name="tip_factory_message_desc">Generate a QR code for a text message.</string>
     <string name="tip_factory_message_phone">Required, must be a valid phone number.</string>
     <string name="tip_factory_message_body">Required.</string>
-    <string name="tip_factory_geo_desc">Generate a QR code for geographic coordinates.</string>
-    <string name="tip_factory_app_desc">Generate a QR code for an app package.</string>
     <string name="tip_factory_pick_date">Tap to choose a date</string>
     <string name="tip_factory_pick_datetime">Tap to choose date and time</string>
     <string name="tip_factory_datetime_format">Format: yyyy-MM-dd HH:mm</string>

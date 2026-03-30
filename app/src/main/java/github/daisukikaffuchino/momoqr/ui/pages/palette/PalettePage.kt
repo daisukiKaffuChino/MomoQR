@@ -188,7 +188,6 @@ fun PalettePage(
                     ResultFloatingActionButton(
                         text = stringResource(R.string.action_save),
                         iconRes = R.drawable.ic_save,
-                        expanded = true,
                         onClick = {
                             VibrationUtil.performHapticFeedback(view)
                             if (state.previewErrorMessage != null) {

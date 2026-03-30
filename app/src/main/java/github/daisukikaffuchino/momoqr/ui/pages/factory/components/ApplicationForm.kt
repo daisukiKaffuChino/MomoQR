@@ -6,6 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import github.daisukikaffuchino.momoqr.R
+import github.daisukikaffuchino.momoqr.ui.components.CustomTextField
 import github.daisukikaffuchino.momoqr.ui.pages.factory.FIELD_APP_PACKAGE
 
 @Composable
@@ -16,7 +17,7 @@ fun ApplicationForm(
     shouldShowErrors: Boolean,
 ) {
     Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-        FactoryTextField(
+        CustomTextField(
             value = packageName,
             onValueChange = onPackageNameChange,
             label = stringResource(R.string.label_factory_app_package),

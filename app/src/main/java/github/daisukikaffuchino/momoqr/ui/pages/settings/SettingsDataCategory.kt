@@ -78,7 +78,6 @@ fun SettingsDataCategory(
             ResultFloatingActionButton(
                 iconRes = R.drawable.ic_add,
                 text = stringResource(R.string.action_add_category),
-                expanded = isExpanded,
                 onClick = {
                     initialCategory = ""
                     showDialog = true

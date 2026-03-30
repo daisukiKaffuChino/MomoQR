@@ -20,6 +20,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import github.daisukikaffuchino.momoqr.R
 import github.daisukikaffuchino.momoqr.logic.model.WifiSecurity
+import github.daisukikaffuchino.momoqr.ui.components.CustomTextField
 import github.daisukikaffuchino.momoqr.ui.components.TextCheckbox
 import github.daisukikaffuchino.momoqr.ui.pages.factory.FIELD_WIFI_PASSWORD
 import github.daisukikaffuchino.momoqr.ui.pages.factory.FIELD_WIFI_SSID
@@ -42,7 +43,7 @@ fun WifiForm(
         modifier = Modifier.animateContentSize(),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        FactoryTextField(
+        CustomTextField(
             value = ssid,
             onValueChange = onSsidChange,
             label = stringResource(R.string.label_factory_wifi_name),
@@ -50,7 +51,9 @@ fun WifiForm(
         )
 
         Text(
-            modifier = Modifier.padding(8.dp),
+            modifier = Modifier
+                .padding(top = 8.dp)
+                .padding(horizontal = 8.dp),
             text = stringResource(R.string.label_factory_wifi_security),
             style = MaterialTheme.typography.titleSmall
         )
@@ -70,11 +73,11 @@ fun WifiForm(
             }
         }
         AnimatedVisibility(
-            visible = security !=WifiSecurity.None,
+            visible = security != WifiSecurity.None,
             enter = fadeIn(),
             exit = fadeOut()
         ) {
-            FactoryTextField(
+            CustomTextField(
                 value = password,
                 onValueChange = onPasswordChange,
                 label = stringResource(R.string.label_factory_wifi_password),

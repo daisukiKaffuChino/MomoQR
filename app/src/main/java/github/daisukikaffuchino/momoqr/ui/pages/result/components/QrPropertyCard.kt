@@ -35,6 +35,7 @@ fun QrPropertyCard(
 
     Card(
         modifier = modifier.fillMaxWidth(),
+        shape = MaterialTheme.shapes.largeIncreased,
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surfaceContainerHigh
         )

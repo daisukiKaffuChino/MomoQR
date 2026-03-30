@@ -9,6 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import github.daisukikaffuchino.momoqr.R
+import github.daisukikaffuchino.momoqr.ui.components.CustomTextField
 import github.daisukikaffuchino.momoqr.ui.components.TextCheckbox
 import github.daisukikaffuchino.momoqr.ui.pages.factory.FIELD_EVENT_END
 import github.daisukikaffuchino.momoqr.ui.pages.factory.FIELD_EVENT_START
@@ -35,7 +36,7 @@ fun EventForm(
         modifier = Modifier.animateContentSize(),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        FactoryTextField(
+        CustomTextField(
             value = title,
             onValueChange = onTitleChange,
             label = stringResource(R.string.label_factory_event_title),
@@ -75,13 +76,13 @@ fun EventForm(
             )
         }
 
-        FactoryTextField(
+        CustomTextField(
             value = location,
             onValueChange = onLocationChange,
             label = stringResource(R.string.label_factory_event_location)
         )
 
-        FactoryTextField(
+        CustomTextField(
             value = description,
             onValueChange = onDescriptionChange,
             label = stringResource(R.string.label_factory_event_description),

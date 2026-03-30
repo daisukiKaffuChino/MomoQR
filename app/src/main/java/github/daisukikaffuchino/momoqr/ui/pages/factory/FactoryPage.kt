@@ -10,17 +10,18 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.togetherWith
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -30,6 +31,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
@@ -37,7 +39,6 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import github.daisukikaffuchino.momoqr.R
-import github.daisukikaffuchino.momoqr.constants.AppConstants
 import github.daisukikaffuchino.momoqr.logic.database.StarEntity
 import github.daisukikaffuchino.momoqr.logic.datastore.DataStoreManager
 import github.daisukikaffuchino.momoqr.logic.model.FactoryType
@@ -46,7 +47,7 @@ import github.daisukikaffuchino.momoqr.ui.components.TopAppBarScaffold
 import github.daisukikaffuchino.momoqr.ui.pages.factory.components.ApplicationForm
 import github.daisukikaffuchino.momoqr.ui.pages.factory.components.EmailForm
 import github.daisukikaffuchino.momoqr.ui.pages.factory.components.EventForm
-import github.daisukikaffuchino.momoqr.ui.pages.factory.components.FactoryDateTimePickerDialogs
+import github.daisukikaffuchino.momoqr.ui.pages.factory.components.EventDatePickerDialog
 import github.daisukikaffuchino.momoqr.ui.pages.factory.components.GeoForm
 import github.daisukikaffuchino.momoqr.ui.pages.factory.components.MessageForm
 import github.daisukikaffuchino.momoqr.ui.pages.factory.components.PhoneForm
@@ -62,7 +63,7 @@ import java.util.Date
 import java.util.Locale
 
 @SuppressLint("LocalContextGetResourceValueCall")
-@OptIn(ExperimentalLayoutApi::class)
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun FactoryPage(
     modifier: Modifier = Modifier,
@@ -125,7 +126,7 @@ fun FactoryPage(
                 .fillMaxSize()
                 .padding(top = Defaults.screenVerticalPadding),
             verticalArrangement = Arrangement.spacedBy(16.dp),
-            contentPadding = PaddingValues(bottom = 120.dp)
+            contentPadding = PaddingValues(bottom = 80.dp)
         ) {
             item {
                 TypeChipsCard(
@@ -169,13 +170,12 @@ fun FactoryPage(
                     label = "factory_type_content"
                 ) { targetType ->
                     Column(
-                        verticalArrangement = Arrangement.spacedBy(16.dp)
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clip(MaterialTheme.shapes.largeIncreased)
+                            .background(Defaults.Colors.Container)
+                            .padding(16.dp)
                     ) {
-                        Text(
-                            text = stringResource(targetType.descriptionRes),
-                            style = MaterialTheme.typography.titleMedium
-                        )
-
                         when (targetType) {
                             FactoryType.Wifi -> WifiForm(
                                 ssid = state.wifiSsid,
@@ -262,7 +262,7 @@ fun FactoryPage(
         }
     }
 
-    FactoryDateTimePickerDialogs(
+    EventDatePickerDialog(
         state = state,
         onDismissDatePicker = viewModel::dismissEventDatePicker,
         onConfirmDatePicker = viewModel::confirmEventDateSelection,
@@ -297,8 +297,6 @@ data class FactoryValidation(
     val content: String? = null,
     val invalidFields: Set<String> = emptySet()
 )
-
-
 
 
 private const val EVENT_INPUT_PATTERN = "yyyy-MM-dd HH:mm"

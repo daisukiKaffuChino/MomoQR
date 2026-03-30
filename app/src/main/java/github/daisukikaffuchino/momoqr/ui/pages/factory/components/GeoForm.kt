@@ -7,6 +7,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import github.daisukikaffuchino.momoqr.R
+import github.daisukikaffuchino.momoqr.ui.components.CustomTextField
 import github.daisukikaffuchino.momoqr.ui.pages.factory.FIELD_GEO_ALTITUDE
 import github.daisukikaffuchino.momoqr.ui.pages.factory.FIELD_GEO_LATITUDE
 import github.daisukikaffuchino.momoqr.ui.pages.factory.FIELD_GEO_LONGITUDE
@@ -23,7 +24,7 @@ fun GeoForm(
     shouldShowErrors: Boolean,
 ) {
     Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-        FactoryTextField(
+        CustomTextField(
             value = latitude,
             onValueChange = onLatitudeChange,
             label = stringResource(R.string.label_factory_geo_latitude),
@@ -32,7 +33,7 @@ fun GeoForm(
             keyboardType = KeyboardType.Decimal
         )
 
-        FactoryTextField(
+        CustomTextField(
             value = longitude,
             onValueChange = onLongitudeChange,
             label = stringResource(R.string.label_factory_geo_longitude),
@@ -41,7 +42,7 @@ fun GeoForm(
             keyboardType = KeyboardType.Decimal
         )
 
-        FactoryTextField(
+        CustomTextField(
             value = altitude,
             onValueChange = onAltitudeChange,
             label = stringResource(R.string.label_factory_geo_altitude),

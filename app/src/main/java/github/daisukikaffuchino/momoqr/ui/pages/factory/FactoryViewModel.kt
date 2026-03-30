@@ -51,9 +51,11 @@ class FactoryViewModel @Inject constructor(
     fun updateEventTitle(value: String) = updateState { it.copy(eventTitle = value) }
     fun updateEventAllDay(value: Boolean) {
         val currentState = state.value
+
         if (value) {
             val baseDate = parseEventDate(currentState.eventStart)
                 ?: parseEventAllDayDate(currentState.eventStart)
+
             updateState {
                 it.copy(
                     eventAllDay = true,
@@ -66,23 +68,12 @@ class FactoryViewModel @Inject constructor(
             }
         } else {
             val date = parseEventAllDayDate(currentState.eventStart)
-            val startCalendar = Calendar.getInstance().apply {
-                if (date != null) {
-                    time = date
-                }
-                set(Calendar.HOUR_OF_DAY, 9)
-                set(Calendar.MINUTE, 0)
-                set(Calendar.SECOND, 0)
-                set(Calendar.MILLISECOND, 0)
-            }
-            val endCalendar = (startCalendar.clone() as Calendar).apply {
-                add(Calendar.HOUR_OF_DAY, 1)
-            }
+
             updateState {
                 it.copy(
                     eventAllDay = false,
-                    eventStart = formatEventDate(startCalendar.time),
-                    eventEnd = formatEventDate(endCalendar.time),
+                    eventStart = date?.let(::formatEventDate).orEmpty(), // 👈 只保留日期 or 空
+                    eventEnd = "" // 👈 不再默认 +1 小时
                 )
             }
         }

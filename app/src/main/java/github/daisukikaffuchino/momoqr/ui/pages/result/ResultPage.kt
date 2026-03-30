@@ -12,8 +12,10 @@ import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
@@ -49,6 +51,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
@@ -348,7 +351,6 @@ fun ResultEditorPage(
                         ResultFloatingActionButton(
                             text = stringResource(R.string.action_delete),
                             iconRes = R.drawable.ic_delete,
-                            expanded = true,
                             containerColor = MaterialTheme.colorScheme.errorContainer,
                             onClick = { uiState.showDeleteConfirmDialog = true }
                         )
@@ -357,7 +359,6 @@ fun ResultEditorPage(
                         text = if (isStarEntityEmpty) stringResource(R.string.action_starred) else
                             stringResource(R.string.action_save),
                         iconRes = if (isStarEntityEmpty) R.drawable.ic_starred else R.drawable.ic_save,
-                        expanded = true,
                         onClick = {
                             if (uiState.setErrorIfNotValid()) {
                                 return@ResultFloatingActionButton
@@ -391,7 +392,6 @@ fun ResultEditorPage(
             modifier = modifier
         ) {
             LazyColumn(
-                verticalArrangement = Arrangement.spacedBy(16.dp),
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(top = Defaults.screenVerticalPadding)
@@ -447,41 +447,43 @@ fun ResultEditorPage(
                     ResultContentTextField(
                         value = uiState.qrContent,
                         onValueChange = { uiState.qrContent = it },
-                        isError = uiState.isErrorContent,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(top = 12.dp)
+                        isError = uiState.isErrorContent
                     )
                 }
 
                 item(key = 3) {
-                    Text(
-                        text = stringResource(R.string.label_category),
-                        style = MaterialTheme.typography.titleMedium
-                    )
-                    StarCategoryChip(
-                        items = categories,
-                        selectedItemIndex = uiState.selectedCategoryIndex,
-                        isLoading = originalCategories.isEmpty(),
-                        onCategorySelected = { uiState.selectedCategoryIndex = it },
-                        modifier = Modifier.fillMaxWidth()
-                    )
-                    AnimatedVisibility(
-                        visible = isCustomCategory,
-                        enter = fadeIn(MaterialTheme.motionScheme.defaultEffectsSpec()) + expandVertically(
-                            MaterialTheme.motionScheme.defaultEffectsSpec()
-                        ),
-                        exit = fadeOut(MaterialTheme.motionScheme.defaultEffectsSpec()) + shrinkVertically(
-                            MaterialTheme.motionScheme.defaultEffectsSpec()
-                        )
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 16.dp)
+                            .clip(MaterialTheme.shapes.largeIncreased)
+                            .background(Defaults.Colors.Container)
+                            .padding(horizontal = 16.dp)
+                            .padding(vertical = 12.dp)
                     ) {
-                        ResultCategoryTextField(
-                            value = uiState.categoryContent,
-                            onValueChange = { uiState.categoryContent = it },
-                            isError = uiState.isErrorCategory,
-                            supportingText = stringResource(uiState.categorySupportingText),
+                        StarCategoryChip(
+                            items = categories,
+                            selectedItemIndex = uiState.selectedCategoryIndex,
+                            isLoading = originalCategories.isEmpty(),
+                            onCategorySelected = { uiState.selectedCategoryIndex = it },
                             modifier = Modifier.fillMaxWidth()
                         )
+                        AnimatedVisibility(
+                            visible = isCustomCategory,
+                            enter = fadeIn(MaterialTheme.motionScheme.defaultEffectsSpec()) + expandVertically(
+                                MaterialTheme.motionScheme.defaultEffectsSpec()
+                            ),
+                            exit = fadeOut(MaterialTheme.motionScheme.defaultEffectsSpec()) + shrinkVertically(
+                                MaterialTheme.motionScheme.defaultEffectsSpec()
+                            )
+                        ) {
+                            ResultCategoryTextField(
+                                value = uiState.categoryContent,
+                                onValueChange = { uiState.categoryContent = it },
+                                isError = uiState.isErrorCategory,
+                                supportingText = stringResource(uiState.categorySupportingText)
+                            )
+                        }
                     }
                 }
 

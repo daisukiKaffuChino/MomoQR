@@ -25,7 +25,6 @@ fun ResultFloatingActionButton(
     @DrawableRes iconRes: Int,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    expanded: Boolean = true,
     shape: Shape = FloatingActionButtonDefaults.smallExtendedFabShape,
     containerColor: Color = FloatingActionButtonDefaults.containerColor,
     contentColor: Color = contentColorFor(containerColor),

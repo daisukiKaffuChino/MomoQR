@@ -56,12 +56,9 @@ fun EventDateTimeField(
     )
 }
 
-@OptIn(
-    ExperimentalMaterial3Api::class,
-    ExperimentalMaterial3ExpressiveApi::class
-)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable
-fun FactoryDateTimePickerDialogs(
+fun EventDatePickerDialog(
     state: FactoryUiState,
     onDismissDatePicker: () -> Unit,
     onConfirmDatePicker: (Long?) -> Unit,
@@ -170,11 +167,10 @@ fun FactoryDateTimePickerDialogs(
             ) {
                 Text(
                     text = stringResource(
-                        if (state.eventAllDay) {
+                        if (state.eventAllDay)
                             R.string.tip_factory_pick_date
-                        } else {
+                         else
                             R.string.tip_factory_pick_datetime
-                        }
                     ),
                     style = MaterialTheme.typography.titleSmall
                 )

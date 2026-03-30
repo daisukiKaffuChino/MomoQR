@@ -208,16 +208,9 @@
     <string name="tip_haptic_feedback_more_info">使用此功能前，請先在系統設定中開啟觸覺回饋（通常位於「聲音與震動」）</string>
     <string name="tip_align_to_scan">將 QR Code 對準掃描框</string>
     <string name="tip_toggle_flashlight">切換手電筒</string>
-    <string name="tip_factory_wifi_desc">建立 Wi-Fi 連線資訊的 QR Code。</string>
     <string name="tip_factory_wifi_password_requirement">密碼至少需 8 個字元。</string>
-    <string name="tip_factory_email_desc">建立可開啟預填電子郵件草稿的 QR Code。</string>
-    <string name="tip_factory_event_desc">建立行事曆活動的 QR Code。</string>
-    <string name="tip_factory_phone_desc">建立可撥打電話號碼的 QR Code。</string>
-    <string name="tip_factory_message_desc">建立簡訊的 QR Code。</string>
     <string name="tip_factory_message_phone">必填，且需為有效的手機號碼。</string>
     <string name="tip_factory_message_body">必填。</string>
-    <string name="tip_factory_geo_desc">建立地理座標的 QR Code。</string>
-    <string name="tip_factory_app_desc">建立應用程式套件的 QR Code。</string>
     <string name="tip_factory_pick_date">點一下以選擇日期</string>
     <string name="tip_factory_pick_datetime">點一下以選擇日期與時間</string>
     <string name="tip_factory_datetime_format">格式：yyyy-MM-dd HH:mm</string>

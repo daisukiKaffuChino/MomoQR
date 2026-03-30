@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import github.daisukikaffuchino.momoqr.R
+import github.daisukikaffuchino.momoqr.ui.components.CustomTextField
 import github.daisukikaffuchino.momoqr.ui.pages.factory.FIELD_PHONE_NUMBER
 
 @Composable
@@ -13,7 +14,7 @@ fun PhoneForm(
     invalidFields: Set<String>,
     shouldShowErrors: Boolean,
 ) {
-    FactoryTextField(
+    CustomTextField(
         value = phoneNumber,
         onValueChange = onPhoneNumberChange,
         label = stringResource(R.string.label_factory_phone_number),

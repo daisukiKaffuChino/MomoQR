@@ -7,6 +7,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import github.daisukikaffuchino.momoqr.R
+import github.daisukikaffuchino.momoqr.ui.components.CustomTextField
 import github.daisukikaffuchino.momoqr.ui.pages.factory.FIELD_EMAIL_ADDRESS
 
 @Composable
@@ -21,7 +22,7 @@ fun EmailForm(
     shouldShowErrors: Boolean,
 ) {
     Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-        FactoryTextField(
+        CustomTextField(
             value = emailAddress,
             onValueChange = onEmailAddressChange,
             label = stringResource(R.string.label_factory_email_address),
@@ -29,13 +30,13 @@ fun EmailForm(
             keyboardType = KeyboardType.Email
         )
 
-        FactoryTextField(
+        CustomTextField(
             value = subject,
             onValueChange = onSubjectChange,
             label = stringResource(R.string.label_factory_email_subject)
         )
 
-        FactoryTextField(
+        CustomTextField(
             value = body,
             onValueChange = onBodyChange,
             label = stringResource(R.string.label_factory_email_body),

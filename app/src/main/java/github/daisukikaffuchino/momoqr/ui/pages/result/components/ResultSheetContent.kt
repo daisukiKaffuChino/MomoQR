@@ -13,10 +13,12 @@ import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.OutlinedCard
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import github.daisukikaffuchino.momoqr.R
@@ -67,16 +69,26 @@ fun ResultSheetContent(
                             contentScale = ContentScale.Crop
                         )
                     }
+                } ?: run {
+                    Text(
+                        text = stringResource(R.string.tip_palette_generate_preview_failed),
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 12.dp)
+                    )
                 }
             }
             item {
-                TertiarySettingsItem(
-                    leadingIconRes = R.drawable.ic_palette,
-                    title = stringResource(R.string.action_palette_presets),
-                    description = selectedPreset?.name
-                        ?: stringResource(R.string.tip_result_palette_preset_desc),
-                    onClick = { onShowPresetDialogChange(true) }
-                )
+                qrBitmap?.let {
+                    TertiarySettingsItem(
+                        leadingIconRes = R.drawable.ic_palette,
+                        title = stringResource(R.string.action_palette_presets),
+                        description = selectedPreset?.name
+                            ?: stringResource(R.string.tip_result_palette_preset_desc),
+                        onClick = { onShowPresetDialogChange(true) }
+                    )
+                }
             }
             item {
                 QrPropertyCard(
