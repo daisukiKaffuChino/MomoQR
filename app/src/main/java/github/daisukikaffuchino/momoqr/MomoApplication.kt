@@ -20,10 +20,10 @@ class MomoApplication : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        db = database
-        context = applicationContext
-
         val crashHandler = CrashHandler(applicationContext)
         Thread.setDefaultUncaughtExceptionHandler(crashHandler)
+
+        db = database
+        context = applicationContext
     }
 }

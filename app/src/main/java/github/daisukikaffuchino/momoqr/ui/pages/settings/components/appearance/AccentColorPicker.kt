@@ -1,6 +1,5 @@
 package github.daisukikaffuchino.momoqr.ui.pages.settings.components.appearance
 
-import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background

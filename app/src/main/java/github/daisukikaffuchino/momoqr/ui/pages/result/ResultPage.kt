@@ -36,7 +36,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SheetValue
-import androidx.compose.material3.Text
 import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.material3.rememberStandardBottomSheetState
 import androidx.compose.runtime.Composable
@@ -401,7 +400,6 @@ fun ResultEditorPage(
                         TertiarySettingsItem(
                             modifier = Modifier.padding(bottom = 16.dp),
                             leadingIconRes = R.drawable.ic_auto_awesome,
-                            title = stringResource(R.string.tip_tips),
                             description = stringResource(R.string.tip_result_page_sheet_detail),
                             onClick = {
                                 resultPageTipDismissed = true

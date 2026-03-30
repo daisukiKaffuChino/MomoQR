@@ -1,0 +1,22 @@
+{
+  "uniqueId": "com.jetbrains:jetbrains-mono",
+  "artifactVersion": "2.211",
+  "name": "JetBrains Mono",
+  "developers": [
+    {
+      "name": "Philipp Nurullin"
+    },
+    {
+      "name": "Konstantin Bulenkov"
+    },
+    {
+      "name": "JetBrains"
+    }
+  ],
+  "description": "A free and open-source typeface specifically designed for developers. JetBrains Mono’s forms are simple and free from unnecessary details. Rendered in small sizes, the text looks crisper.",
+  "website": "https://www.jetbrains.com/lp/mono/",
+  "tag": "font",
+  "licenses": [
+    "OFL-1.1"
+  ]
+}

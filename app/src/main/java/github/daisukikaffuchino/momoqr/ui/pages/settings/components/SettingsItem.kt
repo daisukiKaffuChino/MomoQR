@@ -186,7 +186,7 @@ fun SettingsItem(
 fun TertiarySettingsItem(
     modifier: Modifier = Modifier,
     leadingIconRes: Int,
-    title: String,
+    title: String? = null,
     description: String? = null,
     trailingContent: (@Composable () -> Unit)? = null,
     background: Color = MaterialTheme.colorScheme.tertiaryContainer.copy(alpha = 0.65f),
@@ -202,28 +202,30 @@ fun TertiarySettingsItem(
             modifier = Modifier.padding(end = Defaults.settingsItemHorizontalPadding),
         )
     },
-    headlineContent = {
-        Text(
-            text = title,
-            maxLines = 2,
-            overflow = TextOverflow.Ellipsis,
-            style = MaterialTheme.typography.titleMedium.copy(
-                color = MaterialTheme.colorScheme.onTertiaryContainer,
-                fontSize = 18.sp
-            )
-        )
-    },
-    supportingContent = {
-        description?.let {
+    headlineContent = if (!title.isNullOrBlank()) {
+        {
             Text(
-                text = it,
+                text = title,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis,
+                style = MaterialTheme.typography.titleMedium.copy(
+                    color = MaterialTheme.colorScheme.onTertiaryContainer,
+                    fontSize = 18.sp
+                )
+            )
+        }
+    } else null,
+    supportingContent = if (!description.isNullOrBlank()) {
+        {
+            Text(
+                text = description,
                 overflow = TextOverflow.Ellipsis,
                 style = MaterialTheme.typography.bodyMedium.copy(
                     color = MaterialTheme.colorScheme.onTertiaryContainer.copy(alpha = 0.85f)
                 )
             )
         }
-    },
+    } else null,
     trailingContent = trailingContent,
     background = background,
     shapes = shapes,

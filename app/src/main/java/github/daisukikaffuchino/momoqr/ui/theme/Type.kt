@@ -8,3 +8,7 @@ import github.daisukikaffuchino.momoqr.R
 val MomoLogoFontFamily = FontFamily(
     Font(resId = R.font.ubuntu_medium, weight = FontWeight.Medium)
 )
+
+val CrashLogsFontFamily = FontFamily(
+    Font(resId = R.font.jetbrainsmono_regular, weight = FontWeight.Normal)
+)

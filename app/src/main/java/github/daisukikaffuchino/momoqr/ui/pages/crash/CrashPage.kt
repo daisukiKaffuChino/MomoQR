@@ -31,7 +31,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
@@ -43,6 +42,7 @@ import github.daisukikaffuchino.momoqr.ui.activities.CrashActivity.Companion.CRA
 import github.daisukikaffuchino.momoqr.ui.activities.CrashActivity.Companion.DEVICE_SDK_PREFIX
 import github.daisukikaffuchino.momoqr.ui.activities.CrashActivity.Companion.MODEL_PREFIX
 import github.daisukikaffuchino.momoqr.ui.pages.settings.components.TertiarySettingsItem
+import github.daisukikaffuchino.momoqr.ui.theme.CrashLogsFontFamily
 import github.daisukikaffuchino.momoqr.ui.theme.Defaults
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -123,7 +123,6 @@ fun CrashPage(
         ) {
             TertiarySettingsItem(
                 leadingIconRes = R.drawable.ic_bug_report,
-                title = stringResource(R.string.tip_tips),
                 description = stringResource(R.string.tip_copy_logs_to_github),
                 onClick = {}
             )
@@ -150,8 +149,9 @@ fun CrashPage(
                             append("\n")
                         }
                     },
-                    fontFamily = FontFamily.Monospace,
-                    style = MaterialTheme.typography.bodyMedium
+                    style = MaterialTheme.typography.bodyMedium.copy(
+                        fontFamily = CrashLogsFontFamily
+                    )
                 )
             }
         }
