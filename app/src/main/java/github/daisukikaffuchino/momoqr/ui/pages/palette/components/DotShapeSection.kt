@@ -26,7 +26,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import github.daisukikaffuchino.momoqr.R
-import github.daisukikaffuchino.momoqr.logic.model.PaletteDotShape
+import github.daisukikaffuchino.momoqr.logic.model.QrPaletteDotShape
 import github.daisukikaffuchino.momoqr.ui.pages.palette.PaletteUiState
 import github.daisukikaffuchino.momoqr.ui.pages.palette.SectionCard
 import github.daisukikaffuchino.momoqr.ui.pages.palette.label
@@ -38,7 +38,7 @@ import kotlin.math.roundToInt
 @Composable
 fun DotShapeSection(
     state: PaletteUiState,
-    onDotShapeChanged: (PaletteDotShape) -> Unit,
+    onDotShapeChanged: (QrPaletteDotShape) -> Unit,
     onDotScaleChanged: (Float) -> Unit
 ) {
     val view = LocalView.current
@@ -48,7 +48,7 @@ fun DotShapeSection(
     }
 
     SectionCard(title = stringResource(R.string.label_palette_module_style)) {
-        val dotShapes = PaletteDotShape.entries
+        val dotShapes = QrPaletteDotShape.entries
         Row(
             Modifier.padding(horizontal = 8.dp),
             horizontalArrangement = Arrangement.spacedBy(ButtonGroupDefaults.ConnectedSpaceBetween),

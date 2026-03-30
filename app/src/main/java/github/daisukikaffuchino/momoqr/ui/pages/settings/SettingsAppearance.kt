@@ -21,7 +21,7 @@ import github.daisukikaffuchino.momoqr.constants.AppConstants
 import github.daisukikaffuchino.momoqr.logic.datastore.DataStoreManager
 import github.daisukikaffuchino.momoqr.logic.model.ContrastLevel
 import github.daisukikaffuchino.momoqr.logic.model.DarkMode
-import github.daisukikaffuchino.momoqr.logic.model.PaletteStyle
+import github.daisukikaffuchino.momoqr.logic.model.AppPaletteStyle
 import github.daisukikaffuchino.momoqr.ui.components.ListItemContainer
 import github.daisukikaffuchino.momoqr.ui.components.TopAppBarScaffold
 import github.daisukikaffuchino.momoqr.ui.components.segmentedGroup
@@ -100,7 +100,7 @@ fun SettingsAppearance(
                         onDarkModeChange = { scope.launch { DataStoreManager.setDarkMode(it.id) } }
                     )
                     AppPalettePicker(
-                        currentPalette = { PaletteStyle.fromId(paletteStyle) },
+                        currentPalette = { AppPaletteStyle.fromId(paletteStyle) },
                         onPaletteChange = { scope.launch { DataStoreManager.setPaletteStyle(it.id) } },
                         isDynamicColor = dynamicColor,
                         isDarkMode = DarkMode.fromId(darkMode),

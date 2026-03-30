@@ -15,7 +15,7 @@ import androidx.core.view.WindowCompat
 import github.daisukikaffuchino.momoqr.R
 import github.daisukikaffuchino.momoqr.logic.datastore.DataStoreManager
 import github.daisukikaffuchino.momoqr.logic.model.DarkMode
-import github.daisukikaffuchino.momoqr.logic.model.PaletteStyle
+import github.daisukikaffuchino.momoqr.logic.model.AppPaletteStyle
 import github.daisukikaffuchino.momoqr.ui.pages.crash.CrashPage
 import github.daisukikaffuchino.momoqr.ui.theme.MomoQRTheme
 import github.daisukikaffuchino.momoqr.utils.VibrationUtil
@@ -67,7 +67,7 @@ class CrashActivity : ComponentActivity(){
             MomoQRTheme(
                 customKeyColor = accentColor.colors[0],
                 darkTheme = darkTheme,
-                style = PaletteStyle.fromId(paletteStyle),
+                style = AppPaletteStyle.fromId(paletteStyle),
                 contrastLevel = contrastLevel.toDouble(),
                 dynamicColor = dynamicColor
             ) {

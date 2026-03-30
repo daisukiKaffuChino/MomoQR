@@ -16,9 +16,9 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import github.daisukikaffuchino.momoqr.MomoApplication
 import github.daisukikaffuchino.momoqr.R
 import github.daisukikaffuchino.momoqr.logic.datastore.DataStoreManager
-import github.daisukikaffuchino.momoqr.logic.model.PaletteColorTarget
-import github.daisukikaffuchino.momoqr.logic.model.PaletteDotShape
-import github.daisukikaffuchino.momoqr.logic.model.PalettePreset
+import github.daisukikaffuchino.momoqr.logic.model.QrPaletteColorTarget
+import github.daisukikaffuchino.momoqr.logic.model.QrPaletteDotShape
+import github.daisukikaffuchino.momoqr.logic.model.QrPalettePreset
 import github.daisukikaffuchino.momoqr.utils.QrAppearanceOptions
 import github.daisukikaffuchino.momoqr.utils.QrGenerateUtil
 import kotlinx.coroutines.Dispatchers
@@ -62,7 +62,7 @@ class PaletteViewModel @Inject constructor() : ViewModel() {
         }
     }
 
-    fun updateDotShape(shape: PaletteDotShape) {
+    fun updateDotShape(shape: QrPaletteDotShape) {
         _state.update { it.copy(dotShape = shape) }
     }
 
@@ -82,7 +82,7 @@ class PaletteViewModel @Inject constructor() : ViewModel() {
         _state.update { it.copy(pickColorFromBackground = enabled) }
     }
 
-    fun selectColorTarget(target: PaletteColorTarget) {
+    fun selectColorTarget(target: QrPaletteColorTarget) {
         _state.update { it.copy(selectedColorTarget = target) }
     }
 
@@ -114,9 +114,9 @@ class PaletteViewModel @Inject constructor() : ViewModel() {
     fun updateSelectedColor(color: Color) {
         _state.update { current ->
             when (current.selectedColorTarget) {
-                PaletteColorTarget.Dark -> current.copy(darkColorArgb = color.toArgb())
-                PaletteColorTarget.Light -> current.copy(lightColorArgb = color.toArgb())
-                PaletteColorTarget.Background -> current.copy(backgroundColorArgb = color.toArgb())
+                QrPaletteColorTarget.Dark -> current.copy(darkColorArgb = color.toArgb())
+                QrPaletteColorTarget.Light -> current.copy(lightColorArgb = color.toArgb())
+                QrPaletteColorTarget.Background -> current.copy(backgroundColorArgb = color.toArgb())
             }
         }
     }
@@ -164,7 +164,7 @@ class PaletteViewModel @Inject constructor() : ViewModel() {
                 savePresetBitmap(it, presetId, "background")
             }
 
-            val preset = PalettePreset(
+            val preset = QrPalettePreset(
                 id = presetId,
                 name = name,
                 previewContent = currentState.previewContent,
@@ -191,7 +191,7 @@ class PaletteViewModel @Inject constructor() : ViewModel() {
         }
     }
 
-    fun applyPreset(preset: PalettePreset) {
+    fun applyPreset(preset: QrPalettePreset) {
         viewModelScope.launch(Dispatchers.IO) {
             val logoBitmap = preset.logoFileName?.let(::loadPresetBitmap)
             val backgroundBitmap = preset.backgroundFileName?.let(::loadPresetBitmap)
@@ -223,7 +223,7 @@ class PaletteViewModel @Inject constructor() : ViewModel() {
         }
     }
 
-    fun deletePreset(preset: PalettePreset) {
+    fun deletePreset(preset: QrPalettePreset) {
         viewModelScope.launch(Dispatchers.IO) {
             deletePresetFiles(preset)
             DataStoreManager.setPalettePresets(
@@ -299,7 +299,7 @@ class PaletteViewModel @Inject constructor() : ViewModel() {
                     lightArgb = input.lightColorArgb,
                     backgroundArgb = input.backgroundColorArgb,
                     autoColor = input.pickColorFromBackground,
-                    roundedPatterns = input.dotShape == PaletteDotShape.Circle,
+                    roundedPatterns = input.dotShape == QrPaletteDotShape.Circle,
                     patternScale = input.dotScale,
                     logoBitmap = input.logoBitmap,
                     backgroundBitmap = input.backgroundBitmap,
@@ -374,7 +374,7 @@ class PaletteViewModel @Inject constructor() : ViewModel() {
         return BitmapFactory.decodeFile(file.absolutePath)
     }
 
-    private fun deletePresetFiles(preset: PalettePreset) {
+    private fun deletePresetFiles(preset: QrPalettePreset) {
         listOfNotNull(preset.logoFileName, preset.backgroundFileName).forEach { fileName ->
             runCatching {
                 File(presetDirectory(), fileName).delete()
@@ -433,7 +433,7 @@ private data class PreviewRenderInput(
     val lightColorArgb: Int,
     val backgroundColorArgb: Int,
     val pickColorFromBackground: Boolean,
-    val dotShape: PaletteDotShape,
+    val dotShape: QrPaletteDotShape,
     val dotScale: Float,
     val backgroundAlpha: Float,
     val borderWidth: Int,
@@ -450,7 +450,7 @@ fun launchImagePicker(
     launcher(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
 }
 
-fun presetSummary(preset: PalettePreset): String {
+fun presetSummary(preset: QrPalettePreset): String {
     val context = MomoApplication.context
     val logoState = context.getString(
         if (preset.logoFileName != null) R.string.tip_palette_has_logo else R.string.tip_palette_no_logo

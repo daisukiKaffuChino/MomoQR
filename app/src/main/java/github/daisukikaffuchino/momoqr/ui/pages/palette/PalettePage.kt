@@ -65,9 +65,9 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import github.daisukikaffuchino.momoqr.R
-import github.daisukikaffuchino.momoqr.logic.model.PaletteColorTarget
-import github.daisukikaffuchino.momoqr.logic.model.PaletteDotShape
-import github.daisukikaffuchino.momoqr.logic.model.PalettePreset
+import github.daisukikaffuchino.momoqr.logic.model.QrPaletteColorTarget
+import github.daisukikaffuchino.momoqr.logic.model.QrPaletteDotShape
+import github.daisukikaffuchino.momoqr.logic.model.QrPalettePreset
 import github.daisukikaffuchino.momoqr.ui.components.ConfirmDialog
 import github.daisukikaffuchino.momoqr.ui.components.EmptyListTip
 import github.daisukikaffuchino.momoqr.ui.components.EmptyTipType
@@ -373,9 +373,9 @@ private fun PaletteEditorPage(
     state: PaletteUiState,
     isLandscape: Boolean,
     onContentChanged: (String) -> Unit,
-    onSelectColorTarget: (PaletteColorTarget) -> Unit,
+    onSelectColorTarget: (QrPaletteColorTarget) -> Unit,
     onPickColorFromBackgroundChanged: (Boolean) -> Unit,
-    onDotShapeChanged: (PaletteDotShape) -> Unit,
+    onDotShapeChanged: (QrPaletteDotShape) -> Unit,
     onDotScaleChanged: (Float) -> Unit,
     onBackgroundAlphaChanged: (Float) -> Unit,
     onBorderWidthChanged: (Int) -> Unit,
@@ -437,9 +437,9 @@ private fun PaletteEditorPage(
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 private fun PalettePresetListPage(
-    presets: List<PalettePreset>,
-    onApplyPreset: (PalettePreset) -> Unit,
-    onDeletePreset: (PalettePreset) -> Unit,
+    presets: List<QrPalettePreset>,
+    onApplyPreset: (QrPalettePreset) -> Unit,
+    onDeletePreset: (QrPalettePreset) -> Unit,
 ) {
     val listState = rememberLazyListState()
 

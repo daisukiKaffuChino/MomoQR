@@ -13,8 +13,8 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import github.daisukikaffuchino.momoqr.R
 import github.daisukikaffuchino.momoqr.logic.database.StarEntity
-import github.daisukikaffuchino.momoqr.logic.model.PaletteDotShape
-import github.daisukikaffuchino.momoqr.logic.model.PalettePreset
+import github.daisukikaffuchino.momoqr.logic.model.QrPaletteDotShape
+import github.daisukikaffuchino.momoqr.logic.model.QrPalettePreset
 import github.daisukikaffuchino.momoqr.logic.model.QrCodeECL
 import github.daisukikaffuchino.momoqr.utils.QrAppearanceOptions
 import java.io.File
@@ -143,14 +143,14 @@ fun rememberResultState(initialData: StarEntity? = null): ResultState =
 
 fun loadAppearanceFromPreset(
     context: Context,
-    preset: PalettePreset,
+    preset: QrPalettePreset,
 ): QrAppearanceOptions {
     return QrAppearanceOptions(
         darkArgb = preset.darkColorArgb,
         lightArgb = preset.lightColorArgb,
         backgroundArgb = preset.backgroundColorArgb,
         autoColor = preset.pickColorFromBackground,
-        roundedPatterns = preset.dotShape == PaletteDotShape.Circle,
+        roundedPatterns = preset.dotShape == QrPaletteDotShape.Circle,
         patternScale = preset.dotScale,
         logoBitmap = preset.logoFileName?.let { loadPresetBitmap(context, it) },
         backgroundBitmap = preset.backgroundFileName?.let { loadPresetBitmap(context, it) },

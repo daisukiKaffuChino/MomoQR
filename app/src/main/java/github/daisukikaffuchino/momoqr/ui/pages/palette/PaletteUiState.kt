@@ -7,28 +7,28 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.stringResource
 import github.daisukikaffuchino.momoqr.R
-import github.daisukikaffuchino.momoqr.logic.model.PaletteColorTarget
-import github.daisukikaffuchino.momoqr.logic.model.PaletteDotShape
-import github.daisukikaffuchino.momoqr.logic.model.PalettePreset
+import github.daisukikaffuchino.momoqr.logic.model.QrPaletteColorTarget
+import github.daisukikaffuchino.momoqr.logic.model.QrPaletteDotShape
+import github.daisukikaffuchino.momoqr.logic.model.QrPalettePreset
 
-val PaletteDotShape.stringRes: Int
+val QrPaletteDotShape.stringRes: Int
     get() = when (this) {
-        PaletteDotShape.Square -> R.string.label_palette_shape_square
-        PaletteDotShape.Circle -> R.string.label_palette_shape_circle
+        QrPaletteDotShape.Square -> R.string.label_palette_shape_square
+        QrPaletteDotShape.Circle -> R.string.label_palette_shape_circle
     }
 
-val PaletteColorTarget.stringRes: Int
+val QrPaletteColorTarget.stringRes: Int
     get() = when (this) {
-        PaletteColorTarget.Dark -> R.string.label_palette_dark
-        PaletteColorTarget.Light -> R.string.label_palette_light
-        PaletteColorTarget.Background -> R.string.label_palette_background
+        QrPaletteColorTarget.Dark -> R.string.label_palette_dark
+        QrPaletteColorTarget.Light -> R.string.label_palette_light
+        QrPaletteColorTarget.Background -> R.string.label_palette_background
     }
 
 @Composable
-fun PaletteDotShape.label(): String = stringResource(stringRes)
+fun QrPaletteDotShape.label(): String = stringResource(stringRes)
 
 @Composable
-fun PaletteColorTarget.label(): String = stringResource(stringRes)
+fun QrPaletteColorTarget.label(): String = stringResource(stringRes)
 
 data class PaletteUiState(
     val previewContent: String = "preview://momoqr.app/",
@@ -36,14 +36,14 @@ data class PaletteUiState(
     val lightColorArgb: Int = Color(0x00FFFFFF).toArgb(),
     val backgroundColorArgb: Int = Color(0x00FFFFFF).toArgb(),
     val pickColorFromBackground: Boolean = false,
-    val selectedColorTarget: PaletteColorTarget = PaletteColorTarget.Dark,
-    val dotShape: PaletteDotShape = PaletteDotShape.Square,
+    val selectedColorTarget: QrPaletteColorTarget = QrPaletteColorTarget.Dark,
+    val dotShape: QrPaletteDotShape = QrPaletteDotShape.Square,
     val dotScale: Float = 1.0f,
     val backgroundAlpha: Float = 1.0f,
     val borderWidth: Int = 20,
     val logoBitmap: Bitmap? = null,
     val backgroundBitmap: Bitmap? = null,
-    val presets: List<PalettePreset> = emptyList(),
+    val presets: List<QrPalettePreset> = emptyList(),
     val selectedPaneIndex: Int = 0,
     val previewBitmap: Bitmap? = null,
     val isGeneratingPreview: Boolean = false,
@@ -61,8 +61,8 @@ data class PaletteUiState(
 
     val editingColor: Color
         get() = when (selectedColorTarget) {
-            PaletteColorTarget.Dark -> darkColor
-            PaletteColorTarget.Light -> lightColor
-            PaletteColorTarget.Background -> backgroundColor
+            QrPaletteColorTarget.Dark -> darkColor
+            QrPaletteColorTarget.Light -> lightColor
+            QrPaletteColorTarget.Background -> backgroundColor
         }
 }

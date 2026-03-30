@@ -13,7 +13,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import github.daisukikaffuchino.momoqr.R
-import github.daisukikaffuchino.momoqr.logic.model.PalettePreset
+import github.daisukikaffuchino.momoqr.logic.model.QrPalettePreset
 import github.daisukikaffuchino.momoqr.ui.pages.palette.presetSummary
 import github.daisukikaffuchino.momoqr.ui.pages.settings.components.SettingsItem
 import github.daisukikaffuchino.momoqr.ui.theme.Defaults
@@ -21,9 +21,9 @@ import github.daisukikaffuchino.momoqr.ui.theme.Defaults
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun PresetItem(
-    preset: PalettePreset,
-    onApplyPreset: (PalettePreset) -> Unit,
-    onDeletePreset: (PalettePreset) -> Unit
+    preset: QrPalettePreset,
+    onApplyPreset: (QrPalettePreset) -> Unit,
+    onDeletePreset: (QrPalettePreset) -> Unit
 ) {
     SettingsItem(
         shapes = Defaults.largerShapes(),

@@ -4,10 +4,12 @@ import androidx.compose.ui.graphics.Color
 
 enum class ThemeAccentColor(
     val id: Int,
+    val label: String,
     val colors: List<Color>
 ) {
     PINK(
         id = 0,
+        label = "Momoi",
         colors = listOf(
             Color(0xFFF596AA),
             Color(0xFFFFB1BF),
@@ -17,6 +19,7 @@ enum class ThemeAccentColor(
     ),
     GREEN(
         id = 1,
+        label = "Midori",
         colors = listOf(
             Color(0xFF8BC34A),
             Color(0xFF9FD75C),
@@ -26,6 +29,7 @@ enum class ThemeAccentColor(
     ),
     YELLOW(
         id = 2,
+        label = "Yuzu",
         colors = listOf(
             Color(0xFFFFF59D),
             Color(0xFFD7CA2C),
@@ -35,6 +39,7 @@ enum class ThemeAccentColor(
     ),
     BLUE(
         id = 3,
+        label = "Arisu",
         colors = listOf(
             Color(0xFF03A9F4),
             Color(0xFF8ECDFF),

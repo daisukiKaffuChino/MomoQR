@@ -23,14 +23,14 @@ import com.kyant.m3color.scheme.SchemeNeutral
 import com.kyant.m3color.scheme.SchemeRainbow
 import com.kyant.m3color.scheme.SchemeTonalSpot
 import com.kyant.m3color.scheme.SchemeVibrant
-import github.daisukikaffuchino.momoqr.logic.model.PaletteStyle
+import github.daisukikaffuchino.momoqr.logic.model.AppPaletteStyle
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun MomoQRTheme(
     customKeyColor: Color,
     darkTheme: Boolean = isSystemInDarkTheme(),
-    style: PaletteStyle = PaletteStyle.TonalSpot,
+    style: AppPaletteStyle = AppPaletteStyle.TonalSpot,
     contrastLevel: Double = 0.0,
     dynamicColor: Boolean = false,
     content: @Composable () -> Unit
@@ -60,21 +60,21 @@ fun MomoQRTheme(
 fun dynamicColorScheme(
     keyColor: Color,
     isDark: Boolean,
-    style: PaletteStyle = PaletteStyle.TonalSpot,
+    style: AppPaletteStyle = AppPaletteStyle.TonalSpot,
     contrastLevel: Double = 0.0,
     animationSpec: AnimationSpec<Color> = spring()
 ): ColorScheme {
     val hct = Hct.fromInt(keyColor.toArgb())
     val scheme = when (style) {
-        PaletteStyle.TonalSpot -> SchemeTonalSpot(hct, isDark, contrastLevel)
-        PaletteStyle.Neutral -> SchemeNeutral(hct, isDark, contrastLevel)
-        PaletteStyle.Vibrant -> SchemeVibrant(hct, isDark, contrastLevel)
-        PaletteStyle.Expressive -> SchemeExpressive(hct, isDark, contrastLevel)
-        PaletteStyle.Rainbow -> SchemeRainbow(hct, isDark, contrastLevel)
-        PaletteStyle.FruitSalad -> SchemeFruitSalad(hct, isDark, contrastLevel)
-        //PaletteStyle.Monochrome -> SchemeMonochrome(hct, isDark, contrastLevel)
-        PaletteStyle.Fidelity -> SchemeFidelity(hct, isDark, contrastLevel)
-        PaletteStyle.Content -> SchemeContent(hct, isDark, contrastLevel)
+        AppPaletteStyle.TonalSpot -> SchemeTonalSpot(hct, isDark, contrastLevel)
+        AppPaletteStyle.Neutral -> SchemeNeutral(hct, isDark, contrastLevel)
+        AppPaletteStyle.Vibrant -> SchemeVibrant(hct, isDark, contrastLevel)
+        AppPaletteStyle.Expressive -> SchemeExpressive(hct, isDark, contrastLevel)
+        AppPaletteStyle.Rainbow -> SchemeRainbow(hct, isDark, contrastLevel)
+        AppPaletteStyle.FruitSalad -> SchemeFruitSalad(hct, isDark, contrastLevel)
+        //AppPaletteStyle.Monochrome -> SchemeMonochrome(hct, isDark, contrastLevel)
+        AppPaletteStyle.Fidelity -> SchemeFidelity(hct, isDark, contrastLevel)
+        AppPaletteStyle.Content -> SchemeContent(hct, isDark, contrastLevel)
     }
 
     return ColorScheme(

@@ -35,7 +35,7 @@ import github.daisukikaffuchino.momoqr.R
 import github.daisukikaffuchino.momoqr.constants.AppConstants
 import github.daisukikaffuchino.momoqr.logic.datastore.DataStoreManager
 import github.daisukikaffuchino.momoqr.logic.model.DarkMode
-import github.daisukikaffuchino.momoqr.logic.model.PaletteStyle
+import github.daisukikaffuchino.momoqr.logic.model.AppPaletteStyle
 import github.daisukikaffuchino.momoqr.logic.model.ThemeAccentColor
 import github.daisukikaffuchino.momoqr.ui.navigation.MomoDestination
 import github.daisukikaffuchino.momoqr.ui.navigation.TopLevelBackStack
@@ -140,7 +140,7 @@ class MainActivity : AppCompatActivity() {
             MomoQRTheme(
                 customKeyColor = accentColor.colors[0],
                 darkTheme = darkTheme,
-                style = PaletteStyle.fromId(paletteStyle),
+                style = AppPaletteStyle.fromId(paletteStyle),
                 contrastLevel = contrastLevel.toDouble(),
                 dynamicColor = dynamicColor
             ) {

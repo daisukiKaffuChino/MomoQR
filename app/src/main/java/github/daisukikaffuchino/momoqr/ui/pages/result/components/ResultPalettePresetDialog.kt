@@ -11,7 +11,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import github.daisukikaffuchino.momoqr.R
-import github.daisukikaffuchino.momoqr.logic.model.PalettePreset
+import github.daisukikaffuchino.momoqr.logic.model.QrPalettePreset
 import github.daisukikaffuchino.momoqr.ui.components.BasicDialog
 import github.daisukikaffuchino.momoqr.ui.pages.palette.presetSummary
 import github.daisukikaffuchino.momoqr.ui.pages.settings.components.SettingsItem
@@ -22,11 +22,11 @@ import kotlin.collections.forEach
 @Composable
 fun ResultPalettePresetDialog(
     visible: Boolean,
-    presets: List<PalettePreset>,
+    presets: List<QrPalettePreset>,
     selectedPresetId: String?,
     onConfirm: () -> Unit,
     onDismiss: () -> Unit,
-    onSelectPreset: (PalettePreset) -> Unit,
+    onSelectPreset: (QrPalettePreset) -> Unit,
 ) {
     BasicDialog(
         visible = visible,

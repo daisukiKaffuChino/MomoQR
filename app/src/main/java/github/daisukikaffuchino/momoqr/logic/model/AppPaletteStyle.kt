@@ -3,7 +3,7 @@ package github.daisukikaffuchino.momoqr.logic.model
 import androidx.annotation.StringRes
 import github.daisukikaffuchino.momoqr.R
 
-enum class PaletteStyle(
+enum class AppPaletteStyle(
     val id: Int,
     @param:StringRes val nameRes: Int
 ) {

@@ -18,7 +18,7 @@ import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import github.daisukikaffuchino.momoqr.R
-import github.daisukikaffuchino.momoqr.logic.model.PaletteColorTarget
+import github.daisukikaffuchino.momoqr.logic.model.QrPaletteColorTarget
 import github.daisukikaffuchino.momoqr.ui.components.TextCheckbox
 import github.daisukikaffuchino.momoqr.ui.pages.palette.PaletteUiState
 import github.daisukikaffuchino.momoqr.ui.pages.palette.SectionCard
@@ -29,7 +29,7 @@ import github.daisukikaffuchino.momoqr.utils.toHexString
 @Composable
 fun ColorPickerSection(
     state: PaletteUiState,
-    onSelectColorTarget: (PaletteColorTarget) -> Unit,
+    onSelectColorTarget: (QrPaletteColorTarget) -> Unit,
     onPickColorFromBackgroundChanged: (Boolean) -> Unit,
 ) {
     SectionCard(
@@ -37,21 +37,21 @@ fun ColorPickerSection(
         padding = 8.dp
     ) {
         ColorSettingRow(
-            title = PaletteColorTarget.Dark.label(),
+            title = QrPaletteColorTarget.Dark.label(),
             color = state.darkColor,
-            onSelect = { onSelectColorTarget(PaletteColorTarget.Dark) },
+            onSelect = { onSelectColorTarget(QrPaletteColorTarget.Dark) },
         )
 
         ColorSettingRow(
-            title = PaletteColorTarget.Light.label(),
+            title = QrPaletteColorTarget.Light.label(),
             color = state.lightColor,
-            onSelect = { onSelectColorTarget(PaletteColorTarget.Light) },
+            onSelect = { onSelectColorTarget(QrPaletteColorTarget.Light) },
         )
 
         ColorSettingRow(
-            title = PaletteColorTarget.Background.label(),
+            title = QrPaletteColorTarget.Background.label(),
             color = state.backgroundColor,
-            onSelect = { onSelectColorTarget(PaletteColorTarget.Background) },
+            onSelect = { onSelectColorTarget(QrPaletteColorTarget.Background) },
         )
 
         TextCheckbox(

@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import github.daisukikaffuchino.momoqr.R
 import github.daisukikaffuchino.momoqr.logic.database.StarEntity
-import github.daisukikaffuchino.momoqr.logic.model.PalettePreset
+import github.daisukikaffuchino.momoqr.logic.model.QrPalettePreset
 import github.daisukikaffuchino.momoqr.logic.model.QrCodeECL
 import github.daisukikaffuchino.momoqr.ui.pages.settings.components.TertiarySettingsItem
 import github.daisukikaffuchino.momoqr.ui.theme.Defaults
@@ -33,9 +33,9 @@ import github.daisukikaffuchino.momoqr.ui.theme.Defaults
 fun ResultSheetContent(
     qrBitmap: Bitmap?,
     isLandscape: Boolean,
-    selectedPreset: PalettePreset?,
+    selectedPreset: QrPalettePreset?,
     showPresetDialog: Boolean,
-    palettePresets: List<PalettePreset>,
+    palettePresets: List<QrPalettePreset>,
     selectedPresetId: String?,
     stars: StarEntity,
     onShowPresetDialogChange: (Boolean) -> Unit,

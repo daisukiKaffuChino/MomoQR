@@ -3,20 +3,20 @@ package github.daisukikaffuchino.momoqr.logic.model
 import kotlinx.serialization.Serializable
 
 @Serializable
-enum class PaletteDotShape {
+enum class QrPaletteDotShape {
     Square,
     Circle,
 }
 
 @Serializable
-enum class PaletteColorTarget {
+enum class QrPaletteColorTarget {
     Dark,
     Light,
     Background,
 }
 
 @Serializable
-data class PalettePreset(
+data class QrPalettePreset(
     val id: String,
     val name: String,
     val previewContent: String,
@@ -24,8 +24,8 @@ data class PalettePreset(
     val lightColorArgb: Int,
     val backgroundColorArgb: Int,
     val pickColorFromBackground: Boolean,
-    val selectedColorTarget: PaletteColorTarget,
-    val dotShape: PaletteDotShape,
+    val selectedColorTarget: QrPaletteColorTarget,
+    val dotShape: QrPaletteDotShape,
     val dotScale: Float,
     val backgroundAlpha: Float,
     val borderWidth: Int = 20,

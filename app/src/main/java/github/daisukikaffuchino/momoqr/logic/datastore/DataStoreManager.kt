@@ -12,7 +12,7 @@ import androidx.datastore.preferences.preferencesDataStore
 import com.google.zxing.BarcodeFormat
 import github.daisukikaffuchino.momoqr.MomoApplication
 import github.daisukikaffuchino.momoqr.constants.AppConstants
-import github.daisukikaffuchino.momoqr.logic.model.PalettePreset
+import github.daisukikaffuchino.momoqr.logic.model.QrPalettePreset
 import github.daisukikaffuchino.momoqr.logic.model.QrRenderQuality
 import github.daisukikaffuchino.momoqr.logic.model.SearchEngine
 import github.daisukikaffuchino.momoqr.logic.model.ThemeAccentColor
@@ -171,9 +171,9 @@ object DataStoreManager {
         )
     }
 
-    val palettePresetsFlow: Flow<List<PalettePreset>> = dataStore.data.map { preferences ->
+    val palettePresetsFlow: Flow<List<QrPalettePreset>> = dataStore.data.map { preferences ->
         runCatching {
-            Json.decodeFromString<List<PalettePreset>>(
+            Json.decodeFromString<List<QrPalettePreset>>(
                 preferences[PALETTE_PRESETS] ?: AppConstants.PREF_PALETTE_PRESETS_DEFAULT
             )
         }.getOrDefault(emptyList())
@@ -330,7 +330,7 @@ object DataStoreManager {
         }
     }
 
-    suspend fun setPalettePresets(value: List<PalettePreset>) {
+    suspend fun setPalettePresets(value: List<QrPalettePreset>) {
         dataStore.edit { preferences ->
             preferences[PALETTE_PRESETS] = Json.encodeToString(value)
         }
