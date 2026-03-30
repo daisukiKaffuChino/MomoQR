@@ -247,6 +247,8 @@
     <string name="tip_palette_has_background">有背景</string>
     <string name="tip_palette_no_background">無背景</string>
     <string name="tip_palette_generate_preview_failed">預覽產生失敗。</string>
+    <string name="tip_result_page_sheet_detail">展開底部卡片即可查看 QR Code 詳細資訊，並套用調色盤中已儲存的預設集。點擊后將不再提示。</string>
+    <string name="tip_result_palette_preset_desc">選擇已儲存的調色盤預設集，並重新渲染目前的 QR Code。</string>
 
     <string name="toast_press_again_to_exit">再按一次即可退出</string>
     <string name="toast_failed_to_initialize_camera">相機初始化失敗</string>
@@ -283,6 +285,4 @@
     <string name="placeholder_edit_content">編輯內容</string>
     <string name="placeholder_palette_preset_name">預設集名稱</string>
     <string name="none">無</string>
-    <string name="tip_result_page_sheet_detail">展開底部卡片即可查看 QR Code 詳細資訊，並套用調色盤中已儲存的預設集。點擊這張提示卡即可關閉。</string>
-    <string name="tip_result_palette_preset_desc">選擇已儲存的調色盤預設集，並重新渲染目前的 QR Code。</string>
 </resources>

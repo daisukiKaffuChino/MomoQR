@@ -253,6 +253,8 @@
     <string name="tip_palette_no_background">No background</string>
     <string name="tip_palette_preset_summary" translatable="false">%1$s · %2$.2f · %3$s · %4$s</string>
     <string name="tip_palette_generate_preview_failed">Failed to generate preview.</string>
+    <string name="tip_result_page_sheet_detail">Expand the bottom card to view QR code details and apply saved presets from the palette. Tap to dismiss this tip.</string>
+    <string name="tip_result_palette_preset_desc">Choose a saved palette preset and re-render this QR code preview.</string>
 
     <string name="toast_press_again_to_exit">Press again to exit</string>
     <string name="toast_failed_to_initialize_camera">Failed to initialize camera</string>
@@ -289,6 +291,4 @@
     <string name="placeholder_edit_content">Edit content</string>
     <string name="placeholder_palette_preset_name">Preset name</string>
     <string name="none">None</string>
-    <string name="tip_result_page_sheet_detail">Expand the bottom card to view QR code details and apply saved presets from the palette. Tap this tip card to dismiss it.</string>
-    <string name="tip_result_palette_preset_desc">Choose a saved palette preset and re-render this QR code preview.</string>
 </resources>

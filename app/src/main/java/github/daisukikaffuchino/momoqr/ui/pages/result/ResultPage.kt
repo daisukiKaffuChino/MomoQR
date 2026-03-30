@@ -399,14 +399,13 @@ fun ResultEditorPage(
                 item(key = 0) {
                     if (!resultPageTipDismissed) {
                         TertiarySettingsItem(
+                            modifier = Modifier.padding(bottom = 16.dp),
                             leadingIconRes = R.drawable.ic_auto_awesome,
                             title = stringResource(R.string.tip_tips),
                             description = stringResource(R.string.tip_result_page_sheet_detail),
                             onClick = {
                                 resultPageTipDismissed = true
-                                scope.launch {
-                                    DataStoreManager.setResultPageTipDismissed(true)
-                                }
+                                scope.launch { DataStoreManager.setResultPageTipDismissed(true) }
                             }
                         )
                     }

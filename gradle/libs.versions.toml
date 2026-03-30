@@ -30,6 +30,7 @@ hiltNavigationCompose = "1.3.0"
 foundation = "1.10.6"
 foundationLayout = "1.10.6"
 composeColorPicker = "1.0.0"
+leakcanary = "3.0-alpha-8"
 
 [libraries]
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
@@ -86,6 +87,8 @@ androidx-hilt-compiler = { module = "androidx.hilt:hilt-compiler", version.ref =
 androidx-compose-foundation = { group = "androidx.compose.foundation", name = "foundation", version.ref = "foundation" }
 androidx-compose-foundation-layout = { group = "androidx.compose.foundation", name = "foundation-layout", version.ref = "foundationLayout" }
 mhssn-compose-color-picker = { module = "io.mhssn:colorpicker", version.ref = "composeColorPicker" }
+
+leakcanary-android = { module = "com.squareup.leakcanary:leakcanary-android", version.ref = "leakcanary" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
