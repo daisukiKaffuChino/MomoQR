@@ -39,7 +39,6 @@ object DataStoreManager {
     val dataStore = MomoApplication.context.dataStore
 
     // Keys
-    // 外观与个性化
     private val DYNAMIC_COLOR = booleanPreferencesKey(AppConstants.PREF_DYNAMIC_COLOR)
     private val ACCENT_COLOR = intPreferencesKey(AppConstants.PREF_ACCENT_COLOR)
     private val PALETTE_STYLE = intPreferencesKey(AppConstants.PREF_PALETTE_STYLE)
