@@ -37,6 +37,7 @@ import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SheetValue
 import androidx.compose.material3.rememberBottomSheetScaffoldState
+import androidx.compose.material3.rememberBottomSheetState
 import androidx.compose.material3.rememberStandardBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -114,11 +115,13 @@ fun SharedTransitionScope.ResultEditPage(
     ResultEditorPage(
         transitionRunning = animatedScope.transition.isRunning,
         stars = stars,
-        modifier = modifier.sharedBounds(
-            sharedContentState = rememberSharedContentState(key = "${AppConstants.KEY_STARS_ITEM_TRANSITION}_${stars.id}"),
-            animatedVisibilityScope = LocalNavAnimatedContentScope.current,
-            resizeMode = SharedTransitionScope.ResizeMode.RemeasureToBounds
-        ),
+        modifier = modifier
+            .sharedBounds(
+                sharedContentState = rememberSharedContentState(key = "${AppConstants.KEY_STARS_ITEM_TRANSITION}_${stars.id}"),
+                animatedVisibilityScope = LocalNavAnimatedContentScope.current,
+                resizeMode = SharedTransitionScope.ResizeMode.RemeasureToBounds
+            )
+            .skipToLookaheadSize(),
         onSave = onSave,
         onDelete = onDelete,
         onNavigateUp = onNavigateUp
@@ -257,7 +260,7 @@ fun ResultEditorPage(
     }
 
     val scaffoldState = rememberBottomSheetScaffoldState(
-        bottomSheetState = rememberStandardBottomSheetState(
+        bottomSheetState = rememberBottomSheetState(
             initialValue = SheetValue.PartiallyExpanded
         )
     )

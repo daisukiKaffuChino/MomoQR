@@ -36,6 +36,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastForEach
+import com.kyant.m3color.dynamiccolor.ColorSpec
 import github.daisukikaffuchino.momoqr.R
 import github.daisukikaffuchino.momoqr.logic.datastore.DataStoreManager
 import github.daisukikaffuchino.momoqr.logic.model.ContrastLevel
@@ -57,6 +58,7 @@ fun AppPalettePicker(
     isDynamicColor: Boolean,
     isDarkMode: DarkMode,
     contrastLevel: ContrastLevel,
+    specVersion: ColorSpec.SpecVersion
 ) {
     val paletteOptions = remember { AppPaletteStyle.entries.toList() }
 
@@ -80,6 +82,7 @@ fun AppPalettePicker(
                 appPaletteStyle = it,
                 selected = isSelected,
                 contrastLevel = contrastLevel,
+                specVersion = specVersion,
                 onSelect = { onPaletteChange(it) }
             )
         }
@@ -94,6 +97,7 @@ private fun AppPaletteItem(
     isDark: Boolean,
     appPaletteStyle: AppPaletteStyle,
     contrastLevel: ContrastLevel,
+    specVersion: ColorSpec.SpecVersion,
     selected: Boolean,
     onSelect: () -> Unit,
     shapes: ButtonShapes = Defaults.shapes()
@@ -131,6 +135,7 @@ private fun AppPaletteItem(
                 },
                 isDark = isDark,
                 contrastLevel = contrastLevel.value.toDouble(),
+                specVersion = specVersion,
                 style = appPaletteStyle
             )
         ) {

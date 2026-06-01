@@ -13,8 +13,10 @@ import androidx.core.view.WindowCompat
 import github.daisukikaffuchino.momoqr.constants.AppConstants
 import github.daisukikaffuchino.momoqr.logic.datastore.DataStoreManager
 import github.daisukikaffuchino.momoqr.logic.model.AppPaletteStyle
+import github.daisukikaffuchino.momoqr.logic.model.ColorSpecVersion
 import github.daisukikaffuchino.momoqr.logic.model.DarkMode
 import github.daisukikaffuchino.momoqr.logic.model.ThemeAccentColor
+import github.daisukikaffuchino.momoqr.logic.model.toSpecVersion
 import github.daisukikaffuchino.momoqr.ui.theme.MomoQRTheme
 import github.daisukikaffuchino.momoqr.utils.VibrationUtil
 import github.daisukikaffuchino.momoqr.utils.configureEdgeToEdge
@@ -67,6 +69,9 @@ abstract class BaseActivity : AppCompatActivity() {
             val hapticFeedback by DataStoreManager.hapticFeedbackFlow.collectAsState(
                 initial = AppConstants.PREF_HAPTIC_FEEDBACK_DEFAULT
             )
+            val colorSpec by DataStoreManager.colorSpecVersionFlow.collectAsState(
+                initial = ColorSpecVersion.Spec2021
+            )
 
             val darkTheme = when (DarkMode.fromId(darkMode)) {
                 DarkMode.FollowSystem -> isSystemInDarkTheme()
@@ -90,6 +95,7 @@ abstract class BaseActivity : AppCompatActivity() {
                 darkTheme = darkTheme,
                 style = AppPaletteStyle.fromId(paletteStyle),
                 contrastLevel = contrastLevel.toDouble(),
+                specVersion = colorSpec.toSpecVersion(),
                 dynamicColor = dynamicColor
             ) {
                 ActivityContent()

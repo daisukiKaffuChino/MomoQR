@@ -11,9 +11,12 @@ import androidx.compose.material3.MaterialExpressiveTheme
 import androidx.compose.material3.Typography
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.colorResource
+import com.kyant.m3color.dynamiccolor.ColorSpec
+import com.kyant.m3color.dynamiccolor.DynamicScheme
 import com.kyant.m3color.hct.Hct
 import com.kyant.m3color.scheme.SchemeContent
 import com.kyant.m3color.scheme.SchemeExpressive
@@ -33,6 +36,7 @@ fun MomoQRTheme(
     style: AppPaletteStyle = AppPaletteStyle.TonalSpot,
     contrastLevel: Double = 0.0,
     dynamicColor: Boolean = false,
+    specVersion: ColorSpec.SpecVersion = ColorSpec.SpecVersion.SPEC_2021,
     content: @Composable () -> Unit
 ) {
     val baseColor = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && dynamicColor) {
@@ -45,7 +49,8 @@ fun MomoQRTheme(
         keyColor = baseColor,
         isDark = darkTheme,
         style = style,
-        contrastLevel = contrastLevel
+        contrastLevel = contrastLevel,
+        specVersion = specVersion
     )
 
     MaterialExpressiveTheme(
@@ -62,19 +67,80 @@ fun dynamicColorScheme(
     isDark: Boolean,
     style: AppPaletteStyle = AppPaletteStyle.TonalSpot,
     contrastLevel: Double = 0.0,
-    animationSpec: AnimationSpec<Color> = spring()
+    animationSpec: AnimationSpec<Color> = spring(),
+    specVersion: ColorSpec.SpecVersion,
+    platform: DynamicScheme.Platform = DynamicScheme.Platform.PHONE
 ): ColorScheme {
-    val hct = Hct.fromInt(keyColor.toArgb())
-    val scheme = when (style) {
-        AppPaletteStyle.TonalSpot -> SchemeTonalSpot(hct, isDark, contrastLevel)
-        AppPaletteStyle.Neutral -> SchemeNeutral(hct, isDark, contrastLevel)
-        AppPaletteStyle.Vibrant -> SchemeVibrant(hct, isDark, contrastLevel)
-        AppPaletteStyle.Expressive -> SchemeExpressive(hct, isDark, contrastLevel)
-        AppPaletteStyle.Rainbow -> SchemeRainbow(hct, isDark, contrastLevel)
-        AppPaletteStyle.FruitSalad -> SchemeFruitSalad(hct, isDark, contrastLevel)
-        //AppPaletteStyle.Monochrome -> SchemeMonochrome(hct, isDark, contrastLevel)
-        AppPaletteStyle.Fidelity -> SchemeFidelity(hct, isDark, contrastLevel)
-        AppPaletteStyle.Content -> SchemeContent(hct, isDark, contrastLevel)
+    val scheme = remember(
+        keyColor, isDark, style, contrastLevel, specVersion, platform
+    ) {
+        val hct = Hct.fromInt(keyColor.toArgb())
+        val scheme = when (style) {
+            AppPaletteStyle.TonalSpot -> SchemeTonalSpot(
+                hct,
+                isDark,
+                contrastLevel,
+                specVersion,
+                platform
+            )
+
+            AppPaletteStyle.Neutral -> SchemeNeutral(
+                hct,
+                isDark,
+                contrastLevel,
+                specVersion,
+                platform
+            )
+
+            AppPaletteStyle.Vibrant -> SchemeVibrant(
+                hct,
+                isDark,
+                contrastLevel,
+                specVersion,
+                platform
+            )
+
+            AppPaletteStyle.Expressive -> SchemeExpressive(
+                hct,
+                isDark,
+                contrastLevel,
+                specVersion,
+                platform
+            )
+
+            AppPaletteStyle.Rainbow -> SchemeRainbow(
+                hct,
+                isDark,
+                contrastLevel,
+                specVersion,
+                platform
+            )
+
+            AppPaletteStyle.FruitSalad -> SchemeFruitSalad(
+                hct,
+                isDark,
+                contrastLevel,
+                specVersion,
+                platform
+            )
+            //AppPaletteStyle.Monochrome -> SchemeMonochrome(hct, isDark, contrastLevel)
+            AppPaletteStyle.Fidelity -> SchemeFidelity(
+                hct,
+                isDark,
+                contrastLevel,
+                specVersion,
+                platform
+            )
+
+            AppPaletteStyle.Content -> SchemeContent(
+                hct,
+                isDark,
+                contrastLevel,
+                specVersion,
+                platform
+            )
+        }
+        scheme
     }
 
     return ColorScheme(

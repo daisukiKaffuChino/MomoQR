@@ -6,23 +6,29 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.FilledTonalButton
+import androidx.compose.material3.SheetValue
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import github.daisukikaffuchino.momoqr.R
 import github.daisukikaffuchino.momoqr.logic.datastore.DataStoreManager
+import github.daisukikaffuchino.momoqr.logic.model.ColorSpecVersion
 import github.daisukikaffuchino.momoqr.ui.components.BasicDialog
 import github.daisukikaffuchino.momoqr.ui.components.ListItemContainer
+import github.daisukikaffuchino.momoqr.ui.components.SingleChoiceBottomSheet
 import github.daisukikaffuchino.momoqr.ui.components.TopAppBarScaffold
 import github.daisukikaffuchino.momoqr.ui.components.segmentedGroup
 import github.daisukikaffuchino.momoqr.ui.components.segmentedSection
@@ -32,7 +38,7 @@ import github.daisukikaffuchino.momoqr.utils.getSystemInfo
 import github.daisukikaffuchino.momoqr.utils.restartApp
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@OptIn(ExperimentalMaterial3ExpressiveApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsLab(
     onNavigateUp: () -> Unit,
@@ -40,8 +46,15 @@ fun SettingsLab(
 ) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
-    var openSysInfoDialog by remember { mutableStateOf(false) }
+
+    val colorSpec by DataStoreManager.colorSpecVersionFlow.collectAsState(initial = ColorSpecVersion.Spec2021)
     val contrastLevel by DataStoreManager.hiddenOptionContrastLevelFlow.collectAsState(initial = false)
+
+    val sheetState = rememberBottomSheetState(
+        initialValue = SheetValue.Hidden
+    )
+    var openSysInfoDialog by remember { mutableStateOf(false) }
+    var showColorSpecDialog by rememberSaveable { mutableStateOf(false) }
 
     TopAppBarScaffold(
         title = stringResource(R.string.pref_lab),
@@ -108,6 +121,12 @@ fun SettingsLab(
                             }
                         }
                     )
+                    SettingsItem(
+                        leadingIconRes = R.drawable.ic_palette,
+                        title = "Color Spec Version",
+                        description = colorSpec.label,
+                        onClick = { showColorSpecDialog = true }
+                    )
                 }
             }
 
@@ -129,6 +148,24 @@ fun SettingsLab(
                 ) { Text(stringResource(R.string.action_confirm)) }
             },
             onDismissRequest = { openSysInfoDialog = false }
+        )
+        SingleChoiceBottomSheet(
+            visible = showColorSpecDialog,
+            sheetState = sheetState,
+            options = ColorSpecVersion.entries,
+            selectedOption = colorSpec,
+            onDismiss = {
+                sheetState.hide()
+                showColorSpecDialog = false
+            },
+            onOptionClick = { option->
+                DataStoreManager.setColorSpecVersion(option)
+                sheetState.hide()
+                showColorSpecDialog = false
+            },
+            optionText = { option ->
+                Text(option.label)
+            }
         )
     }
 }

@@ -12,6 +12,7 @@ import androidx.datastore.preferences.preferencesDataStore
 import com.google.zxing.BarcodeFormat
 import github.daisukikaffuchino.momoqr.MomoApplication
 import github.daisukikaffuchino.momoqr.constants.AppConstants
+import github.daisukikaffuchino.momoqr.logic.model.ColorSpecVersion
 import github.daisukikaffuchino.momoqr.logic.model.QrPalettePreset
 import github.daisukikaffuchino.momoqr.logic.model.QrRenderQuality
 import github.daisukikaffuchino.momoqr.logic.model.SearchEngine
@@ -67,6 +68,7 @@ object DataStoreManager {
     private val PALETTE_PRESETS = stringPreferencesKey(AppConstants.PREF_PALETTE_PRESETS)
     private val HIDDEN_OPTION_CONTRAST_LEVEL =
         booleanPreferencesKey(AppConstants.PREF_HIDDEN_OPTION_CONTRAST_LEVEL)
+    private val COLOR_SPEC_VERSION = intPreferencesKey(AppConstants.PREF_COLOR_SPEC_VERSION)
     private val EXIT_CONFIRMATION = booleanPreferencesKey(AppConstants.PREF_EXIT_CONFIRMATION)
     private val RESULT_PAGE_TIP_DISMISSED =
         booleanPreferencesKey(AppConstants.PREF_RESULT_PAGE_TIP_DISMISSED)
@@ -181,6 +183,12 @@ object DataStoreManager {
 
     val hiddenOptionContrastLevelFlow: Flow<Boolean> = dataStore.data.map { preferences ->
         preferences[HIDDEN_OPTION_CONTRAST_LEVEL] ?: false
+    }
+
+    val colorSpecVersionFlow = dataStore.data.map { preferences ->
+        ColorSpecVersion.fromId(
+            preferences[COLOR_SPEC_VERSION] ?: ColorSpecVersion.Spec2021.id
+        )
     }
 
     val exitConfirmationFlow: Flow<Boolean> = dataStore.data.map { preferences ->
@@ -339,6 +347,12 @@ object DataStoreManager {
     suspend fun setHiddenOptionContrastLevel(value: Boolean) {
         dataStore.edit { preferences ->
             preferences[HIDDEN_OPTION_CONTRAST_LEVEL] = value
+        }
+    }
+
+    suspend fun setColorSpecVersion(value: ColorSpecVersion) {
+        dataStore.edit { preferences ->
+            preferences[COLOR_SPEC_VERSION] = value.id
         }
     }
 

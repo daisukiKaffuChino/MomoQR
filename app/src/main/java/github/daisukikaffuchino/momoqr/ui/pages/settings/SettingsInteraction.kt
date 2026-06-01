@@ -3,7 +3,9 @@ package github.daisukikaffuchino.momoqr.ui.pages.settings
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
+import androidx.compose.material3.SheetValue
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberBottomSheetState
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -42,7 +44,9 @@ fun SettingsInteraction(
     val hapticFeedback by DataStoreManager.hapticFeedbackFlow.collectAsState(initial = AppConstants.PREF_HAPTIC_FEEDBACK_DEFAULT)
     val searchEngine by DataStoreManager.searchEngineFlow.collectAsState(initial = SearchEngine.GOOGLE)
 
-    val sheetState = rememberModalBottomSheetState()
+    val sheetState = rememberBottomSheetState(
+        initialValue = SheetValue.Hidden
+    )
     val scope = rememberCoroutineScope()
     var showSortingMethodDialog by rememberSaveable { mutableStateOf(false) }
     var showSearchEngineDialog by rememberSaveable { mutableStateOf(false) }
@@ -66,7 +70,13 @@ fun SettingsInteraction(
                         leadingIconRes = R.drawable.ic_search_activity,
                         title = stringResource(R.string.pref_star_list_relative_time),
                         description = stringResource(R.string.pref_star_list_relative_time_desc),
-                        onCheckedChange = { scope.launch { DataStoreManager.setStarListRelativeTime(it) } }
+                        onCheckedChange = {
+                            scope.launch {
+                                DataStoreManager.setStarListRelativeTime(
+                                    it
+                                )
+                            }
+                        }
                     )
                 }
             }

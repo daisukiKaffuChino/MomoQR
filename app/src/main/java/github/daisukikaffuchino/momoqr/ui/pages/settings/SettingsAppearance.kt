@@ -22,6 +22,7 @@ import github.daisukikaffuchino.momoqr.logic.datastore.DataStoreManager
 import github.daisukikaffuchino.momoqr.logic.model.ContrastLevel
 import github.daisukikaffuchino.momoqr.logic.model.DarkMode
 import github.daisukikaffuchino.momoqr.logic.model.AppPaletteStyle
+import github.daisukikaffuchino.momoqr.logic.model.ColorSpecVersion
 import github.daisukikaffuchino.momoqr.ui.components.ListItemContainer
 import github.daisukikaffuchino.momoqr.ui.components.TopAppBarScaffold
 import github.daisukikaffuchino.momoqr.ui.components.segmentedGroup
@@ -35,6 +36,7 @@ import github.daisukikaffuchino.momoqr.ui.pages.settings.components.appearance.L
 import github.daisukikaffuchino.momoqr.ui.pages.settings.components.appearance.ThemeAccentColorPicker
 import github.daisukikaffuchino.momoqr.utils.setAppLanguage
 import github.daisukikaffuchino.momoqr.logic.model.ThemeAccentColor
+import github.daisukikaffuchino.momoqr.logic.model.toSpecVersion
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -48,6 +50,7 @@ fun SettingsAppearance(
     val darkMode by DataStoreManager.darkModeFlow.collectAsState(initial = AppConstants.PREF_DARK_MODE_DEFAULT)
     val paletteStyle by DataStoreManager.paletteStyleFlow.collectAsState(initial = AppConstants.PREF_PALETTE_STYLE_DEFAULT)
     val contrastLevel by DataStoreManager.contrastLevelFlow.collectAsState(initial = AppConstants.PREF_CONTRAST_LEVEL_DEFAULT)
+    val colorSpec by DataStoreManager.colorSpecVersionFlow.collectAsState(initial = ColorSpecVersion.Spec2021)
     val homeClassicCard by DataStoreManager.homeClassicCardFlow.collectAsState(initial = AppConstants.PREF_HOME_CLASSIC_CARD_DEFAULT)
     val showHiddenContrastLevel by DataStoreManager.hiddenOptionContrastLevelFlow.collectAsState(
         initial = false
@@ -61,9 +64,11 @@ fun SettingsAppearance(
         onBack = onNavigateUp,
         modifier = modifier,
     ) {
-        ListItemContainer(Modifier
-            .fillMaxSize()
-            .animateContentSize()) {
+        ListItemContainer(
+            Modifier
+                .fillMaxSize()
+                .animateContentSize()
+        ) {
             segmentedSection(R.string.pref_label_accent_color) {
                 segmentedGroup(
                     modifier = Modifier.animateContentSize()
@@ -104,7 +109,8 @@ fun SettingsAppearance(
                         onPaletteChange = { scope.launch { DataStoreManager.setPaletteStyle(it.id) } },
                         isDynamicColor = dynamicColor,
                         isDarkMode = DarkMode.fromId(darkMode),
-                        contrastLevel = ContrastLevel.fromFloat(contrastLevel)
+                        contrastLevel = ContrastLevel.fromFloat(contrastLevel),
+                        specVersion = colorSpec.toSpecVersion()
                     )
                     if (showHiddenContrastLevel) {
                         ContrastPicker(

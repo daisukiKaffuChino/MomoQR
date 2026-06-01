@@ -83,4 +83,6 @@ object AppConstants {
 
     const val PREF_RESULT_PAGE_TIP_DISMISSED = "result_page_tip_dismiss"
     const val PREF_RESULT_PAGE_TIP_DISMISSED_DEFAULT = false
+
+    const val PREF_COLOR_SPEC_VERSION = "color_spec_version"
 }
