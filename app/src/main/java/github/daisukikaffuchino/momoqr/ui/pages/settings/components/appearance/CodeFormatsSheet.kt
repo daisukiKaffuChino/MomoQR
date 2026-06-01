@@ -32,9 +32,7 @@ fun CodeFormatsSheet(
 
     val context = LocalContext.current
     val sheetState = rememberModalBottomSheetState()
-//    var currentSelection by remember {
-//        mutableStateOf(selectedFormats + BarcodeFormat.QR_CODE)
-//    }
+
     val supportedFormats = listOf(
         BarcodeFormat.QR_CODE,
         BarcodeFormat.AZTEC,
@@ -55,14 +53,13 @@ fun CodeFormatsSheet(
         sheetState = sheetState
     ) {
 
-        Column(Modifier.padding(horizontal = Defaults.settingsItemVerticalPadding)) {
-
+        Column(
+            Modifier.padding(horizontal = 16.dp)
+        ) {
             Text(
                 text = stringResource(R.string.pref_identification_type),
                 style = MaterialTheme.typography.titleLarge
             )
-
-
 
             FlowRow(
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -77,7 +74,6 @@ fun CodeFormatsSheet(
                         selected = selectedFormats.contains(format),
 
                         onClick = {
-
                             if (isQr) {
                                 Toast.makeText(
                                     context,
@@ -87,7 +83,6 @@ fun CodeFormatsSheet(
                                     .show()
                                 return@FilterChip
                             }
-
                             val currentSelection =
                                 if (selectedFormats.contains(format))
                                     selectedFormats - format

@@ -57,7 +57,9 @@ fun ColorEditor(
         Spacer(Modifier.height(12.dp))
 
         Row(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 12.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
 

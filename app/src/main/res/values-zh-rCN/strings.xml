@@ -266,6 +266,7 @@
     <string name="toast_palette_preset_applied">已应用预设</string>
     <string name="toast_palette_preset_deleted">已删除预设</string>
     <string name="toast_palette_preset_saved">已保存预设</string>
+    <string name="toast_clipboard_empty">剪贴板为空</string>
 
     <string name="time_today">今日</string>
     <string name="time_yesterday">昨天</string>

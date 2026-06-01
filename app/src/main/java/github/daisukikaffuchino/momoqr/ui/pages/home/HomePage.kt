@@ -3,12 +3,14 @@ package github.daisukikaffuchino.momoqr.ui.pages.home
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.net.Uri
 import android.provider.Settings
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.ActivityResultLauncher
@@ -34,8 +36,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -59,15 +64,17 @@ import github.daisukikaffuchino.momoqr.ui.pages.home.components.GenerateActionCa
 import github.daisukikaffuchino.momoqr.ui.pages.home.components.PaletteCard
 import github.daisukikaffuchino.momoqr.ui.pages.home.components.ScanFromCameraCard
 import github.daisukikaffuchino.momoqr.ui.pages.home.components.ScanFromGalleryCard
+import github.daisukikaffuchino.momoqr.ui.pages.home.components.TextInputSheet
 import github.daisukikaffuchino.momoqr.ui.theme.Defaults
 import github.daisukikaffuchino.momoqr.ui.viewmodels.SharedViewModel
 import github.daisukikaffuchino.momoqr.utils.QrReaderUtil
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-@SuppressLint("LocalContextGetResourceValueCall")
+@SuppressLint("LocalContextGetResourceValueCall", "ServiceCast")
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun HomePage(
@@ -84,6 +91,7 @@ fun HomePage(
     val scope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
     val homeClassicCard by DataStoreManager.homeClassicCardFlow.collectAsState(initial = AppConstants.PREF_HOME_CLASSIC_CARD_DEFAULT)
+    var showTextInputSheet by rememberSaveable { mutableStateOf(false) }
     val codeFormats by DataStoreManager.barcodeFormatsFlow.collectAsState(
         initial = setOf(
             BarcodeFormat.QR_CODE
@@ -93,13 +101,7 @@ fun HomePage(
     LaunchedEffect(scanResult) {
         scanResult?.let {
             sharedViewModel.clearScanResult()
-            val correctionLevel = DataStoreManager.correctionLevelFlow.first()
-            toResultAddPage(
-                StarEntity(
-                    content = it,
-                    errorCorrectionLevel = correctionLevel
-                )
-            )
+            initialResultPage(it, toResultAddPage)
         }
     }
 
@@ -146,13 +148,7 @@ fun HomePage(
             val result = QrReaderUtil.scanImageFromGallery(context, uri, codeFormats.toList())
             withContext(Dispatchers.Main) {
                 if (result != null) {
-                    val correctionLevel = DataStoreManager.correctionLevelFlow.first()
-                    toResultAddPage(
-                        StarEntity(
-                            content = result.text,
-                            errorCorrectionLevel = correctionLevel
-                        )
-                    )
+                    initialResultPage(result.text, toResultAddPage)
                 } else {
                     Toast.makeText(context, R.string.toast_no_data_detected, Toast.LENGTH_SHORT)
                         .show()
@@ -252,12 +248,28 @@ fun HomePage(
                         GenerateActionCard(
                             icon = painterResource(R.drawable.ic_edit_square),
                             title = stringResource(R.string.label_generate_text),
-                            //onClick = { uriHandler.openUri(AppConstants.GITHUB_REPO) },
+                            onClick = { showTextInputSheet = true }
                         )
                         GenerateActionCard(
                             icon = painterResource(R.drawable.ic_content_paste),
                             title = stringResource(R.string.label_generate_from_clip_board),
-                            //onClick = toLicencePage
+                            onClick = {
+                                val text =
+                                    (context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager)
+                                        .primaryClip
+                                        ?.getItemAt(0)
+                                        ?.coerceToText(context)
+                                        ?.toString()
+                                        ?.takeIf { it.isNotBlank() }
+                                if (text != null)
+                                    scope.launch { initialResultPage(text, toResultAddPage) }
+                                else
+                                    Toast.makeText(
+                                        context,
+                                        R.string.toast_clipboard_empty,
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                            }
                         )
                         GenerateActionCard(
                             icon = painterResource(R.drawable.ic_more),
@@ -276,7 +288,35 @@ fun HomePage(
                 Spacer(modifier = Modifier.height(16.dp))
             }
         }
+        if (showTextInputSheet){
+            TextInputSheet(
+                onConfirm = {
+                    scope.launch {
+                        initialResultPage(it, toResultAddPage)
+                        delay(100)
+                        showTextInputSheet = false
+                    }
+                },
+                onDismiss = {
+                    showTextInputSheet = false
+                }
+            )
+        }
     }
+}
+
+private suspend fun initialResultPage(
+    content: String,
+    toResultAddPage: (StarEntity) -> Unit
+) {
+    val correctionLevel = DataStoreManager.correctionLevelFlow.first()
+
+    toResultAddPage(
+        StarEntity(
+            content = content,
+            errorCorrectionLevel = correctionLevel
+        )
+    )
 }
 
 private fun requestCameraPermissionIfNeeded(

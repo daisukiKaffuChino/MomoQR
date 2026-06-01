@@ -2,7 +2,6 @@ package github.daisukikaffuchino.momoqr.ui.components
 
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -50,7 +49,7 @@ fun FilterChipGroup(
                 border = null,
                 shape = RoundedCornerShape(12.dp),
                 colors = FilterChipDefaults.filterChipColors(
-                    containerColor = MaterialTheme.colorScheme.surfaceContainerHighest,
+                    containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
                     selectedContainerColor = MaterialTheme.colorScheme.secondary,
                     selectedLabelColor = MaterialTheme.colorScheme.onSecondary,
                     selectedLeadingIconColor = MaterialTheme.colorScheme.onSecondary

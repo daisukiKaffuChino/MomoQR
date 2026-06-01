@@ -9,7 +9,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import github.daisukikaffuchino.momoqr.R
-import github.daisukikaffuchino.momoqr.constants.AppConstants
 import github.daisukikaffuchino.momoqr.logic.datastore.DataStoreManager
 import github.daisukikaffuchino.momoqr.ui.components.ListItemContainer
 import github.daisukikaffuchino.momoqr.ui.components.TopAppBarScaffold

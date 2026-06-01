@@ -15,18 +15,14 @@ ksp {
 
 android {
     namespace = "github.daisukikaffuchino.momoqr"
-    compileSdk {
-        version = release(36) {
-            minorApiLevel = 1
-        }
-    }
+    compileSdk = 37
 
     defaultConfig {
         applicationId = "github.daisukikaffuchino.momoqr"
         minSdk = 29
-        targetSdk = 36
+        targetSdk = 37
         versionCode = 260330
-        versionName = "2.0.0"
+        versionName = "2.0.0-beta"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
@@ -84,74 +80,78 @@ kotlin {
 }
 
 dependencies {
+    // ---------- AndroidX Base ----------
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.core.splashscreen)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.browser)
+
+    // ---------- Lifecycle ----------
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.compose.runtime.livedata)
+
+    // ---------- DataStore ----------
     implementation(libs.androidx.datastore.preferences)
-    implementation(libs.androidx.activity.compose)
+
+    // ---------- Compose ----------
     implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.activity.compose)
+
     implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.compose.ui.graphics)
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.foundation)
     implementation(libs.androidx.compose.foundation.layout)
-
     implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.compose.material3.adaptive.navigation.suite)
     implementation(libs.androidx.material3.windowsizeclass)
-    implementation(libs.androidx.material3.adaptive)
+
+    // ---------- Navigation ----------
     implementation(libs.androidx.navigation3.runtime)
     implementation(libs.androidx.navigation3.ui)
 
-    // Kotlin
+    // ---------- Kotlin ----------
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.kotlinx.serialization.json)
 
-    // Room
+    // ---------- Room ----------
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
-    annotationProcessor(libs.androidx.room.compiler)
     ksp(libs.androidx.room.compiler)
 
-    // M3 Color
-    implementation(libs.kyant.m3color)
+    // ---------- Hilt ----------
+    implementation(libs.hilt.android)
+    implementation(libs.androidx.hilt.navigation.compose)
+    ksp(libs.hilt.compiler)
+    ksp(libs.androidx.hilt.compiler)
 
-    // CameraX
+    // ---------- CameraX ----------
     implementation(libs.androidx.camera.core)
     implementation(libs.androidx.camera.camera2)
     implementation(libs.androidx.camera.lifecycle)
     implementation(libs.androidx.camera.compose)
 
-    // About Libraries
+    // ---------- UI / Utilities ----------
+    implementation(libs.coil.compose)
+    implementation(libs.core)
+    implementation(libs.kyant.m3color)
+    implementation(libs.mhssn.compose.color.picker)
+
+    // ---------- AboutLibraries ----------
     implementation(libs.aboutlibraries.core)
     implementation(libs.aboutlibraries.compose)
 
-    // Zxing
-    implementation(libs.core)
-
-    // Coil
-    implementation(libs.coil.compose)
-
-    // ColorPicker
-    implementation(libs.mhssn.compose.color.picker)
-
-    implementation(libs.hilt.android)
-    ksp(libs.hilt.compiler)
-    implementation(libs.androidx.hilt.navigation.compose)
-    ksp(libs.androidx.hilt.compiler)
-
+    // ---------- Test ----------
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
+
+    // ---------- Debug ----------
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
-
     debugImplementation(libs.leakcanary.android)
 }

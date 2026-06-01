@@ -272,6 +272,7 @@
     <string name="toast_palette_preset_applied">Preset applied</string>
     <string name="toast_palette_preset_deleted">Preset deleted</string>
     <string name="toast_palette_preset_saved">Preset saved</string>
+    <string name="toast_clipboard_empty">Clipboard is empty</string>
 
     <string name="time_today">Today</string>
     <string name="time_yesterday">Yesterday</string>
