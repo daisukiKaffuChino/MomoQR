@@ -34,6 +34,7 @@ import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastForEach
 import com.kyant.m3color.dynamiccolor.ColorSpec
@@ -177,7 +178,9 @@ private fun AppPaletteItem(
             style = MaterialTheme.typography.bodyMedium,
             color = if (selected) {
                 MaterialTheme.colorScheme.primary
-            } else MaterialTheme.colorScheme.onSurface
+            } else MaterialTheme.colorScheme.onSurface,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis
         )
     }
 }

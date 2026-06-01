@@ -21,6 +21,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.FilledTonalButton
+import androidx.compose.material3.MaterialShapes
+import androidx.compose.material3.toShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -211,7 +213,8 @@ fun SettingsAboutLicence(
                     ) {
                         EmptyListTip(
                             type = if (searchMode) EmptyTipType.Search else EmptyTipType.List,
-                            size = 96.dp
+                            size = 96.dp,
+                            shape = MaterialShapes.Cookie7Sided.toShape()
                         )
 
                         Text(

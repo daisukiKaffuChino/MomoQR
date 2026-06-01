@@ -15,13 +15,15 @@ ksp {
 
 android {
     namespace = "github.daisukikaffuchino.momoqr"
-    compileSdk = 37
+    compileSdk {
+        version = release(37)
+    }
 
     defaultConfig {
         applicationId = "github.daisukikaffuchino.momoqr"
         minSdk = 29
         targetSdk = 37
-        versionCode = 260330
+        versionCode = 260601
         versionName = "2.0.0-beta"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"

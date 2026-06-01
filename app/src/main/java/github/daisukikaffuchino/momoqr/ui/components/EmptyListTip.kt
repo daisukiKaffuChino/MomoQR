@@ -15,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -29,6 +30,7 @@ fun EmptyListTip(
     modifier: Modifier = Modifier,
     type: EmptyTipType,
     size: Dp = 48.dp,
+    shape: Shape = CircleShape,
     containerColor: Color = MaterialTheme.colorScheme.secondaryContainer,
     contentColor: Color = contentColorFor(containerColor)
 ) {
@@ -37,7 +39,7 @@ fun EmptyListTip(
         modifier = modifier
             .padding(Defaults.screenHorizontalPadding)
             .size(size)
-            .clip(CircleShape)
+            .clip(shape)
             .background(containerColor)
     ) {
         Icon(

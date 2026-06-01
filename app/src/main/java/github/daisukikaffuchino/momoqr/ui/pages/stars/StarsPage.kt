@@ -21,8 +21,10 @@ import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
+import androidx.compose.material3.MaterialShapes
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.toShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -161,7 +163,8 @@ fun SharedTransitionScope.StarsPage(
                     ) {
                         EmptyListTip(
                             type = if (viewModel.searchMode) EmptyTipType.Search else EmptyTipType.List,
-                            size = 96.dp
+                            size = 96.dp,
+                            shape = MaterialShapes.Cookie7Sided.toShape()
                         )
 
                         Text(
